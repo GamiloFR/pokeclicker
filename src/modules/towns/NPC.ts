@@ -1,7 +1,15 @@
-type NPCOptionalArgument = {
-    requirement?: Requirement | MultiRequirement | OneFromManyRequirement,
-    image?: string,
-    saveKey?: string,
+import ko from 'knockout';
+import GameHelper from '../GameHelper';
+import MultiRequirement from '../requirements/MultiRequirement';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import TextMerger from '../utilities/TextMerger';
+import NPCType from './NPCType';
+
+export type NPCOptionalArgument = {
+    requirement?: Requirement | MultiRequirement | OneFromManyRequirement;
+    image?: string;
+    saveKey?: string;
 };
 
 class NPC {
@@ -12,7 +20,7 @@ class NPC {
         public name: string,
         public dialog: string[],
         public options: NPCOptionalArgument = {},
-        public type: NPCType = NPCType.Default
+        public type: NPCType = NPCType.Default,
     ) {
         if (this.options.saveKey) {
             this.saveKey = GameHelper.hash(this.options.saveKey);
@@ -20,7 +28,7 @@ class NPC {
     }
 
     get dialogHTML(): string {
-        return this.dialog.map(line => `<p>${TextMerger.mergeText(line)}</p>`).join('\n');
+        return this.dialog.map((line) => `<p>${TextMerger.mergeText(line)}</p>`).join('\n');
     }
 
     public isVisible() {
@@ -38,3 +46,5 @@ class NPC {
         return this.saveKey ? App.game.statistics.npcTalkedTo[this.saveKey]() > 0 : false;
     }
 }
+
+export default NPC;

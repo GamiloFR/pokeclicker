@@ -1,37 +1,24 @@
-class PurifyChamberTownContent extends TownContent {
-    constructor() {
-        super([PurifyChamber.requirements]);
-    }
-    public cssClass(): string {
-        return 'btn btn-info';
-    }
-    public text(): string {
-        return 'Purify Chamber';
-    }
-    public onclick(): void {
-        PurifyChamber.openPurifyChamberModal();
-    }
-
-    public isUnlocked(): boolean {
-        return PurifyChamber.requirements.isCompleted();
-    }
-
-    public areaStatus(): areaStatus[] {
-        if (!this.isUnlocked()) {
-            return [areaStatus.locked];
-        }
-        const canPurify = App.game.purifyChamber.currentFlow() >= App.game.purifyChamber.flowNeeded() && App.game.party.caughtPokemon.some(p => p.shadow == GameConstants.ShadowStatus.Shadow);
-        return [canPurify ? areaStatus.incomplete : areaStatus.completed];
-    }
-
-}
+import ko, { Computed, Observable } from 'knockout';
+import { Saveable } from '../DataStore/common/Saveable';
+import areaStatus from '../enums/AreaStatus';
+import * as GameConstants from '../GameConstants';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import MultiRequirement from '../requirements/MultiRequirement';
+import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepCompletedRequirement';
+import ShadowPokemonRequirement from '../requirements/ShadowPokemonRequirement';
+import { TmpPartyPokemonType } from '../TemporaryScriptTypes';
+import TownContent from './TownContent';
 
 class PurifyChamber implements Saveable {
+    saveKey = 'PurifyChamber';
+    defaults: Record<string, any>;
+
     public static requirements = new QuestLineStepCompletedRequirement('Shadows in the Desert', 17);
 
-    public selectedPokemon: KnockoutObservable<PartyPokemon>;
-    public currentFlow: KnockoutObservable<number>;
-    public flowNeeded: KnockoutComputed<number>;
+    public selectedPokemon: Observable<TmpPartyPokemonType>;
+    public currentFlow: Observable<number>;
+    public flowNeeded: Computed<number>;
     private notified = false;
 
     private static shortcutRequirement = new MultiRequirement([
@@ -47,14 +34,12 @@ class PurifyChamber implements Saveable {
         this.currentFlow = ko.observable(0);
         this.flowNeeded = ko.pureComputed(() => {
             const purifiedPokemon = App.game.party.caughtPokemon.filter((p) => p.shadow == GameConstants.ShadowStatus.Purified).length;
-            const flow = 15 * purifiedPokemon * purifiedPokemon +
-                15 * purifiedPokemon +
-                1500 * Math.exp(0.1 * purifiedPokemon);
+            const flow = 15 * purifiedPokemon * purifiedPokemon + 15 * purifiedPokemon + 1500 * Math.exp(0.1 * purifiedPokemon);
             return Math.round(flow);
         });
     }
 
-    public canPurify() : boolean {
+    public canPurify(): boolean {
         if (!this.selectedPokemon()) {
             return false;
         }
@@ -106,8 +91,6 @@ class PurifyChamber implements Saveable {
         }
     }
 
-    saveKey = 'PurifyChamber';
-    defaults: Record<string, any>;
     toJSON(): Record<string, any> {
         return {
             selectedPokemon: this.selectedPokemon()?.id,
@@ -129,3 +112,35 @@ class PurifyChamber implements Saveable {
         }
     }
 }
+
+export class PurifyChamberTownContent extends TownContent {
+    constructor() {
+        super([PurifyChamber.requirements]);
+    }
+
+    public cssClass(): string {
+        return 'btn btn-info';
+    }
+
+    public text(): string {
+        return 'Purify Chamber';
+    }
+
+    public onclick(): void {
+        PurifyChamber.openPurifyChamberModal();
+    }
+
+    public isUnlocked(): boolean {
+        return PurifyChamber.requirements.isCompleted();
+    }
+
+    public areaStatus(): areaStatus[] {
+        if (!this.isUnlocked()) {
+            return [areaStatus.locked];
+        }
+        const canPurify = App.game.purifyChamber.currentFlow() >= App.game.purifyChamber.flowNeeded() && App.game.party.caughtPokemon.some((p) => p.shadow == GameConstants.ShadowStatus.Shadow);
+        return [canPurify ? areaStatus.incomplete : areaStatus.completed];
+    }
+}
+
+export default PurifyChamber;

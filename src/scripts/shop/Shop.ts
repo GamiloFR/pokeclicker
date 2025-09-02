@@ -1,28 +1,33 @@
-///<reference path="../towns/TownContent.ts"/>
+///<reference path="../../declarations/towns/TownContent.d.ts"/>
 
 class Shop extends TownContent {
     public cssClass() {
         return 'btn btn-secondary';
     }
+
     public text(): string {
         return this.name ?? 'Poké Mart';
     }
+
     public isVisible(): boolean {
         if (!super.isVisible()) {
             return false;
         }
         return !(this.hideBeforeUnlocked && !this.isUnlocked());
     }
+
     public onclick(): void {
         ShopHandler.showShop(this);
         $('#shopModal').modal('show');
     }
+
     public tooltip = 'Visit shops to buy items.';
+
     constructor(
         public items: Item[],
         public name = undefined,
         requirements: (Requirement | OneFromManyRequirement)[] = [],
-        private hideBeforeUnlocked = false
+        private hideBeforeUnlocked = false,
     ) {
         super(requirements);
     }

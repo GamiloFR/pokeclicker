@@ -1,6 +1,6 @@
 import ko, { Observable } from 'knockout';
 
-enum BootstrapState {
+export enum BootstrapState {
     'hidden' = 'hidden',
     'hide' = 'hide',
     'show' = 'show',
@@ -37,7 +37,9 @@ function getObservableState(proxyTarget, elemID: string, type: string) {
         proxyTarget[elemID] = createStateObservable(elemID, type);
     }
 
-    return returnObservable ? (proxyTarget[elemID] as Observable<BootstrapState>) : (proxyTarget[elemID]() as BootstrapState);
+    return returnObservable
+        ? (proxyTarget[elemID] as Observable<BootstrapState>)
+        : (proxyTarget[elemID]() as BootstrapState);
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -63,7 +65,8 @@ $(document).ready(() => {
     document.querySelectorAll('.pokeclicker-optional-module [data-toggle="collapse"]').forEach(collapseButton => {
         const collapseID = collapseButton.getAttribute('href')?.substring(1);
         if (!collapseID) {
-            return console.error('DisplayObservables: Cannot detect collapse state within an optional module without a static collapse target ID');
+            return console.error(
+                'DisplayObservables: Cannot detect collapse state within an optional module without a static collapse target ID');
         }
         const stateObservable = collapseState[`${collapseID}Observable`] as Observable<BootstrapState>;
         // The collapse target should ideally be a direct child of the optional module's root element
@@ -74,8 +77,10 @@ $(document).ready(() => {
             let added = false;
             let removed = false;
             records.forEach(r => {
-                added ||= Array.from(r.addedNodes).some(n => n instanceof Element && (n.id === collapseID || (!isDirectChild && n.querySelector(`#${collapseID}`))));
-                removed ||= Array.from(r.removedNodes).some(n => n instanceof Element && (n.id === collapseID || (!isDirectChild && n.querySelector(`#${collapseID}`))));
+                added ||= Array.from(r.addedNodes)
+                    .some(n => n instanceof Element && (n.id === collapseID || (!isDirectChild && n.querySelector(`#${collapseID}`))));
+                removed ||= Array.from(r.removedNodes)
+                    .some(n => n instanceof Element && (n.id === collapseID || (!isDirectChild && n.querySelector(`#${collapseID}`))));
             });
             if (added && document.getElementById(collapseID)) {
                 subscribeToElemState(collapseID, 'collapse', stateObservable);

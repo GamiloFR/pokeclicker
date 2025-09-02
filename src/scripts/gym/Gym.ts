@@ -2,7 +2,7 @@
 ///<reference path="../pokemons/PokemonFactory.ts"/>
 ///<reference path="../../declarations/requirements/OneFromManyRequirement.d.ts"/>
 ///<reference path="../../declarations/enums/Badges.d.ts"/>
-///<reference path="../towns/TownContent.ts"/>
+///<reference path="../../declarations/towns/TownContent.d.ts"/>
 
 /**
  * Data list that contains all gymLeaders, accessible by townName.
@@ -29,15 +29,18 @@ class Gym extends TownContent implements TmpGymType {
     public town: string;
     buttonText: string;
     public tooltip = 'Battle Gym Leaders to earn badges';
+
     public cssClass() {
         if (App.game.badgeCase.hasBadge(this.badgeReward)) {
             return 'btn btn-success';
         }
         return 'btn btn-secondary';
     }
+
     public text(): string {
         return this.buttonText;
     }
+
     public isVisible(): boolean {
         if (this.optionalArgs?.hideUntilUnlocked) {
             return this.isUnlocked();
@@ -47,9 +50,11 @@ class Gym extends TownContent implements TmpGymType {
             return super.isVisible();
         }
     }
+
     public onclick(): void {
         GymRunner.startGym(this);
     }
+
     public flags = {
         quest: true,
         achievement: true,
@@ -85,13 +90,14 @@ class Gym extends TownContent implements TmpGymType {
         public moneyReward: number,
         public defeatMessage: string,
         requirements: Requirement[] = [],
-        public rewardFunction = () => {},
+        public rewardFunction = () => {
+        },
         {
             quest = true,
             achievement = true,
             champion = false,
         }: gymFlags = {},
-        public optionalArgs: optionalGymArgs = {}
+        public optionalArgs: optionalGymArgs = {},
     ) {
         super(requirements);
         this.town = town;
@@ -140,7 +146,7 @@ class Gym extends TownContent implements TmpGymType {
     }
 
     public autoRestartReward(): number {
-        const [modifier] = GameConstants.GymAutoRepeatRewardTiers.find(([,threshold]) => this.clears() >= threshold);
+        const [modifier] = GameConstants.GymAutoRepeatRewardTiers.find(([, threshold]) => this.clears() >= threshold);
         return this.moneyReward * modifier;
     }
 
@@ -172,8 +178,10 @@ class Gym extends TownContent implements TmpGymType {
         tooltip += '<br/><span class="text-success">10 Clears - Unlock auto-gym</span><br/>';
         tooltip += `<span class="${(clears >= 100 ? 'text-success' : 'text-muted')}">100 Clears - Free auto-gym</span>`;
         GameConstants.GymAutoRepeatRewardTiers.slice(0, -1).reverse().forEach(([modifier, threshold]) => {
-            tooltip += `<br/><span class="${(clears >= threshold ? 'text-success' : 'text-muted')}">${threshold.toLocaleString()}
-                Clears - ${modifier.toLocaleString('en-US', {style: 'percent'})} reward</span>`;
+            tooltip += `<br/><span class="${(clears >= threshold
+                ? 'text-success'
+                : 'text-muted')}">${threshold.toLocaleString()}
+                Clears - ${modifier.toLocaleString('en-US', { style: 'percent' })} reward</span>`;
         });
         if (clears < 250) {
             tooltip += '<br/><br/><i class="text-warning">You will not receive Pokédollars for clearing the gym.</i>';
