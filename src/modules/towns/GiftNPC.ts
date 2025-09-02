@@ -1,4 +1,6 @@
-///<reference path="./NPC.ts"/>
+import GameHelper from '../GameHelper';
+import NPC, { NPCOptionalArgument } from './NPC';
+import NPCType from './NPCType';
 
 class GiftNPC extends NPC {
     constructor(
@@ -6,7 +8,7 @@ class GiftNPC extends NPC {
         public dialog: string[],
         public giftFunction: () => void,
         public giftImage?: string,
-        options: NPCOptionalArgument = {}
+        options: NPCOptionalArgument = {},
     ) {
         super(name, dialog, options, NPCType.Gift);
     }
@@ -24,3 +26,5 @@ class GiftNPC extends NPC {
         this.talkedTo(true);
     }
 }
+
+export default GiftNPC;

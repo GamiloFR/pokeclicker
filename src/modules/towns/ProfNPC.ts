@@ -1,21 +1,25 @@
-class ProfNPC extends NPC {
+import * as GameConstants from '../GameConstants';
+import MultiRequirement from '../requirements/MultiRequirement';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import NPC from './NPC';
 
+class ProfNPC extends NPC {
     constructor(
         public name: string,
         public region: GameConstants.Region,
         public pokedexCompleteText: string,
         public nextRegionUnlockedText: string,
         image: string = undefined,
-        requirement?: Requirement | MultiRequirement | OneFromManyRequirement
+        requirement?: Requirement | MultiRequirement | OneFromManyRequirement,
     ) {
-        super(name, undefined, { image: image, requirement: requirement});
+        super(name, undefined, { image: image, requirement: requirement });
     }
 
     get dialogHTML(): string {
         const requiresCompleteDex = App.game.challenges.list.requireCompletePokedex.active();
         const nextRegionUnlocked = TownList[GameConstants.StartingTowns[this.region + 1]]?.isUnlocked() ?? false;
         const completeDexAchievement = AchievementHandler.findByName(`${GameConstants.camelCaseToString(GameConstants.Region[this.region])} Master`);
-
 
         if (!nextRegionUnlocked) {
             return `<p>Hello, new Champion, you've come a long way!</p>
@@ -40,3 +44,5 @@ class ProfNPC extends NPC {
         return html;
     }
 }
+
+export default ProfNPC;

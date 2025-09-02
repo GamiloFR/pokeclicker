@@ -1,14 +1,21 @@
-class RoamerNPC extends NPC {
+import { camelCaseToString, Region } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import RoamingPokemonList from '../pokemons/RoamingPokemonList';
+import MultiRequirement from '../requirements/MultiRequirement';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import NPC from './NPC';
 
+class RoamerNPC extends NPC {
     constructor(
         public name: string,
         public dialog: string[],
-        public region: GameConstants.Region,
+        public region: Region,
         public subRegionRoamerGroup: number,
         image: string = undefined,
-        requirement?: Requirement | MultiRequirement | OneFromManyRequirement
+        requirement?: Requirement | MultiRequirement | OneFromManyRequirement,
     ) {
-        super(name, dialog, {image: image, requirement: requirement});
+        super(name, dialog, { image: image, requirement: requirement });
     }
 
     get dialogHTML(): string {
@@ -17,8 +24,7 @@ class RoamerNPC extends NPC {
 
         // If no roaming Pokemon yet
         if (!roamers.length) {
-            const regionName = RoamingPokemonList.roamerGroups[this.region]?.[this.subRegionRoamerGroup]?.name
-                ?? GameConstants.camelCaseToString(GameConstants.Region[this.region]);
+            const regionName = RoamingPokemonList.roamerGroups[this.region]?.[this.subRegionRoamerGroup]?.name ?? camelCaseToString(Region[this.region]);
             return `There haven't been any reports of roaming Pokémon around ${regionName} lately.`;
         }
 
@@ -28,8 +34,10 @@ class RoamerNPC extends NPC {
             }
         });
 
-        const roamersHTML = roamers.map(r => `<img class="npc-roamer-image" src="assets/images/pokemon/${r.pokemon.id}.png" />`).join('');
+        const roamersHTML = roamers.map((r) => `<img class="npc-roamer-image" src="assets/images/pokemon/${r.pokemon.id}.png" />`).join('');
 
         return super.dialogHTML.replace(/{ROUTE_NAME}/g, route()?.routeName) + roamersHTML;
     }
 }
+
+export default RoamerNPC;

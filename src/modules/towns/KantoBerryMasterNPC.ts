@@ -1,16 +1,23 @@
-///<reference path="./NPC.ts"/>
+import GameHelper from '../GameHelper';
+import SeededRand from '../utilities/SeededRand';
+import NPC from './NPC';
+
+// TODO Remove when EnigmaMutation is moved to modules
+// We need to declare a class in order to use the instanceof operator
+declare class EnigmaMutation {
+    partialHint: string;
+}
 
 class KantoBerryMasterNPC extends NPC {
-
     constructor(
         public name: string,
-        public dialog: string[]
+        public dialog: string[],
     ) {
         super(name, dialog);
     }
 
     get dialogHTML(): string {
-        // Before the player has unlocked the farm
+    // Before the player has unlocked the farm
         if (!App.game.farming.canAccess()) {
             return super.dialogHTML;
         }
@@ -20,7 +27,7 @@ class KantoBerryMasterNPC extends NPC {
     }
 
     public static generateMessage(date: Date): string {
-        if (App.game.farming.unlockedBerries.every(berry => berry())) {
+        if (App.game.farming.unlockedBerries.every((berry) => berry())) {
             return 'The disciple has surpassed the master. I have nothing more to teach you.';
         }
 
@@ -31,7 +38,7 @@ class KantoBerryMasterNPC extends NPC {
         }
 
         SeededRand.seedWithDate(date);
-        possibleMutations.forEach(b => SeededRand.boolean());
+        possibleMutations.forEach(() => SeededRand.boolean());
         const mutationToShow = SeededRand.fromArray(possibleMutations);
         mutationToShow.hintSeen = true;
 
@@ -40,5 +47,6 @@ class KantoBerryMasterNPC extends NPC {
         }
         return mutationToShow.hint;
     }
-
 }
+
+export default KantoBerryMasterNPC;

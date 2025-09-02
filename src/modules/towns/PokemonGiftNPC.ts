@@ -1,13 +1,19 @@
+import { SHINY_CHANCE_REWARD } from '../GameConstants';
+import areaStatus from '../enums/AreaStatus';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import GiftNPC from './GiftNPC';
+import { NPCOptionalArgument } from './NPC';
+
 class PokemonGiftNPC extends GiftNPC {
     constructor(
         public name: string,
         public dialog: string[],
         public giftPokemon: PokemonNameType,
         public giftImage?: string,
-        options: NPCOptionalArgument = {}
+        options: NPCOptionalArgument = {},
     ) {
         const giftFunction = () => {
-            App.game.party.gainPokemonByName(this.giftPokemon, PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_REWARD));
+            App.game.party.gainPokemonByName(this.giftPokemon, PokemonFactory.generateShiny(SHINY_CHANCE_REWARD));
         };
         super(name, dialog, giftFunction, giftImage, options);
     }
@@ -23,3 +29,5 @@ class PokemonGiftNPC extends GiftNPC {
         return status;
     }
 }
+
+export default PokemonGiftNPC;
