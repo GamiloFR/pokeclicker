@@ -4,7 +4,7 @@
 /// <reference path="../declarations/party/Category.d.ts"/>
 /// <reference path="../declarations/effectEngine/effectEngineRunner.d.ts"/>
 /// <reference path="../declarations/items/ItemHandler.d.ts"/>
-
+/// <reference path="../declarations/towns/BattleCafe.d.ts"/>
 /**
  * Main game class.
  */
@@ -110,7 +110,10 @@ class Game implements TmpGameType {
     initialize() {
         AchievementHandler.initialize(this.multiplier, this.challenges);
         FarmController.initialize();
-        EffectEngineRunner.initialize(this.multiplier, GameHelper.enumStrings(GameConstants.BattleItemType).map((name) => ItemList[name]));
+        EffectEngineRunner.initialize(
+            this.multiplier,
+            GameHelper.enumStrings(GameConstants.BattleItemType).map((name) => ItemList[name]),
+        );
         ItemHandler.initializeItems();
         BreedingController.initialize();
         PokedexHelper.initialize();
@@ -136,7 +139,22 @@ class Game implements TmpGameType {
         if (player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None) {
             Battle.generateNewEnemy();
         } else {
-            const battlePokemon = new BattlePokemon('MissingNo.', 0, PokemonType.None, PokemonType.None, 0, 0, 0, 0, new Amount(0, GameConstants.Currency.money), false, 0, GameConstants.BattlePokemonGender.NoGender, GameConstants.ShadowStatus.None, EncounterType.route);
+            const battlePokemon = new BattlePokemon(
+                'MissingNo.',
+                0,
+                PokemonType.None,
+                PokemonType.None,
+                0,
+                0,
+                0,
+                0,
+                new Amount(0, GameConstants.Currency.money),
+                false,
+                0,
+                GameConstants.BattlePokemonGender.NoGender,
+                GameConstants.ShadowStatus.None,
+                EncounterType.route,
+            );
             Battle.enemyPokemon(battlePokemon);
         }
         //Safari.load();
@@ -184,7 +202,8 @@ class Game implements TmpGameType {
                 route = 1;
                 region = GameConstants.Region.kanto;
             }
-            const availablePokemonMap = RouteHelper.getAvailablePokemonList(route, region).map(name => pokemonMap[name]);
+            const availablePokemonMap = RouteHelper.getAvailablePokemonList(route, region)
+                .map(name => pokemonMap[name]);
             const maxHealth: number = PokemonFactory.routeHealth(route, region);
             let hitsToKill = 0;
             for (const pokemon of availablePokemonMap) {
@@ -207,8 +226,10 @@ class Game implements TmpGameType {
             Notifier.notify({
                 type: NotificationConstants.NotificationOption.info,
                 title: 'Offline Bonus',
-                message: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyToEarn.toLocaleString('en-US')}`,
-                strippedMessage: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: ${moneyToEarn.toLocaleString('en-US')} Pokédollars`,
+                message: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyToEarn.toLocaleString(
+                    'en-US')}`,
+                strippedMessage: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: ${moneyToEarn.toLocaleString(
+                    'en-US')} Pokédollars`,
                 timeout: 2 * GameConstants.MINUTE,
                 setting: NotificationConstants.NotificationSetting.General.offline_earnings,
             });
@@ -224,7 +245,10 @@ class Game implements TmpGameType {
                         GameHelper.incrementObservable(orb.amount);
                         orbAmounts[orb.color]++;
                     }
-                    const messageAppend = Object.keys(orbAmounts).filter(key => orbAmounts[key] > 0).map(key => `<li>${orbAmounts[key]} ${key}</li>`).join('');
+                    const messageAppend = Object.keys(orbAmounts)
+                        .filter(key => orbAmounts[key] > 0)
+                        .map(key => `<li>${orbAmounts[key]} ${key}</li>`)
+                        .join('');
                     Notifier.notify({
                         type: NotificationConstants.NotificationOption.info,
                         title: 'Dream Orbs',
@@ -246,7 +270,8 @@ class Game implements TmpGameType {
             } else if (player.regionStarters[GameConstants.Region.kanto]() > GameConstants.Starter.None) {
                 // Has chosen a starter, Tutorial is started
                 App.game.quests.getQuestLine('Tutorial Quests').state(QuestLineState.started);
-                App.game.quests.getQuestLine('Tutorial Quests').beginQuest(App.game.quests.getQuestLine('Tutorial Quests').curQuest());
+                App.game.quests.getQuestLine('Tutorial Quests')
+                    .beginQuest(App.game.quests.getQuestLine('Tutorial Quests').curQuest());
             }
         }
         // Mining expedition questline
@@ -257,7 +282,8 @@ class Game implements TmpGameType {
             } else if (App.game.badgeCase.badgeList[BadgeEnums.Soul]()) {
                 // Has the soul badge, Quest is started
                 App.game.quests.getQuestLine('Mining Expedition').state(QuestLineState.started);
-                App.game.quests.getQuestLine('Mining Expedition').beginQuest(App.game.quests.getQuestLine('Mining Expedition').curQuest());
+                App.game.quests.getQuestLine('Mining Expedition')
+                    .beginQuest(App.game.quests.getQuestLine('Mining Expedition').curQuest());
             }
         }
 
@@ -270,21 +296,23 @@ class Game implements TmpGameType {
             App.game.keyItems.gainKeyItem(KeyItemType.Gem_case, true);
         }
         // Check that none of our quest are less than their initial value
-        App.game.quests.questLines().filter(q => q.state() == 1 && q.curQuest() < q.quests().length).forEach(questLine => {
-            const quest = questLine.curQuestObject();
-            if (quest instanceof MultipleQuestsQuest) {
-                quest.quests.forEach((q) => {
-                    if (q.initial() > q.focus()) {
-                        q.initial(q.focus());
+        App.game.quests.questLines()
+            .filter(q => q.state() == 1 && q.curQuest() < q.quests().length)
+            .forEach(questLine => {
+                const quest = questLine.curQuestObject();
+                if (quest instanceof MultipleQuestsQuest) {
+                    quest.quests.forEach((q) => {
+                        if (q.initial() > q.focus()) {
+                            q.initial(q.focus());
+                        }
+                    });
+                } else {
+                    if (quest.initial() > quest.focus()) {
+                        quest.initial(quest.focus());
+                        questLine.curQuestInitial(quest.initial());
                     }
-                });
-            } else {
-                if (quest.initial() > quest.focus()) {
-                    quest.initial(quest.focus());
-                    questLine.curQuestInitial(quest.initial());
                 }
-            }
-        });
+            });
         // Check for breeding pokemons not in list or queue
         const breeding = new Set([
             ...App.game.breeding.eggList.map((l) => l().pokemon),
@@ -342,7 +370,10 @@ class Game implements TmpGameType {
 
         // Try start our webworker so we can process stuff while the page isn't focused
         try {
-            console.log(`[${GameConstants.formatDate(new Date())}] %cStarting web worker..`, 'color:#8e44ad;font-weight:900;');
+            console.log(
+                `[${GameConstants.formatDate(new Date())}] %cStarting web worker..`,
+                'color:#8e44ad;font-weight:900;',
+            );
             const blob = new Blob([
                 `
                 // Window visibility state
@@ -366,22 +397,28 @@ class Game implements TmpGameType {
 
             this.worker = new Worker(blobURL);
             // use a setTimeout to queue the event
-            this.worker?.addEventListener('message', () => Settings.getSetting('useWebWorkerForGameTicks').value ? this.gameTick() : null);
+            this.worker?.addEventListener(
+                'message',
+                () => Settings.getSetting('useWebWorkerForGameTicks').value ? this.gameTick() : null,
+            );
 
             document.addEventListener('visibilitychange', () => {
                 // Let our worker know if the page is visible or not
                 if (pageHidden != document.hidden) {
                     pageHidden = document.hidden;
-                    this.worker.postMessage({'pageHidden': pageHidden});
+                    this.worker.postMessage({ 'pageHidden': pageHidden });
                 }
 
                 // Save resources by not displaying updates if game is not currently visible
                 const gameEl = document.getElementById('game');
                 document.hidden ? gameEl.classList.add('hidden') : gameEl.classList.remove('hidden');
             });
-            this.worker.postMessage({'pageHidden': pageHidden});
+            this.worker.postMessage({ 'pageHidden': pageHidden });
             if (this.worker) {
-                console.log(`[${GameConstants.formatDate(new Date())}] %cWeb worker started`, 'color:#2ecc71;font-weight:900;');
+                console.log(
+                    `[${GameConstants.formatDate(new Date())}] %cWeb worker started`,
+                    'color:#2ecc71;font-weight:900;',
+                );
             }
         } catch (e) {
             console.error(`[${GameConstants.formatDate(new Date())}] Web worker error`, e);
@@ -392,12 +429,16 @@ class Game implements TmpGameType {
         };
 
         console.log('%cStop!', 'color: red; font-size: 36px; font-weight: bold;');
-        console.log('%cThis is a browser feature intended for developers. If you were told to copy-paste or enter something here to obtain an easter egg or unlock a secret, it can corrupt your save file, cause bugs, or otherwise break your game.', 'color: red; font-size: 16px;');
+        console.log(
+            '%cThis is a browser feature intended for developers. If you were told to copy-paste or enter something here to obtain an easter egg or unlock a secret, it can corrupt your save file, cause bugs, or otherwise break your game.',
+            'color: red; font-size: 16px;',
+        );
     }
 
     stop() {
         cancelAnimationFrame(this.frameRequest);
-        window.onbeforeunload = () => {};
+        window.onbeforeunload = () => {
+        };
     }
 
     gameTick() {
@@ -485,7 +526,9 @@ class Game implements TmpGameType {
                 if (App.game.quests.isDailyQuestsUnlocked()) {
                     Notifier.notify({
                         title: 'It\'s a new day!',
-                        message: `${App.game.quests.isDailyQuestsUnlocked() ? '<i>You have a free quest refresh.</i>' : ''}`,
+                        message: `${App.game.quests.isDailyQuestsUnlocked()
+                            ? '<i>You have a free quest refresh.</i>'
+                            : ''}`,
                         type: NotificationConstants.NotificationOption.info,
                         timeout: 3e4,
                     });

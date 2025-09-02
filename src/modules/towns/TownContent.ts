@@ -1,21 +1,41 @@
+import areaStatus from '../enums/AreaStatus';
+import { camelCaseToString, getDungeonIndex, Region, Starter } from '../GameConstants';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import DevelopmentRequirement from '../requirements/DevelopmentRequirement';
+import MultiRequirement from '../requirements/MultiRequirement';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import { TmpDungeonType, TmpGymType } from '../TemporaryScriptTypes';
+import WeatherApp from '../weather/WeatherApp';
+import Town from './Town';
+
 abstract class TownContent {
-    public abstract cssClass(): string;
-    public abstract text(): string;
-    public abstract onclick(): void;
     public tooltip: string = undefined;
 
     public requirements: (Requirement | OneFromManyRequirement)[];
     public parent: Town;
+
+    constructor(requirements: Requirement[] = []) {
+        this.requirements = requirements;
+    }
+
+    public abstract cssClass(): string;
+
+    public abstract text(): string;
+
+    public abstract onclick(): void;
+
     public addParent(parent: Town) {
         this.parent = parent;
     }
 
-    public areaStatus() : areaStatus[] {
+    public areaStatus(): areaStatus[] {
         return [this.isUnlocked() ? areaStatus.completed : areaStatus.locked];
     }
 
     public isUnlocked(): boolean {
-        return this.requirements.every(requirement => requirement.isCompleted());
+        return this.requirements.every((requirement) => requirement.isCompleted());
     }
 
     public clears(): number {
@@ -23,7 +43,7 @@ abstract class TownContent {
     }
 
     public isVisible(): boolean {
-        if (this.requirements.some(r => r instanceof DevelopmentRequirement || (r instanceof MultiRequirement && r.requirements.some(r2 => r2 instanceof DevelopmentRequirement)))) {
+        if (this.requirements.some((r) => r instanceof DevelopmentRequirement || (r instanceof MultiRequirement && r.requirements.some((r2) => r2 instanceof DevelopmentRequirement)))) {
             return this.isUnlocked();
         }
         return true;
@@ -34,7 +54,7 @@ abstract class TownContent {
             return;
         }
         const reqsList = [];
-        this.requirements?.forEach(requirement => {
+        this.requirements?.forEach((requirement) => {
             if (!requirement.isCompleted()) {
                 reqsList.push(requirement.hint());
             }
@@ -48,13 +68,9 @@ abstract class TownContent {
             this.onclick();
         }
     }
-
-    constructor(requirements: Requirement[] = []) {
-        this.requirements = requirements;
-    }
 }
 
-class DockTownContent extends TownContent {
+export class DockTownContent extends TownContent {
     public cssClass() {
         return 'btn btn-info';
     }
@@ -72,7 +88,7 @@ class DockTownContent extends TownContent {
     }
 }
 
-class BattleFrontierTownContent extends TownContent {
+export class BattleFrontierTownContent extends TownContent {
     public cssClass() {
         return 'btn btn-primary';
     }
@@ -86,7 +102,7 @@ class BattleFrontierTownContent extends TownContent {
     }
 }
 
-class NextRegionTownContent extends TownContent {
+export class NextRegionTownContent extends TownContent {
     public cssClass() {
         return 'btn btn-warning';
     }
@@ -100,59 +116,75 @@ class NextRegionTownContent extends TownContent {
     }
 
     public text() {
-        return `Travel to ${GameConstants.camelCaseToString(GameConstants.Region[player.highestRegion() + 1])}`;
+        return `Travel to ${camelCaseToString(Region[player.highestRegion() + 1])}`;
     }
 }
 
-class MoveToDungeon extends TownContent {
-
-    constructor(private dungeon: Dungeon, private visibleRequirement: Requirement = undefined) {
+export class MoveToDungeon extends TownContent {
+    constructor(
+        private dungeon: TmpDungeonType,
+        private visibleRequirement: Requirement = undefined,
+    ) {
         super([]);
     }
 
     public cssClass() {
         return 'btn btn-secondary';
     }
+
     public text(): string {
         return this.dungeon.name;
     }
+
     public isVisible(): boolean {
         return this.visibleRequirement?.isCompleted() ?? true;
     }
+
     public onclick(): void {
         MapHelper.moveToTown(this.dungeon.name);
     }
+
     public isUnlocked(): boolean {
         return TownList[this.dungeon.name].isUnlocked();
     }
+
     public areaStatus(): areaStatus[] {
         return [areaStatus[MapHelper.calculateTownCssClass(this.dungeon.name)]];
     }
+
     public clears() {
         if (!QuestLineHelper.isQuestLineCompleted('Tutorial Quests')) {
             return undefined;
         }
-        return App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(this.dungeon.name)]();
+        return App.game.statistics.dungeonsCleared[getDungeonIndex(this.dungeon.name)]();
     }
 }
 
-class MoveToTown extends TownContent {
-    constructor(private townName: string, private visibleRequirement: Requirement = undefined, private includeAreaStatus: boolean = true) {
+export class MoveToTown extends TownContent {
+    constructor(
+        private townName: string,
+        private visibleRequirement: Requirement = undefined,
+        private includeAreaStatus: boolean = true,
+    ) {
         super([]);
     }
 
     public cssClass() {
         return 'btn btn-secondary';
     }
+
     public text(): string {
         return this.townName;
     }
+
     public isVisible(): boolean {
         return this.visibleRequirement?.isCompleted() ?? true;
     }
+
     public onclick(): void {
         MapHelper.moveToTown(this.townName);
     }
+
     public isUnlocked(): boolean {
         return TownList[this.townName].isUnlocked();
     }
@@ -166,9 +198,12 @@ class MoveToTown extends TownContent {
     }
 }
 
-class AccessGym extends TownContent {
+export class AccessGym extends TownContent {
     // only use for gyms that disappear from a town
-    constructor(private gym: Gym, private requirement: Requirement) {
+    constructor(
+        private gym: TmpGymType,
+        private requirement: Requirement,
+    ) {
         super([]);
     }
 
@@ -189,7 +224,7 @@ class AccessGym extends TownContent {
     }
 }
 
-class WeatherAppTownContent extends TownContent {
+export class WeatherAppTownContent extends TownContent {
     public cssClass() {
         return 'btn btn-secondary';
     }
@@ -207,13 +242,13 @@ class WeatherAppTownContent extends TownContent {
     }
 }
 
-class PickStarterContent extends TownContent {
+export class PickStarterContent extends TownContent {
     public cssClass() {
         return 'btn btn-warning';
     }
 
     public isVisible(): boolean {
-        return player.regionStarters[player.region]() == GameConstants.Starter.None;
+        return player.regionStarters[player.region]() == Starter.None;
     }
 
     public onclick() {
@@ -228,3 +263,5 @@ class PickStarterContent extends TownContent {
         return 'Pick your Starter';
     }
 }
+
+export default TownContent;

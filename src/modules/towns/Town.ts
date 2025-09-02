@@ -1,13 +1,8 @@
-/// <reference path="../../declarations/TemporaryScriptTypes.d.ts" />
-///<reference path="../../declarations/enums/Badges.d.ts"/>
-///<reference path="NPC.ts"/>
-///<reference path="KantoBerryMasterNPC.ts"/>
-///<reference path="ProfNPC.ts"/>
-///<reference path="RoamerNPC.ts"/>
-///<reference path="GiftNPC.ts"/>
-///<reference path="PokemonGiftNPC.ts"/>
-///<reference path="AssistantNPC.ts"/>
-///<reference path="TownContent.ts"/>
+import Requirement from '../requirements/Requirement';
+import { TmpDungeonType } from '../TemporaryScriptTypes';
+import NPC from './NPC';
+import TownContent, { DockTownContent, NextRegionTownContent, PickStarterContent } from './TownContent';
+import * as GameConstants from '../GameConstants';
 
 type TownOptionalArgument = {
     requirements?: Requirement[],
@@ -15,11 +10,11 @@ type TownOptionalArgument = {
     ignoreAreaStatus?: boolean
 };
 
-class Town implements TmpTownType {
+class Town {
     public name: string;
     public region: GameConstants.Region;
     public requirements: Requirement[];
-    public dungeon?: Dungeon;
+    public dungeon?: TmpDungeonType;
     public npcs?: NPC[];
     public startingTown: boolean;
     public content: TownContent[];
@@ -33,7 +28,7 @@ class Town implements TmpTownType {
         content: TownContent[] = [],
         // Optional arguments are in a named object, so that we don't need
         // to pass undefined to get to the one we want
-        optional: TownOptionalArgument = {}
+        optional: TownOptionalArgument = {},
     ) {
         this.name = name;
         this.region = region;
@@ -67,12 +62,21 @@ class Town implements TmpTownType {
     }
 }
 
-class DungeonTown extends Town {
-    dungeon: Dungeon
+export class DungeonTown extends Town {
+    dungeon: TmpDungeonType;
 
-    constructor(name: string, region: GameConstants.Region, subregion: GameConstants.SubRegions, requirements: Requirement[] = [], content: TownContent[] = [], optional: TownOptionalArgument = {}) {
+    constructor(
+        name: string,
+        region: GameConstants.Region,
+        subregion: GameConstants.SubRegions,
+        requirements: Requirement[] = [],
+        content: TownContent[] = [],
+        optional: TownOptionalArgument = {},
+    ) {
         optional.requirements = requirements;
         super(name, region, subregion, content, optional);
         this.dungeon = dungeonList[name];
     }
 }
+
+export default Town;

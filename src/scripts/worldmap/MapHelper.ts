@@ -1,7 +1,6 @@
 /// <reference path="../../declarations/TemporaryScriptTypes.d.ts" />
 /// <reference path="../../declarations/DataStore/StatisticStore/index.d.ts" />
 
-
 class MapHelper {
 
     public static getUsableFilters(): CssVariableSetting[] {
