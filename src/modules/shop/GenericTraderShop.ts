@@ -1,11 +1,17 @@
-/// <reference path="./Shop.ts"/>
+import GenericDeal, { DealCostOrProfitType, GenericTraderShopIdentifier, ItemDealProfit } from '../deal/GenericDeal';
+import areaStatus from '../enums/AreaStatus';
+import PokemonItem from '../items/PokemonItem';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import Shop, { ShopHandler } from './Shop';
 
 class GenericTraderShop extends Shop {
     constructor(
         public traderID: GenericTraderShopIdentifier,
         public traderName: string = 'Trader',
         public hidePlayerInventory: boolean = false,
-        requirements: (Requirement | OneFromManyRequirement)[] = []
+        requirements: (Requirement | OneFromManyRequirement)[] = [],
     ) {
         super([], traderName, requirements);
     }
@@ -47,3 +53,5 @@ class GenericTraderShop extends Shop {
         return false;
     }
 }
+
+export default GenericTraderShop;

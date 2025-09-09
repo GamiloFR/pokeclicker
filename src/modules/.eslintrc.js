@@ -25,6 +25,7 @@ module.exports = {
         PokemonFactory: 'readonly',
         PartyController: 'readonly',
         TownList: 'readonly',
+        BerryDeal: 'readonly',
     },
     rules: {
         indent: 'off',

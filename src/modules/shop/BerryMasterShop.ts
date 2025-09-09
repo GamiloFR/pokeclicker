@@ -1,11 +1,18 @@
-/// <reference path="./Shop.ts"/>
+import areaStatus from '../enums/AreaStatus';
+import * as GameConstants from '../GameConstants';
+import Item from '../items/Item';
+import PokemonItem from '../items/PokemonItem';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import Shop, { ShopHandler } from './Shop';
 
 class BerryMasterShop extends Shop {
     constructor(
         public location: GameConstants.BerryTraderLocations,
         public items: Item[],
         public name: string = 'Berry Master',
-        requirements?: (Requirement | OneFromManyRequirement)[]
+        requirements?: (Requirement | OneFromManyRequirement)[],
     ) {
         super(items, name, requirements);
     }
@@ -33,3 +40,5 @@ class BerryMasterShop extends Shop {
     }
 
 }
+
+export default BerryMasterShop;
