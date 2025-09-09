@@ -10,7 +10,7 @@
 ///<reference path="../../declarations/requirements/MultiRequirement.d.ts"/>
 ///<reference path="../safari/SafariTownContent.ts"/>
 ///<reference path="../../declarations/towns/PurifyChamber.d.ts"/>
-///<reference path="../shop/GenericTraderShop.ts"/>
+///<reference path="../../declarations/shop/GenericTraderShop.d.ts"/>
 
 const TownList: { [name: string]: Town } = {};
 

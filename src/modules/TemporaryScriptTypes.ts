@@ -463,3 +463,9 @@ export type TmpFarmingType = {
 };
 
 export type TmpTownListType = { [name: string]: Town };
+
+export type TmpBerryDealType = {};
+
+export type TmpBerryDealStaticType = {
+    list: Partial<Record<GameConstants.BerryTraderLocations, KnockoutObservableArray<TmpBerryDealType>>>;
+};
