@@ -191,6 +191,11 @@ import RangeSetting from './settings/RangeSetting';
 import Setting from './settings/Setting';
 import SettingOption from './settings/SettingOption';
 import { SortOptionConfigs, SortOptions } from './settings/SortOptions';
+import BerryMasterShop from './shop/BerryMasterShop';
+import GemMasterShop from './shop/GemMasterShop';
+import GenericTraderShop from './shop/GenericTraderShop';
+import ShardTraderShop from './shop/ShardTraderShop';
+import Shop, { ShopHandler } from './shop/Shop';
 import { SortModules, SortSaves } from './Sortable';
 import SpecialEvent from './specialEvents/SpecialEvent';
 import SpecialEvents from './specialEvents/SpecialEvents';
@@ -518,4 +523,10 @@ Object.assign(<any>window, {
     WeatherAppTownContent,
     PickStarterContent,
     CaughtUniqueShinyPokemonsByRegionRequirement,
+    BerryMasterShop,
+    GemMasterShop,
+    GenericTraderShop,
+    ShardTraderShop,
+    Shop,
+    ShopHandler,
 });

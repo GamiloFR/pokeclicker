@@ -22,4 +22,5 @@ declare global {
     const BagHandler: TempTypes.TmpBagHandlerType;
     const QuestLineHelper: TempTypes.TmpQuestLineHelperType;
     const TownList: TempTypes.TmpTownListType;
+    const BerryDeal: TempTypes.TmpBerryDealStaticType;
 }
