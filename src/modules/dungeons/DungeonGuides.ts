@@ -27,12 +27,12 @@ class DungeonGuides {
     }
 
     public static startDungeon(): void {
-    // Add steps and attack based on efficiency
+        // Add steps and attack based on efficiency
         this.hired()?.start();
     }
 
     public static endDungeon(): void {
-    // runEarly as deferred updates can fail to happen before the dungeon is started again, e.g. DefeatDungeonBossQuest
+        // runEarly as deferred updates can fail to happen before the dungeon is started again, e.g. DefeatDungeonBossQuest
         ko.tasks.runEarly();
         this.hired()?.end();
     }
@@ -156,7 +156,7 @@ class DungeonGuide {
     }
 
     end() {
-    // Check if more clears already paid for
+        // Check if more clears already paid for
         if (DungeonGuides.clears() > 0) {
             if (DungeonRunner.canStartDungeon(DungeonRunner.dungeon)) {
                 // Need to reset the map
@@ -241,7 +241,7 @@ class DungeonGuide {
 // Note: Trainer sprite is (seeded) randomly generated, or can be set manually, please make sure it kind of matches the name
 DungeonGuides.add(
     new DungeonGuide('Jimmy', "Doesn't really know their way around a dungeon, but gives it their best try!", [[4, Currency.money]], [], 2000, () => {
-    // Get current position
+        // Get current position
         const pos = DungeonRunner.map.playerPosition();
         const nearbyTiles = DungeonRunner.map.nearbyTiles(pos);
 
@@ -276,8 +276,10 @@ DungeonGuides.add(
                 if (paths?.length) {
                     const shortestPath = Math.min(...paths.map((p) => p.length));
                     const path = Rand.fromArray(paths.filter((p) => p.length == shortestPath));
-                    // We found some treasure, move to it
-                    DungeonRunner.map.moveToTile(path[0]);
+                    if (path.length) {
+                        // If we're not already there
+                        DungeonRunner.map.moveToTile(path[0]);
+                    }
                     return;
                 }
             }
@@ -354,8 +356,10 @@ DungeonGuides.add(
                 if (paths?.length) {
                     const shortestPath = Math.min(...paths.map((p) => p.length));
                     const path = Rand.fromArray(paths.filter((p) => p.length == shortestPath));
-                    // We found some treasure, move to it
-                    DungeonRunner.map.moveToTile(path[0]);
+                    if (path.length) {
+                        // If we're not already there
+                        DungeonRunner.map.moveToTile(path[0]);
+                    }
                     return;
                 }
             }
