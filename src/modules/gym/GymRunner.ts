@@ -1,6 +1,17 @@
-/// <reference path="../../declarations/TemporaryScriptTypes.d.ts" />
-/// <reference path="../../declarations/GameHelper.d.ts" />
-/// <reference path="../../declarations/enums/Badges.d.ts" />
+import ko, { Observable as KnockoutObservable } from 'knockout';
+import BadgeEnums from '../enums/Badges';
+import KeyItemType from '../enums/KeyItemType';
+import * as GameConstants from '../GameConstants';
+import GameHelper from '../GameHelper';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
+import KeyItemController from '../keyItems/KeyItemController';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Settings from '../settings';
+import Amount from '../wallet/Amount';
+import Gym from './Gym';
+import GymBattle from './GymBattle';
+import GymList from './GymList';
 
 class GymRunner {
     public static timeLeft: KnockoutObservable<number> = ko.observable(GameConstants.GYM_TIME);
@@ -12,11 +23,11 @@ class GymRunner {
     public static autoRestart: KnockoutObservable<boolean> = ko.observable(false);
     public static initialRun = true;
 
-    public static startGym(
-        gym: Gym,
-        autoRestart = false,
-        initialRun = true
-    ) {
+    public static timeLeftSeconds = ko.pureComputed(() => {
+        return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
+    });
+
+    public static startGym(gym: Gym, autoRestart = false, initialRun = true) {
         GymRunner.initialRun = initialRun;
         GymRunner.autoRestart(autoRestart);
         GymRunner.running(false);
@@ -44,7 +55,7 @@ class GymRunner {
     }
 
     public static resetGif() {
-        // If the user doesn't want the animation, just return
+    // If the user doesn't want the animation, just return
         if (!Settings.getSetting('showGymGoAnimation').value) {
             return;
         }
@@ -66,7 +77,7 @@ class GymRunner {
         }
 
         GymRunner.timeLeft(GymRunner.timeLeft() - GameConstants.GYM_TICK);
-        GymRunner.timeLeftPercentage(Math.floor(GymRunner.timeLeft() / (GameConstants.GYM_TIME * FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute)) * 100));
+        GymRunner.timeLeftPercentage(Math.floor((GymRunner.timeLeft() / (GameConstants.GYM_TIME * FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute))) * 100));
 
         const currentFluteBonus = FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute);
         if (currentFluteBonus != GymRunner.timeBonus()) {
@@ -134,10 +145,6 @@ class GymRunner {
         }
     }
 
-    public static timeLeftSeconds = ko.pureComputed(() => {
-        return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
-    })
-
     public static getEnvironmentArea() {
         const gym = GymRunner.gymObservable();
         return gym.optionalArgs.environment;
@@ -147,7 +154,6 @@ class GymRunner {
         const gym = GymRunner.gymObservable();
         return gym.optionalArgs.battleBackground;
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -161,4 +167,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-GymRunner satisfies TmpGymRunnerType;
+export default GymRunner;

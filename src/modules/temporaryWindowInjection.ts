@@ -52,7 +52,11 @@ import UndergroundItemValueType from './enums/UndergroundItemValueType';
 import FluteEffectRunner from './gems/FluteEffectRunner';
 import GemDeals from './gems/GemDeals';
 import Gems from './gems/Gems';
+import Gym from './gym/Gym';
+import GymBattle from './gym/GymBattle';
+import GymList from './gym/GymList';
 import GymPokemon from './gym/GymPokemon';
+import GymRunner from './gym/GymRunner';
 import CaughtIndicatingItem from './items/CaughtIndicatingItem';
 import ChristmasPresent from './items/ChristmasPresent';
 import Consumable from './items/Consumable';
@@ -529,4 +533,8 @@ Object.assign(<any>window, {
     ShardTraderShop,
     Shop,
     ShopHandler,
+    Gym,
+    GymList,
+    GymBattle,
+    GymRunner,
 });

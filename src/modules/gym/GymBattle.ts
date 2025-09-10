@@ -1,8 +1,22 @@
-class GymBattle extends Battle {
+import ko, { Computed as KnockoutComputed, Observable as KnockoutObservable } from 'knockout';
+import Battle from '../battles/Battle';
+import * as GameConstants from '../GameConstants';
+import { MultiplierDecreaser } from '../items/types';
+import Gym from './Gym';
+import GymRunner from './GymRunner';
 
+class GymBattle extends Battle {
     static gym: Gym;
     static index: KnockoutObservable<number> = ko.observable(0);
     static totalPokemons: KnockoutObservable<number> = ko.observable(0);
+
+    public static pokemonsDefeatedComputable: KnockoutComputed<number> = ko.pureComputed(() => {
+        return GymBattle.index();
+    });
+
+    public static pokemonsUndefeatedComputable: KnockoutComputed<number> = ko.pureComputed(() => {
+        return GymBattle.totalPokemons() - GymBattle.index();
+    });
 
     public static pokemonAttack() {
         if (GymRunner.running()) {
@@ -15,9 +29,10 @@ class GymBattle extends Battle {
             super.clickAttack();
         }
     }
+
     /**
-     * Award the player with exp, and go to the next pokemon
-     */
+   * Award the player with exp, and go to the next pokemon
+   */
     public static defeatPokemon() {
         this.enemyPokemon().defeat(true);
 
@@ -34,18 +49,12 @@ class GymBattle extends Battle {
     }
 
     /**
-     * Reset the counter.
-     */
+   * Reset the counter.
+   */
     public static generateNewEnemy() {
         this.counter = 0;
         this.enemyPokemon(PokemonFactory.generateGymPokemon(this.gym, this.index()));
     }
-
-    public static pokemonsDefeatedComputable: KnockoutComputed<number> = ko.pureComputed(() => {
-        return GymBattle.index();
-    });
-
-    public static pokemonsUndefeatedComputable: KnockoutComputed<number> = ko.pureComputed(() => {
-        return GymBattle.totalPokemons() - GymBattle.index();
-    })
 }
+
+export default GymBattle;
