@@ -1,12 +1,14 @@
 import areaStatus from '../enums/AreaStatus';
 import { camelCaseToString, getDungeonIndex, Region, Starter } from '../GameConstants';
+import Gym from '../gym/Gym';
+import GymRunner from '../gym/GymRunner';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import DevelopmentRequirement from '../requirements/DevelopmentRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
-import { TmpDungeonType, TmpGymType } from '../TemporaryScriptTypes';
+import { TmpDungeonType } from '../TemporaryScriptTypes';
 import WeatherApp from '../weather/WeatherApp';
 import Town from './Town';
 
@@ -201,7 +203,7 @@ export class MoveToTown extends TownContent {
 export class AccessGym extends TownContent {
     // only use for gyms that disappear from a town
     constructor(
-        private gym: TmpGymType,
+        private gym: Gym,
         private requirement: Requirement,
     ) {
         super([]);

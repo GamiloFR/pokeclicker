@@ -12,6 +12,7 @@ import BerryType from './enums/BerryType';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
 import type * as GameConstants from './GameConstants';
+import Gym from './gym/Gym';
 import type BagItem from './interfaces/BagItem';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
@@ -234,22 +235,7 @@ export type TmpDungeonRunnerType = {
     dungeon: {
         name: string;
     };
-};
-
-export interface TmpGymType extends TownContent {
-    town: string;
-    buttonText: string;
-
-    cssClass(): string;
-}
-
-export type TmpGymListType = {
-    [gymName: string]: TmpGymType;
-};
-
-export type TmpGymRunnerType = {
-    gymObservable: () => TmpGymType;
-    startGym: (gym: TmpGymType, autoRestart?: boolean, initialRun?: boolean) => void;
+    timeBonus: KnockoutObservable<number>;
 };
 
 export type TmpAchievementHandlerType = {
@@ -292,6 +278,7 @@ export type TmpPokemonFactoryType = {
     routeDungeonTokens(route: number, region: GameConstants.Region): number;
     generateShiny(chance: number, skipBonus?: boolean): boolean;
     generateGenderById(id: number): GameConstants.BattlePokemonGender;
+    generateGymPokemon(gym: Gym, index: number): BattlePokemon;
 };
 
 export type TmpPartyPokemonType = {
