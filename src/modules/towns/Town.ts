@@ -1,13 +1,14 @@
+import * as GameConstants from '../GameConstants';
+import GymList from '../gym/GymList';
 import Requirement from '../requirements/Requirement';
 import { TmpDungeonType } from '../TemporaryScriptTypes';
 import NPC from './NPC';
 import TownContent, { DockTownContent, NextRegionTownContent, PickStarterContent } from './TownContent';
-import * as GameConstants from '../GameConstants';
 
 type TownOptionalArgument = {
-    requirements?: Requirement[],
-    npcs?: NPC[],
-    ignoreAreaStatus?: boolean
+    requirements?: Requirement[];
+    npcs?: NPC[];
+    ignoreAreaStatus?: boolean;
 };
 
 class Town {
@@ -47,7 +48,8 @@ class Town {
             this.content.push(new DockTownContent());
         }
         if (GameConstants.StartingTowns.includes(name)) {
-            if (region > GameConstants.Region.kanto) {// Kanto is treated separately
+            if (region > GameConstants.Region.kanto) {
+                // Kanto is treated separately
                 this.content.push(new PickStarterContent());
             }
             this.content.push(new NextRegionTownContent());
@@ -58,21 +60,14 @@ class Town {
     }
 
     public isUnlocked() {
-        return this.requirements.every(requirement => requirement.isCompleted());
+        return this.requirements.every((requirement) => requirement.isCompleted());
     }
 }
 
 export class DungeonTown extends Town {
     dungeon: TmpDungeonType;
 
-    constructor(
-        name: string,
-        region: GameConstants.Region,
-        subregion: GameConstants.SubRegions,
-        requirements: Requirement[] = [],
-        content: TownContent[] = [],
-        optional: TownOptionalArgument = {},
-    ) {
+    constructor(name: string, region: GameConstants.Region, subregion: GameConstants.SubRegions, requirements: Requirement[] = [], content: TownContent[] = [], optional: TownOptionalArgument = {}) {
         optional.requirements = requirements;
         super(name, region, subregion, content, optional);
         this.dungeon = dungeonList[name];

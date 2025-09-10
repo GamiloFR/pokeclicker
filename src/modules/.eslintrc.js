@@ -19,7 +19,6 @@ module.exports = {
         Save: 'readonly',
         MapHelper: 'readonly',
         DungeonRunner: 'readonly',
-        GymRunner: 'readonly',
         AchievementHandler: 'readonly',
         PokemonLocations: 'readonly',
         PokemonFactory: 'readonly',
