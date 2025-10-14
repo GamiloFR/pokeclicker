@@ -1,14 +1,14 @@
 import i18next, { TOptions } from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-chained-backend';
 import HttpBackend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import type { PureComputed, Observable } from 'knockout';
+import ko, { Observable, PureComputed } from 'knockout';
 import GameHelper from '../GameHelper';
+import Notifier from '../notifications/Notifier';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
 import type Setting from '../settings/Setting';
 import memoize from '../utilities/memoize';
 import Language from './Language';
-import { PokemonNameType } from '../pokemons/PokemonNameType';
-import Notifier from '../notifications/Notifier';
 
 export type TranslationNamespace = 'pokemon' | 'logbook' | 'settings' | 'questlines';
 export type TranslationVar = string | number | PokemonNameType;
@@ -113,7 +113,7 @@ export default class Translate {
 
     /**
      * Combines the translation key with a hash of the default text, making the key change whenever the default text does.
-     * This invalidates outdated translations instead of risking the translations becoming inaccurate. 
+     * This invalidates outdated translations instead of risking the translations becoming inaccurate.
      */
     public getHashed(key: string, namespace: string, defaultValue: string, otherOptions?: TOptions) {
         if (!defaultValue?.length) {

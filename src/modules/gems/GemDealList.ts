@@ -1,7 +1,8 @@
-import GemDeal from './GemDeal';
+import ko from 'knockout';
 import { GemShops } from '../GameConstants';
 import PokemonType from '../enums/PokemonType';
 import { ItemList } from '../items/ItemList';
+import GemDeal from './GemDeal';
 
 const hoennFluteDeals = [
     new GemDeal(

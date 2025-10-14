@@ -1,3 +1,4 @@
+import ko from 'knockout';
 import './koExtenders';
 
 describe('Test numeric extender', () => {

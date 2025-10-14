@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 
-import { Observable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import {
-    Currency, ITEM_PRICE_MULTIPLIER, humanifyString, camelCaseToString, pluralizeString,
+    Currency, ITEM_PRICE_MULTIPLIER,
+    camelCaseToString,
+    humanifyString,
+    pluralizeString,
 } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';

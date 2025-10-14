@@ -1,7 +1,7 @@
-import { Observable, PureComputed } from 'knockout';
-import { Feature } from './common/Feature';
+import ko, { Observable, PureComputed } from 'knockout';
 import BadgeEnums from '../enums/Badges';
 import GameHelper from '../GameHelper';
+import { Feature } from './common/Feature';
 
 const emptyBadgeList = new Array(GameHelper.enumLength(BadgeEnums)).fill(false);
 

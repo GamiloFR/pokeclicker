@@ -1,5 +1,5 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import { Saveable } from '../DataStore/common/Saveable';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -12,7 +12,7 @@ export default class Upgrade implements Saveable {
     };
     saveKey: string;
 
-    levelKO: KnockoutObservable<number> = ko.observable();
+    levelKO: Observable<number> = ko.observable();
 
     constructor(
         public name: any,

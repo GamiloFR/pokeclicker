@@ -1,27 +1,36 @@
-import { Observable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import BadgeEnums from '../enums/Badges';
 import {
-    KantoSubRegions, JohtoSubRegions, HoennSubRegions, SinnohSubRegions, UnovaSubRegions, KalosSubRegions, AlolaSubRegions, GalarSubRegions, HisuiSubRegions, PaldeaSubRegions, Region,
-    getDungeonIndex, Starter,
+    AlolaSubRegions, GalarSubRegions,
+    getDungeonIndex,
+    HisuiSubRegions,
+    HoennSubRegions,
+    JohtoSubRegions,
+    KalosSubRegions,
+    KantoSubRegions,
+    PaldeaSubRegions, Region,
+    SinnohSubRegions,
+    Starter,
+    UnovaSubRegions,
 } from '../GameConstants';
 import GameHelper from '../GameHelper';
+import MoonCyclePhase from '../moonCycle/MoonCyclePhase';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import GymBadgeRequirement from '../requirements/GymBadgeRequirement';
+import MoonCyclePhaseRequirement from '../requirements/MoonCyclePhaseRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
 import QuestLineCompletedRequirement from '../requirements/QuestLineCompletedRequirement';
 import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepCompletedRequirement';
-import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
+import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
 import StarterRequirement from '../requirements/StarterRequirement';
+import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
 import RegionRoute from '../routes/RegionRoute';
 import Routes from '../routes/Routes';
 import SeededRand from '../utilities/SeededRand';
 import { PokemonNameType } from './PokemonNameType';
-import RoamingPokemon from './RoamingPokemon';
 import RoamingGroup from './RoamingGroup';
-import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
-import MoonCyclePhaseRequirement from '../requirements/MoonCyclePhaseRequirement';
-import MoonCyclePhase from '../moonCycle/MoonCyclePhase';
+import RoamingPokemon from './RoamingPokemon';
 
 export default class RoamingPokemonList {
     public static roamerGroups: RoamingGroup[][] = [

@@ -1,5 +1,6 @@
 /// <reference path="./koBindingHandlers.d.ts" />
 
+import ko from 'knockout';
 import Sortable from 'sortablejs';
 import Settings from './settings/Settings';
 
@@ -76,10 +77,10 @@ const playerSpriteMoveHandler = {
 
 /**
  * Creates a foreach binding where the user can drag elements to reorder them, and updates the underlying array's order
- * 
+ *
  * Syntax: sortable: { foreach: <observable array>, options: { ... } }
  *  - foreach: the observable array used for the foreach binding
- *  - dataToId: optional function that maps array elements to unique (when converted to strings) IDs 
+ *  - dataToId: optional function that maps array elements to unique (when converted to strings) IDs
  *  - options: optional object for Sortablejs options
  */
 const sortableControllers = new WeakMap();
@@ -97,7 +98,7 @@ const sortableHandler = {
             delayOnTouchOnly: true,
             touchStartThreshold: 20,
             dataIdAttr: 'data-sortable-id',
-            
+
             // override with options passed through knockout binding
             ...(bindingParameters.options ?? {}),
 

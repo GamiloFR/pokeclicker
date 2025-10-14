@@ -1,4 +1,4 @@
-import { Observable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import WeatherForecastStatus from '../enums/WeatherForecastStatus';
 import WeatherType from './WeatherType';
 

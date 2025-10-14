@@ -1,10 +1,9 @@
 /* eslint-disable arrow-body-style */
-import { Computed } from 'knockout';
+import ko, { Computed } from 'knockout';
+import { DAY, MINUTE, MoonCycleValues } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import CurrentMoonPhase from './CurrentMoonPhase';
 import MoonCyclePhase from './MoonCyclePhase';
-import { MoonCycleValues } from '../GameConstants';
-import { DAY, MINUTE } from '../GameConstants';
-import GameHelper from '../GameHelper';
 
 export default class MoonCycle {
     public static currentMoonCyclePhase: Computed<MoonCyclePhase> = ko.pureComputed(() => {

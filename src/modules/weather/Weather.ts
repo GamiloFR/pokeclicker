@@ -1,11 +1,11 @@
 /* eslint-disable arrow-body-style */
-import { Observable, Computed } from 'knockout';
-import WeatherType from './WeatherType';
-import WeatherCondition from './WeatherCondition';
-import GameHelper from '../GameHelper';
+import ko, { Computed, Observable } from 'knockout';
 import { Region } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import PokemonType from '../enums/PokemonType';
 import SeededRand from '../utilities/SeededRand';
+import WeatherCondition from './WeatherCondition';
+import WeatherType from './WeatherType';
 
 export default class Weather {
     public static regionalWeather: Observable<WeatherType>[] = Array<WeatherType>(GameHelper.enumLength(Region)).fill(WeatherType.Clear).map((v) => ko.observable<WeatherType>(v));

@@ -1,11 +1,11 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import OakItemType from '../enums/OakItemType';
 
 export default class OakItemController {
-    private static inspectedItemKO: KnockoutObservable<OakItemType> = ko.observable(OakItemType.Magic_Ball);
-    private static selectedItemKO: KnockoutObservable<OakItemType> = ko.observable(OakItemType.Magic_Ball);
+    private static inspectedItemKO: Observable<OakItemType> = ko.observable(OakItemType.Magic_Ball);
+    private static selectedItemKO: Observable<OakItemType> = ko.observable(OakItemType.Magic_Ball);
 
     public static click(item: OakItemType) {
         this.selectedItem = item;

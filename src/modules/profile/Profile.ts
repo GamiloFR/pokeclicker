@@ -1,13 +1,13 @@
-import '../koExtenders';
-import type {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
-import Notifier from '../notifications/Notifier';
-import Rand from '../utilities/Rand';
 import GameHelper from '../GameHelper';
+import '../koExtenders';
+import Notifier from '../notifications/Notifier';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
+import Rand from '../utilities/Rand';
 
 export default class Profile implements Saveable {
     public static MAX_TRAINER = 163;
@@ -17,14 +17,14 @@ export default class Profile implements Saveable {
 
     defaults: Record<string, any> = {};
 
-    public name: KnockoutObservable<string>;
-    public trainer: KnockoutObservable<number>;
-    public pokemon: KnockoutObservable<number>;
-    public pokemonShiny: KnockoutObservable<boolean>;
-    public pokemonShadow: KnockoutObservable<boolean>;
-    public pokemonFemale: KnockoutObservable<boolean>;
-    public background: KnockoutObservable<number>;
-    public textColor: KnockoutObservable<string>;
+    public name: Observable<string>;
+    public trainer: Observable<number>;
+    public pokemon: Observable<number>;
+    public pokemonShiny: Observable<boolean>;
+    public pokemonShadow: Observable<boolean>;
+    public pokemonFemale: Observable<boolean>;
+    public background: Observable<number>;
+    public textColor: Observable<string>;
 
     public pokemonSearch = ko.observable('');
     public getCaughtPokemonList = ko.pureComputed(() => {

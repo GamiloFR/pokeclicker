@@ -1,5 +1,5 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import { Currency } from '../GameConstants';
 import GameHelper from '../GameHelper';
@@ -14,7 +14,7 @@ export default class OakItem extends ExpUpgrade {
         isActive: false,
     };
 
-    private isActiveKO: KnockoutObservable<boolean>;
+    private isActiveKO: Observable<boolean>;
 
     constructor(
         name: any,

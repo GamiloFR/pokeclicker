@@ -1,24 +1,24 @@
-import type {
-    Observable as KnockoutObservable,
-    Computed as KnockoutComputed,
+import ko, {
+    Computed,
+    Observable,
 } from 'knockout';
 
 // For helper functions that may be needed across all files
 // TODO: Convert this to not be a class after everything is TS modules
 export default class GameHelper {
     public static counter = 0;
-    public static currentTime: KnockoutObservable<Date> = ko.observable(new Date());
-    public static today: KnockoutObservable<Date> = ko.observable(GameHelper.getToday());
-    public static tomorrow: KnockoutComputed<Date> = ko.pureComputed<Date>(() => {
+    public static currentTime: Observable<Date> = ko.observable(new Date());
+    public static today: Observable<Date> = ko.observable(GameHelper.getToday());
+    public static tomorrow: Computed<Date> = ko.pureComputed<Date>(() => {
         const tomorrow = new Date(GameHelper.today());
         tomorrow.setDate(tomorrow.getDate() + 1);
         return tomorrow;
     });
 
-    public static msUntilTomorrow: KnockoutComputed<number>
+    public static msUntilTomorrow: Computed<number>
     = ko.pureComputed<number>(() => Number(GameHelper.tomorrow()) - Number(GameHelper.currentTime()));
 
-    public static formattedTimeUntilTomorrow: KnockoutComputed<string>
+    public static formattedTimeUntilTomorrow: Computed<string>
     = ko.pureComputed<string>(() => {
         let milliseconds = GameHelper.msUntilTomorrow();
         const hours = Math.floor(milliseconds / GameHelper.MS_IN_HOUR);
@@ -27,7 +27,7 @@ export default class GameHelper {
         return `${hours}:${GameHelper.twoDigitNumber(minutes)}`;
     });
 
-    public static formattedLetterTimeUntilTomorrow: KnockoutComputed<string>
+    public static formattedLetterTimeUntilTomorrow: Computed<string>
     = ko.pureComputed<string>(() => {
         let milliseconds = GameHelper.msUntilTomorrow();
         const hours = Math.floor(milliseconds / GameHelper.MS_IN_HOUR);
@@ -39,7 +39,7 @@ export default class GameHelper {
     private static readonly MS_IN_MIN = 1000 * 60;
     private static readonly MS_IN_HOUR = GameHelper.MS_IN_MIN * 60;
 
-    public static incrementObservable(obs: KnockoutObservable<number>, amt = 1): void {
+    public static incrementObservable(obs: Observable<number>, amt = 1): void {
         if (typeof obs !== 'function') { return; }
         const trueAmount = (Number.isNaN(amt) || amt === 0) ? 1 : amt;
         obs(obs() + trueAmount);

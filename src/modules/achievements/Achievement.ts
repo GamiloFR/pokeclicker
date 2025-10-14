@@ -1,19 +1,19 @@
-import {
-    Computed as KnockoutComputed,
-    Observable as KnockoutObservable,
+import ko, {
+    Computed,
+    Observable,
 } from 'knockout';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import { createLogContent } from '../logbook/helpers';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import AchievementRequirement from '../requirements/AchievementRequirement';
-import { LogBookTypes } from '../logbook/LogBookTypes';
-import { createLogContent } from '../logbook/helpers';
 import AchievementCategory from './AchievementCategory';
 
 export default class Achievement {
-    public isCompleted: KnockoutComputed<boolean> = ko.pureComputed(() => this.achievable() && (this.unlocked() || this.property.isCompleted()));
-    public getProgressText: KnockoutComputed<string> = ko.pureComputed(() => `${this.getProgress().toLocaleString('en-US')} / ${this.property.requiredValue.toLocaleString('en-US')}`);
+    public isCompleted: Computed<boolean> = ko.pureComputed(() => this.achievable() && (this.unlocked() || this.property.isCompleted()));
+    public getProgressText: Computed<string> = ko.pureComputed(() => `${this.getProgress().toLocaleString('en-US')} / ${this.property.requiredValue.toLocaleString('en-US')}`);
     public bonus = 0;
-    public unlocked : KnockoutObservable<boolean> = ko.observable(false);
+    public unlocked : Observable<boolean> = ko.observable(false);
     protected notificationTitle: string = 'Achievement';
     protected notificationTimeout: number = 1e4;
 

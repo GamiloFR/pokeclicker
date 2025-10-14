@@ -1,4 +1,4 @@
-import { PureComputed } from 'knockout';
+import ko, { PureComputed } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
 import SpecialEvent, { EventCallback } from './SpecialEvent';
 import type { SpecialEventTitleType } from './SpecialEventTitleType';

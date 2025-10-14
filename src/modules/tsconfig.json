@@ -3,7 +3,6 @@
     "types": [
       "vitest/globals",
       "jquery",
-      "knockout",
       "bootstrap",
     ],
     "lib": ["dom", "es2019"],
