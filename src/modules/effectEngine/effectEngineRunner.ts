@@ -1,6 +1,8 @@
-import { Computed } from 'knockout';
+import ko, { Computed } from 'knockout';
 import {
-    BattleItemType, humanifyString, ITEM_USE_TIME, formatTime,
+    BattleItemType,
+    formatTime,
+    humanifyString, ITEM_USE_TIME,
 } from '../GameConstants';
 import type BattleItem from '../items/BattleItem';
 import Multiplier from '../multiplier/Multiplier';

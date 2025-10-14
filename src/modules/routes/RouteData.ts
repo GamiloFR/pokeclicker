@@ -1,33 +1,40 @@
+import ko from 'knockout';
 import BadgeEnums from '../enums/Badges';
 import {
-    Region, KantoSubRegions, getDungeonIndex, AlolaSubRegions, GalarSubRegions, HoennSubRegions, AchievementOption, DayOfWeek,
+    AchievementOption,
+    AlolaSubRegions,
+    DayOfWeek,
+    GalarSubRegions, HoennSubRegions,
+    KantoSubRegions,
+    Region,
+    getDungeonIndex,
 } from '../GameConstants';
+import { getPokemonByName } from '../pokemons/PokemonHelper';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
+import CustomRequirement from '../requirements/CustomRequirement';
+import DayOfWeekRequirement from '../requirements/DayOfWeekRequirement';
+import DevelopmentRequirement from '../requirements/DevelopmentRequirement';
 import GymBadgeRequirement from '../requirements/GymBadgeRequirement';
+import ItemOwnedRequirement from '../requirements/ItemOwnedRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
-import QuestLineStartedRequirement from '../requirements/QuestLineStartedRequirement';
+import PokemonLevelRequirement from '../requirements/PokemonLevelRequirement';
 import QuestLineCompletedRequirement from '../requirements/QuestLineCompletedRequirement';
+import QuestLineStartedRequirement from '../requirements/QuestLineStartedRequirement';
 import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepCompletedRequirement';
 import RouteKillRequirement from '../requirements/RouteKillRequirement';
+import SpecialEventRandomRequirement from '../requirements/SpecialEventRandomRequirement';
+import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
+import StatisticRequirement from '../requirements/StatisticRequirement';
 import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
 import WeatherRequirement from '../requirements/WeatherRequirement';
-import DayOfWeekRequirement from '../requirements/DayOfWeekRequirement';
-import DevelopmentRequirement from '../requirements/DevelopmentRequirement';
+import SeededRand from '../utilities/SeededRand';
 import WeatherType from '../weather/WeatherType';
 import RegionRoute from './RegionRoute';
 import RoutePokemon from './RoutePokemon';
 import Routes from './Routes';
 import SpecialRoutePokemon from './SpecialRoutePokemon';
-import SpecialEventRandomRequirement from '../requirements/SpecialEventRandomRequirement';
-import SeededRand from '../utilities/SeededRand';
-import ItemOwnedRequirement from '../requirements/ItemOwnedRequirement';
-import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
-import StatisticRequirement from '../requirements/StatisticRequirement';
-import PokemonLevelRequirement from '../requirements/PokemonLevelRequirement';
-import { getPokemonByName } from '../pokemons/PokemonHelper';
-import CustomRequirement from '../requirements/CustomRequirement';
 
 /*
 KANTO

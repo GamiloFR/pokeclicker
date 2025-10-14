@@ -1,4 +1,4 @@
-import { Observable, Unwrapped } from 'knockout';
+import ko, { Observable, Unwrapped } from 'knockout';
 import { Pokeball } from '../GameConstants';
 import Setting from '../settings/Setting';
 import { PokeballFilterMatchData, PokeballFilterOptions, pokeballFilterOptions } from './PokeballFilterOptions';

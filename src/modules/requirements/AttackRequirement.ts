@@ -1,3 +1,4 @@
+import ko from 'knockout';
 import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import WeatherType from '../weather/WeatherType';

@@ -1,24 +1,24 @@
+import ko, { Computed, Observable } from 'knockout';
+import type EncounterType from '../enums/EncounterType';
+import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
+import type BagItem from '../interfaces/BagItem';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
-import Notifier from '../notifications/Notifier';
 import NotificationConstants from '../notifications/NotificationConstants';
-import PokemonType from '../enums/PokemonType';
-import Amount from '../wallet/Amount';
-import type { PokemonNameType } from '../pokemons/PokemonNameType';
+import Notifier from '../notifications/Notifier';
 import type EnemyPokemonInterface from '../pokemons/EnemyPokemonInterface';
-import type EncounterType from '../enums/EncounterType';
-import type BagItem from '../interfaces/BagItem';
-import type { Observable as KnockoutObservable, Computed as KnockoutComputed } from 'knockout';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import type { PokemonNameType } from '../pokemons/PokemonNameType';
+import Amount from '../wallet/Amount';
 
 export default class BattlePokemon implements EnemyPokemonInterface {
 
-    health: KnockoutObservable<number>;
-    maxHealth: KnockoutObservable<number>;
-    healthPercentage: KnockoutObservable<number>;
-    _displayName: KnockoutComputed<string>;
+    health: Observable<number>;
+    maxHealth: Observable<number>;
+    healthPercentage: Observable<number>;
+    _displayName: Computed<string>;
 
     /**
      * In case you want to manually create a Pokémon instead of generating it from the route number

@@ -1,3 +1,4 @@
+import ko from 'knockout';
 import * as GameConstants from '../GameConstants';
 import AchievementRequirement from './AchievementRequirement';
 

@@ -1,3 +1,5 @@
+import ko, { Observable } from 'knockout';
+
 enum LoadingStates {
     none = -1,
     initialized = 0,
@@ -5,7 +7,7 @@ enum LoadingStates {
     running = 2,
 }
 
-const currentState: KnockoutObservable<LoadingStates> = ko.observable(LoadingStates.none);
+const currentState: Observable<LoadingStates> = ko.observable(LoadingStates.none);
 
 export default class GameLoadState {
     static readonly states = LoadingStates;
@@ -31,11 +33,11 @@ export default class GameLoadState {
     /**
 	 * Runs a callback function once the game has reached a given step of the load process. If the game has
 	 * already reached that step, the callback function will run immediately.
-	 * 
+	 *
 	 * @param targetState - Load state upon which to run the callback function
 	 * @param callback - Function run after the desired state of loading
 	 * @param [exactState=false] - If set to true, will only run [callback] while the loading state is *exactly* [targetState], and will throw an error if already past [targetState]
-	 * 
+	 *
 	 */
     static onLoadState(targetState: LoadingStates, callback: () => void, exactState = false) {
         if (exactState && targetState < currentState()) {

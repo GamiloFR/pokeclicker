@@ -1,12 +1,13 @@
-import PokemonType from '../enums/PokemonType';
-import Amount from '../wallet/Amount';
+import ko, { ObservableArray } from 'knockout';
 import BerryType from '../enums/BerryType';
+import PokemonType from '../enums/PokemonType';
+import { Currency } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import Item from '../items/Item';
 import { ItemList } from '../items/ItemList';
-import GameHelper from '../GameHelper';
-import { Currency } from '../GameConstants';
-import Requirement from '../requirements/Requirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
+import Requirement from '../requirements/Requirement';
+import Amount from '../wallet/Amount';
 
 export type GenericTraderShopIdentifier =
     'Palaeontologist' |
@@ -103,7 +104,7 @@ export default class GenericDeal {
         return this._tradeButtonOverride;
     }
 
-    public static list: Partial<Record<GenericTraderShopIdentifier, KnockoutObservableArray<GenericDeal>>> = {};
+    public static list: Partial<Record<GenericTraderShopIdentifier, ObservableArray<GenericDeal>>> = {};
 
     constructor(params: GenericDealParams) {
         const {

@@ -1,19 +1,19 @@
-import {
-    Observable as KnockoutObservable,
-    Computed as KnockoutComputed,
+import ko, {
+    Computed,
+    Observable,
 } from 'knockout';
-import SettingOption from './SettingOption';
 import Requirement from '../requirements/Requirement';
 import GameLoadState from '../utilities/GameLoadState';
+import SettingOption from './SettingOption';
 
 export default class Setting<T> {
     private _value: T;
-    private readonly _observable: KnockoutObservable<T>;
-    public readonly observableValue: KnockoutComputed<T>;
-    private computedOptions: KnockoutComputed<SettingOption<T>[]>;
+    private readonly _observable: Observable<T>;
+    public readonly observableValue: Computed<T>;
+    private computedOptions: Computed<SettingOption<T>[]>;
 
     // We can't set this up in the constructor because App.translation doesn't exist yet
-    private cachedTranslatedName: KnockoutComputed<string>;
+    private cachedTranslatedName: Computed<string>;
 
     // Leave options array empty to allow all options.
     constructor(
@@ -85,7 +85,7 @@ export default class Setting<T> {
         return false;
     }
 
-    isSelected(value: T): KnockoutComputed<boolean> {
+    isSelected(value: T): Computed<boolean> {
         return ko.pureComputed(() => (this._observable() === value), this);
     }
 

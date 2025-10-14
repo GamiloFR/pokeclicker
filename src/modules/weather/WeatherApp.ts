@@ -1,12 +1,12 @@
-import { Observable, ObservableArray } from 'knockout';
+import ko, { Observable, ObservableArray } from 'knockout';
+import { Region, getDungeonIndex } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import RegionalForecast from './RegionalForecast';
 import Weather from './Weather';
 import WeatherForecast from './WeatherForecast';
-import GameHelper from '../GameHelper';
-import { Region, getDungeonIndex } from '../GameConstants';
-import Notifier from '../notifications/Notifier';
-import NotificationConstants from '../notifications/NotificationConstants';
-import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 
 export default class WeatherApp {
     saveKey = 'weatherapp';

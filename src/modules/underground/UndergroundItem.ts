@@ -1,14 +1,14 @@
+import ko, { Observable } from 'knockout';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
-import Requirement from '../requirements/Requirement';
-import { StoneType } from '../GameConstants';
+import { camelCaseToString, humanifyString, StoneType } from '../GameConstants';
 import { ItemList } from '../items/ItemList';
-import { humanifyString, camelCaseToString } from '../GameConstants';
+import Requirement from '../requirements/Requirement';
 
 export default class UndergroundItem {
     public type?: number;
     private weight: number;
     private customWeight?: () => number;
-    sellLocked: KnockoutObservable<boolean>;
+    sellLocked: Observable<boolean>;
 
     constructor(
         public id: number,

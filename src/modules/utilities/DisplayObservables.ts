@@ -1,4 +1,4 @@
-import type { Observable } from 'knockout';
+import ko, { Observable } from 'knockout';
 
 enum BootstrapState {
     'hidden' = 'hidden',

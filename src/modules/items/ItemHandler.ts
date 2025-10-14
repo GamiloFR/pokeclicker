@@ -1,9 +1,9 @@
-import { Observable } from 'knockout';
-import { ItemList } from './ItemList';
+import ko, { Observable } from 'knockout';
+import { StoneType } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import { StoneType } from '../GameConstants';
+import { ItemList } from './ItemList';
 
 export default class ItemHandler {
     public static stoneSelected: Observable<string> = ko.observable(StoneType[0]);

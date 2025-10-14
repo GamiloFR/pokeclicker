@@ -1,9 +1,9 @@
 /* eslint-disable arrow-body-style */
-import { Computed } from 'knockout';
-import DayCycleMoment from './DayCycleMoment';
-import DayCyclePart from './DayCyclePart';
+import ko, { Computed } from 'knockout';
 import { DayCycleStartHours } from '../GameConstants';
 import GameHelper from '../GameHelper';
+import DayCycleMoment from './DayCycleMoment';
+import DayCyclePart from './DayCyclePart';
 
 export default class DayCycle {
     public static currentDayCyclePart: Computed<DayCyclePart> = ko.pureComputed(() => {
