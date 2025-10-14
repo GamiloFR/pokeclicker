@@ -31,8 +31,8 @@ class GymBattle extends Battle {
     }
 
     /**
-   * Award the player with exp, and go to the next pokemon
-   */
+     * Award the player with exp, and go to the next pokemon
+     */
     public static defeatPokemon() {
         this.enemyPokemon().defeat(true);
 
@@ -49,8 +49,8 @@ class GymBattle extends Battle {
     }
 
     /**
-   * Reset the counter.
-   */
+     * Reset the counter.
+     */
     public static generateNewEnemy() {
         this.counter = 0;
         this.enemyPokemon(PokemonFactory.generateGymPokemon(this.gym, this.index()));

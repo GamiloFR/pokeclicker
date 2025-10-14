@@ -186,6 +186,7 @@ gulp.task('browserSync', () => {
             baseDir: dests.base,
         },
         ghostMode: false,
+        port: 3002,
     });
     gulp.watch(srcs.html, gulp.series('compile-html'));
     gulp.watch(srcs.ejsTemplates, gulp.series('compile-html'));

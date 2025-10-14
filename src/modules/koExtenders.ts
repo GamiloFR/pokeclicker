@@ -18,10 +18,10 @@ type MaybeWritable = Observable | Computed;
 // Rounds to <precision> decimal places, can be negative
 const numericExtender = (target: MaybeWritable, precision: number) => {
     if (!ko.isWritableObservable(target)) {
-        throw new Error('Cannot apply \'numeric\' extender to a non-writable observable!');
+        throw new Error("Cannot apply 'numeric' extender to a non-writable observable!");
     }
     if (!Number.isInteger(precision)) {
-        throw new Error('The \'numeric\' extender requires integer precision!');
+        throw new Error("The 'numeric' extender requires integer precision!");
     }
     // create a writable computed observable to intercept writes to our observable
     const result = ko.pureComputed<number>({
@@ -39,7 +39,7 @@ const numericExtender = (target: MaybeWritable, precision: number) => {
             let valueToWrite = newValue;
 
             // Restrict all values to the safe integer range
-            if (Math.abs(valueToWrite) > Number.MAX_SAFE_INTEGER) {
+            if (valueToWrite !== Number.POSITIVE_INFINITY && Math.abs(valueToWrite) > Number.MAX_SAFE_INTEGER) {
                 valueToWrite = Number.MAX_SAFE_INTEGER * Math.sign(valueToWrite);
             }
 
@@ -91,15 +91,17 @@ const numericExtender = (target: MaybeWritable, precision: number) => {
 
 const booleanExtender = (target: MaybeWritable) => {
     if (!ko.isWritableObservable(target)) {
-        throw new Error('Cannot apply \'boolean\' extender to a non-writable observable!');
+        throw new Error("Cannot apply 'boolean' extender to a non-writable observable!");
     }
     // create a writable computed observable to intercept writes to our observable
-    const result = ko.pureComputed<boolean>({
+    const result = ko
+        .pureComputed<boolean>({
         read: target, // always return the original observable's value
         write: (newValueRaw: boolean) => {
             target(!!newValueRaw);
         },
-    }).extend({ notify: 'always' });
+    })
+        .extend({ notify: 'always' });
 
     // Make sure notifications also bubble up from the underlying observable
     target.extend({ notify: 'always' });
@@ -195,4 +197,3 @@ declare module 'knockout' {
         skippableRateLimit: number;
     }
 }
-

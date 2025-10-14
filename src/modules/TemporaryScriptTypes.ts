@@ -11,6 +11,7 @@ import DungeonBossPokemon from './dungeons/DungeonBossPokemon';
 import areaStatus from './enums/AreaStatus';
 import BerryType from './enums/BerryType';
 import type CaughtStatus from './enums/CaughtStatus';
+import EncounterType from './enums/EncounterType';
 import FarmingTool from './enums/FarmingTool';
 import MulchType from './enums/MulchType';
 import type PokemonType from './enums/PokemonType';
@@ -25,12 +26,15 @@ import type Multiplier from './multiplier/Multiplier';
 import type OakItemLoadouts from './oakItems/OakItemLoadouts';
 import type OakItems from './oakItems/OakItems';
 import type PokemonCategories from './party/Category';
+import { CatchOptions } from './pokeballs/CatchOptions';
 import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import Quest from './quests/Quest';
 import { QuestLineNameType } from './quests/QuestLineNameType';
+import MultiRequirement from './requirements/MultiRequirement';
+import Requirement from './requirements/Requirement';
 import RegionRoute from './routes/RegionRoute';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
@@ -96,7 +100,6 @@ import type WeatherType from './weather/WeatherType';
 // TODO types for classes not yet described
 export type TmpUpdateType = any;
 export type TmpBreedingType = any;
-export type TmpPokeballsType = any;
 export type TmpGemsType = any;
 export type TmpRedeemableCodesType = any;
 export type TmpQuestsType = any;
@@ -372,6 +375,10 @@ export interface TmpTemporaryBattleType extends TownContent {
     getDisplayName: () => string;
 }
 
+export type TmpTemporaryBattleBattleType = {
+    clickAttack: () => void;
+};
+
 export type TmpQuestLineHelperType = {
     isQuestLineCompleted: (name: QuestLineNameType) => boolean;
 };
@@ -446,6 +453,16 @@ export type TmpFarmingType = {
     gainRandomBerry: (amount?: number, disableNotification?: boolean) => void;
     gainBerry: (berry: BerryType, amount?: number, farming?: boolean) => void;
     canAccess: () => boolean;
+    hasBerry: (berry: BerryType) => boolean;
+
+    plant: (index: number, berry: BerryType) => void;
+    harvest: (index: number) => void;
+
+    unlockPlot: (index: number) => void;
+    plotFPCost: (index: number) => number;
+    plotBerryCost: (index: number) => { type: BerryType; amount: number };
+
+    toJSON: () => Record<string, any>;
 };
 
 export type TmpTownListType = { [name: string]: Town };
@@ -517,4 +534,40 @@ export type TmpFarmControllerType = {
 
 export type TmpEvolutionStoneType = {
     // TODO
+};
+
+export type TmpPokeballsType = {
+    pokeballs: TmpPokeballType[];
+    initialize: () => void;
+    /**
+     * Checks the players preferences to see what pokéball needs to be used on the next throw.
+     * Checks from the players pref to the most basic ball to see if the player has any.
+     * @param id the pokemon we are trying to catch.
+     * @param isShiny if the Pokémon is shiny.
+     * @returns {GameConstants.Pokeball} pokéball to use.
+     */
+    calculatePokeballToUse: (id: number, isShiny: boolean, isShadow: boolean, origEncounterType: EncounterType) => GameConstants.Pokeball;
+    calculateCatchTime: (ball: GameConstants.Pokeball) => number;
+    gainPokeballs: (ball: GameConstants.Pokeball, amount: number, purchase?: boolean) => void;
+    usePokeball: (ball: GameConstants.Pokeball) => void;
+    getCatchBonus: (ball: GameConstants.Pokeball, options?: CatchOptions) => number;
+    getBallQuantity: (ball: GameConstants.Pokeball) => number;
+    getEPBonus: (ball: GameConstants.Pokeball) => number;
+    canAccess: () => boolean;
+    fromJSON: (json: Record<string, any>) => void;
+    toJSON: () => Record<string, any>;
+    update: (delta: number) => void;
+
+    // Removed fields
+    alreadyCaughtContagiousSelection: GameConstants.Pokeball;
+    alreadyCaughtSelection: GameConstants.Pokeball;
+};
+
+export type TmpPokeballType = {
+    quantity: KnockoutObservable<number>;
+    type: GameConstants.Pokeball;
+    catchBonus: (opts: CatchOptions) => number;
+    catchTime: number;
+    description: string;
+    unlockRequirement: Requirement | MultiRequirement;
 };

@@ -45,7 +45,12 @@ class Save {
     }
 
     public static download() {
-        const backupSaveData = {player, save: this.getSaveObject(), settings: Settings.toJSON()};
+        const backupSaveData = {
+            player,
+            save: this.getSaveObject(),
+            settings: Settings.toJSON(),
+            companion: Companion.toJSON(),
+        };
         try {
             const element = SaveSelector.createDownloadElement(backupSaveData, App.game.update.version);
             element.style.display = 'none';
@@ -195,6 +200,14 @@ class Save {
                     } else {
                         localStorage.removeItem(`settings${Save.key}`);
                     }
+
+                    if (json.companion) {
+                        localStorage.setItem(
+                            `companion${Save.key}`,
+                            JSON.stringify(json.companion)
+                        );
+                    }
+
                     // Prevent the old save from being saved again
                     window.onbeforeunload = () => {};
                     location.reload();

@@ -33,8 +33,8 @@ class DungeonBattle extends Battle {
     });
 
     /**
-   * Award the player with money and exp, and throw a Pokéball if applicable
-   */
+     * Award the player with money and exp, and throw a Pokéball if applicable
+     */
     public static defeatPokemon() {
         const enemyPokemon: BattlePokemon = this.enemyPokemon();
 
@@ -83,8 +83,8 @@ class DungeonBattle extends Battle {
     }
 
     /**
-   * Handles defeating a trainer Pokemon
-   */
+     * Handles defeating a trainer Pokemon
+     */
     private static defeatTrainerPokemon() {
         const enemyPokemon: BattlePokemon = this.enemyPokemon();
         enemyPokemon.defeat(true);
@@ -115,7 +115,7 @@ class DungeonBattle extends Battle {
     }
 
     private static nextTrainerPokemon() {
-    // No Pokemon left, trainer defeated
+        // No Pokemon left, trainer defeated
         if (this.trainerPokemonIndex() >= this.trainer().getTeam().length) {
             // rewards for defeating trainer
             if (this.trainer().options.reward) {
@@ -236,8 +236,8 @@ class DungeonBattle extends Battle {
     }
 
     /**
-   * Handles generating the enemy Trainer Pokemon
-   */
+     * Handles generating the enemy Trainer Pokemon
+     */
     public static generateTrainerPokemon() {
         this.counter = 0;
 

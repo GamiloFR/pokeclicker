@@ -18,7 +18,7 @@ class DungeonMap {
 
     constructor(
         size: number,
-        private generateChestLoot: () => { loot: Loot, tier: LootTier },
+        private generateChestLoot: () => { loot: Loot; tier: LootTier },
         private flash?: DungeonFlash,
     ) {
         if (size <= MAX_DUNGEON_SIZE) {
@@ -35,8 +35,18 @@ class DungeonMap {
         this.currentTile().hasPlayer = true;
         this.flash?.apply(this.board(), this.playerPosition());
 
-        this.totalFights = ko.observable(this.board().flat().flat().filter((t) => t.type() == DungeonTileType.enemy).length);
-        this.totalChests = ko.observable(this.board().flat().flat().filter((t) => t.type() == DungeonTileType.chest).length);
+        this.totalFights = ko.observable(
+            this.board()
+                .flat()
+                .flat()
+                .filter((t) => t.type() == DungeonTileType.enemy).length,
+        );
+        this.totalChests = ko.observable(
+            this.board()
+                .flat()
+                .flat()
+                .filter((t) => t.type() == DungeonTileType.chest).length,
+        );
     }
 
     public moveToCoordinates(x: number, y: number, floor = undefined) {
@@ -106,7 +116,7 @@ class DungeonMap {
         tiles.push(this.board()[point.floor][point.y + 1]?.[point.x]);
         tiles.push(this.board()[point.floor][point.y]?.[point.x - 1]);
         tiles.push(this.board()[point.floor][point.y]?.[point.x + 1]);
-        return tiles.filter(t => t && !avoidTiles.includes(t.type()));
+        return tiles.filter((t) => t && !avoidTiles.includes(t.type()));
     }
 
     public findShortestPath(start: Point, goal: Point, avoidTiles: DungeonTileType[] = []) {
@@ -121,7 +131,7 @@ class DungeonMap {
 
             const neighbors = this.nearbyTiles(current, avoidTiles);
             const randNeighbors = Rand.shuffleArray(neighbors);
-            randNeighbors.forEach(neighbor => {
+            randNeighbors.forEach((neighbor) => {
                 if (!fromPos[`${neighbor.position.x},${neighbor.position.y}`]) {
                     pathing.push(neighbor.position);
                     fromPos[`${neighbor.position.x},${neighbor.position.y}`] = current;
@@ -137,7 +147,6 @@ class DungeonMap {
         }
         return path;
     }
-
 
     public hasAccessToTile(point: Point): boolean {
         // If player fighting/catching they cannot move right now
@@ -155,7 +164,7 @@ class DungeonMap {
         }
 
         //If any of the adjacent Tiles is visited, it's a valid Tile.
-        return this.nearbyTiles(point).some(t => t.isVisited);
+        return this.nearbyTiles(point).some((t) => t.isVisited);
     }
 
     public generateMap(): DungeonTile[][][] {

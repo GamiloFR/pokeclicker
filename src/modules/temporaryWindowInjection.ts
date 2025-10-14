@@ -40,6 +40,10 @@ import ChangelogItems from './changelog/ChangelogItems';
 import RedeemableCode from './codes/RedeemableCode';
 import RedeemableCodeController from './codes/RedeemableCodeController';
 import RedeemableCodes from './codes/RedeemableCodes';
+import Bot from './companion/bot/Bot';
+import RouteKillAchievementTask from './companion/bot/tasks/achievements/RouteKillAchievementTask';
+import Companion from './companion/Companion';
+import CompanionSettings from './companion/settings/Settings';
 import { CodeCredits, SpriteCredits } from './Credits';
 import DayCycle from './dayCycle/DayCycle';
 import DayCyclePart from './dayCycle/DayCyclePart';
@@ -541,4 +545,8 @@ Object.assign(<any>window, {
     GymRunner,
     DungeonList,
     DefeatPokemonsQuest,
+    Companion,
+    CompanionSettings,
+    Bot,
+    RouteKillAchievementTask: RouteKillAchievementTask,
 });

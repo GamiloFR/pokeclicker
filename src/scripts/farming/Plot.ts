@@ -1,4 +1,4 @@
-class Plot implements Saveable {
+class Plot implements Saveable, TmpPlotType {
     saveKey = '';
     defaults = {
         isUnlocked: false,
@@ -212,7 +212,7 @@ class Plot implements Saveable {
                     if (timeBoostType) {
                         tooltip.push(`(altered from ${this.formattedBaseStageTimeLeft()})`);
                     }
-                // Normal Time
+                    // Normal Time
                 } else {
                     const timeType = Settings.getSetting('farmDisplay').observableValue();
 

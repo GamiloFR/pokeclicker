@@ -3,7 +3,7 @@ import { DungeonTileType } from '../GameConstants';
 import Loot, { LootTier } from './Loot';
 import Point from './Point';
 
-type ChestMetaData = NonNullable<{ loot: Loot, tier: LootTier }>;
+type ChestMetaData = NonNullable<{ loot: Loot; tier: LootTier }>;
 
 class DungeonTile {
     _isVisible: boolean;
@@ -13,7 +13,10 @@ class DungeonTile {
     cssClass: Observable<string>;
     position: Point;
 
-    constructor(type: DungeonTileType, public metadata: ChestMetaData | null = null) {
+    constructor(
+        type: DungeonTileType,
+        public metadata: ChestMetaData | null = null,
+    ) {
         this._isVisible = false;
         this._isVisited = false;
         this._hasPlayer = false;

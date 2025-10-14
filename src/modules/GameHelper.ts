@@ -1,7 +1,4 @@
-import ko, {
-    Computed,
-    Observable,
-} from 'knockout';
+import ko, { Computed, Observable } from 'knockout';
 
 // For helper functions that may be needed across all files
 // TODO: Convert this to not be a class after everything is TS modules
@@ -15,11 +12,9 @@ export default class GameHelper {
         return tomorrow;
     });
 
-    public static msUntilTomorrow: Computed<number>
-    = ko.pureComputed<number>(() => Number(GameHelper.tomorrow()) - Number(GameHelper.currentTime()));
+    public static msUntilTomorrow: Computed<number> = ko.pureComputed<number>(() => Number(GameHelper.tomorrow()) - Number(GameHelper.currentTime()));
 
-    public static formattedTimeUntilTomorrow: Computed<string>
-    = ko.pureComputed<string>(() => {
+    public static formattedTimeUntilTomorrow: Computed<string> = ko.pureComputed<string>(() => {
         let milliseconds = GameHelper.msUntilTomorrow();
         const hours = Math.floor(milliseconds / GameHelper.MS_IN_HOUR);
         milliseconds -= hours * GameHelper.MS_IN_HOUR;
@@ -27,8 +22,7 @@ export default class GameHelper {
         return `${hours}:${GameHelper.twoDigitNumber(minutes)}`;
     });
 
-    public static formattedLetterTimeUntilTomorrow: Computed<string>
-    = ko.pureComputed<string>(() => {
+    public static formattedLetterTimeUntilTomorrow: Computed<string> = ko.pureComputed<string>(() => {
         let milliseconds = GameHelper.msUntilTomorrow();
         const hours = Math.floor(milliseconds / GameHelper.MS_IN_HOUR);
         milliseconds -= hours * GameHelper.MS_IN_HOUR;
@@ -40,8 +34,10 @@ export default class GameHelper {
     private static readonly MS_IN_HOUR = GameHelper.MS_IN_MIN * 60;
 
     public static incrementObservable(obs: Observable<number>, amt = 1): void {
-        if (typeof obs !== 'function') { return; }
-        const trueAmount = (Number.isNaN(amt) || amt === 0) ? 1 : amt;
+        if (typeof obs !== 'function') {
+            return;
+        }
+        const trueAmount = Number.isNaN(amt) || amt === 0 ? 1 : amt;
         obs(obs() + trueAmount);
     }
 
@@ -57,17 +53,21 @@ export default class GameHelper {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public static enumNumbers(enumerable: any): number[] {
-        return Object.keys(enumerable).map(Number).filter((k) => !Number.isNaN(k));
+        return Object.keys(enumerable)
+            .map(Number)
+            .filter((k) => !Number.isNaN(k));
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    public static enumSelectOption(enumerable: any): { name: string; value: any; }[] {
-        return Object.keys(enumerable).filter((k) => Number.isNaN(Number(k))).map((key) => ({ name: key, value: enumerable[key] }));
+    public static enumSelectOption(enumerable: any): { name: string; value: any }[] {
+        return Object.keys(enumerable)
+            .filter((k) => Number.isNaN(Number(k)))
+            .map((key) => ({ name: key, value: enumerable[key] }));
     }
 
     // default value as a function so objects/arrays as defaults creates a new one for each key
     public static objectFromEnumStrings<T extends {}, V>(enumerable: T, defaultValue: () => V): Record<keyof T, V> {
-        return (this.enumStrings(enumerable).reduce((keys, type) => ({ ...keys, [type]: defaultValue() }), {}) as Record<keyof T, V>);
+        return this.enumStrings(enumerable).reduce((keys, type) => ({ ...keys, [type]: defaultValue() }), {}) as Record<keyof T, V>;
     }
 
     public static tick(): void {
@@ -83,9 +83,15 @@ export default class GameHelper {
     }
 
     public static formatAmount(n: number): string {
-        if (n >= 1e9) { return `${Math.floor(n / 1e9)}b`; }
-        if (n >= 1e6) { return `${Math.floor(n / 1e6)}m`; }
-        if (n >= 1e3) { return `${Math.floor(n / 1e3)}k`; }
+        if (n >= 1e9) {
+            return `${Math.floor(n / 1e9)}b`;
+        }
+        if (n >= 1e6) {
+            return `${Math.floor(n / 1e6)}m`;
+        }
+        if (n >= 1e3) {
+            return `${Math.floor(n / 1e3)}k`;
+        }
         return `${n}`;
     }
 
@@ -112,10 +118,13 @@ export default class GameHelper {
     // Filter out any falsy values from the end of an array
     public static filterArrayEnd(arr) {
         let check = false;
-        return [...arr].reverse().filter((v) => {
-            check = check || !!v;
-            return check;
-        }).reverse();
+        return [...arr]
+            .reverse()
+            .filter((v) => {
+                check = check || !!v;
+                return check;
+            })
+            .reverse();
     }
 
     public static anOrA(name: string): string {
@@ -148,13 +157,13 @@ export default class GameHelper {
         let residx = 0;
         const res = [];
         while (i < array.length) {
-            res[residx] = array.slice(i, i += size);
+            res[residx] = array.slice(i, (i += size));
             residx += 1;
         }
         return res;
     }
 
-    public static saveFileName(nameFormat : string, changes : Record<string, string>, isBackup = false) {
+    public static saveFileName(nameFormat: string, changes: Record<string, string>, isBackup = false) {
         return `${Object.entries(changes).reduce((filename, [format, value]) => filename.replace(format, value), nameFormat)}${isBackup ? ' Backup' : ''}.txt`;
     }
 
@@ -179,7 +188,7 @@ export default class GameHelper {
     public static twoDigitNumber(n: number): string {
         // For use in clocks / showing time
         // Turns 4 into 04, does nothing to 23, turns 173 into 73
-        return (`0${n}`).slice(-2);
+        return `0${n}`.slice(-2);
     }
 
     private static getToday() {
@@ -217,7 +226,7 @@ export default class GameHelper {
         for (i = 0; i < text.length; i++) {
             chr = text.charCodeAt(i);
             // eslint-disable-next-line no-bitwise
-            hash = ((hash << 5) - hash) + chr;
+            hash = (hash << 5) - hash + chr;
             // eslint-disable-next-line no-bitwise
             hash |= 0; // Convert to 32bit integer
         }
@@ -233,7 +242,9 @@ export default class GameHelper {
     }
 
     public static isColorLight(color: string): boolean {
-        const r = parseInt(color.substring(1, 3), 16), g = parseInt(color.substring(3, 5), 16), b = parseInt(color.substring(5), 16);
+        const r = parseInt(color.substring(1, 3), 16),
+            g = parseInt(color.substring(3, 5), 16),
+            b = parseInt(color.substring(5), 16);
         const grey = r * 0.299 + g * 0.587 + b * 0.114; // Range between 0 and 255, based on NTSC formula.
         return grey > 127;
     }
@@ -252,6 +263,6 @@ export default class GameHelper {
         const localName: string = activeEl.localName.toLowerCase();
         const editables = ['textarea', 'input', 'select'];
 
-        return (editables.includes(localName) || activeEl.isContentEditable);
+        return editables.includes(localName) || activeEl.isContentEditable;
     }
 }

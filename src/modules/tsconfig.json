@@ -5,7 +5,10 @@
       "jquery",
       "bootstrap",
     ],
-    "lib": ["dom", "es2019"],
+    "lib": [
+      "dom",
+      "es2019"
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "module": "es6",
