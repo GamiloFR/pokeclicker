@@ -1,34 +1,34 @@
-import { Coordinate } from './mine/Mine';
-import { Observable, PureComputed } from 'knockout';
-import GameHelper from '../GameHelper';
+import ko, { Observable, PureComputed } from 'knockout';
+import OakItemType from '../enums/OakItemType';
 import {
     humanifyString,
     Pokeball,
     UNDERGROUND_BATTERY_COOLDOWN_SECONDS,
     UNDERGROUND_BATTERY_MAX_CHARGES,
 } from '../GameConstants';
-import Rand from '../utilities/Rand';
-import { UndergroundController } from './UndergroundController';
-import OakItemType from '../enums/OakItemType';
-import Notifier from '../notifications/Notifier';
+import GameHelper from '../GameHelper';
 import NotificationConstants from '../notifications/NotificationConstants';
-import Requirement from '../requirements/Requirement';
+import Notifier from '../notifications/Notifier';
 import MultiRequirement from '../requirements/MultiRequirement';
-import { batteryPatternEruption } from './battery/eruption';
-import { batteryPatternHydroCannon } from './battery/hydroCannon';
-import { batteryPatternDragonBreath } from './battery/dragonBreath';
-import { batteryPatternLeafTornado } from './battery/leafTornado';
-import { batteryPatternOverdrive } from './battery/overdrive';
-import { batteryPatternTenMillionVoltThunderbolt } from './battery/tenMillionVoltThunderbolt';
+import PokeballRequirement from '../requirements/PokeballRequirement';
+import Requirement from '../requirements/Requirement';
+import UndergroundLevelRequirement from '../requirements/UndergroundLevelRequirement';
+import Rand from '../utilities/Rand';
 import { batteryPatternDracoMeteor } from './battery/dracoMeteor';
-import { batteryPatternHeartStamp } from './battery/heartStamp';
-import { batteryPatternPokeball } from './battery/pokeball';
-import { batteryPatternSurf } from './battery/surf';
+import { batteryPatternDragonBreath } from './battery/dragonBreath';
+import { batteryPatternEruption } from './battery/eruption';
 import { batteryPatternExplosion } from './battery/explosion';
 import { batteryPatternFleurCannon } from './battery/fleurCannon';
+import { batteryPatternHeartStamp } from './battery/heartStamp';
+import { batteryPatternHydroCannon } from './battery/hydroCannon';
 import { batteryPatternHyperBeam } from './battery/hyperBeam';
-import PokeballRequirement from '../requirements/PokeballRequirement';
-import UndergroundLevelRequirement from '../requirements/UndergroundLevelRequirement';
+import { batteryPatternLeafTornado } from './battery/leafTornado';
+import { batteryPatternOverdrive } from './battery/overdrive';
+import { batteryPatternPokeball } from './battery/pokeball';
+import { batteryPatternSurf } from './battery/surf';
+import { batteryPatternTenMillionVoltThunderbolt } from './battery/tenMillionVoltThunderbolt';
+import { Coordinate } from './mine/Mine';
+import { UndergroundController } from './UndergroundController';
 
 export type Pattern = Array<Array<{ coordinate: Coordinate, depth: number }>>;
 

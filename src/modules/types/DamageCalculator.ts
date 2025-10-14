@@ -1,9 +1,10 @@
+import ko from 'knockout';
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
-import WeatherType from '../weather/WeatherType';
-import { getPokemonByName } from '../pokemons/PokemonHelper';
 import GameHelper from '../GameHelper';
+import { getPokemonByName } from '../pokemons/PokemonHelper';
 import type { TmpPartyPokemonType } from '../TemporaryScriptTypes';
+import WeatherType from '../weather/WeatherType';
 
 export default class DamageCalculator {
     public static type1 = ko.observable(PokemonType.None).extend({ numeric: 0 });

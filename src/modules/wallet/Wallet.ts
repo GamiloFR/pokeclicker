@@ -1,18 +1,18 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-import { Observable as KnockoutObservable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
-import GameHelper from '../GameHelper';
 import { Currency, formatNumber } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import Multiplier from '../multiplier/Multiplier';
-import Amount from './Amount';
-import { animateCurrency } from '../utilities/UI';
 import Settings from '../settings';
+import { animateCurrency } from '../utilities/UI';
+import Amount from './Amount';
 
 export default class Wallet implements Feature {
     name = 'Wallet';
     saveKey = 'wallet';
-    currencies: Array<KnockoutObservable<number>>;
+    currencies: Array<Observable<number>>;
 
     defaults = {
         currencies: new Array(GameHelper.enumLength(Currency)).fill(0),

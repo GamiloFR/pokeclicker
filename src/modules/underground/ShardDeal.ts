@@ -1,4 +1,5 @@
-import { ShardTraderLocations, Currency, pluralizeString, humanifyString } from '../GameConstants';
+import ko, { ObservableArray } from 'knockout';
+import { Currency, humanifyString, pluralizeString, ShardTraderLocations } from '../GameConstants';
 import Item from '../items/Item';
 import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -18,7 +19,7 @@ export class ShardDeal {
     public item: { itemType: Item, amount: number };
     public questPointCost: number;
     public currencyType: Currency;
-    public static list: Partial<Record<ShardTraderLocations, KnockoutObservableArray<ShardDeal>>> = {};
+    public static list: Partial<Record<ShardTraderLocations, ObservableArray<ShardDeal>>> = {};
 
     constructor(shardCosts: ShardCost[], item: Item, itemAmount: number) {
         this.shards = shardCosts;

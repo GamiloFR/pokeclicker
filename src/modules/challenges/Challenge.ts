@@ -1,10 +1,10 @@
-import { Observable as KnockoutObservable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import * as GameConstants from '../GameConstants';
-import Notifier from '../notifications/Notifier';
 import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
 
 export default class Challenge {
-    public active: KnockoutObservable<boolean>;
+    public active: Observable<boolean>;
 
     constructor(
         public type: string,

@@ -1,4 +1,4 @@
-import { Observable as KnockoutObservable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
 import OakItemType from '../enums/OakItemType';
 import { Currency } from '../GameConstants';
@@ -18,7 +18,7 @@ export default class OakItems implements Feature {
 
     defaults: Record<string, any>;
 
-    maxLevelOakItems: KnockoutObservable<number>;
+    maxLevelOakItems: Observable<number>;
 
     constructor(unlockRequirements: number[], private multiplier: Multiplier) {
         this.itemList = [];

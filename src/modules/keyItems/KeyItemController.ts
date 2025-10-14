@@ -1,12 +1,12 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import KeyItemType from '../enums/KeyItemType';
 
 export default class KeyItemController {
-    private static inspectedItem: KnockoutObservable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
-    private static selectedItem: KnockoutObservable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
-    private static latestGainedItem: KnockoutObservable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
+    private static inspectedItem: Observable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
+    private static selectedItem: Observable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
+    private static latestGainedItem: Observable<KeyItemType> = ko.observable(KeyItemType.Teachy_tv);
 
     static showGainModal(item: KeyItemType) {
         this.latestGainedItem(item);

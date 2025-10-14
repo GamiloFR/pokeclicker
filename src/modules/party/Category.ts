@@ -1,23 +1,23 @@
 /* eslint-disable no-param-reassign */
-import {
-    Observable as KnockoutObservable,
-    Subscription as KnockoutSubscription,
-    ObservableArray as KnockoutObservableArray,
+import ko, {
+    Observable,
+    ObservableArray,
+    Subscription,
 } from 'knockout';
 import { Saveable } from '../DataStore/common/Saveable';
-import Settings from '../settings/Settings';
-import Notifier from '../notifications/Notifier';
 import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Settings from '../settings/Settings';
 
 export type PokemonCategory = {
     id: number,
-    name: KnockoutObservable<string>,
-    color: KnockoutObservable<string>,
-    subscriber?: KnockoutSubscription,
+    name: Observable<string>,
+    color: Observable<string>,
+    subscriber?: Subscription,
 };
 
 export default class PokemonCategories implements Saveable {
-    public static categories: KnockoutObservableArray<PokemonCategory> = ko.observableArray([]);
+    public static categories: ObservableArray<PokemonCategory> = ko.observableArray([]);
     public static playerCategories = ko.pureComputed(() => PokemonCategories.categories().filter((cat) => cat.id > 0));
     // Pokedex & Hatchery category assign mode
     public static categoryAssignEnabled = ko.observable(false);

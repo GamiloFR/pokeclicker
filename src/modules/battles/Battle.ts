@@ -1,28 +1,28 @@
+import ko, { Observable, PureComputed } from 'knockout';
+import OakItemType from '../enums/OakItemType';
+import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
-import { pokemonMap } from '../pokemons/PokemonList';
-import PokemonType from '../enums/PokemonType';
+import { MultiplierDecreaser } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
-import { MultiplierDecreaser } from '../items/types';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { pokemonMap } from '../pokemons/PokemonList';
 import Routes from '../routes/Routes';
-import OakItemType from '../enums/OakItemType';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import type BattlePokemon from './BattlePokemon';
-import type { Observable as KnockoutObservable, PureComputed } from 'knockout';
 
 /**
  * Handles all logic related to battling
  */
 export default class Battle {
-    static enemyPokemon: KnockoutObservable<BattlePokemon | null> = ko.observable(null);
+    static enemyPokemon: Observable<BattlePokemon | null> = ko.observable(null);
 
     static counter = 0;
-    static catching: KnockoutObservable<boolean> = ko.observable(false);
-    static catchRateActual: KnockoutObservable<number | null> = ko.observable(0);
-    static pokeball: KnockoutObservable<GameConstants.Pokeball> = ko.observable(GameConstants.Pokeball.Pokeball);
+    static catching: Observable<boolean> = ko.observable(false);
+    static catchRateActual: Observable<number | null> = ko.observable(0);
+    static pokeball: Observable<GameConstants.Pokeball> = ko.observable(GameConstants.Pokeball.Pokeball);
     static lastPokemonAttack = Date.now();
     static lastClickAttack = Date.now();
     static route;

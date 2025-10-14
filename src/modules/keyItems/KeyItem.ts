@@ -1,7 +1,7 @@
-import {
-    Observable as KnockoutObservable,
-    Computed as KnockoutComputed,
-    Subscription as KnockoutSubscription,
+import ko, {
+    Computed,
+    Observable,
+    Subscription,
 } from 'knockout';
 import KeyItemType from '../enums/KeyItemType';
 import * as GameConstants from '../GameConstants';
@@ -10,9 +10,9 @@ export default class KeyItem {
     public id: KeyItemType;
     public displayName: string;
     public description: string;
-    public unlockReq: KnockoutComputed<boolean>;
-    public unlocker: KnockoutSubscription;
-    public isUnlocked: KnockoutObservable<boolean>;
+    public unlockReq: Computed<boolean>;
+    public unlocker: Subscription;
+    public isUnlocked: Observable<boolean>;
 
     constructor(id: KeyItemType, description: string, unlockReq?: () => boolean, isUnlocked = false,
         public unlockRewardOnClose = () => {},

@@ -1,5 +1,5 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import Amount from '../wallet/Amount';
 import Upgrade from './Upgrade';
@@ -15,7 +15,7 @@ export default class ExpUpgrade extends Upgrade {
 
     expList: number[];
 
-    private expKO: KnockoutObservable<number>;
+    private expKO: Observable<number>;
 
     constructor(name: any, displayName: string, maxLevel: number, expList: number[], costList: Amount[], bonusList: number[], increasing: boolean) {
         super(name, displayName, maxLevel, costList, bonusList, increasing);

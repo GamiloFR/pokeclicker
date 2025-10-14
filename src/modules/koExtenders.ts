@@ -1,4 +1,4 @@
-import type { Subscribable, Observable, Computed } from 'knockout';
+import ko, { Computed, Observable, Subscribable } from 'knockout';
 
 /*
     WARNING: Avoid importing local modules here at all costs!
@@ -64,7 +64,7 @@ const numericExtender = (target: MaybeWritable, precision: number) => {
                     valueToWrite = roundedValue;
                 }
             }
-            
+
             // only write if it changed
             if (valueToWrite !== current) {
                 target(valueToWrite);

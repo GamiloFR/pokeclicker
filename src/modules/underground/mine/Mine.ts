@@ -1,11 +1,11 @@
-import { MineConfig, MineType } from './MineConfig';
-import { Observable } from 'knockout';
-import Rand from '../../utilities/Rand';
-import UndergroundItem from '../UndergroundItem';
-import { UndergroundController } from '../UndergroundController';
-import UndergroundItems from '../UndergroundItems';
+import ko, { Observable } from 'knockout';
 import OakItemType from '../../enums/OakItemType';
 import GameHelper from '../../GameHelper';
+import Rand from '../../utilities/Rand';
+import { UndergroundController } from '../UndergroundController';
+import UndergroundItem from '../UndergroundItem';
+import UndergroundItems from '../UndergroundItems';
+import { MineConfig, MineType } from './MineConfig';
 
 export type Coordinate = {
     x: number;

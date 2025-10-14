@@ -16,7 +16,6 @@ module.exports = {
     plugins: ['import'],
     extends: ['airbnb-typescript/base'],
     globals: {
-        ko: 'readonly',
         $: 'readonly',
         App: 'readonly',
         player: 'readonly',

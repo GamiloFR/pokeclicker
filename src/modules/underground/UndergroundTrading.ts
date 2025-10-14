@@ -1,12 +1,12 @@
-import { Observable, PureComputed } from 'knockout';
+import ko, { Observable, PureComputed } from 'knockout';
+import UndergroundItemValueType from '../enums/UndergroundItemValueType';
+import { SECOND } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
+import { UndergroundController } from './UndergroundController';
 import UndergroundItem from './UndergroundItem';
 import UndergroundItems from './UndergroundItems';
-import UndergroundItemValueType from '../enums/UndergroundItemValueType';
-import { UndergroundController } from './UndergroundController';
-import GameHelper from '../GameHelper';
-import Notifier from '../notifications/Notifier';
-import NotificationOption from '../notifications/NotificationOption';
-import { SECOND } from '../GameConstants';
 
 export const TRADE_DOWN_AMOUNT = 3;
 

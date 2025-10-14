@@ -1,5 +1,5 @@
-import {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import { Currency } from '../GameConstants';
 import Amount from '../wallet/Amount';
@@ -7,7 +7,7 @@ import AmountFactory from '../wallet/AmountFactory';
 import OakItem from './OakItem';
 
 export default class BoughtOakItem extends OakItem {
-    private purchasedKO: KnockoutObservable<boolean>;
+    private purchasedKO: Observable<boolean>;
 
     constructor(
         name: any,
