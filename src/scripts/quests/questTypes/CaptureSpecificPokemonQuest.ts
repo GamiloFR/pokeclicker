@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class CaptureSpecificPokemonQuest extends Quest implements QuestInterface {
     pokemon: PokemonListData;
     customReward: () => void;

@@ -1752,7 +1752,7 @@ TownList['Cerulean City'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Cerulean City']
         ),
-        new MoveToDungeon(dungeonList['Cerulean Cave']),
+        new MoveToDungeon(DungeonList['Cerulean Cave']),
     ],
     {
         requirements: [
@@ -1828,7 +1828,7 @@ TownList['Lavender Town'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Lavender Town']
         ),
-        new MoveToDungeon(dungeonList['Pokémon Tower']),
+        new MoveToDungeon(DungeonList['Pokémon Tower']),
     ],
     {
         requirements: [
@@ -1847,7 +1847,7 @@ TownList['Celadon City'] = new Town(
     [
         CeladonDepartmentStoreShop,
         CeladonCityShop,
-        new MoveToDungeon(dungeonList['Rocket Game Corner']),
+        new MoveToDungeon(DungeonList['Rocket Game Corner']),
     ],
     {
         requirements: [
@@ -1863,7 +1863,7 @@ TownList['Saffron City'] = new Town(
     [
         SaffronCityShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations['Saffron City']),
-        new MoveToDungeon(dungeonList['Silph Co.']),
+        new MoveToDungeon(DungeonList['Silph Co.']),
         TemporaryBattleList['Fighting Dojo'],
         TemporaryBattleList['Mime Interview'],
     ],
@@ -1928,7 +1928,7 @@ TownList['Cinnabar Island'] = new Town(
         ),
         new GenericTraderShop('Palaeontologist', 'Palaeontologist'),
         new GenericTraderShop('FossilCinnabarLab', 'Cinnabar Lab'),
-        new MoveToDungeon(dungeonList['Pokémon Mansion']),
+        new MoveToDungeon(DungeonList['Pokémon Mansion']),
     ],
     {
         requirements: [
@@ -1988,9 +1988,9 @@ TownList['Mt. Ember'] = new Town(
     GameConstants.Region.kanto,
     GameConstants.KantoSubRegions.Sevii123,
     [
-        new MoveToDungeon(dungeonList['Mt. Ember Summit']),
+        new MoveToDungeon(DungeonList['Mt. Ember Summit']),
         new MoveToDungeon(
-            dungeonList['Ruby Path'],
+            DungeonList['Ruby Path'],
             new MaxRegionRequirement(GameConstants.Region.hoenn)
         ),
         TemporaryBattleList['Sevii Rocket Grunt 1'],
@@ -2062,7 +2062,7 @@ TownList['Four Island'] = new Town(
     'Four Island',
     GameConstants.Region.kanto,
     GameConstants.KantoSubRegions.Sevii4567,
-    [FourIslandShop, new MoveToDungeon(dungeonList['Icefall Cave'])],
+    [FourIslandShop, new MoveToDungeon(DungeonList['Icefall Cave'])],
     {
         requirements: [
             new QuestLineStepCompletedRequirement('Celio\'s Errand', 5),
@@ -3364,7 +3364,7 @@ TownList['Violet City'] = new Town(
     'Violet City',
     GameConstants.Region.johto,
     GameConstants.JohtoSubRegions.Johto,
-    [VioletCityShop, new MoveToDungeon(dungeonList['Sprout Tower'])],
+    [VioletCityShop, new MoveToDungeon(DungeonList['Sprout Tower'])],
     {
         requirements: [
             new RouteKillRequirement(10, GameConstants.Region.johto, 31),
@@ -3379,7 +3379,7 @@ TownList['Azalea Town'] = new Town(
     [
         AzaleaTownShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations['Azalea Town']),
-        new MoveToDungeon(dungeonList['Slowpoke Well']),
+        new MoveToDungeon(DungeonList['Slowpoke Well']),
     ],
     {
         requirements: [
@@ -3407,7 +3407,7 @@ TownList['Goldenrod City'] = new Town(
     [
         GoldenrodDepartmentStoreShop,
         JohtoBerryMaster,
-        new MoveToDungeon(dungeonList['Radio Tower']),
+        new MoveToDungeon(DungeonList['Radio Tower']),
         TemporaryBattleList['Silver 4'],
         TemporaryBattleList['Aipom Alley'],
         TemporaryBattleList.Imposter,
@@ -3436,8 +3436,8 @@ TownList['Ecruteak City'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Ecruteak City']
         ),
-        new MoveToDungeon(dungeonList['Burned Tower']),
-        new MoveToDungeon(dungeonList['Tin Tower']),
+        new MoveToDungeon(DungeonList['Burned Tower']),
+        new MoveToDungeon(DungeonList['Tin Tower']),
         TemporaryBattleList['Kimono Girls'],
     ],
     {
@@ -3460,7 +3460,7 @@ TownList['Olivine City'] = new Town(
     [
         OlivineCityShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations['Olivine City']),
-        new MoveToDungeon(dungeonList['Olivine Lighthouse']),
+        new MoveToDungeon(DungeonList['Olivine Lighthouse']),
     ],
     {
         requirements: [
@@ -3500,7 +3500,7 @@ TownList['Mahogany Town'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Mahogany Town']
         ),
-        new MoveToDungeon(dungeonList['Team Rocket\'s Hideout']),
+        new MoveToDungeon(DungeonList['Team Rocket\'s Hideout']),
     ],
     {
         requirements: [
@@ -6246,10 +6246,10 @@ TownList['Mt. Chimney'] = new Town(
     GameConstants.Region.hoenn,
     GameConstants.HoennSubRegions.Hoenn,
     [
-        new MoveToDungeon(dungeonList['Fiery Path']),
-        new MoveToDungeon(dungeonList['Mt. Chimney Crater']),
-        new MoveToDungeon(dungeonList['Jagged Pass']),
-        new MoveToDungeon(dungeonList['Magma Hideout']),
+        new MoveToDungeon(DungeonList['Fiery Path']),
+        new MoveToDungeon(DungeonList['Mt. Chimney Crater']),
+        new MoveToDungeon(DungeonList['Jagged Pass']),
+        new MoveToDungeon(DungeonList['Magma Hideout']),
     ],
     {
         requirements: [
@@ -6379,7 +6379,7 @@ TownList['Mossdeep Space Center'] = new Town(
         TemporaryBattleList['Courtney 2'],
         TemporaryBattleList['Matt 2'],
         TemporaryBattleList['Dr Cozmo'],
-        new MoveToDungeon(dungeonList['Near Space']),
+        new MoveToDungeon(DungeonList['Near Space']),
     ],
     {
         requirements: [new GymBadgeRequirement(BadgeEnums.Mind)],
@@ -6528,8 +6528,8 @@ TownList['Phenac City'] = new Town(
     GameConstants.HoennSubRegions.Orre,
     [
         PhenacCityShop,
-        new MoveToDungeon(dungeonList['Phenac Stadium']),
-        new MoveToDungeon(dungeonList['Phenac City Battles']),
+        new MoveToDungeon(DungeonList['Phenac Stadium']),
+        new MoveToDungeon(DungeonList['Phenac City Battles']),
         TemporaryBattleList.Folly,
     ],
     {
@@ -6546,11 +6546,11 @@ TownList['Pyrite Town'] = new Town(
     GameConstants.HoennSubRegions.Orre,
     [
         GymList['Cipher Admin Miror B.'],
-        new MoveToDungeon(dungeonList['Pyrite Colosseum']),
-        new MoveToDungeon(dungeonList['The Under']),
-        new MoveToDungeon(dungeonList['Pyrite Town Battles']),
-        new MoveToDungeon(dungeonList['Deep Colosseum']),
-        new MoveToDungeon(dungeonList['Under Colosseum']),
+        new MoveToDungeon(DungeonList['Pyrite Colosseum']),
+        new MoveToDungeon(DungeonList['The Under']),
+        new MoveToDungeon(DungeonList['Pyrite Town Battles']),
+        new MoveToDungeon(DungeonList['Deep Colosseum']),
+        new MoveToDungeon(DungeonList['Under Colosseum']),
     ],
     {
         requirements: [
@@ -6567,7 +6567,7 @@ TownList['Agate Village'] = new Town(
     [
         AgateVillageShop,
         new MoveToTown('Relic Stone'),
-        new MoveToDungeon(dungeonList['Relic Cave']),
+        new MoveToDungeon(DungeonList['Relic Cave']),
         TemporaryBattleList['Cipher Peon Doven'],
         TemporaryBattleList['Cipher Peon Silton'],
         TemporaryBattleList['Cipher Peon Kass'],
@@ -6586,7 +6586,7 @@ TownList['Relic Stone'] = new Town(
     GameConstants.HoennSubRegions.Orre,
     [
         new MoveToTown('Agate Village', undefined, false),
-        new MoveToDungeon(dungeonList['Relic Cave']),
+        new MoveToDungeon(DungeonList['Relic Cave']),
         new PurifyChamberTownContent(),
     ],
     {
@@ -6602,8 +6602,8 @@ TownList['Realgam Tower'] = new Town(
     GameConstants.Region.hoenn,
     GameConstants.HoennSubRegions.Orre,
     [
-        new MoveToDungeon(dungeonList['Realgam Tower Battles']),
-        new MoveToDungeon(dungeonList['Realgam Colosseum']),
+        new MoveToDungeon(DungeonList['Realgam Tower Battles']),
+        new MoveToDungeon(DungeonList['Realgam Colosseum']),
     ],
     {
         requirements: [
@@ -6619,7 +6619,7 @@ TownList['Gateon Port'] = new Town(
     GameConstants.HoennSubRegions.Orre,
     [
         GateonPortShop,
-        new MoveToDungeon(dungeonList['Gateon Port Battles']),
+        new MoveToDungeon(DungeonList['Gateon Port Battles']),
         new DockTownContent(),
     ],
     {
@@ -8101,7 +8101,7 @@ TownList['Eterna City'] = new Town(
     [
         EternaCityShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations['Eterna City']),
-        new MoveToDungeon(dungeonList['Team Galactic Eterna Building']),
+        new MoveToDungeon(DungeonList['Team Galactic Eterna Building']),
     ],
     {
         requirements: [
@@ -8118,10 +8118,10 @@ TownList['Mt. Coronet'] = new Town(
     GameConstants.Region.sinnoh,
     GameConstants.SinnohSubRegions.Sinnoh,
     [
-        new MoveToDungeon(dungeonList['Mt. Coronet South']),
-        new MoveToDungeon(dungeonList['Mt. Coronet North']),
-        new MoveToDungeon(dungeonList['Spear Pillar']),
-        new MoveToDungeon(dungeonList['Hall of Origin']),
+        new MoveToDungeon(DungeonList['Mt. Coronet South']),
+        new MoveToDungeon(DungeonList['Mt. Coronet North']),
+        new MoveToDungeon(DungeonList['Spear Pillar']),
+        new MoveToDungeon(DungeonList['Hall of Origin']),
     ],
     {
         requirements: [
@@ -8173,7 +8173,7 @@ TownList['Veilstone City'] = new Town(
     'Veilstone City',
     GameConstants.Region.sinnoh,
     GameConstants.SinnohSubRegions.Sinnoh,
-    [DepartmentStoreShop, new MoveToDungeon(dungeonList['Team Galactic HQ'])],
+    [DepartmentStoreShop, new MoveToDungeon(DungeonList['Team Galactic HQ'])],
     {
         requirements: [
             new RouteKillRequirement(10, GameConstants.Region.sinnoh, 215),
@@ -9423,7 +9423,7 @@ TownList['Castelia City'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Castelia City']
         ),
-        new MoveToDungeon(dungeonList['Castelia Sewers']),
+        new MoveToDungeon(DungeonList['Castelia Sewers']),
     ],
     {
         requirements: [
@@ -11320,7 +11320,7 @@ TownList['Geosenge Town'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Geosenge Town']
         ),
-        new MoveToDungeon(dungeonList['Team Flare Secret HQ']),
+        new MoveToDungeon(DungeonList['Team Flare Secret HQ']),
         TemporaryBattleList['Team Flare Grunt 2'],
     ],
     {
@@ -13915,9 +13915,9 @@ TownList['Melemele Woods'] = new Town(
     GameConstants.Region.alola,
     GameConstants.AlolaSubRegions.MelemeleIsland,
     [
-        new MoveToDungeon(dungeonList['Ruins of Conflict']),
-        new MoveToDungeon(dungeonList['Verdant Cavern']),
-        new MoveToDungeon(dungeonList['Melemele Meadow']),
+        new MoveToDungeon(DungeonList['Ruins of Conflict']),
+        new MoveToDungeon(DungeonList['Verdant Cavern']),
+        new MoveToDungeon(DungeonList['Melemele Meadow']),
     ],
     {
         requirements: [
@@ -14034,7 +14034,7 @@ TownList['Aether Paradise'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Aether Paradise']
         ),
-        new MoveToDungeon(dungeonList['Aether Foundation']),
+        new MoveToDungeon(DungeonList['Aether Foundation']),
         TemporaryBattleList['Faba Psychic Memory'],
     ],
     {
@@ -14056,7 +14056,7 @@ TownList['Malie City'] = new Town(
     [
         MalieCityShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations['Malie City']),
-        new MoveToDungeon(dungeonList['Malie Garden']),
+        new MoveToDungeon(DungeonList['Malie Garden']),
         new DockTownContent(),
     ],
     {
@@ -14100,7 +14100,7 @@ TownList['Seafolk Village'] = new Town(
         new ShardTraderShop(
             GameConstants.ShardTraderLocations['Seafolk Village']
         ),
-        new MoveToDungeon(dungeonList['Mina\'s Houseboat']),
+        new MoveToDungeon(DungeonList['Mina\'s Houseboat']),
         new DockTownContent(),
         TemporaryBattleList['Captain Mina'],
     ],
@@ -16329,7 +16329,7 @@ TownList['Slumbering Weald'] = new Town(
     GameConstants.GalarSubRegions.SouthGalar,
     [
         TemporaryBattleList.Mirages,
-        new MoveToDungeon(dungeonList['Slumbering Weald Shrine']),
+        new MoveToDungeon(DungeonList['Slumbering Weald Shrine']),
     ],
     {
         requirements: [new TemporaryBattleRequirement('Hop 1')],
@@ -16452,7 +16452,7 @@ TownList.Hammerlocke = new Town(
     GameConstants.GalarSubRegions.NorthGalar,
     [
         TemporaryBattleList['Rampaging Haxorus'],
-        new MoveToDungeon(dungeonList['Energy Plant']),
+        new MoveToDungeon(DungeonList['Energy Plant']),
         HammerlockeShop,
         new ShardTraderShop(GameConstants.ShardTraderLocations.Hammerlocke),
         new BattleCafe(),
@@ -16505,7 +16505,7 @@ TownList.Wyndon = new Town(
     GameConstants.GalarSubRegions.NorthGalar,
     [
         WyndonShop,
-        new MoveToDungeon(dungeonList['Rose Tower']),
+        new MoveToDungeon(DungeonList['Rose Tower']),
         new BattleCafe(),
     ],
     {

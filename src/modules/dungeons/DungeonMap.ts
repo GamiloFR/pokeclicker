@@ -1,20 +1,30 @@
+import ko, { Observable } from 'knockout';
+import { DungeonTileType, MAX_DUNGEON_SIZE, MIN_DUNGEON_SIZE } from '../GameConstants';
+import Rand from '../utilities/Rand';
+import DungeonBattle from './DungeonBattle';
+import DungeonFlash from './DungeonFlash';
+import DungeonRunner from './DungeonRunner';
+import DungeonTile from './DungeonTile';
+import Loot, { LootTier } from './Loot';
+import Point from './Point';
+
 class DungeonMap {
-    board: KnockoutObservable<DungeonTile[][][]>;
-    playerPosition: KnockoutObservable<Point>;
-    playerMoved: KnockoutObservable<boolean>;
-    totalFights: KnockoutObservable<number>;
-    totalChests: KnockoutObservable<number>;
+    board: Observable<DungeonTile[][][]>;
+    playerPosition: Observable<Point>;
+    playerMoved: Observable<boolean>;
+    totalFights: Observable<number>;
+    totalChests: Observable<number>;
     floorSizes: number[];
 
     constructor(
         size: number,
         private generateChestLoot: () => { loot: Loot, tier: LootTier },
-        private flash?: DungeonFlash
+        private flash?: DungeonFlash,
     ) {
-        if (size <= GameConstants.MAX_DUNGEON_SIZE) {
+        if (size <= MAX_DUNGEON_SIZE) {
             this.floorSizes = [size];
         } else {
-            this.floorSizes = [GameConstants.MAX_DUNGEON_SIZE, size - GameConstants.MAX_DUNGEON_SIZE + GameConstants.MIN_DUNGEON_SIZE - 1];
+            this.floorSizes = [MAX_DUNGEON_SIZE, size - MAX_DUNGEON_SIZE + MIN_DUNGEON_SIZE - 1];
         }
 
         this.board = ko.observable(this.generateMap());
@@ -25,8 +35,8 @@ class DungeonMap {
         this.currentTile().hasPlayer = true;
         this.flash?.apply(this.board(), this.playerPosition());
 
-        this.totalFights = ko.observable(this.board().flat().flat().filter((t) => t.type() == GameConstants.DungeonTileType.enemy).length);
-        this.totalChests = ko.observable(this.board().flat().flat().filter((t) => t.type() == GameConstants.DungeonTileType.chest).length);
+        this.totalFights = ko.observable(this.board().flat().flat().filter((t) => t.type() == DungeonTileType.enemy).length);
+        this.totalChests = ko.observable(this.board().flat().flat().filter((t) => t.type() == DungeonTileType.chest).length);
     }
 
     public moveToCoordinates(x: number, y: number, floor = undefined) {
@@ -60,7 +70,7 @@ class DungeonMap {
             this.currentTile().hasPlayer = true;
             this.currentTile().isVisible = true;
             this.currentTile().isVisited = true;
-            if (this.currentTile().type() == GameConstants.DungeonTileType.enemy) {
+            if (this.currentTile().type() == DungeonTileType.enemy) {
                 DungeonBattle.generateNewEnemy();
             }
             return true;
@@ -71,7 +81,7 @@ class DungeonMap {
     public showChestTiles(): void {
         for (let i = 0; i < this.board()[this.playerPosition().floor].length; i++) {
             for (let j = 0; j < this.board()[this.playerPosition().floor][i].length; j++) {
-                if (this.board()[this.playerPosition().floor][i][j].type() == GameConstants.DungeonTileType.chest) {
+                if (this.board()[this.playerPosition().floor][i][j].type() == DungeonTileType.chest) {
                     this.board()[this.playerPosition().floor][i][j].isVisible = true;
                 }
             }
@@ -90,7 +100,7 @@ class DungeonMap {
         return this.board()[this.playerPosition().floor][this.playerPosition().y][this.playerPosition().x];
     }
 
-    public nearbyTiles(point: Point, avoidTiles: GameConstants.DungeonTileType[] = []): DungeonTile[] {
+    public nearbyTiles(point: Point, avoidTiles: DungeonTileType[] = []): DungeonTile[] {
         const tiles: DungeonTile[] = [];
         tiles.push(this.board()[point.floor][point.y - 1]?.[point.x]);
         tiles.push(this.board()[point.floor][point.y + 1]?.[point.x]);
@@ -99,7 +109,7 @@ class DungeonMap {
         return tiles.filter(t => t && !avoidTiles.includes(t.type()));
     }
 
-    public findShortestPath(start: Point, goal: Point, avoidTiles: GameConstants.DungeonTileType[] = []) {
+    public findShortestPath(start: Point, goal: Point, avoidTiles: DungeonTileType[] = []) {
         const pathing = [start];
         const fromPos = {};
         fromPos[`${start.x},${start.y}`] = null;
@@ -157,30 +167,30 @@ class DungeonMap {
 
             // Boss or ladder
             if (index == this.floorSizes.length - 1) {
-                mapList.push(new DungeonTile(GameConstants.DungeonTileType.boss, null));
+                mapList.push(new DungeonTile(DungeonTileType.boss, null));
             } else {
-                mapList.push(new DungeonTile(GameConstants.DungeonTileType.ladder, null));
+                mapList.push(new DungeonTile(DungeonTileType.ladder, null));
             }
 
             // Chests (leave 1 space for enemy and 1 space for entrance)
             for (let i = 0; i < size && mapList.length < size * size - 2; i++) {
-                mapList.push(new DungeonTile(GameConstants.DungeonTileType.chest, this.generateChestLoot()));
+                mapList.push(new DungeonTile(DungeonTileType.chest, this.generateChestLoot()));
             }
 
             // Enemy Pokemon (leave 1 space for entrance)
             for (let i = 0; i < size * 2 + 3 && mapList.length < size * size - 1; i++) {
-                mapList.push(new DungeonTile(GameConstants.DungeonTileType.enemy, null));
+                mapList.push(new DungeonTile(DungeonTileType.enemy, null));
             }
 
             // Fill with empty tiles (leave 1 space for entrance)
             for (let i: number = mapList.length; i < size * size - 1; i++) {
-                mapList.push(new DungeonTile(GameConstants.DungeonTileType.empty, null));
+                mapList.push(new DungeonTile(DungeonTileType.empty, null));
             }
 
             // Shuffle the tiles randomly
             this.shuffle(mapList);
             // Then place the entrance tile
-            const entranceTile = new DungeonTile(GameConstants.DungeonTileType.entrance, null);
+            const entranceTile = new DungeonTile(DungeonTileType.entrance, null);
             entranceTile.isVisible = true;
             entranceTile.isVisited = true;
             mapList.splice(mapList.length + 1 - Math.ceil(size / 2), 0, entranceTile);
@@ -217,3 +227,5 @@ class DungeonMap {
         }
     }
 }
+
+export default DungeonMap;

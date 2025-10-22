@@ -1,4 +1,7 @@
-type FlashConfigState = '-' | 'F' | 'P' // exclude, flash, player
+import DungeonTile from './DungeonTile';
+import Point from './Point';
+
+type FlashConfigState = '-' | 'F' | 'P'; // exclude, flash, player
 
 class DungeonFlash {
     private playerOffset: [number, number];
@@ -21,7 +24,7 @@ class DungeonFlash {
             ['-', 'F', 'F', 'F', '-'],
             ['-', '-', 'F', '-', '-'],
         ]),
-    ] as const
+    ] as const;
 
     constructor(private flashConfig: FlashConfigState[][]) {
         this.playerOffset = [
@@ -52,3 +55,4 @@ class DungeonFlash {
     }
 }
 
+export default DungeonFlash;
