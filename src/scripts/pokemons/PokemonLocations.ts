@@ -25,7 +25,7 @@ enum PokemonLocationType {
     ShadowPokemon,
     DreamOrb,
     BattleCafe,
-    SafariItem
+    SafariItem,
 }
 
 class PokemonLocations {
@@ -140,7 +140,7 @@ class PokemonLocations {
             maxRegion,
             Array<object>
         );
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex((d) =>
@@ -157,9 +157,9 @@ class PokemonLocations {
                     return;
                 }
 
-                if (typeof enemy === "string") {
+                if (typeof enemy === 'string') {
                     cacheLine[enemy].push({ dungeon: dungeonName });
-                } else if (enemy.hasOwnProperty("pokemon")) {
+                } else if (enemy.hasOwnProperty('pokemon')) {
                     cacheLine[(<DetailedPokemon>enemy).pokemon].push({
                         dungeon: dungeonName,
                         requirements: enemy?.options?.requirement,
@@ -185,7 +185,7 @@ class PokemonLocations {
             maxRegion,
             Array<object>
         );
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex((d) =>
@@ -222,7 +222,7 @@ class PokemonLocations {
             maxRegion,
             Array<object>
         );
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex((d) =>
@@ -263,7 +263,7 @@ class PokemonLocations {
             maxRegion,
             Array<string>
         );
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex((d) =>
@@ -590,11 +590,11 @@ class PokemonLocations {
         }
         const cacheLine = this.initCacheLine(cache, Array<string>);
         Berry.baseWander.forEach((pokemon) => {
-            cacheLine[pokemon] = ["Always"];
+            cacheLine[pokemon] = ['Always'];
         });
         App.game.farming.berryData.forEach((berry) => {
             berry.wander.forEach((pokemon) => {
-                if (cacheLine[pokemon][0] !== "Always") {
+                if (cacheLine[pokemon][0] !== 'Always') {
                     cacheLine[pokemon].push(BerryType[berry.type]);
                 }
             });
@@ -679,7 +679,7 @@ class PokemonLocations {
             return cache[pokemonName];
         }
         const cacheLine = this.initCacheLine(cache, Array<string>);
-        Object.values(dungeonList).forEach((dungeon) => {
+        Object.values(DungeonList).forEach((dungeon) => {
             const rewardFunction = dungeon.rewardFunction?.toString();
             this.getPokemonRewards(rewardFunction).forEach((pokemon) => {
                 cacheLine[pokemon].push(dungeon.name);
@@ -868,7 +868,7 @@ class PokemonLocations {
         ) {
             return cacheLine[pokemonName];
         }
-        cacheLine["Milcery (Cheesy)"] = {
+        cacheLine['Milcery (Cheesy)'] = {
             spin: GameConstants.AlcremieSpins.Any3600,
         };
         let sweet: GameConstants.AlcremieSpins,

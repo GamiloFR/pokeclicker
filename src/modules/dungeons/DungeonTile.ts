@@ -1,14 +1,19 @@
-type ChestMetaData = NonNullable<{loot: Loot, tier: LootTier}>
+import ko, { Observable } from 'knockout';
+import { DungeonTileType } from '../GameConstants';
+import Loot, { LootTier } from './Loot';
+import Point from './Point';
+
+type ChestMetaData = NonNullable<{ loot: Loot, tier: LootTier }>;
 
 class DungeonTile {
     _isVisible: boolean;
     _isVisited: boolean;
     _hasPlayer: boolean;
-    type: KnockoutObservable<GameConstants.DungeonTileType>;
-    cssClass: KnockoutObservable<string>;
+    type: Observable<DungeonTileType>;
+    cssClass: Observable<string>;
     position: Point;
 
-    constructor(type: GameConstants.DungeonTileType, public metadata: ChestMetaData | null = null) {
+    constructor(type: DungeonTileType, public metadata: ChestMetaData | null = null) {
         this._isVisible = false;
         this._isVisited = false;
         this._hasPlayer = false;
@@ -60,9 +65,9 @@ class DungeonTile {
             css.push('tile-visited');
         }
         // Add the tile type class
-        css.push(`tile-${GameConstants.DungeonTileType[this.type()]}`);
+        css.push(`tile-${DungeonTileType[this.type()]}`);
 
-        if (this.type() === GameConstants.DungeonTileType.chest) {
+        if (this.type() === DungeonTileType.chest) {
             css.push(`tile-chest-${(this.metadata as ChestMetaData).tier}`);
         }
 
@@ -70,3 +75,5 @@ class DungeonTile {
         this.cssClass(css.join(' '));
     }
 }
+
+export default DungeonTile;

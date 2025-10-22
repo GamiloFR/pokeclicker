@@ -1,4 +1,6 @@
-/// <reference path="../Quest.ts" />
+import ko from 'knockout';
+import Quest from '../Quest';
+import QuestInterface from '../QuestInterface';
 
 class MultipleQuestsQuest extends Quest implements QuestInterface {
 
@@ -36,3 +38,5 @@ class MultipleQuestsQuest extends Quest implements QuestInterface {
         return false;
     }
 }
+
+export default MultipleQuestsQuest;

@@ -1,36 +1,46 @@
+import ko, { Computed, Observable, ObservableArray, Subscription } from 'knockout';
+import { BulletinBoards, GameState, MINUTE } from '../GameConstants';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Requirement from '../requirements/Requirement';
+import Quest from './Quest';
+import { QuestLineNameType } from './QuestLineNameType';
+import QuestLineState from './QuestLineState';
+import MultipleQuestsQuest from './questTypes/MultipleQuestsQuest';
+
 class QuestLine {
-    private cachedTranslatedName?: KnockoutComputed<string>;
+    private cachedTranslatedName?: Computed<string>;
     private _description: string;
-    private cachedTranslatedDescription?: KnockoutComputed<string>;
-    state: KnockoutObservable<QuestLineState> = ko.observable(QuestLineState.inactive).extend({ numeric: 0 });
-    quests: KnockoutObservableArray<Quest>;
-    curQuest: KnockoutComputed<number>;
-    curQuestObject: KnockoutComputed<any>;
-    curQuestInitial: KnockoutObservable<number>;
+    private cachedTranslatedDescription?: Computed<string>;
+    state: Observable<QuestLineState> = ko.observable(QuestLineState.inactive).extend({ numeric: 0 });
+    quests: ObservableArray<Quest>;
+    curQuest: Computed<number>;
+    curQuestObject: Computed<any>;
+    curQuestInitial: Observable<number>;
     totalQuests: number;
 
-    autoBegin: KnockoutSubscription;
-    private pausableStates = [GameConstants.GameState.town, GameConstants.GameState.fighting];
+    autoBegin: Subscription;
+    private pausableStates = [GameState.town, GameState.fighting];
 
     constructor(
         public name: QuestLineNameType,
         description: string,
         public requirement?: Requirement,
-        public bulletinBoard: GameConstants.BulletinBoards = GameConstants.BulletinBoards.None,
-        private disablePausing = false // applies to bulletin board quests only
+        public bulletinBoard: BulletinBoards = BulletinBoards.None,
+        private disablePausing = false, // applies to bulletin board quests only
     ) {
         this.name = name;
         this._description = description;
         this.quests = ko.observableArray();
         this.totalQuests = 0;
         this.curQuest = ko.pureComputed(() => {
-            const acc = 0;
-            return this.quests().map((quest) => {
-                return +quest.isCompleted();
-            })
-                .reduce( ( acc, iscompleted) => {
+            return this.quests()
+                .map((quest) => {
+                    return +quest.isCompleted();
+                })
+                .reduce((acc, iscompleted) => {
                     return acc + iscompleted;
-                },0);
+                }, 0);
         });
         this.curQuestInitial = ko.observable();
         this.curQuestInitial.equalityComparer = () => {
@@ -42,15 +52,18 @@ class QuestLine {
             if (this.totalQuests > 0 && this.curQuest() < this.totalQuests) {
                 return this.quests()[this.curQuest()];
             } else {
-                return {progress: () => {
-                    return 0;
-                }, progressText: () => {
-                    return '';
-                }};
+                return {
+                    progress: () => {
+                        return 0;
+                    },
+                    progressText: () => {
+                        return '';
+                    },
+                };
             }
         });
 
-        this.autoBegin = this.curQuest.subscribe((num) => {
+        this.autoBegin = this.curQuest.subscribe(() => {
             if (this.curQuest() < this.totalQuests) {
                 if (this.curQuestObject().initial() == null && this.state() != QuestLineState.suspended) {
                     this.beginQuest(this.curQuest());
@@ -85,7 +98,7 @@ class QuestLine {
                 title: 'New Quest Line Started!',
                 message: `${this.description}\n<i>"${this.name}" added to the Quest List!</i>`,
                 type: NotificationConstants.NotificationOption.success,
-                timeout: 5 * GameConstants.MINUTE,
+                timeout: 5 * MINUTE,
             });
         }
     }
@@ -112,7 +125,9 @@ class QuestLine {
         // Mark quest (or sub quests if multi quest) as suspended to prevent progress
         const quest = this.quests()[this.curQuest()];
         if (quest instanceof MultipleQuestsQuest) {
-            quest.quests.forEach((q) => q.suspended = true);
+            quest.quests.forEach((q) => {
+                q.suspended = true;
+            });
         }
 
         quest.suspended = true;
@@ -127,7 +142,9 @@ class QuestLine {
         // Re-activate suspended quest
         const quest = this.quests()[this.curQuest()];
         if (quest instanceof MultipleQuestsQuest) {
-            quest.quests.forEach((q) => q.suspended = false);
+            quest.quests.forEach((q) => {
+                q.suspended = false;
+            });
         }
 
         quest.suspended = false;
@@ -135,9 +152,7 @@ class QuestLine {
     }
 
     isPausable(): boolean {
-        if (this.disablePausing || this.bulletinBoard == GameConstants.BulletinBoards.None
-            || !this.pausableStates.includes(App.game.gameState)
-        ) {
+        if (this.disablePausing || this.bulletinBoard == BulletinBoards.None || !this.pausableStates.includes(App.game.gameState)) {
             return false;
         }
 
@@ -146,28 +161,20 @@ class QuestLine {
 
     get displayName(): string {
         if (!this.cachedTranslatedName) {
-            this.cachedTranslatedName = App.translation.getHashed(
-                `${this.name}.displayName`,
-                'questlines',
-                this.name
-            );
+            this.cachedTranslatedName = App.translation.getHashed(`${this.name}.displayName`, 'questlines', this.name);
         }
         return this.cachedTranslatedName();
     }
 
     get description(): string {
         if (!this.cachedTranslatedDescription) {
-            this.cachedTranslatedDescription = App.translation.getHashed(
-                `${this.name}.description`,
-                'questlines',
-                this._description
-            );
+            this.cachedTranslatedDescription = App.translation.getHashed(`${this.name}.description`, 'questlines', this._description);
         }
         return this.cachedTranslatedDescription();
     }
 
     get pauseTooltip(): string {
-        if (this.disablePausing || this.bulletinBoard == GameConstants.BulletinBoards.None) {
+        if (this.disablePausing || this.bulletinBoard == BulletinBoards.None) {
             return 'This quest line cannot be paused. It is either a story, progression related, or otherwise required quest.';
         }
 
@@ -186,8 +193,10 @@ class QuestLine {
             initial: this.curQuestObject().initial?.() ?? this.curQuestInitial(),
         };
         if (this.curQuestObject() instanceof MultipleQuestsQuest) {
-            json.initial = this.curQuestObject().quests.map((q) => q.isCompleted() ? true : q.initial());
+            json.initial = this.curQuestObject().quests.map((q) => (q.isCompleted() ? true : q.initial()));
         }
         return json;
     }
 }
+
+export default QuestLine;

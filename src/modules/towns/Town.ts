@@ -1,7 +1,8 @@
+import Dungeon from '../dungeons/Dungeon';
+import DungeonList from '../dungeons/DungeonList';
 import * as GameConstants from '../GameConstants';
 import GymList from '../gym/GymList';
 import Requirement from '../requirements/Requirement';
-import { TmpDungeonType } from '../TemporaryScriptTypes';
 import NPC from './NPC';
 import TownContent, { DockTownContent, NextRegionTownContent, PickStarterContent } from './TownContent';
 
@@ -15,7 +16,7 @@ class Town {
     public name: string;
     public region: GameConstants.Region;
     public requirements: Requirement[];
-    public dungeon?: TmpDungeonType;
+    public dungeon?: Dungeon;
     public npcs?: NPC[];
     public startingTown: boolean;
     public content: TownContent[];
@@ -65,12 +66,12 @@ class Town {
 }
 
 export class DungeonTown extends Town {
-    dungeon: TmpDungeonType;
+    dungeon: Dungeon;
 
     constructor(name: string, region: GameConstants.Region, subregion: GameConstants.SubRegions, requirements: Requirement[] = [], content: TownContent[] = [], optional: TownOptionalArgument = {}) {
         optional.requirements = requirements;
         super(name, region, subregion, content, optional);
-        this.dungeon = dungeonList[name];
+        this.dungeon = DungeonList[name];
     }
 }
 

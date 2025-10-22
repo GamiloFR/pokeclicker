@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class GainTokensQuest extends Quest implements QuestInterface {
 
     constructor(amount: number, reward: number) {
@@ -9,12 +7,12 @@ class GainTokensQuest extends Quest implements QuestInterface {
 
     public static generateData(): any[] {
         const highestRegion = player.highestRegion();
-        const dungeonAmount = Object.values(dungeonList).reduce((max, dungeon) => {
+        const dungeonAmount = Object.values(DungeonList).reduce((max, dungeon) => {
             if (App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(dungeon.name)]()) {
                 return Math.max(max, dungeon.tokenCost);
             }
             return max;
-        }, 0) || dungeonList[GameConstants.KantoDungeons[0]].tokenCost;
+        }, 0) || DungeonList[GameConstants.KantoDungeons[0]].tokenCost;
         const baseAmount = dungeonAmount;
         const maxAmount = Math.ceil(baseAmount * (3 + highestRegion));
         const amount = SeededRand.intBetween(baseAmount, maxAmount);

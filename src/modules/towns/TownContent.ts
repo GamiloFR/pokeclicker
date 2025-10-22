@@ -1,3 +1,4 @@
+import Dungeon from '../dungeons/Dungeon';
 import areaStatus from '../enums/AreaStatus';
 import { camelCaseToString, getDungeonIndex, Region, Starter } from '../GameConstants';
 import Gym from '../gym/Gym';
@@ -8,7 +9,6 @@ import DevelopmentRequirement from '../requirements/DevelopmentRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
-import { TmpDungeonType } from '../TemporaryScriptTypes';
 import WeatherApp from '../weather/WeatherApp';
 import Town from './Town';
 
@@ -124,7 +124,7 @@ export class NextRegionTownContent extends TownContent {
 
 export class MoveToDungeon extends TownContent {
     constructor(
-        private dungeon: TmpDungeonType,
+        private dungeon: Dungeon,
         private visibleRequirement: Requirement = undefined,
     ) {
         super([]);

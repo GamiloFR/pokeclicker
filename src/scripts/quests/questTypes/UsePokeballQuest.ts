@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class UsePokeballQuest extends Quest implements QuestInterface {
 
     private pokeball: GameConstants.Pokeball;

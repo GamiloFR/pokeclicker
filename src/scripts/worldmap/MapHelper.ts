@@ -2,13 +2,18 @@
 /// <reference path="../../declarations/DataStore/StatisticStore/index.d.ts" />
 
 class MapHelper {
-
     public static getUsableFilters(): CssVariableSetting[] {
-        const priority = Settings.getSetting('mapAreaStateOrder').observableValue();
-        return priority.map(status => Settings.getSetting(`--${areaStatus[status]}`)).filter(setting => setting.isUnlocked());
+        const priority =
+            Settings.getSetting('mapAreaStateOrder').observableValue();
+        return priority
+            .map((status) => Settings.getSetting(`--${areaStatus[status]}`))
+            .filter((setting) => setting.isUnlocked());
     }
 
-    public static moveToRoute = function (route: number, region: GameConstants.Region) {
+    public static moveToRoute = function (
+        route: number,
+        region: GameConstants.Region
+    ) {
         if (isNaN(route)) {
             return;
         }
@@ -37,7 +42,7 @@ class MapHelper {
 
             const reqsList = [];
 
-            routeData.requirements?.forEach(requirement => {
+            routeData.requirements?.forEach((requirement) => {
                 if (!requirement.isCompleted()) {
                     reqsList.push(requirement.hint());
                 }
@@ -50,29 +55,52 @@ class MapHelper {
         }
     };
 
-    public static routeExist(route: number, region: GameConstants.Region): boolean {
+    public static routeExist(
+        route: number,
+        region: GameConstants.Region
+    ): boolean {
         return !!Routes.getRoute(region, route);
     }
 
-    public static normalizeRoute(route: number, region: GameConstants.Region, skipIgnoredRoutes = true): number {
+    public static normalizeRoute(
+        route: number,
+        region: GameConstants.Region,
+        skipIgnoredRoutes = true
+    ): number {
         return Routes.normalizedNumber(region, route, skipIgnoredRoutes);
     }
 
-    public static accessToRoute = function (route: number, region: GameConstants.Region) {
-        return this.routeExist(route, region) && Routes.getRoute(region, route).isUnlocked();
+    public static accessToRoute = function (
+        route: number,
+        region: GameConstants.Region
+    ) {
+        return (
+            this.routeExist(route, region) &&
+            Routes.getRoute(region, route).isUnlocked()
+        );
     };
 
-    public static getEnvironments(area: number | string, region: GameConstants.Region): GameConstants.Environment[] {
+    public static getEnvironments(
+        area: number | string,
+        region: GameConstants.Region
+    ): GameConstants.Environment[] {
         // Environments aren't stored in the locations themselves, so we need to refer to the record in GameConstants.Environments to get an array (list) of all the environments we've written it under
-        const envs = Object.keys(GameConstants.Environments).filter(
-            (env) => GameConstants.Environments[env][region]?.has(area)
+        const envs = Object.keys(GameConstants.Environments).filter((env) =>
+            GameConstants.Environments[env][region]?.has(area)
         ) as GameConstants.Environment[]; // keeping everything as GameConstants.Environment makes them easier to refer to with an IDE (like VSCode). Environments will show up in a dropdown when you type
 
         // Now that we have an array we can push (add) environments straight up
         // determine Hisui environments for Burmy and electric friends
         if (region === GameConstants.Region.hisui) {
-            const hisuilands = ['AlabasterIcelands', 'CobaltCoastlands', 'CoronetHighlands', 'CrimsonMirelands', 'JubilifeVillage', 'ObsidianFieldlands'] as GameConstants.Environment[];
-            const blanklands = hisuilands.find(land => envs.includes(land)); // find which __land the area is part of
+            const hisuilands = [
+                'AlabasterIcelands',
+                'CobaltCoastlands',
+                'CoronetHighlands',
+                'CrimsonMirelands',
+                'JubilifeVillage',
+                'ObsidianFieldlands',
+            ] as GameConstants.Environment[];
+            const blanklands = hisuilands.find((land) => envs.includes(land)); // find which __land the area is part of
             switch (blanklands as GameConstants.Environment) {
                 case 'ObsidianFieldlands':
                 case 'JubilifeVillage':
@@ -88,26 +116,35 @@ class MapHelper {
                     envs.push('TrashCloak');
                     break;
             }
-        // if not in Hisui, add general envs for Burmy
+            // if not in Hisui, add general envs for Burmy
         } else if (envs.includes('Cave')) {
             envs.push('SandyCloak');
-        } else if (typeof area === 'string' && ['City', 'League', 'Tower'].some(word => area.includes(word))) {
+        } else if (
+            typeof area === 'string' &&
+            ['City', 'League', 'Tower'].some((word) => area.includes(word))
+        ) {
             envs.push('TrashCloak');
         }
 
         // if not in Cave or TrashCloak, Burmy evolves into (Plant). (this is mainly for realEvos challenge)
-        const burmyCloaks = ['PlantCloak', 'SandyCloak', 'TrashCloak'] as GameConstants.Environment[];
+        const burmyCloaks = [
+            'PlantCloak',
+            'SandyCloak',
+            'TrashCloak',
+        ] as GameConstants.Environment[];
         // if some element (cloak) of the "burmyCloaks" array is not (!) included in the "envs" array, add (push) the 'PlantCloak' environment
-        if (!burmyCloaks.some(cloak => envs.includes(cloak))) {
+        if (!burmyCloaks.some((cloak) => envs.includes(cloak))) {
             envs.push('PlantCloak');
         }
 
         // Get environments from Gym and Temp battles lists, if any
         const battleArea =
             (App.game.gameState == GameConstants.GameState.temporaryBattle
-                ? TemporaryBattleRunner.getEnvironmentArea() : undefined) ||
+                ? TemporaryBattleRunner.getEnvironmentArea()
+                : undefined) ||
             (App.game.gameState == GameConstants.GameState.gym
-                ? GymRunner.getEnvironmentArea() : undefined) ||
+                ? GymRunner.getEnvironmentArea()
+                : undefined) ||
             undefined;
 
         // Add the battle environment arrays
@@ -115,24 +152,26 @@ class MapHelper {
             envs.push(...battleArea);
         }
 
-        return (envs);
+        return envs;
     }
 
     public static getCurrentEnvironments(): GameConstants.Environment[] {
-        const area = player.route ||
-            player.town?.name ||
-            undefined;
+        const area = player.route || player.town?.name || undefined;
         return this.getEnvironments(area, player.region);
     }
 
     public static getBattleBackground(): GameConstants.BattleBackground {
-        const area = player.route ||
+        const area =
+            player.route ||
             (App.game.gameState == GameConstants.GameState.temporaryBattle
-                ? TemporaryBattleRunner.getBattleBackgroundImage() : undefined) ||
+                ? TemporaryBattleRunner.getBattleBackgroundImage()
+                : undefined) ||
             (App.game.gameState == GameConstants.GameState.gym
-                ? GymRunner.getBattleBackgroundImage() : undefined) ||
+                ? GymRunner.getBattleBackgroundImage()
+                : undefined) ||
             (App.game.gameState == GameConstants.GameState.battleFrontier
-                ? BattleFrontierRunner.battleBackground() : undefined) ||
+                ? BattleFrontierRunner.battleBackground()
+                : undefined) ||
             player.town?.name ||
             undefined;
 
@@ -140,37 +179,50 @@ class MapHelper {
             return area;
         }
 
-        const [img] = Object.entries(GameConstants.BattleBackgrounds).find(
-            ([, regions]) => regions[player.region]?.has(area)
-        ) || [];
+        const [img] =
+            Object.entries(GameConstants.BattleBackgrounds).find(
+                ([, regions]) => regions[player.region]?.has(area)
+            ) || [];
 
-        return (img as GameConstants.BattleBackground);
+        return img as GameConstants.BattleBackground;
     }
 
     public static calculateBattleCssClass(): string {
         return GameConstants.BattleBackgroundImage[this.getBattleBackground()];
     }
 
-    public static calculateRouteCssClass(route: number, region: GameConstants.Region): string {
+    public static calculateRouteCssClass(
+        route: number,
+        region: GameConstants.Region
+    ): string {
         const states = new Set([areaStatus.completed]);
-        const possiblePokemon = RouteHelper.getAvailablePokemonList(route, region);
+        const possiblePokemon = RouteHelper.getAvailablePokemonList(
+            route,
+            region
+        );
 
         if (!MapHelper.accessToRoute(route, region)) {
             states.add(areaStatus.locked);
         }
-        if (App.game.statistics.routeKills[region][route]() < GameConstants.ROUTE_KILLS_NEEDED) {
+        if (
+            App.game.statistics.routeKills[region][route]() <
+            GameConstants.ROUTE_KILLS_NEEDED
+        ) {
             states.add(areaStatus.incomplete);
         }
         if (RouteHelper.isThereQuestAtLocation(route, region)) {
             states.add(areaStatus.questAtLocation);
         }
-        MapHelper.getPokemonAreaStatus(possiblePokemon).forEach(s => states.add(s));
+        MapHelper.getPokemonAreaStatus(possiblePokemon).forEach((s) =>
+            states.add(s)
+        );
         if (!RouteHelper.isAchievementsComplete(route, region)) {
             states.add(areaStatus.missingAchievement);
         }
 
-        const statusPriority = Settings.getSetting('mapAreaStateOrder').observableValue();
-        const mostImportant = statusPriority.find(state => states.has(state));
+        const statusPriority =
+            Settings.getSetting('mapAreaStateOrder').observableValue();
+        const mostImportant = statusPriority.find((state) => states.has(state));
         let cls = areaStatus[mostImportant];
 
         // Water routes
@@ -181,13 +233,19 @@ class MapHelper {
         return cls;
     }
 
-    public static isRouteCurrentLocation(route: number, region: GameConstants.Region): boolean {
+    public static isRouteCurrentLocation(
+        route: number,
+        region: GameConstants.Region
+    ): boolean {
         return player.route == route && player.region == region;
     }
 
     public static isTownCurrentLocation(townName: string): boolean {
         if (App.game.gameState == GameConstants.GameState.temporaryBattle) {
-            return TemporaryBattleRunner.battleObservable().getTown()?.name == townName;
+            return (
+                TemporaryBattleRunner.battleObservable().getTown()?.name ==
+                townName
+            );
         }
         return !player.route && player.town.name == townName;
     }
@@ -203,40 +261,61 @@ class MapHelper {
             return areaStatus[areaStatus.locked];
         }
         // Is this location a dungeon
-        if (dungeonList[townName] && dungeonList[townName].isUnlocked()) {
-            const shadowPokemon = dungeonList[townName].allAvailableShadowPokemon();
-            const possiblePokemon = [...dungeonList[townName].allAvailablePokemon(), ...shadowPokemon];
+        if (DungeonList[townName] && DungeonList[townName].isUnlocked()) {
+            const shadowPokemon =
+                DungeonList[townName].allAvailableShadowPokemon();
+            const possiblePokemon = [
+                ...DungeonList[townName].allAvailablePokemon(),
+                ...shadowPokemon,
+            ];
 
-            if (!App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(townName)]()) {
+            if (
+                !App.game.statistics.dungeonsCleared[
+                    GameConstants.getDungeonIndex(townName)
+                ]()
+            ) {
                 states.add(areaStatus.incomplete);
             }
-            if (dungeonList[townName].isThereQuestAtLocation()) {
+            if (DungeonList[townName].isThereQuestAtLocation()) {
                 states.add(areaStatus.questAtLocation);
             }
-            MapHelper.getPokemonAreaStatus(possiblePokemon)
-                .forEach(s => states.add(s));
-            if (shadowPokemon.some(p => App.game.party.alreadyCaughtPokemonByName(p) && App.game.party.getPokemonByName(p).shadow == GameConstants.ShadowStatus.None)) {
+            MapHelper.getPokemonAreaStatus(possiblePokemon).forEach((s) =>
+                states.add(s)
+            );
+            if (
+                shadowPokemon.some(
+                    (p) =>
+                        App.game.party.alreadyCaughtPokemonByName(p) &&
+                        App.game.party.getPokemonByName(p).shadow ==
+                            GameConstants.ShadowStatus.None
+                )
+            ) {
                 states.add(areaStatus.uncaughtShadowPokemon);
             }
-            if (!DungeonRunner.isAchievementsComplete(dungeonList[townName])) {
+            if (!DungeonRunner.isAchievementsComplete(DungeonList[townName])) {
                 states.add(areaStatus.missingAchievement);
             }
         }
         const town = TownList[townName];
-        town.content.forEach(c => {
+        town.content.forEach((c) => {
             const s = c.areaStatus();
             if (!s.includes(areaStatus.locked)) {
-                s.forEach(s => {
+                s.forEach((s) => {
                     states.add(s);
                 });
             }
         });
-        town.npcs?.filter(npc => npc instanceof PokemonGiftNPC && npc.isVisible()).forEach((npc: PokemonGiftNPC) => {
-            npc.areaStatus().forEach(s => states.add(s));
-        });
+        town.npcs
+            ?.filter((npc) => npc instanceof PokemonGiftNPC && npc.isVisible())
+            .forEach((npc: PokemonGiftNPC) => {
+                npc.areaStatus().forEach((s) => states.add(s));
+            });
 
-        const statusPriority = Settings.getSetting('mapAreaStateOrder').observableValue();
-        const importantState = statusPriority.find(state => states.has(state));
+        const statusPriority =
+            Settings.getSetting('mapAreaStateOrder').observableValue();
+        const importantState = statusPriority.find((state) =>
+            states.has(state)
+        );
         return areaStatus[importantState];
     }
 
@@ -265,7 +344,7 @@ class MapHelper {
             const town = TownList[townName];
             const reqsList = [];
 
-            town.requirements?.forEach(requirement => {
+            town.requirements?.forEach((requirement) => {
                 if (!requirement.isCompleted()) {
                     reqsList.push(requirement.hint());
                 }
@@ -278,7 +357,10 @@ class MapHelper {
         }
     }
 
-    public static validRoute(route = 0, region: GameConstants.Region = 0): boolean {
+    public static validRoute(
+        route = 0,
+        region: GameConstants.Region = 0
+    ): boolean {
         return !!Routes.getRoute(region, route);
     }
 
@@ -286,7 +368,10 @@ class MapHelper {
         const openModal = () => {
             $('#ShipModal').modal('show');
         };
-        if (player.highestRegion() > 0 && (TownList[GameConstants.DockTowns[player.region]].isUnlocked())) {
+        if (
+            player.highestRegion() > 0 &&
+            TownList[GameConstants.DockTowns[player.region]].isUnlocked()
+        ) {
             openModal();
         } else {
             Notifier.notify({
@@ -302,9 +387,15 @@ class MapHelper {
             return false;
         }
 
-        const challengeActive = App.game.challenges.list.requireCompletePokedex.active();
-        const nextStartingTownUnlocked = TownList[GameConstants.StartingTowns[player.highestRegion() + 1]]?.isUnlocked() ?? false;
-        const fullDex = AchievementHandler.findByName(`${GameConstants.camelCaseToString(GameConstants.Region[player.highestRegion()])} Master`).isCompleted();
+        const challengeActive =
+            App.game.challenges.list.requireCompletePokedex.active();
+        const nextStartingTownUnlocked =
+            TownList[
+                GameConstants.StartingTowns[player.highestRegion() + 1]
+            ]?.isUnlocked() ?? false;
+        const fullDex = AchievementHandler.findByName(
+            `${GameConstants.camelCaseToString(GameConstants.Region[player.highestRegion()])} Master`
+        ).isCompleted();
 
         return nextStartingTownUnlocked && (fullDex || !challengeActive);
     }
@@ -312,17 +403,29 @@ class MapHelper {
     public static travelToNextRegion() {
         if (MapHelper.ableToTravel()) {
             // Gain queue slots based on highest region
-            App.game.breeding.gainQueueSlot(App.game.breeding.queueSlotsGainedFromRegion(player.highestRegion()));
+            App.game.breeding.gainQueueSlot(
+                App.game.breeding.queueSlotsGainedFromRegion(
+                    player.highestRegion()
+                )
+            );
             GameHelper.incrementObservable(player.highestRegion);
             player.highestSubRegion(0);
-            MapHelper.moveToTown(GameConstants.StartingTowns[player.highestRegion()]);
+            MapHelper.moveToTown(
+                GameConstants.StartingTowns[player.highestRegion()]
+            );
             player.region = player.highestRegion();
             // Update hatchery region filter to include new region if all previous regions selected
-            const previousRegionFullMask = (2 << (player.highestRegion() - 1)) - 1;
-            const regionFilterMask = Settings.getSetting('breedingRegionFilter').value & previousRegionFullMask;
+            const previousRegionFullMask =
+                (2 << (player.highestRegion() - 1)) - 1;
+            const regionFilterMask =
+                Settings.getSetting('breedingRegionFilter').value &
+                previousRegionFullMask;
             if (regionFilterMask == previousRegionFullMask) {
                 const newRegionFullMask = (2 << player.highestRegion()) - 1;
-                Settings.setSettingByName('breedingRegionFilter', newRegionFullMask);
+                Settings.setSettingByName(
+                    'breedingRegionFilter',
+                    newRegionFullMask
+                );
             }
             $('#pickStarterModal').modal('show');
         }
@@ -340,9 +443,10 @@ class MapHelper {
             return baseProps as Blimp;
         }
 
-
-
-        if (player.regionStarters[GameConstants.Region.kanto]() == GameConstants.Starter.Special) {
+        if (
+            player.regionStarters[GameConstants.Region.kanto]() ==
+            GameConstants.Starter.Special
+        ) {
             return new Blimp(
                 baseProps.name,
                 baseProps.width,
@@ -364,14 +468,19 @@ class MapHelper {
                 'assets/images/map/blimp_empty.png'
             );
         }
-
     }
 
-    public static getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[] {
+    public static getPokemonAreaStatus(
+        pokemon: PokemonNameType[]
+    ): areaStatus[] {
         const statuses = [];
-        const pokerusUnlocked = Settings.getSetting(`--${areaStatus[areaStatus.missingResistant]}`).isUnlocked();
-        let uncaught = false, uncaughtShiny = false, missingResistant = false;
-        pokemon.forEach(p => {
+        const pokerusUnlocked = Settings.getSetting(
+            `--${areaStatus[areaStatus.missingResistant]}`
+        ).isUnlocked();
+        let uncaught = false,
+            uncaughtShiny = false,
+            missingResistant = false;
+        pokemon.forEach((p) => {
             const partyPokemon = App.game.party.getPokemonByName(p);
             if (!partyPokemon) {
                 uncaught = true;
@@ -380,7 +489,10 @@ class MapHelper {
             if (!partyPokemon.shiny) {
                 uncaughtShiny = true;
             }
-            if (pokerusUnlocked && partyPokemon.pokerus < GameConstants.Pokerus.Resistant) {
+            if (
+                pokerusUnlocked &&
+                partyPokemon.pokerus < GameConstants.Pokerus.Resistant
+            ) {
                 missingResistant = true;
             }
         });
@@ -395,7 +507,6 @@ class MapHelper {
         }
         return statuses;
     }
-
 }
 
 MapHelper satisfies TmpMapHelperType;

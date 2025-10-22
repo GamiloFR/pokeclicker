@@ -1,5 +1,8 @@
-class DungeonTrainer extends Trainer {
+import Trainer from '../battles/Trainer';
+import GymPokemon from '../gym/GymPokemon';
+import EnemyOptions from './EnemyOptions';
 
+class DungeonTrainer extends Trainer {
     constructor(
         trainerClass: string,
         team: GymPokemon[],
@@ -8,5 +11,6 @@ class DungeonTrainer extends Trainer {
         subTrainerClass?: string) {
         super(trainerClass, team, name, subTrainerClass);
     }
-
 }
+
+export default DungeonTrainer;

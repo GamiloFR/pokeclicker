@@ -10,8 +10,6 @@ declare global {
     const player: TempTypes.TmpPlayerType;
     const Save: TempTypes.TmpSaveType;
     const MapHelper: TempTypes.TmpMapHelperType;
-    const DungeonRunner: TempTypes.TmpDungeonRunnerType;
-    const dungeonList: TempTypes.TmpDungeonListType;
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
     const PokemonLocations: TempTypes.TmpPokemonLocationsType;
     const PokemonFactory: TempTypes.TmpPokemonFactoryType;
@@ -19,6 +17,8 @@ declare global {
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const BagHandler: TempTypes.TmpBagHandlerType;
     const QuestLineHelper: TempTypes.TmpQuestLineHelperType;
+    const QuestHelper: TempTypes.TmpQuestHelperType;
     const TownList: TempTypes.TmpTownListType;
     const BerryDeal: TempTypes.TmpBerryDealStaticType;
+    const FarmController: TempTypes.TmpFarmControllerType;
 }
