@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class UseOakItemQuest extends Quest implements QuestInterface {
 
     private item: OakItemType;

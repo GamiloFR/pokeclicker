@@ -44,6 +44,7 @@ import { CodeCredits, SpriteCredits } from './Credits';
 import DayCycle from './dayCycle/DayCycle';
 import DayCyclePart from './dayCycle/DayCyclePart';
 import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
+import DungeonList from './dungeons/DungeonList';
 import EffectEngineRunner from './effectEngine/effectEngineRunner';
 import areaStatus from './enums/AreaStatus';
 import EncounterType from './enums/EncounterType';
@@ -104,6 +105,7 @@ import * as PokemonHelper from './pokemons/PokemonHelper';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
 import RoamingPokemon from './pokemons/RoamingPokemon';
 import RoamingPokemonList from './pokemons/RoamingPokemonList';
+import DefeatPokemonsQuest from './quests/questTypes/DefeatPokemonsQuest';
 import AchievementRequirement from './requirements/AchievementRequirement';
 import AllFlutesTimeActiveRequirement from './requirements/AllFlutesTimeActiveRequirement';
 import AttackRequirement from './requirements/AttackRequirement';
@@ -537,4 +539,6 @@ Object.assign(<any>window, {
     GymList,
     GymBattle,
     GymRunner,
+    DungeonList,
+    DefeatPokemonsQuest,
 });

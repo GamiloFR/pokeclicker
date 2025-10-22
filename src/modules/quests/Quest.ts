@@ -1,31 +1,39 @@
-/// <reference path="../../declarations/GameHelper.d.ts" />
+import ko, { Computed, Observable, Subscription } from 'knockout';
+import GameHelper from '../GameHelper';
+import { createLogContent } from '../logbook/helpers';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import SeededRand from '../utilities/SeededRand';
+import QuestLine from './QuestLine';
+
 type QuestOptionalArgument = {
     clearedMessage?: string;
-    npcDisplayName?: string,
-    npcImageName?: string,
+    npcDisplayName?: string;
+    npcImageName?: string;
 };
 
 abstract class Quest {
-    public static questObservable: KnockoutObservable<Quest> = ko.observable();
+    public static questObservable: Observable<Quest> = ko.observable();
 
     index: number;
-    amount: number
+    amount: number;
     protected customDescription?: string;
-    private cachedTranslatedDescription?: KnockoutComputed<string>;
+    private cachedTranslatedDescription?: Computed<string>;
     pointsReward: number;
-    progress: KnockoutComputed<number>;
-    progressText: KnockoutComputed<string>;
-    inProgress: KnockoutComputed<boolean>;
-    isCompleted: KnockoutComputed<boolean>;
-    claimed: KnockoutObservable<boolean>;
-    private _focus: KnockoutObservable<any>;
-    private focusSub: KnockoutSubscription;
+    progress: Computed<number>;
+    progressText: Computed<string>;
+    inProgress: Computed<boolean>;
+    isCompleted: Computed<boolean>;
+    claimed: Observable<boolean>;
+    private _focus: Observable<any> | Computed<any>;
+    private focusSub: Subscription;
     private focusValue: number;
-    initial: KnockoutObservable<any>;
+    initial: Observable<any>;
     notified: boolean;
     autoComplete: boolean;
     mainQuest: Quest;
-    autoCompleter: KnockoutSubscription;
+    autoCompleter: Subscription;
     inQuestLine: boolean;
     _onLoad?: () => void;
     onLoadCalled: boolean;
@@ -60,7 +68,7 @@ abstract class Quest {
                 // Pre-hash keys are formatted like "Example Quest.step 1"
                 `${this.parentQuestLine.name}.step ${this.parentQuestLine.quests().indexOf(this) + 1}`,
                 'questlines',
-                description
+                description,
             );
         }
         return this.cachedTranslatedDescription();
@@ -80,7 +88,7 @@ abstract class Quest {
     }
 
     get xpReward(): number {
-        return 100 + (this.pointsReward / 10);
+        return 100 + this.pointsReward / 10;
     }
 
     //#region Quest Status
@@ -110,7 +118,7 @@ abstract class Quest {
                     createLogContent.completedQuestWithPoints({
                         quest: this.description,
                         points: this.pointsReward.toLocaleString('en-US'),
-                    })
+                    }),
                 );
             } else {
                 Notifier.notify({
@@ -118,10 +126,7 @@ abstract class Quest {
                     type: NotificationConstants.NotificationOption.success,
                     setting: NotificationConstants.NotificationSetting.General.quest_completed,
                 });
-                App.game.logbook.newLog(
-                    LogBookTypes.QUEST,
-                    createLogContent.completedQuest({ quest: this.description })
-                );
+                App.game.logbook.newLog(LogBookTypes.QUEST, createLogContent.completedQuest({ quest: this.description }));
             }
             GameHelper.incrementObservable(App.game.statistics.questsCompleted);
             return true;
@@ -136,7 +141,7 @@ abstract class Quest {
                 message: 'Are you sure?\n\nYou can start the quest again later but you will lose all progress!',
                 type: NotificationConstants.NotificationOption.warning,
                 confirm: 'Quit',
-            }).then(confirmed => {
+            }).then((confirmed) => {
                 if (confirmed) {
                     this.initial(null);
                 }
@@ -151,7 +156,7 @@ abstract class Quest {
         this.onLoad();
     }
 
-    set focus(value: KnockoutObservable<any>) {
+    set focus(value: Observable<any> | Computed<any>) {
         this._focus = value;
         this.createProgressObservables();
     }
@@ -161,7 +166,7 @@ abstract class Quest {
     }
 
     protected createProgressObservables() {
-        // Dispose of our old subscriber if one exists
+    // Dispose of our old subscriber if one exists
         this.focusSub?.dispose();
 
         // Subscribe to the new focus
@@ -184,7 +189,7 @@ abstract class Quest {
         // Calculate our progress
         this.progress = ko.pureComputed(() => {
             if (this.initial() !== null) {
-                return Math.min(1, ( this.focus() - this.initial()) / this.amount);
+                return Math.min(1, (this.focus() - this.initial()) / this.amount);
             } else {
                 return 0;
             }
@@ -192,7 +197,7 @@ abstract class Quest {
 
         this.progressText = ko.pureComputed(() => {
             if (this.initial() !== null) {
-                return `${Math.min((this.focus() - this.initial()), this.amount).toLocaleString('en-US')} / ${this.amount.toLocaleString('en-US')}`;
+                return `${Math.min(this.focus() - this.initial(), this.amount).toLocaleString('en-US')} / ${this.amount.toLocaleString('en-US')}`;
             } else {
                 return `0 / ${this.amount.toLocaleString('en-US')}`;
             }
@@ -329,3 +334,5 @@ abstract class Quest {
         this.notified = json.hasOwnProperty('notified') ? json.notified : false;
     }
 }
+
+export default Quest;

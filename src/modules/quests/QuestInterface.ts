@@ -1,14 +1,18 @@
+import { Computed, Observable } from 'knockout';
+
 interface QuestInterface {
     index: number;                           // Index in Quest set
-    progress: KnockoutComputed<number>;      // A number between 0 and 1 representing the progress
-    isCompleted: KnockoutComputed<boolean>;  // True when quest requirements have been fulfilled
-    claimed: KnockoutObservable<boolean>;    // True when reward has been claimed
+    progress: Computed<number>;      // A number between 0 and 1 representing the progress
+    isCompleted: Computed<boolean>;  // True when quest requirements have been fulfilled
+    claimed: Observable<boolean>;    // True when reward has been claimed
     initial: any;                            // Value of focus when quest was started
     notified: boolean;                       // If player has been notified of completion
 
     // Required in new quest type
-    focus: KnockoutObservable<any>;          // Variable to watch
+    focus: Observable<any> | Computed<any>;          // Variable to watch
     defaultDescription: string;              // Short description of how to complete the quest
     pointsReward: number;                    // Quest points rewarded for completion
     xpReward: number;                        // Questing xp points gained for completion
 }
+
+export default QuestInterface;

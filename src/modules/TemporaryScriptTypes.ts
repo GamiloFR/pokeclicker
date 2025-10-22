@@ -7,12 +7,16 @@ import type BattlePokemon from './battles/BattlePokemon';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
+import DungeonBossPokemon from './dungeons/DungeonBossPokemon';
 import areaStatus from './enums/AreaStatus';
 import BerryType from './enums/BerryType';
 import type CaughtStatus from './enums/CaughtStatus';
+import FarmingTool from './enums/FarmingTool';
+import MulchType from './enums/MulchType';
 import type PokemonType from './enums/PokemonType';
 import type * as GameConstants from './GameConstants';
 import Gym from './gym/Gym';
+import GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
@@ -25,7 +29,9 @@ import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
+import Quest from './quests/Quest';
 import { QuestLineNameType } from './quests/QuestLineNameType';
+import RegionRoute from './routes/RegionRoute';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
@@ -223,21 +229,6 @@ export type TmpMapHelperType = {
     getPokemonAreaStatus: (pokemon: PokemonNameType[]) => areaStatus[];
 };
 
-export type TmpDungeonType = {
-    name: string;
-};
-
-export type TmpDungeonListType = {
-    [dungeonName: string]: TmpDungeonType;
-};
-
-export type TmpDungeonRunnerType = {
-    dungeon: {
-        name: string;
-    };
-    timeBonus: KnockoutObservable<number>;
-};
-
 export type TmpAchievementHandlerType = {
     achievementList: Achievement[];
     navigateIndex: KnockoutObservable<number>;
@@ -266,6 +257,7 @@ export type TmpAchievementHandlerType = {
     getAchievementCategoryByRegion: (region: GameConstants.Region) => AchievementCategory;
     getAchievementCategoryByExtraCategory: (category: GameConstants.ExtraAchievementCategories) => AchievementCategory;
     initialize: (multiplier: Multiplier, challenges: Challenges) => void;
+    unlockAchievement: (achievementName: string) => void;
     load: () => void;
 };
 
@@ -274,11 +266,16 @@ export type TmpPokemonLocationsType = {
 };
 
 export type TmpPokemonFactoryType = {
-    generateWildPokemon(route: number, region: GameConstants.Region, subRegion: SubRegion): BattlePokemon;
-    routeDungeonTokens(route: number, region: GameConstants.Region): number;
-    generateShiny(chance: number, skipBonus?: boolean): boolean;
-    generateGenderById(id: number): GameConstants.BattlePokemonGender;
-    generateGymPokemon(gym: Gym, index: number): BattlePokemon;
+    generateWildPokemon: (route: number, region: GameConstants.Region, subRegion: SubRegion) => BattlePokemon;
+    routeDungeonTokens: (route: number, region: GameConstants.Region) => number;
+    generateShiny: (chance: number, skipBonus?: boolean) => boolean;
+    generateGenderById: (id: number) => GameConstants.BattlePokemonGender;
+    generateGymPokemon: (gym: Gym, index: number) => BattlePokemon;
+    generateDungeonPokemon: (name: PokemonNameType, chestsOpened: number, baseHealth: number, level: number, mimic?: boolean) => BattlePokemon;
+    generateDungeonTrainerPokemon: (pokemon: GymPokemon, chestsOpened: number, baseHealth: number, level: number, isBoss: boolean, trainerPokemon?: number) => BattlePokemon;
+    generateDungeonBoss: (bossPokemon: DungeonBossPokemon, chestsOpened: number) => BattlePokemon;
+    routeLevel: (route: number, region: GameConstants.Region) => number;
+    routeHealth: (route: number, region: GameConstants.Region) => number;
 };
 
 export type TmpPartyPokemonType = {
@@ -304,6 +301,7 @@ export type TmpPartyPokemonType = {
     heldItem: KnockoutObservable<TmpHeldItemType>;
     defaultFemaleSprite: KnockoutObservable<boolean>;
     hideShinyImage: KnockoutObservable<boolean>;
+    evs: KnockoutComputed<number>;
     canUseStone(stoneType: GameConstants.StoneType): boolean;
     addCategory(id: number): void;
     removeCategory(id: number): void;
@@ -314,6 +312,7 @@ export type TmpPartyPokemonType = {
 export type TmpPartyType = {
     caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
     activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
+    pokemonAttackObservable: KnockoutComputed<number>;
     gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainPokemonById: (id: number, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainExp: (exp: number, level?: number, trainer?: boolean) => void;
@@ -455,4 +454,67 @@ export type TmpBerryDealType = {};
 
 export type TmpBerryDealStaticType = {
     list: Partial<Record<GameConstants.BerryTraderLocations, KnockoutObservableArray<TmpBerryDealType>>>;
+};
+
+export type TmpQuestHelperType = {
+    createQuest: (questType: string, data?: any[]) => Quest;
+    generateQuestList: (seed: number, amount?: number, uniqueQuestTypes?: boolean) => void;
+    highestOneShotRoute: (region: GameConstants.Region) => number;
+};
+
+export type TmpPlotType = {
+    // TODO
+};
+
+export type TmpFarmControllerType = {
+    navigateIndex: KnockoutObservable<number>;
+    berryListFiltered: KnockoutObservableArray<BerryType>;
+    numberOfTabs: KnockoutComputed<number>;
+    farmingModalTabSelected: KnockoutObservable<string>;
+
+    berryListEnd: KnockoutComputed<number>;
+    berryListSearch: KnockoutObservable<string>;
+
+    selectedBerry: KnockoutObservable<BerryType>;
+    selectedMulch: KnockoutObservable<MulchType>;
+    selectedFarmTool: KnockoutObservable<FarmingTool>;
+    selectedFarmModuleTool: KnockoutObservable<FarmingTool>;
+
+    berryListVisible: KnockoutObservable<boolean>;
+
+    multipliers: string[];
+    multIndex: KnockoutObservable<number>;
+
+    additionalInfoTooltip: KnockoutComputed<string>;
+    shortcutVisible: KnockoutComputed<boolean>;
+
+    initialize: () => void;
+    openFarmModal: () => void;
+    getImage: (index: number) => void;
+    calculateCssClassFromTool: (plot: TmpPlotType, tool: FarmingTool) => void;
+    calculateCssClass: (plot: TmpPlotType) => void;
+    calcMulchClass: (plot: TmpPlotType) => void;
+    plotClick: (index: number, event: MouseEvent) => void;
+    plotClickMini: (index: number, event: MouseEvent) => void;
+    toggleAllPlotLocks: () => void;
+    toggleAllPlotLocksTo: (lock: boolean) => void;
+    calculateCssClassMini: (plot: TmpPlotType) => void;
+    mulchAll: () => void;
+    navigateRight: () => void;
+    navigateLeft: () => void;
+    getUnlockedBerryListWithIndex: () => void;
+    getUnlockedBerryList: () => void;
+    incrementMultiplier: () => void;
+    decrementMultiplier: () => void;
+    getBackgroundColor: (index: number) => void;
+    getBerryImage: (index: number) => void;
+    getHint: (index: number, checkSeen?: boolean, checkUnlocked?: boolean) => void;
+    handleBerryDexClick: (berryId: number) => void;
+    wandererToRoute: (pokemon: PokemonNameType) => RegionRoute;
+    getWandererStyle: (plot: TmpPlotType) => string;
+    getWandererCss: (plot: TmpPlotType) => string;
+};
+
+export type TmpEvolutionStoneType = {
+    // TODO
 };

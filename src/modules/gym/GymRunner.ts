@@ -1,4 +1,5 @@
 import ko, { Observable as KnockoutObservable } from 'knockout';
+import DungeonRunner from '../dungeons/DungeonRunner';
 import BadgeEnums from '../enums/Badges';
 import KeyItemType from '../enums/KeyItemType';
 import * as GameConstants from '../GameConstants';
