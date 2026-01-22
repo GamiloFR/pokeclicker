@@ -10,9 +10,11 @@ declare class Gems implements Feature {
     defaults: {
         gemWallet: number[];
         gemUpgrades: number[];
+        gemCollapsed: boolean[];
     };
     gemWallet: Array<KnockoutObservable<number>>;
     gemUpgrades: Array<KnockoutObservable<number>>;
+    gemCollapsed: Array<boolean>;
     validUpgrades: {};
     constructor();
     static image(type: number): string;

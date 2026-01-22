@@ -10,11 +10,9 @@ declare enum KeyItemType {
     'Safari_ticket' = 8,
     'Wailmer_pail' = 9,
     'Explorer_kit' = 10,
-    'Eon_ticket' = 11,
-    'Event_calendar' = 12,
-    'Gem_case' = 13,
-    'DNA_splicers' = 14,
-    'Reins_of_unity' = 15,
-    'Pokerus_virus' = 16,
-    'Z-Power_Ring' = 17
-}
+    'Event_calendar' = 11,
+    'Gem_case' = 12,
+    'DNA_splicers' = 13,
+    'Reins_of_unity' = 14,
+    'Pokerus_virus' = 15
+}

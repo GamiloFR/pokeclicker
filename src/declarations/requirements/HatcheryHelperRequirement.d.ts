@@ -1,8 +1,7 @@
 /// <reference path="./AchievementRequirement.d.ts"/>
 declare class HatcheryHelperRequirement extends AchievementRequirement {
-    bonusRequired: number;
+    private bonusRequired;
     constructor(helpersUnlocked: number, bonusRequired: number);
     getProgress(): number;
     hint(): string;
-    toString(): string;
 }

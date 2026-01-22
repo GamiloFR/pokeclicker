@@ -4,7 +4,6 @@ declare class UndergroundItems {
     static addItem(item: UndergroundItem): void;
     static getByName(name: string): UndergroundItem;
     static getById(id: number): UndergroundItem;
-    static getUnlockedItems(): UndergroundItem[];
     static getRandomItem(): UndergroundItem;
     static getFullResourceName(item: UndergroundItem, amt: number): string;
 }

@@ -5,9 +5,8 @@ declare class Settings {
     static add(setting: Setting<any>): void;
     static setSettingByName(name: string, value: any): void;
     static getSetting(name: string): Setting<any>;
-    static toJSON(saveAsDefaultsOnly?: boolean): {};
-    static fromJSON(dict: Record<string, unknown>): void;
-    static checkAndFix(): void;
+    static toJSON(): {};
+    static fromJSON(dict: any): void;
     static enumToSettingOptionArray<T extends Record<string, unknown>>(obj: T, filter?: (v: any) => boolean, displayNames?: Record<keyof T, string>): SettingOption<string>[];
     static enumToNumberSettingOptionArray(obj: any, filter?: (v: any) => boolean): SettingOption<any>[];
     static selectOptionsToSettingOptions<T>(opts: Array<{

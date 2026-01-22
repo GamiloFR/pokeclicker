@@ -1,4 +1,3 @@
-/// <reference path="../requirements/Requirement.d.ts"/>
 /// <reference path="./Setting.d.ts"/>
 declare class HotkeySetting extends Setting<string> {
     prefix: string;
@@ -6,5 +5,5 @@ declare class HotkeySetting extends Setting<string> {
     constructor(name: string, displayName: string, defaultValue?: string, settings?: {
         prefix?: string;
         suffix?: string;
-    }, requirement?: Requirement);
+    });
 }

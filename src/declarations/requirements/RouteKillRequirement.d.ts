@@ -6,5 +6,4 @@ declare class RouteKillRequirement extends AchievementRequirement {
     constructor(value: number, region: Region, route: number, option?: AchievementOption);
     getProgress(): number;
     hint(): string;
-    toString(): string;
 }

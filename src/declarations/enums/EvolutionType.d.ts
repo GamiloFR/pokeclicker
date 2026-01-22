@@ -8,6 +8,5 @@ declare enum EvolutionType {
     Environment = 6,
     Weather = 7,
     Other = 8,
-    Questline = 9,
-    Attack = 10
-}
+    Questline = 9
+}

@@ -16,8 +16,6 @@ declare const NotificationConstants: {
             underground_energy_full: Sound;
             battle_frontier: Sound;
             dream_orb: Sound;
-            pokerus: Sound;
-            max_flow: Sound;
         };
         Hatchery: {
             ready_to_hatch: Sound;
@@ -57,7 +55,6 @@ declare const NotificationConstants: {
             hatched: NotificationSetting;
             hatched_shiny: NotificationSetting;
             empty_queue: NotificationSetting;
-            hatchery_helper: NotificationSetting;
         };
         Dungeons: {
             dungeon_complete: NotificationSetting;
@@ -75,8 +72,6 @@ declare const NotificationConstants: {
             underground_energy_restore: NotificationSetting;
             underground_dig_deeper: NotificationSetting;
             underground_item_found: NotificationSetting;
-            helper: NotificationSetting;
-            battery_full: NotificationSetting;
         };
         Farming: {
             berry_discovered: NotificationSetting;
@@ -88,7 +83,6 @@ declare const NotificationConstants: {
             berry_dropped: NotificationSetting;
             mulch_ran_out: NotificationSetting;
             wandering_pokemon: NotificationSetting;
-            farm_hand: NotificationSetting;
         };
     };
-};
+};

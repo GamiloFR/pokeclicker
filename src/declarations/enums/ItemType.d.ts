@@ -3,4 +3,4 @@ declare enum ItemType {
     underground = 2,
     berry = 3,
     gem = 4
-}
+}

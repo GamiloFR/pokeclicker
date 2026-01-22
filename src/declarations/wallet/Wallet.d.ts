@@ -1,6 +1,5 @@
 /// <reference path="knockout.d.ts"/>
 /// <reference path="../DataStore/common/Feature.d.ts"/>
-/// <reference path="../GameConstants.d.ts"/>
 /// <reference path="../multiplier/Multiplier.d.ts"/>
 /// <reference path="./Amount.d.ts"/>
 declare class Wallet implements Feature {
@@ -18,12 +17,10 @@ declare class Wallet implements Feature {
     gainDiamonds(base: number, ignoreBonus?: boolean): Amount;
     gainFarmPoints(base: number, ignoreBonus?: boolean): Amount;
     gainBattlePoints(base: number, ignoreBonus?: boolean): Amount;
-    gainContestTokens(base: number, ignoreBonus?: boolean): Amount;
     calcBonus(amount: Amount): number;
     addAmount(amount: Amount, ignoreBonus?: boolean): Amount;
     hasAmount(amount: Amount): boolean;
     loseAmount(amount: Amount): boolean;
-    amountText(currency: Currency): string;
     initialize(): void;
     canAccess(): boolean;
     fromJSON(json: Record<string, any>): void;

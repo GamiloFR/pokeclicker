@@ -7,4 +7,4 @@ declare enum NotificationOption {
     secondary = 5,
     dark = 6,
     light = 7
-}
+}

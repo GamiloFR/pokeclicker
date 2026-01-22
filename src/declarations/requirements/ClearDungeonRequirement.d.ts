@@ -5,5 +5,4 @@ declare class ClearDungeonRequirement extends AchievementRequirement {
     constructor(value: number, dungeonIndex: number, option?: GameConstants.AchievementOption);
     getProgress(): number;
     hint(): string;
-    toString(): string;
 }

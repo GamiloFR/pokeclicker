@@ -26,11 +26,4 @@ declare class Weather {
      * @param date The current date
      */
     static generateWeather(date: Date): void;
-    /**
-     * Gets the weather for a region at a certain date
-     * @param date
-     * @param region
-     * @returns WeatherType
-     */
-    static getWeather(region: Region, date?: Date): WeatherType;
 }

@@ -1,2 +1,1 @@
-/// <reference path="../../koExtenders.d.ts"/>
-declare const _default: () => any;
+declare const _default: () => any;

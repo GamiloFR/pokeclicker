@@ -7,7 +7,6 @@ declare class BuyKeyItem extends Item {
     constructor(item: KeyItemType, basePrice: number, currency?: Currency, options?: ShopOptions, displayName?: string);
     totalPrice(amount: number): number;
     gain(amt: number): void;
-    isSoldOut(): boolean;
+    isAvailable(): boolean;
     get image(): string;
-    get description(): string;
 }

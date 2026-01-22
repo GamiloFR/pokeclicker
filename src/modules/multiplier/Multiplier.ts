@@ -8,6 +8,7 @@ export default class Multiplier {
     private multipliers: Record<MultTypeString, Array<GetMultiplierFunction>>;
     constructor() {
         this.multipliers = GameHelper.objectFromEnumStrings(MultiplierType, () => []);
+        this.addBonus('shiny', () => 100);
     }
 
     addBonus(type: MultTypeString, bonusFunction: GetMultiplierFunction) {

@@ -6,8 +6,8 @@ declare enum WeatherType {
     Snow = 4,
     Hail = 5,
     Blizzard = 6,
-    Harsh_Sunlight = 7,
+    Sunny = 7,
     Sandstorm = 8,
     Fog = 9,
     Windy = 10
-}
+}

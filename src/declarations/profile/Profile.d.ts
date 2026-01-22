@@ -1,4 +1,3 @@
-/// <reference path="../koExtenders.d.ts"/>
 /// <reference path="knockout.d.ts"/>
 /// <reference path="../DataStore/common/Saveable.d.ts"/>
 declare class Profile implements Saveable {
@@ -10,14 +9,11 @@ declare class Profile implements Saveable {
     trainer: KnockoutObservable<number>;
     pokemon: KnockoutObservable<number>;
     pokemonShiny: KnockoutObservable<boolean>;
-    pokemonShadow: KnockoutObservable<boolean>;
     pokemonFemale: KnockoutObservable<boolean>;
     background: KnockoutObservable<number>;
     textColor: KnockoutObservable<string>;
-    pokemonSearch: KnockoutObservable<string>;
-    getCaughtPokemonList: import("knockout").PureComputed<import("../TemporaryScriptTypes").TmpPartyPokemonType[]>;
     constructor(name?: string, trainer?: number, pokemon?: number, background?: number, textColor?: string);
-    static getTrainerCard(name?: string, trainer?: number, pokemon?: number, pokemonShiny?: boolean, pokemonShadow?: boolean, pokemonFemale?: boolean, background?: number, textColor?: string, badges?: number, pokedex?: number, seconds?: number, version?: string, challenges?: {}, id?: string, key?: string): Element;
+    static getTrainerCard(name?: string, trainer?: number, pokemon?: number, pokemonShiny?: boolean, pokemonFemale?: boolean, background?: number, textColor?: string, badges?: number, pokedex?: number, seconds?: number, version?: string, challenges?: {}, key?: string): Element;
     initialize(): void;
     fromJSON(json: any): void;
     toJSON(): Record<string, any>;

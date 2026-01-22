@@ -1,5 +1,4 @@
 /// <reference path="knockout.d.ts"/>
-/// <reference path="../koExtenders.d.ts"/>
 /// <reference path="../DataStore/common/Saveable.d.ts"/>
 declare class SaveReminder implements Saveable {
     static counter: number;

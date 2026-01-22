@@ -5,4 +5,4 @@ declare enum SpecialEventNotifiedStatus {
     Started = 3,
     Ending = 4,
     Ended = 5
-}
+}

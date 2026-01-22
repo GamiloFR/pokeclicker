@@ -1,6 +1,7 @@
 declare class SeededRand {
     static state: number;
-    static readonly MAX_UINT_32: number;
+    static readonly MOD: number;
+    static readonly OFFSET: number;
     static readonly MULTIPLIER: number;
     static next(): number;
     static seedWithDate(d: Date): void;
@@ -16,5 +17,4 @@ declare class SeededRand {
     static fromEnum(_enum: any): number;
     static string(length: number): string;
     static shuffleArray<T>(arr: Array<T>): Array<T>;
-    static shuffleWeightedArray<T>(arr: Array<T>, weights: Array<number>): Array<T>;
 }

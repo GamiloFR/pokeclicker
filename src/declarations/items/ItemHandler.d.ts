@@ -10,5 +10,5 @@ declare class ItemHandler {
     static resetAmount(): void;
     static increaseAmount(n: number): void;
     static useStones(): void;
-    static initializeItems(): void;
+    static initilizeEvoStones(): void;
 }

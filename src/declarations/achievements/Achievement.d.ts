@@ -3,25 +3,19 @@
 /// <reference path="./AchievementCategory.d.ts"/>
 declare class Achievement {
     name: string;
-    protected _description: string;
+    description: string;
     property: AchievementRequirement;
     bonusWeight: number;
     category: AchievementCategory;
     achievableFunction: () => boolean | null;
-    persist: boolean;
     isCompleted: KnockoutComputed<boolean>;
     getProgressText: KnockoutComputed<string>;
     bonus: number;
-    unlocked: KnockoutObservable<boolean>;
-    protected notificationTitle: string;
-    protected notificationTimeout: number;
-    constructor(name: string, _description: string, property: AchievementRequirement, bonusWeight: number, category: AchievementCategory, achievableFunction?: () => boolean | null, persist?: boolean);
-    check(): boolean;
-    notifyUnlocked(): void;
+    unlocked: boolean;
+    constructor(name: string, description: string, property: AchievementRequirement, bonusWeight: number, category: AchievementCategory, achievableFunction?: () => boolean | null);
+    check(): void;
     getProgress(): number;
-    getProgressPercentage(): string | 0 | 100;
+    getProgressPercentage(): string;
     getBonus(): string;
     achievable(): boolean;
-    get description(): string;
-    get displayName(): string;
 }

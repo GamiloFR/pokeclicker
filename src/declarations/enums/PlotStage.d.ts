@@ -4,4 +4,4 @@ declare enum PlotStage {
     Taller = 2,
     Bloom = 3,
     Berry = 4
-}
+}

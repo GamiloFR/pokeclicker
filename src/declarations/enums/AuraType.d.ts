@@ -9,7 +9,5 @@ declare enum AuraType {
     Death = 7,
     Boost = 8,
     Roaming = 9,
-    Ev = 10,
-    Decay = 11,
-    Xp = 12
-}
+    Ev = 10
+}

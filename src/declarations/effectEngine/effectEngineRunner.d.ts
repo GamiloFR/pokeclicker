@@ -10,7 +10,7 @@ declare class EffectEngineRunner {
     static tick(): void;
     static incrementMultiplier(): void;
     static decrementMultiplier(): void;
-    static getEffect(itemName: string): number;
+    static getEffect(itemName: string): any;
     static addEffect(itemName: string, amount: number): void;
     static updateFormattedTimeLeft(itemName: string): any;
     static getDungeonTokenMultiplier(): 1 | 1.5;

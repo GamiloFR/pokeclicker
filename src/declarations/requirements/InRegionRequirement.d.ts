@@ -5,5 +5,4 @@ declare class InRegionRequirement extends Requirement {
     constructor(regions: Region[], option?: AchievementOption);
     getProgress(): number;
     hint(): string;
-    isCurrentlyPossible(): boolean;
 }

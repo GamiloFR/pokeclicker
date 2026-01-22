@@ -4,6 +4,5 @@ declare enum MulchType {
     Rich_Mulch = 1,
     Surprise_Mulch = 2,
     Amaze_Mulch = 3,
-    Freeze_Mulch = 4,
-    Gooey_Mulch = 5
-}
+    Freeze_Mulch = 4
+}

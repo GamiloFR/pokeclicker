@@ -1,6 +1,6 @@
 {
   "name": "pokeclicker",
-  "version": "0.10.4",
+  "version": "0.10.5-test",
   "description": "PokéClicker repository",
   "main": "index.js",
   "scripts": {
@@ -17,19 +17,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/switchlove/pokeclicker.git"
+    "url": "git+https://github.com/GamiloFR/pokeclicker.git"
   },
   "babel": {
     "presets": [
       "env"
     ]
   },
-  "author": "SwitchLove",
+  "author": "GamiloFR",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/switchlove/pokeclicker/issues"
+    "url": "https://github.com/GamiloFR/pokeclicker/issues"
   },
-  "homepage": "https://github.com/switchlove/pokeclicker#readme",
+  "homepage": "https://github.com/GamiloFR/pokeclicker#readme",
   "devDependencies": {
     "@types/gtag.js": "0.0.4",
     "@types/jquery": "^3.5.2",

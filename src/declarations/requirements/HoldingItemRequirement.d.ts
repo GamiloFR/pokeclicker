@@ -6,6 +6,6 @@ declare class HoldingItemRequirement extends Requirement {
     pokemon: PokemonNameType;
     itemName: ItemNameType;
     constructor(pokemon: PokemonNameType, itemName: ItemNameType, option?: AchievementOption);
-    getProgress(): 0 | 1;
+    getProgress(): number;
     hint(): string;
 }

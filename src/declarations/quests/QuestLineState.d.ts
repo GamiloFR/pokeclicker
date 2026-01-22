@@ -1,6 +1,5 @@
 declare enum QuestLineState {
     inactive = 0,
     started = 1,
-    ended = 2,
-    suspended = 3
-}
+    ended = 2
+}

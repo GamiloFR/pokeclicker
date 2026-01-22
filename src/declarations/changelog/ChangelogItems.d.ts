@@ -6,4 +6,4 @@
  * MINOR - Will increment for each feature refactor or large changes to a feature
  * PATCH - Increment for small changes, bugfixes, UI changes.
  */
-declare const ChangelogItems: Changelog[];
+declare const ChangelogItems: Changelog[];

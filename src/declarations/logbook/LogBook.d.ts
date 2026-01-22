@@ -1,10 +1,9 @@
 /// <reference path="knockout.d.ts"/>
-/// <reference path="../koExtenders.d.ts"/>
 /// <reference path="../DataStore/common/Feature.d.ts"/>
 /// <reference path="./helpers.d.ts"/>
 /// <reference path="./LogBookLog.d.ts"/>
 /// <reference path="./LogBookTypes.d.ts"/>
-type SavedLog = {
+declare type SavedLog = {
     type: LogBookType;
     content: LogContent;
     date: number;
@@ -24,6 +23,5 @@ declare class LogBook implements Feature {
     initialize(): void;
     canAccess(): boolean;
     update(): void;
-    private canLog;
 }
-
+ {};

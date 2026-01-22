@@ -6,6 +6,5 @@ declare class SubRegions {
     static getSubRegions(region: Region): SubRegion[];
     static getSubRegion(region: Region, subregion: string): SubRegion;
     static getSubRegionById(region: Region, subregionID: number): SubRegion;
-    static isSubRegionUnlocked(region: Region, subRegion: number): boolean;
     static openModal(): void;
 }

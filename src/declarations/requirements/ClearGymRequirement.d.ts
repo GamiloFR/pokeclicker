@@ -5,5 +5,4 @@ declare class ClearGymRequirement extends AchievementRequirement {
     constructor(value: number, gymIndex: number, option?: GameConstants.AchievementOption);
     getProgress(): number;
     hint(): string;
-    toString(): string;
 }

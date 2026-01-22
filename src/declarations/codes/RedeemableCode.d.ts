@@ -1,10 +1,8 @@
-/// <reference path="../requirements/Requirement.d.ts"/>
 declare class RedeemableCode {
     name: string;
     hash: number;
     isRedeemed: boolean;
-    private rewardFunction;
-    private requirement;
-    constructor(name: string, hash: number, isRedeemed: boolean, rewardFunction: () => Promise<boolean | undefined>, requirement?: Requirement);
-    redeem(): Promise<void>;
+    private readonly rewardFunction;
+    constructor(name: string, hash: number, isRedeemed: boolean, rewardFunction: () => void);
+    redeem(): void;
 }

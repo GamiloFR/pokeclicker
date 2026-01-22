@@ -8,4 +8,4 @@ declare enum MultiplierType {
     eggStep = 6,
     roaming = 7,
     ev = 8
-}
+}

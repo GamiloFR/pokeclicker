@@ -1,5 +1,4 @@
 /// <reference path="knockout.d.ts"/>
-/// <reference path="../koExtenders.d.ts"/>
 /// <reference path="../DataStore/common/Saveable.d.ts"/>
 /// <reference path="../enums/OakItemType.d.ts"/>
 /// <reference path="./OakItemLoadout.d.ts"/>

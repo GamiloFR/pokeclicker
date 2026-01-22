@@ -6,11 +6,10 @@
 /// <reference path="./evolutions/Base.d.ts"/>
 /// <reference path="../party/LevelType.d.ts"/>
 /// <reference path="./PokemonNameType.d.ts"/>
-/// <reference path="../requirements/MaxRegionRequirement.d.ts"/>
-declare const pokemonBabyPrevolutionMap: {
+ declare const pokemonBabyPrevolutionMap: {
     [name: string]: PokemonNameType;
 };
-type PokemonListData = {
+ declare type PokemonListData = {
     id: number;
     name: PokemonNameType;
     nativeRegion?: Region;
@@ -37,7 +36,7 @@ type PokemonListData = {
         visualDifference?: boolean;
     };
 };
-declare const pokemonList: [{
+ declare const pokemonList: [{
     id: number;
     name: "Bulbasaur";
     catchRate: number;
@@ -81,7 +80,7 @@ declare const pokemonList: [{
     id: number;
     name: "Spooky Bulbasaur";
     catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Dark)[];
+    type: PokemonType.Grass[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -161,7 +160,7 @@ declare const pokemonList: [{
     id: number;
     name: "Spooky Ivysaur";
     catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Dark)[];
+    type: PokemonType.Grass[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -205,7 +204,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -217,44 +215,6 @@ declare const pokemonList: [{
     gender: {
         femaleRatio: number;
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Venusaur";
-    type: (PokemonType.Grass | PokemonType.Poison)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Gigantamax Venusaur";
-    catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Poison)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -300,6 +260,26 @@ declare const pokemonList: [{
     name: "Venusaur (Rose)";
     catchRate: number;
     type: (PokemonType.Grass | PokemonType.Fairy)[];
+    levelType: LevelType.mediumslow;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Gigantamax Venusaur";
+    nativeRegion: Region.none;
+    catchRate: number;
+    type: (PokemonType.Grass | PokemonType.Poison)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -402,64 +382,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Charizard X";
-    type: (PokemonType.Fire | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Charizard Y";
-    type: (PokemonType.Fire | PokemonType.Flying)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Gigantamax Charizard";
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Flying)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -474,6 +396,26 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Charizard (Clone)";
+    catchRate: number;
+    type: (PokemonType.Fire | PokemonType.Flying)[];
+    levelType: LevelType.mediumslow;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Gigantamax Charizard";
+    nativeRegion: Region.none;
     catchRate: number;
     type: (PokemonType.Fire | PokemonType.Flying)[];
     levelType: LevelType.mediumslow;
@@ -519,25 +461,6 @@ declare const pokemonList: [{
     exp: number;
     eggCycles: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Squad Leader Squirtle";
-    catchRate: number;
-    type: (PokemonType.Water | PokemonType.Dark)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -597,45 +520,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Blastoise";
-    type: PokemonType.Water[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Gigantamax Blastoise";
-    catchRate: number;
-    type: PokemonType.Water[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -650,6 +534,26 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Blastoise (Clone)";
+    catchRate: number;
+    type: PokemonType.Water[];
+    levelType: LevelType.mediumslow;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Gigantamax Blastoise";
+    nativeRegion: Region.none;
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.mediumslow;
@@ -737,22 +641,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Gigantamax Butterfree";
-    catchRate: number;
-    type: (PokemonType.Flying | PokemonType.Bug)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Valencian Butterfree";
     catchRate: number;
     type: (PokemonType.Flying | PokemonType.Bug)[];
@@ -807,6 +695,23 @@ declare const pokemonList: [{
     };
     gender: {
         femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Gigantamax Butterfree";
+    nativeRegion: Region.none;
+    catchRate: number;
+    type: (PokemonType.Flying | PokemonType.Bug)[];
+    levelType: LevelType.mediumfast;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
     };
 }, {
     id: number;
@@ -866,23 +771,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Beedrill";
-    type: (PokemonType.Poison | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -966,23 +854,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Pidgeot";
-    type: (PokemonType.Normal | PokemonType.Flying)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -1354,25 +1225,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Pikachu (World Cap)";
-    catchRate: number;
-    type: PokemonType.Electric[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Pikachu (Partner Cap)";
     catchRate: number;
     type: PokemonType.Electric[];
@@ -1389,22 +1241,6 @@ declare const pokemonList: [{
     };
     gender: {
         femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Gigantamax Pikachu";
-    catchRate: number;
-    type: PokemonType.Electric[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -1461,7 +1297,26 @@ declare const pokemonList: [{
     id: number;
     name: "Let's Go Pikachu";
     catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Electric)[];
+    type: PokemonType.Electric[];
+    levelType: LevelType.mediumfast;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Pikachu (World Cap)";
+    catchRate: number;
+    type: PokemonType.Electric[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -1497,165 +1352,30 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Gigantamax Pikachu";
+    nativeRegion: Region.none;
+    catchRate: number;
+    type: PokemonType.Electric[];
+    levelType: LevelType.mediumfast;
+    exp: number;
+    eggCycles: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+}, {
+    id: number;
     name: "Detective Pikachu";
     catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Psychic)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Clone)";
-    catchRate: number;
     type: PokemonType.Electric[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Rock Star)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Steel)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Belle)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Ice)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Pop Star)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Fairy)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Ph. D.)";
-    catchRate: number;
-    type: PokemonType.Electric[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Libre)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Fighting)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Easter)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Fairy)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Pikachu (Palaeontologist)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Rock)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -1707,7 +1427,7 @@ declare const pokemonList: [{
     id: number;
     name: "Detective Raichu";
     catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Psychic)[];
+    type: PokemonType.Electric[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -1718,9 +1438,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -1915,7 +1632,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -2212,7 +1929,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -2478,22 +2195,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Dugtrio (Punk)";
-    catchRate: number;
-    type: (PokemonType.Ground | PokemonType.Dark)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Meowth";
     catchRate: number;
     type: PokemonType.Normal[];
@@ -2501,26 +2202,6 @@ declare const pokemonList: [{
     exp: number;
     eggCycles: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Gigantamax Meowth";
-    catchRate: number;
-    type: PokemonType.Normal[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -2567,7 +2248,8 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Meowth (Phanpy)";
+    name: "Gigantamax Meowth";
+    nativeRegion: Region.none;
     catchRate: number;
     type: PokemonType.Normal[];
     levelType: LevelType.mediumfast;
@@ -2580,13 +2262,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
 }, {
     id: number;
@@ -2696,7 +2371,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -2743,70 +2417,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Growlithe";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Rock)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Arcanine";
     catchRate: number;
     type: PokemonType.Fire[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Arcanine";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Rock)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Noble Arcanine";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Rock)[];
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
@@ -2944,7 +2557,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -2956,22 +2568,6 @@ declare const pokemonList: [{
     gender: {
         femaleRatio: number;
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Alakazam";
-    type: PokemonType.Psychic[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -3001,7 +2597,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -3035,6 +2631,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Machamp";
+    nativeRegion: Region.none;
     catchRate: number;
     type: PokemonType.Fighting[];
     levelType: LevelType.mediumslow;
@@ -3106,22 +2703,6 @@ declare const pokemonList: [{
     name: "Valencian Weepinbell";
     catchRate: number;
     type: (PokemonType.Grass | PokemonType.Poison)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Weepinbell (Fancy)";
-    catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Fairy)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -3432,7 +3013,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -3444,22 +3024,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Slowbro";
-    type: (PokemonType.Water | PokemonType.Psychic)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -3541,11 +3105,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-        requirement: MaxRegionRequirement;
     };
 }, {
     id: number;
@@ -3786,7 +3345,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -3803,23 +3362,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Gengar";
-    type: (PokemonType.Poison | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -3831,24 +3373,9 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Gengar";
+    nativeRegion: Region.none;
     catchRate: number;
     type: (PokemonType.Poison | PokemonType.Ghost)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Gengar (Punk)";
-    catchRate: number;
-    type: (PokemonType.Ghost | PokemonType.Dark)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -3890,26 +3417,6 @@ declare const pokemonList: [{
     exp: number;
     eggCycles: number;
     evolutions: import("./evolutions/Base").StoneEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    heldItem: {
-        type: ItemType.underground;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Onix (Rocker)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Rock)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -3994,6 +3501,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Kingler";
+    nativeRegion: Region.none;
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.mediumfast;
@@ -4029,70 +3537,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Voltorb";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Grass)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
     name: "Electrode";
     catchRate: number;
     type: PokemonType.Electric[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Hisuian Electrode";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Grass)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Noble Electrode";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Grass)[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -4115,23 +3562,7 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Exeggcute (Single)";
-    catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Psychic)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -4247,10 +3678,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
 }, {
     id: number;
     name: "Totem Marowak";
@@ -4267,10 +3694,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
 }, {
     id: number;
@@ -4335,7 +3758,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -4362,10 +3785,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Galarian Weezing";
-    nativeRegion: Region.galar;
+    name: "Pinkan Weezing";
     catchRate: number;
-    type: (PokemonType.Poison | PokemonType.Fairy)[];
+    type: PokemonType.Poison[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -4379,9 +3801,10 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Pinkan Weezing";
+    name: "Galarian Weezing";
+    nativeRegion: Region.galar;
     catchRate: number;
-    type: PokemonType.Poison[];
+    type: (PokemonType.Poison | PokemonType.Fairy)[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -4490,7 +3913,7 @@ declare const pokemonList: [{
         speed: number;
     };
     heldItem: {
-        type: ItemType.item;
+        type: ItemType.underground;
         id: string;
     };
     gender: {
@@ -4514,11 +3937,8 @@ declare const pokemonList: [{
         speed: number;
     };
     heldItem: {
-        type: ItemType.item;
+        type: ItemType.underground;
         id: string;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -4539,69 +3959,12 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Tangela (Pom-pom)";
-    catchRate: number;
-    type: (PokemonType.Electric | PokemonType.Grass)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Kangaskhan";
     catchRate: number;
     type: PokemonType.Normal[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Kangaskhan";
-    type: PokemonType.Normal[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Baby Kangaskhan";
-    type: PokemonType.Normal[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    baby: true;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -4674,22 +4037,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Goldeen (Diva)";
-    catchRate: number;
-    type: (PokemonType.Water | PokemonType.Fairy)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -4843,29 +4190,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Santa Jynx";
-    catchRate: number;
-    type: (PokemonType.Ice | PokemonType.Psychic)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Electabuzz";
     catchRate: number;
     type: PokemonType.Electric[];
@@ -4939,23 +4263,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Pinsir";
-    type: (PokemonType.Flying | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -4969,66 +4276,6 @@ declare const pokemonList: [{
     name: "Tauros";
     catchRate: number;
     type: PokemonType.Normal[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Paldean Tauros (Combat)";
-    nativeRegion: Region.paldea;
-    catchRate: number;
-    type: PokemonType.Fighting[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Paldean Tauros (Blaze)";
-    nativeRegion: Region.paldea;
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Fighting)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Paldean Tauros (Aqua)";
-    nativeRegion: Region.paldea;
-    catchRate: number;
-    type: (PokemonType.Water | PokemonType.Fighting)[];
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
@@ -5098,10 +4345,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5120,10 +4363,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5163,16 +4402,12 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
 }, {
     id: number;
-    name: "Magikarp Orange Two-Tone";
+    name: "Magikarp Orange Two Tone";
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.slow;
@@ -5185,10 +4420,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5209,10 +4440,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5232,16 +4459,12 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
 }, {
     id: number;
-    name: "Magikarp Pink Two-Tone";
+    name: "Magikarp Pink Two Tone";
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.slow;
@@ -5254,10 +4477,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5277,10 +4496,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5320,10 +4535,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5361,10 +4572,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5442,10 +4649,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5464,10 +4667,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         visualDifference: true;
@@ -5526,10 +4725,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5587,10 +4782,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
@@ -5610,35 +4801,12 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
     gender: {
         visualDifference: true;
     };
 }, {
     id: number;
     name: "Magikarp Black Mask";
-    catchRate: number;
-    type: PokemonType.Water[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Magikarp Blue Raindrops";
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.slow;
@@ -5676,7 +4844,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Magikarp Violet Raindrops";
+    name: "Magikarp Blue Raindrops";
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.slow;
@@ -5714,7 +4882,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Magikarp (Feebas)";
+    name: "Magikarp Violet Raindrops";
     catchRate: number;
     type: PokemonType.Water[];
     levelType: LevelType.slow;
@@ -5739,7 +4907,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -5750,22 +4917,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Gyarados";
-    type: (PokemonType.Water | PokemonType.Dark)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -5786,6 +4937,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Lapras";
+    nativeRegion: Region.none;
     catchRate: number;
     type: (PokemonType.Water | PokemonType.Ice)[];
     levelType: LevelType.slow;
@@ -5820,25 +4972,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Ditto (Magikarp)";
-    catchRate: number;
-    type: PokemonType.Normal[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        visualDifference: true;
-    };
-}, {
-    id: number;
     name: "Eevee";
     catchRate: number;
     type: PokemonType.Normal[];
@@ -5860,7 +4993,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Gigantamax Eevee";
+    name: "Let's Go Eevee";
     catchRate: number;
     type: PokemonType.Normal[];
     levelType: LevelType.mediumfast;
@@ -5879,9 +5012,10 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Let's Go Eevee";
+    name: "Gigantamax Eevee";
+    nativeRegion: Region.none;
     catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Electric)[];
+    type: PokemonType.Normal[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
@@ -6059,26 +5193,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Aerodactyl";
-    type: (PokemonType.Flying | PokemonType.Rock)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -6111,7 +5225,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Gigantamax Snorlax";
+    name: "Santa Snorlax";
     catchRate: number;
     type: PokemonType.Normal[];
     levelType: LevelType.slow;
@@ -6130,28 +5244,10 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Santa Snorlax";
+    name: "Gigantamax Snorlax";
+    nativeRegion: Region.none;
     catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Fairy)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Snorlax (Snowman)";
-    catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Ice)[];
+    type: PokemonType.Normal[];
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
@@ -6353,45 +5449,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Mega Mewtwo X";
-    type: (PokemonType.Fighting | PokemonType.Psychic)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Mega Mewtwo Y";
-    type: PokemonType.Psychic[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -6550,26 +5607,6 @@ declare const pokemonList: [{
     name: "Typhlosion";
     catchRate: number;
     type: PokemonType.Fire[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Typhlosion";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Fire | PokemonType.Ghost)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -6965,9 +6002,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Togepi (Flowering Crown)";
+    name: "Surprise Togepi";
     catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Fairy)[];
+    type: PokemonType.Fairy[];
     levelType: LevelType.fast;
     exp: number;
     eggCycles: number;
@@ -7100,23 +6137,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Ampharos";
-    type: (PokemonType.Electric | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -7195,25 +6215,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Sudowoodo (Golden)";
-    catchRate: number;
-    type: PokemonType.Steel[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Politoed";
     catchRate: number;
     type: PokemonType.Water[];
@@ -7244,22 +6245,6 @@ declare const pokemonList: [{
     exp: number;
     eggCycles: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Hoppip (Chimecho)";
-    catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Flying)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -7320,10 +6305,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
 }, {
     id: number;
@@ -7394,24 +6375,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Paldean Wooper";
-    nativeRegion: Region.paldea;
-    catchRate: number;
-    type: (PokemonType.Poison | PokemonType.Ground)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -7535,7 +6498,7 @@ declare const pokemonList: [{
     levelType: LevelType.fast;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8103,7 +7066,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8156,7 +7118,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8193,7 +7154,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8208,22 +7168,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Steelix";
-    type: (PokemonType.Ground | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -8301,31 +7245,12 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Qwilfish";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Poison | PokemonType.Dark)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Scizor";
     catchRate: number;
     type: (PokemonType.Bug | PokemonType.Steel)[];
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8339,39 +7264,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Mega Scizor";
-    type: (PokemonType.Bug | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Shuckle";
-    catchRate: number;
-    type: (PokemonType.Bug | PokemonType.Rock)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Shuckle (Corked)";
     catchRate: number;
     type: (PokemonType.Bug | PokemonType.Rock)[];
     levelType: LevelType.mediumslow;
@@ -8393,7 +7286,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8404,49 +7296,12 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Heracross";
-    type: (PokemonType.Fighting | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
     name: "Sneasel";
     catchRate: number;
     type: (PokemonType.Ice | PokemonType.Dark)[];
-    levelType: LevelType.mediumslow;
-    exp: number;
-    eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Hisuian Sneasel";
-    nativeRegion: Region.hisui;
-    catchRate: number;
-    type: (PokemonType.Fighting | PokemonType.Poison)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -8487,7 +7342,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8726,7 +7580,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -8737,22 +7590,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Houndoom";
-    type: (PokemonType.Fire | PokemonType.Dark)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -8837,23 +7674,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Stantler";
-    catchRate: number;
-    type: PokemonType.Normal[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Reindeer Stantler";
     catchRate: number;
     type: PokemonType.Normal[];
     levelType: LevelType.slow;
@@ -9056,9 +7876,6 @@ declare const pokemonList: [{
         type: ItemType.underground;
         id: string;
     };
-    gender: {
-        femaleRatio: number;
-    };
 }, {
     id: number;
     name: "Raikou";
@@ -9158,23 +7975,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     eggCycles: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Tyranitar";
-    type: (PokemonType.Rock | PokemonType.Dark)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -9186,25 +7986,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Lugia";
-    catchRate: number;
-    type: (PokemonType.Flying | PokemonType.Psychic)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "XD001";
     catchRate: number;
     type: (PokemonType.Flying | PokemonType.Psychic)[];
     levelType: LevelType.slow;
@@ -9265,9 +8046,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Flowering Celebi";
+    name: "Grinch Celebi";
     catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Psychic)[];
+    type: (PokemonType.Grass | PokemonType.Dark)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -9288,9 +8069,9 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Grinch Celebi";
+    name: "Flowering Celebi";
     catchRate: number;
-    type: (PokemonType.Grass | PokemonType.Dark)[];
+    type: (PokemonType.Grass | PokemonType.Psychic)[];
     levelType: LevelType.mediumslow;
     exp: number;
     eggCycles: number;
@@ -9357,26 +8138,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Sceptile";
-    type: (PokemonType.Grass | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -9397,25 +8158,6 @@ declare const pokemonList: [{
     exp: number;
     catchRate: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Torchic (Egg)";
-    type: (PokemonType.Fire | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -9456,7 +8198,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -9468,25 +8209,6 @@ declare const pokemonList: [{
     gender: {
         femaleRatio: number;
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Blaziken";
-    type: (PokemonType.Fire | PokemonType.Fighting)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -9531,26 +8253,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Swampert";
-    type: (PokemonType.Water | PokemonType.Ground)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Swampert";
     type: (PokemonType.Water | PokemonType.Ground)[];
     eggCycles: number;
     levelType: LevelType.mediumslow;
@@ -9983,23 +8685,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Gardevoir";
-    type: (PokemonType.Psychic | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -10358,23 +9043,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Sableye";
-    type: (PokemonType.Ghost | PokemonType.Dark)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -10391,7 +9059,6 @@ declare const pokemonList: [{
     levelType: LevelType.fast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -10403,22 +9070,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.underground;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Mawile";
-    type: (PokemonType.Steel | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -10470,7 +9121,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -10482,22 +9132,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.underground;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Aggron";
-    type: PokemonType.Steel[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -10527,7 +9161,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -10538,22 +9171,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Medicham";
-    type: (PokemonType.Fighting | PokemonType.Psychic)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -10575,23 +9192,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Manectric";
-    type: PokemonType.Electric[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Manectric";
     type: PokemonType.Electric[];
     eggCycles: number;
     levelType: LevelType.slow;
@@ -10763,7 +9363,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -10775,22 +9374,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Sharpedo";
-    type: (PokemonType.Water | PokemonType.Dark)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -10853,7 +9436,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -10864,22 +9446,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Mega Camerupt";
-    type: (PokemonType.Fire | PokemonType.Ground)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -11053,22 +9619,6 @@ declare const pokemonList: [{
     id: number;
     name: "Altaria";
     type: (PokemonType.Flying | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Altaria";
-    type: (PokemonType.Dragon | PokemonType.Fairy)[];
     eggCycles: number;
     levelType: LevelType.erratic;
     exp: number;
@@ -11483,23 +10033,6 @@ declare const pokemonList: [{
     levelType: LevelType.fast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Banette";
-    type: PokemonType.Ghost[];
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -11645,23 +10178,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Glalie";
-    type: PokemonType.Ice[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Glalie";
     type: PokemonType.Ice[];
     eggCycles: number;
     levelType: LevelType.mediumfast;
@@ -11879,7 +10395,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -11891,22 +10406,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Salamence";
-    type: (PokemonType.Flying | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -11964,7 +10463,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -11976,25 +10474,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Mega Metagross";
-    type: (PokemonType.Psychic | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
     gender: {
         type: Genders;
@@ -12064,7 +10543,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -12079,25 +10557,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Mega Latias";
-    type: (PokemonType.Psychic | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -12107,7 +10566,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -12125,46 +10583,7 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Mega Latios";
-    type: (PokemonType.Psychic | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Kyogre";
-    type: PokemonType.Water[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Primal Kyogre";
     type: PokemonType.Water[];
     eggCycles: number;
     levelType: LevelType.slow;
@@ -12189,45 +10608,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Primal Groudon";
-    type: (PokemonType.Fire | PokemonType.Ground)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Meta Groudon";
-    type: PokemonType.Ground[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -12242,26 +10622,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Rayquaza";
-    type: (PokemonType.Flying | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Mega Rayquaza";
     type: (PokemonType.Flying | PokemonType.Dragon)[];
     eggCycles: number;
     levelType: LevelType.slow;
@@ -12379,44 +10739,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Deoxys (Green Core)";
-    type: PokemonType.Psychic[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Deoxys (Clone)";
-    type: PokemonType.Psychic[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
     name: "Turtwig";
     type: PokemonType.Grass[];
     eggCycles: number;
@@ -12444,25 +10766,6 @@ declare const pokemonList: [{
     exp: number;
     catchRate: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Grotle (Acorn)";
-    type: PokemonType.Grass[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -12975,22 +11278,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Burmy (No Coat)";
-    type: PokemonType.Bug[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Wormadam (Plant)";
     type: (PokemonType.Grass | PokemonType.Bug)[];
     eggCycles: number;
@@ -13123,10 +11410,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
 }, {
     id: number;
@@ -13354,23 +11637,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mega Lopunny";
-    type: (PokemonType.Normal | PokemonType.Fighting)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -13383,22 +11649,6 @@ declare const pokemonList: [{
     id: number;
     name: "Mismagius";
     type: PokemonType.Ghost[];
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Mismagius (Illusion)";
-    type: (PokemonType.Ghost | PokemonType.Dragon)[];
     eggCycles: number;
     levelType: LevelType.fast;
     exp: number;
@@ -13608,7 +11858,7 @@ declare const pokemonList: [{
     levelType: LevelType.fast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     baby: true;
     base: {
         hitpoints: number;
@@ -13633,7 +11883,7 @@ declare const pokemonList: [{
     levelType: LevelType.fast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     baby: true;
     base: {
         hitpoints: number;
@@ -13646,9 +11896,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.underground;
         id: string;
-    };
-    gender: {
-        femaleRatio: number;
     };
 }, {
     id: number;
@@ -13730,7 +11977,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -13744,29 +11990,13 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Mega Garchomp";
-    type: (PokemonType.Ground | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Munchlax";
     type: PokemonType.Normal[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     baby: true;
     base: {
         hitpoints: number;
@@ -13782,12 +12012,13 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Elf Munchlax";
-    type: (PokemonType.Normal | PokemonType.Fairy)[];
+    type: PokemonType.Normal[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
     evolutions: import("./evolutions/Base").StoneEvoData[];
+    baby: true;
     base: {
         hitpoints: number;
         attack: number;
@@ -14033,7 +12264,7 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     baby: true;
     base: {
         hitpoints: number;
@@ -14062,29 +12293,6 @@ declare const pokemonList: [{
     };
     gender: {
         visualDifference: true;
-    };
-}, {
-    id: number;
-    name: "Snover (Berry)";
-    type: (PokemonType.Grass | PokemonType.Ice)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-    heldItem: {
-        type: ItemType.berry;
-        id: BerryType;
     };
 }, {
     id: number;
@@ -14418,26 +12626,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Mega Gallade";
-    type: (PokemonType.Fighting | PokemonType.Psychic)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -14719,27 +12907,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Dialga (Origin)";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Dragon | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Palkia";
     type: (PokemonType.Water | PokemonType.Dragon)[];
     eggCycles: number;
@@ -14760,27 +12927,6 @@ declare const pokemonList: [{
     };
     gender: {
         type: Genders;
-    };
-}, {
-    id: number;
-    name: "Palkia (Origin)";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -14860,10 +13006,6 @@ declare const pokemonList: [{
     gender: {
         type: Genders;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
 }, {
     id: number;
     name: "Cresselia";
@@ -14890,7 +13032,7 @@ declare const pokemonList: [{
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     baby: true;
     catchRate: number;
     base: {
@@ -14949,7 +13091,6 @@ declare const pokemonList: [{
     eggCycles: number;
     levelType: LevelType.mediumslow;
     exp: number;
-    evolutions: EvoData[];
     catchRate: number;
     base: {
         hitpoints: number;
@@ -14981,10 +13122,6 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    heldItem: {
-        type: ItemType.berry;
-        id: BerryType;
     };
     gender: {
         type: Genders;
@@ -15512,26 +13649,6 @@ declare const pokemonList: [{
     id: number;
     name: "Samurott";
     type: PokemonType.Water[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Samurott";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Water | PokemonType.Dark)[];
     eggCycles: number;
     levelType: LevelType.mediumslow;
     exp: number;
@@ -16348,7 +14465,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -16364,46 +14481,6 @@ declare const pokemonList: [{
     id: number;
     name: "Lilligant";
     type: PokemonType.Grass[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Lilligant";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Grass | PokemonType.Fighting)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Noble Lilligant";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Grass | PokemonType.Fighting)[];
     eggCycles: number;
     levelType: LevelType.mediumfast;
     exp: number;
@@ -16458,24 +14535,6 @@ declare const pokemonList: [{
     heldItem: {
         type: ItemType.item;
         id: string;
-    };
-}, {
-    id: number;
-    name: "Basculin (White-Striped)";
-    nativeRegion: Region.hisui;
-    type: PokemonType.Water[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
     };
 }, {
     id: number;
@@ -16553,7 +14612,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumslow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -16899,6 +14958,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Garbodor";
+    nativeRegion: Region.none;
     type: PokemonType.Poison[];
     eggCycles: number;
     levelType: LevelType.mediumfast;
@@ -16934,49 +14994,8 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Zorua";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Normal | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "Zoroark";
     type: PokemonType.Dark[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Zoroark";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Normal | PokemonType.Ghost)[];
     eggCycles: number;
     levelType: LevelType.mediumslow;
     exp: number;
@@ -18031,7 +16050,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -18080,26 +16098,6 @@ declare const pokemonList: [{
     id: number;
     name: "Braviary";
     type: (PokemonType.Normal | PokemonType.Flying)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Braviary";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Flying | PokemonType.Psychic)[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
@@ -18629,179 +16627,6 @@ declare const pokemonList: [{
     id: number;
     name: "Genesect";
     type: (PokemonType.Bug | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (Burn)";
-    type: (PokemonType.Fire | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (Chill)";
-    type: (PokemonType.Ice | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (Douse)";
-    type: (PokemonType.Water | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (Shock)";
-    type: (PokemonType.Electric | PokemonType.Bug)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (High-Speed)";
-    type: (PokemonType.Bug | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (High-Speed Burn)";
-    type: (PokemonType.Fire | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (High-Speed Chill)";
-    type: (PokemonType.Ice | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (High-Speed Douse)";
-    type: (PokemonType.Water | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Genesect (High-Speed Shock)";
-    type: (PokemonType.Electric | PokemonType.Steel)[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
@@ -20091,7 +17916,7 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").LevelEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -20207,22 +18032,6 @@ declare const pokemonList: [{
     exp: number;
     catchRate: number;
     evolutions: import("./evolutions/Base").LevelEvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Inkay (Pikachu)";
-    type: (PokemonType.Electric | PokemonType.Psychic)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -20512,10 +18321,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
 }, {
     id: number;
     name: "Carbink";
@@ -20571,43 +18376,8 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Sliggoo";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Dragon | PokemonType.Steel)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Goodra";
     type: PokemonType.Dragon[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Goodra";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Dragon | PokemonType.Steel)[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
@@ -20836,40 +18606,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Hisuian Avalugg";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Ice | PokemonType.Rock)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Noble Avalugg";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Ice | PokemonType.Rock)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
     name: "Noibat";
     type: (PokemonType.Flying | PokemonType.Dragon)[];
     eggCycles: number;
@@ -20904,26 +18640,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Xerneas";
-    type: PokemonType.Fairy[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    evolutions: EvoData[];
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Xerneas (Active)";
     type: PokemonType.Fairy[];
     eggCycles: number;
     levelType: LevelType.slow;
@@ -20986,26 +18702,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: EvoData[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Mega Diancie";
-    type: (PokemonType.Rock | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -21021,25 +18717,6 @@ declare const pokemonList: [{
     id: number;
     name: "Hoopa";
     type: (PokemonType.Psychic | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Hoopa (Unbound)";
-    type: (PokemonType.Psychic | PokemonType.Dark)[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
@@ -21118,26 +18795,6 @@ declare const pokemonList: [{
     id: number;
     name: "Decidueye";
     type: (PokemonType.Grass | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Hisuian Decidueye";
-    nativeRegion: Region.hisui;
-    type: (PokemonType.Grass | PokemonType.Fighting)[];
     eggCycles: number;
     levelType: LevelType.mediumslow;
     exp: number;
@@ -23030,7 +20687,7 @@ declare const pokemonList: [{
     type: (PokemonType.Psychic | PokemonType.Steel)[];
     eggCycles: number;
     levelType: LevelType.slow;
-    exp: number;
+    exp: any;
     catchRate: number;
     base: {
         hitpoints: number;
@@ -23077,7 +20734,7 @@ declare const pokemonList: [{
     type: (PokemonType.Psychic | PokemonType.Ghost)[];
     eggCycles: number;
     levelType: LevelType.slow;
-    exp: number;
+    exp: any;
     catchRate: number;
     base: {
         hitpoints: number;
@@ -23356,7 +21013,6 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -23367,33 +21023,6 @@ declare const pokemonList: [{
     };
     gender: {
         type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Marshadow (Zenith)";
-    type: (PokemonType.Fighting | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
 }, {
     id: number;
@@ -23500,7 +21129,7 @@ declare const pokemonList: [{
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     base: {
         hitpoints: number;
         attack: number;
@@ -23614,6 +21243,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Rillaboom";
+    nativeRegion: Region.none;
     type: PokemonType.Grass[];
     base: {
         hitpoints: number;
@@ -23692,6 +21322,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Cinderace";
+    nativeRegion: Region.none;
     type: PokemonType.Fire[];
     base: {
         hitpoints: number;
@@ -23770,6 +21401,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Inteleon";
+    nativeRegion: Region.none;
     type: PokemonType.Water[];
     base: {
         hitpoints: number;
@@ -23872,6 +21504,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Corviknight";
+    nativeRegion: Region.none;
     type: (PokemonType.Flying | PokemonType.Steel)[];
     base: {
         hitpoints: number;
@@ -23938,6 +21571,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Orbeetle";
+    nativeRegion: Region.none;
     type: (PokemonType.Psychic | PokemonType.Bug)[];
     base: {
         hitpoints: number;
@@ -24086,6 +21720,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Drednaw";
+    nativeRegion: Region.none;
     type: (PokemonType.Water | PokemonType.Rock)[];
     base: {
         hitpoints: number;
@@ -24185,6 +21820,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Coalossal";
+    nativeRegion: Region.none;
     type: (PokemonType.Fire | PokemonType.Rock)[];
     base: {
         hitpoints: number;
@@ -24211,23 +21847,7 @@ declare const pokemonList: [{
         speed: number;
     };
     eggCycles: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Exposed Applin";
-    type: (PokemonType.Bug | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
+    evolutions: import("./evolutions/Base").StoneEvoData[];
     levelType: LevelType.erratic;
     exp: number;
     catchRate: number;
@@ -24250,6 +21870,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Flapple";
+    nativeRegion: Region.none;
     type: (PokemonType.Grass | PokemonType.Dragon)[];
     base: {
         hitpoints: number;
@@ -24282,6 +21903,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Appletun";
+    nativeRegion: Region.none;
     type: (PokemonType.Grass | PokemonType.Dragon)[];
     base: {
         hitpoints: number;
@@ -24331,6 +21953,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Sandaconda";
+    nativeRegion: Region.none;
     type: PokemonType.Ground[];
     base: {
         hitpoints: number;
@@ -24478,6 +22101,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Toxtricity";
+    nativeRegion: Region.none;
     type: (PokemonType.Electric | PokemonType.Poison)[];
     base: {
         hitpoints: number;
@@ -24527,6 +22151,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Centiskorch";
+    nativeRegion: Region.none;
     type: (PokemonType.Fire | PokemonType.Bug)[];
     base: {
         hitpoints: number;
@@ -24674,6 +22299,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Hatterene";
+    nativeRegion: Region.none;
     type: (PokemonType.Psychic | PokemonType.Fairy)[];
     base: {
         hitpoints: number;
@@ -24752,6 +22378,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Grimmsnarl";
+    nativeRegion: Region.none;
     type: (PokemonType.Dark | PokemonType.Fairy)[];
     base: {
         hitpoints: number;
@@ -24888,7 +22515,6 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
     gender: {
         femaleRatio: number;
     };
@@ -24914,101 +22540,6 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Alcremie (Strawberry Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Strawberry Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Strawberry Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Strawberry Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Strawberry Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Strawberry Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25065,6 +22596,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Strawberry Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Strawberry Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Strawberry Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Strawberry Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25084,102 +22672,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Strawberry Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Strawberry Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Berry Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Berry Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Berry Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Berry Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Berry Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Berry Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25236,6 +22767,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Berry Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Berry Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Berry Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Berry Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25255,102 +22843,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Berry Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Berry Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Love Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Love Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Love Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Love Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Love Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Love Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25407,6 +22938,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Love Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Love Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Love Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Love Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25426,102 +23014,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Love Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Love Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Star Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Star Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Star Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Star Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Star Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Star Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25578,6 +23109,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Star Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Star Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Star Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Star Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25597,102 +23185,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Star Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Star Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Clover Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Clover Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Clover Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Clover Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Clover Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Clover Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25749,6 +23280,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Clover Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Clover Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Clover Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Clover Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25768,102 +23356,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Clover Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Clover Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Flower Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Flower Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Flower Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Flower Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Flower Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Flower Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -25920,6 +23451,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Flower Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Flower Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Flower Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Flower Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -25939,102 +23527,45 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Flower Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Flower Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Ribbon Vanilla)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Ribbon Ruby Cream)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Ribbon Caramel)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Ribbon Ruby Swirl)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Ribbon Matcha)";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Alcremie (Ribbon Salted)";
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -26091,6 +23622,63 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Ribbon Matcha)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Ribbon Ruby Cream)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Ribbon Caramel)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Alcremie (Ribbon Rainbow)";
     type: PokemonType.Fairy[];
     base: {
@@ -26110,7 +23698,46 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
+    name: "Alcremie (Ribbon Ruby Swirl)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Alcremie (Ribbon Salted)";
+    type: PokemonType.Fairy[];
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+    eggCycles: number;
+    levelType: LevelType.mediumfast;
+    exp: number;
+    catchRate: number;
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
     name: "Gigantamax Alcremie";
+    nativeRegion: Region.none;
     type: PokemonType.Fairy[];
     base: {
         hitpoints: number;
@@ -26229,7 +23856,7 @@ declare const pokemonList: [{
     catchRate: number;
 }, {
     id: number;
-    name: "Eiscue (Noice Face)";
+    name: "Eiscue (No Ice Face)";
     type: PokemonType.Ice[];
     base: {
         hitpoints: number;
@@ -26349,6 +23976,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Copperajah";
+    nativeRegion: Region.none;
     type: PokemonType.Steel[];
     base: {
         hitpoints: number;
@@ -26454,10 +24082,10 @@ declare const pokemonList: [{
     levelType: LevelType.mediumfast;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
 }, {
     id: number;
     name: "Gigantamax Duraludon";
+    nativeRegion: Region.none;
     type: (PokemonType.Dragon | PokemonType.Steel)[];
     base: {
         hitpoints: number;
@@ -26637,6 +24265,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Eternamax Eternatus";
+    nativeRegion: Region.none;
     type: (PokemonType.Poison | PokemonType.Dragon)[];
     base: {
         hitpoints: number;
@@ -26665,7 +24294,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    evolutions: EvoData[];
     catchRate: number;
     eggCycles: number;
     levelType: LevelType.slow;
@@ -26714,6 +24342,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Urshifu (Single Strike)";
+    nativeRegion: Region.none;
     type: (PokemonType.Fighting | PokemonType.Dark)[];
     base: {
         hitpoints: number;
@@ -26733,6 +24362,7 @@ declare const pokemonList: [{
 }, {
     id: number;
     name: "Gigantamax Urshifu (Rapid Strike)";
+    nativeRegion: Region.none;
     type: (PokemonType.Water | PokemonType.Fighting)[];
     base: {
         hitpoints: number;
@@ -26931,195 +24561,6 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Wyrdeer";
-    catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Psychic)[];
-    levelType: LevelType.slow;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Kleavor";
-    catchRate: number;
-    type: (PokemonType.Bug | PokemonType.Rock)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Noble Kleavor";
-    catchRate: number;
-    type: (PokemonType.Bug | PokemonType.Rock)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Ursaluna";
-    catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Ground)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Bloodmoon Ursaluna";
-    nativeRegion: Region.paldea;
-    catchRate: number;
-    type: (PokemonType.Normal | PokemonType.Ground)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Basculegion (Male)";
-    type: (PokemonType.Water | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Basculegion (Female)";
-    type: (PokemonType.Water | PokemonType.Ghost)[];
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Sneasler";
-    type: (PokemonType.Fighting | PokemonType.Poison)[];
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Overqwil";
-    catchRate: number;
-    type: (PokemonType.Poison | PokemonType.Dark)[];
-    levelType: LevelType.mediumfast;
-    exp: number;
-    eggCycles: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-}, {
-    id: number;
-    name: "Enamorus";
-    type: (PokemonType.Flying | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Enamorus (Therian)";
-    type: (PokemonType.Flying | PokemonType.Fairy)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
     name: "MissingNo.";
     nativeRegion: Region.none;
     catchRate: number;
@@ -27140,28 +24581,13 @@ declare const pokemonList: [{
     };
 }, {
     id: number;
-    name: "Sprigatito";
-    type: PokemonType.Grass[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
+    name: "Mega Venusaur";
+    nativeRegion: Region.kanto;
+    type: (PokemonType.Grass | PokemonType.Poison)[];
     eggCycles: number;
     levelType: LevelType.mediumslow;
     exp: number;
     catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Floragato";
-    type: PokemonType.Grass[];
     base: {
         hitpoints: number;
         attack: number;
@@ -27169,2487 +24595,19 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Meowscarada";
-    type: (PokemonType.Grass | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Fuecoco";
-    type: PokemonType.Fire[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Crocalor";
-    type: PokemonType.Fire[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Skeledirge";
-    type: (PokemonType.Fire | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Quaxly";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Quaxwell";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Quaquaval";
-    type: (PokemonType.Water | PokemonType.Fighting)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Lechonk";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Oinkologne (Male)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Oinkologne (Female)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Tarountula";
-    type: PokemonType.Bug[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Spidops";
-    type: PokemonType.Bug[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Nymble";
-    type: PokemonType.Bug[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Lokix";
-    type: (PokemonType.Bug | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Pawmi";
-    type: PokemonType.Electric[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Pawmo";
-    type: (PokemonType.Electric | PokemonType.Fighting)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-}, {
-    id: number;
-    name: "Pawmot";
-    type: (PokemonType.Electric | PokemonType.Fighting)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tandemaus";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Maushold (Family of Four)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Maushold (Family of Three)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Fidough";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Dachsbun";
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Smoliv";
-    type: (PokemonType.Normal | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Dolliv";
-    type: (PokemonType.Normal | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Arboliva";
-    type: (PokemonType.Normal | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Squawkabilly (Green)";
-    type: (PokemonType.Normal | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Squawkabilly (Blue)";
-    type: (PokemonType.Normal | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Squawkabilly (Yellow)";
-    type: (PokemonType.Normal | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Squawkabilly (White)";
-    type: (PokemonType.Normal | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Nacli";
-    type: PokemonType.Rock[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Naclstack";
-    type: PokemonType.Rock[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Garganacl";
-    type: PokemonType.Rock[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Charcadet";
-    type: PokemonType.Fire[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-}, {
-    id: number;
-    name: "Armarouge";
-    type: (PokemonType.Fire | PokemonType.Psychic)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Ceruledge";
-    type: (PokemonType.Fire | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tadbulb";
-    type: PokemonType.Electric[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-}, {
-    id: number;
-    name: "Bellibolt";
-    type: PokemonType.Electric[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Wattrel";
-    type: (PokemonType.Electric | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Kilowattrel";
-    type: (PokemonType.Electric | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Maschiff";
-    type: PokemonType.Dark[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Mabosstiff";
-    type: PokemonType.Dark[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Shroodle";
-    type: (PokemonType.Normal | PokemonType.Poison)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Grafaiai";
-    type: (PokemonType.Normal | PokemonType.Poison)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Bramblin";
-    type: (PokemonType.Grass | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-}, {
-    id: number;
-    name: "Brambleghast";
-    type: (PokemonType.Grass | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Toedscool";
-    type: (PokemonType.Grass | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Toedscruel";
-    type: (PokemonType.Grass | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Klawf";
-    type: PokemonType.Rock[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Titan Klawf";
-    type: PokemonType.Rock[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Capsakid";
-    type: PokemonType.Grass[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-}, {
-    id: number;
-    name: "Scovillain";
-    type: (PokemonType.Fire | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Rellor";
-    type: PokemonType.Bug[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-}, {
-    id: number;
-    name: "Rabsca";
-    type: (PokemonType.Psychic | PokemonType.Bug)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Flittle";
-    type: PokemonType.Psychic[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Espathra";
-    type: PokemonType.Psychic[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tinkatink";
-    type: (PokemonType.Steel | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Tinkatuff";
-    type: (PokemonType.Steel | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Tinkaton";
-    type: (PokemonType.Steel | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Wiglett";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Wugtrio";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Bombirdier";
-    type: (PokemonType.Flying | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Titan Bombirdier";
-    type: (PokemonType.Flying | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Finizen";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Palafin (Zero)";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Palafin (Hero)";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Varoom";
-    type: (PokemonType.Poison | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Revavroom";
-    type: (PokemonType.Poison | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Cyclizar";
-    type: (PokemonType.Normal | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Orthworm";
-    type: PokemonType.Steel[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Titan Orthworm";
-    type: PokemonType.Steel[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Glimmet";
-    type: (PokemonType.Poison | PokemonType.Rock)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Glimmora";
-    type: (PokemonType.Poison | PokemonType.Rock)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Greavard";
-    type: PokemonType.Ghost[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Houndstone";
-    type: PokemonType.Ghost[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Flamigo";
-    type: (PokemonType.Fighting | PokemonType.Flying)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Cetoddle";
-    type: PokemonType.Ice[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-}, {
-    id: number;
-    name: "Cetitan";
-    type: PokemonType.Ice[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Veluza";
-    type: (PokemonType.Water | PokemonType.Psychic)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.fast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Dondozo";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Titan Dondozo";
-    type: PokemonType.Water[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tatsugiri (Curly)";
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tatsugiri (Droopy)";
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Tatsugiri (Stretchy)";
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Titan Tatsugiri";
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumslow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Annihilape";
-    type: (PokemonType.Fighting | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Clodsire";
-    type: (PokemonType.Poison | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Farigiraf";
-    type: (PokemonType.Normal | PokemonType.Psychic)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Dudunsparce (Two-Segment)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Dudunsparce (Three-Segment)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Kingambit";
-    type: (PokemonType.Dark | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Great Tusk";
-    type: (PokemonType.Fighting | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Titan Great Tusk";
-    type: (PokemonType.Fighting | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Scream Tail";
-    type: (PokemonType.Psychic | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Brute Bonnet";
-    type: (PokemonType.Grass | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Flutter Mane";
-    type: (PokemonType.Ghost | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Slither Wing";
-    type: (PokemonType.Fighting | PokemonType.Bug)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Sandy Shocks";
-    type: (PokemonType.Electric | PokemonType.Ground)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Treads";
-    type: (PokemonType.Ground | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Titan Iron Treads";
-    type: (PokemonType.Ground | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Bundle";
-    type: (PokemonType.Water | PokemonType.Ice)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Hands";
-    type: (PokemonType.Electric | PokemonType.Fighting)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Jugulis";
-    type: (PokemonType.Flying | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Moth";
-    type: (PokemonType.Fire | PokemonType.Poison)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Thorns";
-    type: (PokemonType.Electric | PokemonType.Rock)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Frigibax";
-    type: (PokemonType.Ice | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Arctibax";
-    type: (PokemonType.Ice | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").LevelEvoData[];
-}, {
-    id: number;
-    name: "Baxcalibur";
-    type: (PokemonType.Ice | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Gimmighoul (Chest)";
-    type: PokemonType.Ghost[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Gimmighoul (Roaming)";
-    type: PokemonType.Ghost[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Gholdengo";
-    type: (PokemonType.Ghost | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Wo-Chien";
-    type: (PokemonType.Grass | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Chien-Pao";
-    type: (PokemonType.Ice | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Ting-Lu";
-    type: (PokemonType.Ground | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Chi-Yu";
-    type: (PokemonType.Fire | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Roaring Moon";
-    type: (PokemonType.Dragon | PokemonType.Dark)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Iron Valiant";
-    type: (PokemonType.Fighting | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-}, {
-    id: number;
-    name: "Koraidon";
-    type: (PokemonType.Fighting | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Miraidon";
-    type: (PokemonType.Electric | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Walking Wake";
-    type: (PokemonType.Water | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Iron Leaves";
-    type: (PokemonType.Grass | PokemonType.Psychic)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Dipplin";
-    type: (PokemonType.Grass | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-}, {
-    id: number;
-    name: "Poltchageist";
-    type: (PokemonType.Grass | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").StoneEvoData[];
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Sinistcha";
-    type: (PokemonType.Grass | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Okidogi";
-    type: (PokemonType.Fighting | PokemonType.Poison)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    heldItem: {
-        type: ItemType.item;
-        id: string;
     };
     gender: {
         femaleRatio: number;
     };
 }, {
     id: number;
-    name: "Munkidori";
-    type: (PokemonType.Poison | PokemonType.Psychic)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Fezandipiti";
-    type: (PokemonType.Poison | PokemonType.Fairy)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    heldItem: {
-        type: ItemType.item;
-        id: string;
-    };
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Teal Mask)";
-    type: PokemonType.Grass[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    evolutions: EvoData[];
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Wellspring Mask)";
-    type: (PokemonType.Water | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Hearthflame Mask)";
-    type: (PokemonType.Fire | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Cornerstone Mask)";
-    type: (PokemonType.Grass | PokemonType.Rock)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    evolutions: import("./evolutions/Base").DummyEvoData[];
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Terrastallized Teal Mask)";
-    type: PokemonType.Grass[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Terrastallized Wellspring Mask)";
-    type: (PokemonType.Water | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Terrastallized Hearthflame Mask)";
-    type: (PokemonType.Fire | PokemonType.Grass)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Ogerpon (Terrastallized Cornerstone Mask)";
-    type: (PokemonType.Grass | PokemonType.Rock)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        femaleRatio: number;
-    };
-}, {
-    id: number;
-    name: "Archaludon";
-    type: (PokemonType.Dragon | PokemonType.Steel)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Hydrapple";
-    type: (PokemonType.Grass | PokemonType.Dragon)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.erratic;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Gouging Fire";
+    name: "Mega Charizard X";
+    nativeRegion: Region.kanto;
     type: (PokemonType.Fire | PokemonType.Dragon)[];
+    eggCycles: number;
+    levelType: LevelType.mediumslow;
+    exp: number;
+    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -29658,17 +24616,53 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
+    gender: {
+        femaleRatio: number;
+    };
+}, {
+    id: number;
+    name: "Mega Gyarados";
+    nativeRegion: Region.kanto;
+    type: (PokemonType.Water | PokemonType.Dark)[];
     eggCycles: number;
     levelType: LevelType.slow;
     exp: number;
     catchRate: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
+}, {
+    id: number;
+    name: "Mega Mewtwo X";
+    type: (PokemonType.Fighting | PokemonType.Psychic)[];
+    eggCycles: number;
+    levelType: LevelType.slow;
+    exp: number;
+    catchRate: number;
+    base: {
+        hitpoints: number;
+        attack: number;
+        specialAttack: number;
+        defense: number;
+        specialDefense: number;
+        speed: number;
+    };
     gender: {
         type: Genders;
     };
 }, {
     id: number;
-    name: "Raging Bolt";
-    type: (PokemonType.Electric | PokemonType.Dragon)[];
+    name: "Mega Mewtwo Y";
+    type: PokemonType.Psychic[];
+    eggCycles: number;
+    levelType: LevelType.slow;
+    exp: number;
+    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -29677,17 +24671,17 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     gender: {
         type: Genders;
     };
 }, {
     id: number;
-    name: "Iron Boulder";
-    type: (PokemonType.Psychic | PokemonType.Rock)[];
+    name: "Mega Gardevoir";
+    type: (PokemonType.Psychic | PokemonType.Fairy)[];
+    eggCycles: number;
+    levelType: LevelType.slow;
+    exp: number;
+    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -29695,18 +24689,16 @@ declare const pokemonList: [{
         defense: number;
         specialDefense: number;
         speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
     };
 }, {
     id: number;
-    name: "Iron Crown";
-    type: (PokemonType.Psychic | PokemonType.Steel)[];
+    name: "Mega Rayquaza";
+    nativeRegion: Region.hoenn;
+    type: (PokemonType.Flying | PokemonType.Dragon)[];
+    eggCycles: number;
+    levelType: LevelType.slow;
+    exp: number;
+    catchRate: number;
     base: {
         hitpoints: number;
         attack: number;
@@ -29715,77 +24707,6 @@ declare const pokemonList: [{
         specialDefense: number;
         speed: number;
     };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Terapagos";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Terapagos (Terastal)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Terapagos (Stellar)";
-    type: PokemonType.Normal[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Pecharunt";
-    type: (PokemonType.Poison | PokemonType.Ghost)[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
     gender: {
         type: Genders;
     };
@@ -29809,115 +24730,10 @@ declare const pokemonList: [{
     gender: {
         type: Genders;
     };
-}, {
-    id: number;
-    name: "You hateful little Trainer!";
-    nativeRegion: Region.alola;
-    type: (PokemonType.Poison | PokemonType.Rock)[];
-    eggCycles: number;
-    levelType: LevelType.slow;
-    exp: number;
-    catchRate: number;
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    gender: {
-        type: Genders;
-    };
-}, {
-    id: number;
-    name: "Segin Starmobile";
-    nativeRegion: Region.paldea;
-    type: PokemonType.Dark[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Schedar Starmobile";
-    nativeRegion: Region.paldea;
-    type: PokemonType.Fire[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Navi Starmobile";
-    nativeRegion: Region.paldea;
-    type: PokemonType.Poison[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Ruchbah Starmobile";
-    nativeRegion: Region.paldea;
-    type: PokemonType.Fairy[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
-}, {
-    id: number;
-    name: "Caph Starmobile";
-    nativeRegion: Region.paldea;
-    type: PokemonType.Fighting[];
-    base: {
-        hitpoints: number;
-        attack: number;
-        specialAttack: number;
-        defense: number;
-        specialDefense: number;
-        speed: number;
-    };
-    eggCycles: number;
-    levelType: LevelType.mediumfast;
-    exp: number;
-    catchRate: number;
 }];
-type PokemonList = typeof pokemonList;
-type PokemonMapProxy = Record<PokemonNameType | number, PokemonListData> & {
+ declare type PokemonList = typeof pokemonList;
+ declare type PokemonMapProxy = Record<PokemonNameType | number, PokemonListData> & {
     random: (max?: number, min?: number) => PokemonListData;
     randomRegion: (max?: Region, min?: Region) => PokemonListData;
 } & Array<PokemonListData>;
-declare const pokemonMap: PokemonMapProxy;
+ declare const pokemonMap: PokemonMapProxy;

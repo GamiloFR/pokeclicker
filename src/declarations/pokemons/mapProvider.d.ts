@@ -3,4 +3,4 @@ declare const container: {
     pokemonMap: PokemonMapProxy;
     pokemonList: PokemonList;
 };
-declare function setPokemonMap(map: PokemonMapProxy, list: PokemonList): void;
+ declare function setPokemonMap(map: PokemonMapProxy, list: PokemonList): void;

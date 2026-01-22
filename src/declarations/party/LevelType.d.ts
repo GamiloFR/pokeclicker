@@ -6,4 +6,4 @@ declare enum LevelType {
     'slow' = 4,
     'fluctuating' = 5
 }
-declare const levelRequirements: number[][];
+ declare const levelRequirements: number[][];

@@ -1,11 +1,6 @@
 /// <reference path="knockout.d.ts"/>
-/// <reference path="../../koExtenders.d.ts"/>
-/// <reference path="../../pokemons/PokemonList.d.ts"/>
 /// <reference path="../common/Saveable.d.ts"/>
-type PokemonID = PokemonList[number]['id'];
-type PokemonStats = Record<PokemonID, KnockoutObservable<number>> & {
-    highestID: PokemonID;
-};
+/// <reference path="../../koExtenders.d.ts"/>
 declare class Statistics implements Saveable {
     saveKey: string;
     defaults: Record<string, any>;
@@ -15,15 +10,14 @@ declare class Statistics implements Saveable {
     clickAttacks: KnockoutObservable<number>;
     questsCompleted: KnockoutObservable<number>;
     totalGemsGained: KnockoutObservable<number>;
-    totalVitaminsPurchased: KnockoutObservable<number>;
-    totalVitaminsObtained: KnockoutObservable<number>;
+    totalProteinsPurchased: KnockoutObservable<number>;
+    totalProteinsObtained: KnockoutObservable<number>;
     totalMoney: KnockoutObservable<number>;
     totalDungeonTokens: KnockoutObservable<number>;
     totalQuestPoints: KnockoutObservable<number>;
     totalDiamonds: KnockoutObservable<number>;
     totalFarmPoints: KnockoutObservable<number>;
     totalBattlePoints: KnockoutObservable<number>;
-    totalContestTokens: KnockoutObservable<number>;
     totalPokemonCaptured: KnockoutObservable<number>;
     totalPokemonDefeated: KnockoutObservable<number>;
     totalPokemonEncountered: KnockoutObservable<number>;
@@ -56,20 +50,9 @@ declare class Statistics implements Saveable {
     totalShinyGenderlessPokemonDefeated: KnockoutObservable<number>;
     totalShinyGenderlessPokemonEncountered: KnockoutObservable<number>;
     totalShinyGenderlessPokemonHatched: KnockoutObservable<number>;
-    totalShadowPokemonCaptured: KnockoutObservable<number>;
-    totalShadowPokemonDefeated: KnockoutObservable<number>;
-    totalShadowMalePokemonCaptured: KnockoutObservable<number>;
-    totalShadowMalePokemonDefeated: KnockoutObservable<number>;
-    totalShadowFemalePokemonCaptured: KnockoutObservable<number>;
-    totalShadowFemalePokemonDefeated: KnockoutObservable<number>;
-    totalShadowGenderlessPokemonCaptured: KnockoutObservable<number>;
-    totalShadowGenderlessPokemonDefeated: KnockoutObservable<number>;
-    totalShinyTrainerPokemonSeen: KnockoutObservable<number>;
     undergroundItemsFound: KnockoutObservable<number>;
     undergroundLayersMined: KnockoutObservable<number>;
-    undergroundLayersFullyMined: KnockoutObservable<number>;
-    undergroundTrades: KnockoutObservable<number>;
-    undergroundToolsUsed: Record<string, KnockoutObservable<number>>;
+    undergroundDailyDealTrades: KnockoutObservable<number>;
     totalManualHarvests: KnockoutObservable<number>;
     totalBerriesObtained: KnockoutObservable<number>;
     totalBerriesHarvested: KnockoutObservable<number>;
@@ -78,18 +61,8 @@ declare class Statistics implements Saveable {
     totalMulchesUsed: KnockoutObservable<number>;
     totalShovelsUsed: KnockoutObservable<number>;
     berryDailyDealTrades: KnockoutObservable<number>;
-    farmWandererFarmPointsObtained: KnockoutObservable<number>;
-    farmWandererDungeonTokensObtained: KnockoutObservable<number>;
     battleFrontierTotalStagesCompleted: KnockoutObservable<number>;
     battleFrontierHighestStageCompleted: KnockoutObservable<number>;
-    safariTimesEntered: KnockoutObservable<number>;
-    safariRocksThrown: KnockoutObservable<number>;
-    safariBaitThrown: KnockoutObservable<number>;
-    safariBallsThrown: KnockoutObservable<number>;
-    safariPokemonCaptured: KnockoutObservable<number>;
-    safariShinyPokemonCaptured: KnockoutObservable<number>;
-    safariStepsTaken: KnockoutObservable<number>;
-    safariItemsObtained: KnockoutObservable<number>;
     pokeballsUsed: Array<KnockoutObservable<number>>;
     pokeballsPurchased: Array<KnockoutObservable<number>>;
     pokeballsObtained: Array<KnockoutObservable<number>>;
@@ -102,34 +75,35 @@ declare class Statistics implements Saveable {
     gymsDefeated: Array<KnockoutObservable<number>>;
     dungeonsCleared: Array<KnockoutObservable<number>>;
     temporaryBattleDefeated: Array<KnockoutObservable<number>>;
-    dungeonGuideAttempts: Array<KnockoutObservable<number>>;
-    dungeonGuideClears: Array<KnockoutObservable<number>>;
-    pokemonCaptured: PokemonStats;
-    pokemonDefeated: PokemonStats;
-    pokemonSeen: PokemonStats;
-    pokemonEncountered: PokemonStats;
-    pokemonHatched: PokemonStats;
-    shinyPokemonCaptured: PokemonStats;
-    shinyPokemonDefeated: PokemonStats;
-    shinyPokemonEncountered: PokemonStats;
-    shinyPokemonHatched: PokemonStats;
-    shadowPokemonCaptured: PokemonStats;
-    shadowPokemonDefeated: PokemonStats;
-    npcTalkedTo: Record<string, KnockoutObservable<number>>;
-    undergroundBatteryDischarges: Record<string, KnockoutObservable<number>>;
-    undergroundSpecificItemsFound: Record<string, KnockoutObservable<number>>;
-    undergroundSpecificLayersMined: Record<string, KnockoutObservable<number>>;
+    pokemonCaptured: any;
+    pokemonDefeated: any;
+    pokemonEncountered: any;
+    pokemonHatched: any;
+    shinyPokemonCaptured: any;
+    shinyPokemonDefeated: any;
+    shinyPokemonEncountered: any;
+    shinyPokemonHatched: any;
+    malePokemonCaptured: any;
+    malePokemonDefeated: any;
+    malePokemonEncountered: any;
+    malePokemonHatched: any;
+    femalePokemonCaptured: any;
+    femalePokemonDefeated: any;
+    femalePokemonEncountered: any;
+    femalePokemonHatched: any;
+    shinyMalePokemonCaptured: any;
+    shinyFemalePokemonCaptured: any;
+    shinyMalePokemonDefeated: any;
+    shinyFemalePokemonDefeated: any;
+    shinyMalePokemonEncountered: any;
+    shinyFemalePokemonEncountered: any;
+    shinyMalePokemonHatched: any;
+    shinyFemalePokemonHatched: any;
     observables: string[];
-    hiddenObservables: string[];
     arrayObservables: string[];
     objectObservables: string[];
     autogeneratedObservables: string[];
-    statisticGenders: string[];
-    baseGenderObservables: string[];
-    genderStatisticGroups: string[][];
-    genderObservables: string[];
     constructor();
     toJSON(): Record<string, any>;
     fromJSON(json: Record<string, any>): void;
 }
-

@@ -1,2 +1,3 @@
-declare const SortModules: () => void;
-declare const SortSaves: () => void;
+
+ declare const SortModules: () => void;
+ declare const SortSaves: () => void;

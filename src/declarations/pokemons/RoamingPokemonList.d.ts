@@ -3,9 +3,8 @@
 /// <reference path="../routes/RegionRoute.d.ts"/>
 /// <reference path="./PokemonNameType.d.ts"/>
 /// <reference path="./RoamingPokemon.d.ts"/>
-/// <reference path="./RoamingGroup.d.ts"/>
 declare class RoamingPokemonList {
-    static roamerGroups: RoamingGroup[][];
+    static roamerGroups: (KantoSubRegions[][] | JohtoSubRegions[][] | HoennSubRegions[][] | SinnohSubRegions[][] | UnovaSubRegions[][] | KalosSubRegions[][] | AlolaSubRegions[][] | GalarSubRegions[][])[];
     static list: Partial<Record<Region, Array<Array<RoamingPokemon>>>>;
     static increasedChanceRoute: Array<Array<Observable<RegionRoute>>>;
     private static period;

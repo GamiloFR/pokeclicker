@@ -4,7 +4,5 @@ declare enum BerryColor {
     Pink = 2,
     Green = 3,
     Yellow = 4,
-    Blue = 5,
-    Silver = 6,
-    Gold = 7
-}
+    Blue = 5
+}

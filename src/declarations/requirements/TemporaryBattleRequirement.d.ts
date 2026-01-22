@@ -1,6 +1,6 @@
+/// <reference path="./Requirement.d.ts"/>
 /// <reference path="../GameConstants.d.ts"/>
-/// <reference path="./AchievementRequirement.d.ts"/>
-declare class TemporaryBattleRequirement extends AchievementRequirement {
+declare class TemporaryBattleRequirement extends Requirement {
     battleName: string;
     constructor(battleName: string, defeatsRequired?: number, option?: GameConstants.AchievementOption);
     getProgress(): number;

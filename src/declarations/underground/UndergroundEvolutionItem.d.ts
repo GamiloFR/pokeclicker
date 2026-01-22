@@ -3,5 +3,5 @@
 /// <reference path="./UndergroundItem.d.ts"/>
 declare class UndergroundEvolutionItem extends UndergroundItem {
     type: StoneType;
-    constructor(id: number, itemName: string, space: Array<Array<number>>, type: StoneType, value?: number, requirement?: Requirement);
+    constructor(name: string, id: number, space: Array<Array<number>>, value: number, type: StoneType, requirement?: Requirement, weight?: (() => number) | number);
 }

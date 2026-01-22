@@ -1,8 +1,7 @@
-/// <reference path="../requirements/Requirement.d.ts"/>
 /**
  * Source event for decreasing shop multipliers
  */
-declare enum MultiplierDecreaser {
+ declare enum MultiplierDecreaser {
     Battle = 0,
     Berry = 1
 }
@@ -15,5 +14,4 @@ declare interface ShopOptions {
     multiplier?: number;
     multiplierDecrease?: boolean;
     multiplierDecreaser?: MultiplierDecreaser;
-    visible?: Requirement;
 }

@@ -1,10 +1,10 @@
 /// <reference path="../pokemons/PokemonNameType.d.ts"/>
 /// <reference path="../translation/Translation.d.ts"/>
-type LogContent = {
+ declare type LogContent = {
     key: LogContentKey;
     vars?: TranslationVars;
 };
-declare enum LogContentKey {
+ declare enum LogContentKey {
     'notTranslated' = "notTranslated",
     'earnedAchievement' = "earnedAchievement",
     'escapedShiny' = "escapedShiny",
@@ -31,7 +31,6 @@ declare enum LogContentKey {
     'captured' = "captured",
     'capturedShiny' = "capturedShiny",
     'capturedShinyDupe' = "capturedShinyDupe",
-    'capturedShadow' = "capturedShadow",
     'enemyDrop' = "enemyDrop",
     'roamer' = "roamer",
     'roamerShiny' = "roamerShiny",
@@ -41,7 +40,7 @@ declare enum LogContentKey {
     'questLevelUp' = "questLevelUp",
     'resistantToPokerus' = "resistantToPokerus"
 }
-declare const createLogContent: {
+ declare const createLogContent: {
     notTranslated: (vars: {
         text: string;
     }) => {
@@ -259,14 +258,6 @@ declare const createLogContent: {
         };
     };
     capturedShinyDupe: (vars: {
-        pokemon: PokemonNameType;
-    }) => {
-        key: LogContentKey;
-        vars: {
-            pokemon: PokemonNameType;
-        };
-    };
-    capturedShadow: (vars: {
         pokemon: PokemonNameType;
     }) => {
         key: LogContentKey;

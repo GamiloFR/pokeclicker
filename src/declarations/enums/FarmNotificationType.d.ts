@@ -7,4 +7,4 @@ declare enum FarmNotificationType {
     Dropped = 5,
     MulchRanOut = 6,
     Wander = 7
-}
+}

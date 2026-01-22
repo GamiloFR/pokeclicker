@@ -2,7 +2,7 @@
 /// <reference path="../utilities/Sound.d.ts"/>
 /// <reference path="../settings/NotificationSetting.d.ts"/>
 declare class Notifier {
-    static notify({ message, type, title, timeout, time, sound, setting, image, pokemonImage, strippedMessage, }: {
+    static notify({ message, type, title, timeout, time, sound, setting, image, strippedMessage, }: {
         message?: string;
         type?: NotificationOption;
         title?: string;
@@ -11,7 +11,6 @@ declare class Notifier {
         sound?: Sound;
         setting?: NotificationSetting;
         image?: string;
-        pokemonImage?: string;
         strippedMessage?: string;
     }): void;
     static prompt({ title, message, type, timeout, sound, }: {
@@ -26,14 +25,6 @@ declare class Notifier {
         message: string;
         confirm?: string;
         cancel?: string;
-        type?: NotificationOption;
-        timeout?: number;
-        sound?: Sound;
-    }): Promise<boolean>;
-    static warning({ title, message, confirm, type, timeout, sound, }: {
-        title: string;
-        message: string;
-        confirm?: string;
         type?: NotificationOption;
         timeout?: number;
         sound?: Sound;

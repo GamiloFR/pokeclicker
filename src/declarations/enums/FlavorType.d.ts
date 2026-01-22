@@ -4,4 +4,4 @@ declare enum FlavorType {
     Sweet = 2,
     Bitter = 3,
     Sour = 4
-}
+}
