@@ -70,7 +70,7 @@ import Challenges from './challenges/Challenges';
 import LevelType, { levelRequirements } from './party/LevelType';
 import WalletClasses from './wallet/inject';
 import GenericProxy from './utilities/GenericProxy';
-import { SpriteCredits, CodeCredits } from './Credits';
+import { CodeCredits, SpriteCredits } from './Credits';
 import * as DisplayObservables from './utilities/DisplayObservables';
 import PokemonCategories from './party/Category';
 import Information from './utilities/Information';
@@ -84,9 +84,7 @@ import BoughtOakItem from './oakItems/BoughtOakItem';
 import OakItemController from './oakItems/OakItemController';
 import OakItemLoadout from './oakItems/OakItemLoadout';
 import OakItemLoadouts from './oakItems/OakItemLoadouts';
-import {
-    SpecialRoutePokemon, RoutePokemon, RegionRoute, Routes,
-} from './routes';
+import { RegionRoute, RoutePokemon, Routes, SpecialRoutePokemon } from './routes';
 import SubRegion from './subRegion/SubRegion';
 import SubRegions from './subRegion/SubRegions';
 import Requirement from './requirements/Requirement';
@@ -175,9 +173,7 @@ import DayOfWeekRequirement from './requirements/DayOfWeekRequirement';
 import SaveReminder from './saveReminder/SaveReminder';
 import ClientRequirement from './requirements/ClientRequirement';
 import { lazyLoad, lazyLoadCallback } from './utilities/LazyLoader';
-import {
-    beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution,
-} from './pokemons/evolutions/Base';
+import { beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution } from './pokemons/evolutions/Base';
 import * as OtherEvos from './pokemons/evolutions/Methods';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
 import * as PokemonHelper from './pokemons/PokemonHelper';
@@ -232,6 +228,8 @@ import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
 import areaStatus from './enums/AreaStatus';
 import TranslationHelper from './translation/TranslationHelper';
 import * as DownloadUtil from './utilities/DownloadUtil';
+
+import { Scripts, ScriptsSettings } from './scripts';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -479,4 +477,6 @@ Object.assign(<any>window, {
     areaStatus,
     TranslationHelper,
     DownloadUtil,
+    Scripts,
+    ScriptsSettings: ScriptsSettings,
 });

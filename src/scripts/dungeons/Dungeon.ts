@@ -98,7 +98,8 @@ const DungeonGainGymBadge = (gym: Gym) => {
     dungeonRegionalDifficulty?: GameConstants.Region,
     requirement?: MultiRequirement | OneFromManyRequirement | Requirement,
 }
-class Dungeon {
+
+class Dungeon implements TmpDungeonType {
     private mimicList: PokemonNameType[] = [];
 
     constructor(

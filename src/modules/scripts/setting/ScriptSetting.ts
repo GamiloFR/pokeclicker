@@ -1,0 +1,36 @@
+import { Computed, Observable } from 'knockout';
+
+export type ScriptSettingTemplate = 'SelectScriptSettingTemplate' | 'NumberScriptSettingTemplate';
+
+class ScriptSetting<T> {
+    public readonly id: string;
+    public readonly name: string;
+    public readonly template: ScriptSettingTemplate;
+    public readonly isVisible: Computed<boolean>;
+
+    private readonly _value: Observable<T>;
+
+    public constructor(
+        id: string,
+        name: string,
+        value: Observable<T>,
+        template: ScriptSettingTemplate,
+        isVisible = () => true,
+    ) {
+        this.id = id;
+        this.name = name;
+        this._value = value;
+        this.template = template;
+        this.isVisible = ko.computed(isVisible);
+    }
+
+    public get value(): T {
+        return this._value();
+    }
+
+    public set value(t: T) {
+        this._value(t);
+    }
+}
+
+export default ScriptSetting;

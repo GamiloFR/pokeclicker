@@ -1,8 +1,8 @@
 // importing only types, as we are "allowed" to have circular type dependencies
 import type {
+    Computed as KnockoutComputed,
     Observable as KnockoutObservable,
     ObservableArray as KnockoutObservableArray,
-    Computed as KnockoutComputed,
 } from 'knockout';
 import type LogBook from './logbook/LogBook';
 import type BadgeCase from './DataStore/BadgeCase';
@@ -34,6 +34,8 @@ import type WeatherType from './weather/WeatherType';
 import type { MultiplierDecreaser } from './items/types';
 import type BagItem from './interfaces/BagItem';
 import type BattlePokemon from './battles/BattlePokemon';
+import Battle from './battles/Battle';
+import Requirement from './requirements/Requirement';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -220,19 +222,76 @@ export type TmpMapHelperType = {
     travelToNextRegion: () => void;
 };
 
-export type TmpDungeonRunnerType = {
-    dungeon: {
-        name: string
-    };
+export type TmpDungeonType = {
+    name: string;
 };
+
+export type TmpDungeonRunnerType = {
+    dungeon: TmpDungeonType;
+    fighting: KnockoutObservable<boolean>;
+    map: TmpDungeonMapType;
+
+    initializeDungeon: (dungeon: TmpDungeonType) => void;
+    canStartDungeon: (dungeon?: TmpDungeonType) => boolean;
+    handleInteraction: (source?: GameConstants.DungeonInteractionSource) => void;
+    dungeonCompleted: (dungeon: TmpDungeonType, includeShiny: boolean) => boolean;
+};
+
+export type TmpDungeonMapType = {
+    board: KnockoutObservable<TmpDungeonTileType[][][]>;
+    playerPosition: KnockoutObservable<TmpPointType>;
+    playerMoved: KnockoutObservable<boolean>;
+    totalFights: KnockoutObservable<number>;
+    totalChests: KnockoutObservable<number>;
+    floorSizes: number[];
+
+    moveToCoordinates: (x: number, y: number, floor: boolean) => void;
+    moveUp: () => void;
+    moveRight: () => void;
+    moveDown: () => void;
+    moveLeft: () => void;
+    moveToTile: (point: TmpPointType) => boolean;
+    showChestTiles: () => void;
+    showAllTiles: () => void;
+    currentTile: () => TmpDungeonTileType;
+    nearbyTiles: (point: TmpPointType, avoidTiles: GameConstants.DungeonTileType[]) => TmpDungeonTileType[];
+    findShortestPath: (start: TmpPointType, goal: TmpPointType, avoidTiles: GameConstants.DungeonTileType[]) => void;
+    hasAccessToTile: (point: TmpPointType) => boolean;
+    generateMap: () => TmpDungeonTileType[][][];
+    /**
+     * Shuffles array in place.
+     * @param {Array} a items The array containing the items.
+     */
+    shuffle: (a) => void;
+};
+
+export type TmpDungeonTileType = {
+    type: KnockoutObservable<GameConstants.DungeonTileType>;
+    position: TmpPointType;
+    isVisible: boolean;
+    isVisited: boolean;
+};
+
+export type TmpPointType = {
+    x: number;
+    y: number;
+    floor: number;
+};
+
+export type TmpDungeonBattleType = typeof Battle;
 
 export type TmpGymType = {
     town: string;
+    clears: () => number;
 };
 
 export type TmpGymRunnerType = {
     gymObservable: () => TmpGymType;
+
+    startGym: (gym: TmpGymType, autoRestart?: boolean, initialRun?: boolean) => void;
 };
+
+export type TmpGymBattleType = typeof Battle;
 
 export type TmpAchievementHandlerType = {
     achievementList: Achievement[];
@@ -369,6 +428,17 @@ export type TmpTemporaryBattleType = {
     getDisplayName: () => string;
 };
 
+export type TmpTemporaryBattleBattleType = typeof Battle;
+
 export type TmpTownType = {
     name: string;
+    region: GameConstants.Region;
+    requirements: Requirement[];
+    dungeon?: TmpDungeonType;
+    startingTown: boolean;
+    content: TmpTownContentType[];
+    subRegion: GameConstants.SubRegions;
+    ignoreAreaStatus: boolean;
 };
+
+export type TmpTownContentType = {};

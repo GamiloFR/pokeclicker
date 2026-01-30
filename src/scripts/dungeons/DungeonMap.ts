@@ -1,4 +1,4 @@
-class DungeonMap {
+class DungeonMap implements TmpDungeonMapType {
     board: KnockoutObservable<DungeonTile[][][]>;
     playerPosition: KnockoutObservable<Point>;
     playerMoved: KnockoutObservable<boolean>;

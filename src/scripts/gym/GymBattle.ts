@@ -49,3 +49,5 @@ class GymBattle extends Battle {
         return GymBattle.totalPokemons() - GymBattle.index();
     })
 }
+
+GymBattle satisfies TmpGymBattleType;

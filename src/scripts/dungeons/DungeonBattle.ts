@@ -286,3 +286,5 @@ class DungeonBattle extends Battle {
     }
 
 }
+
+DungeonBattle satisfies TmpDungeonBattleType;

@@ -1,6 +1,6 @@
 type ChestMetaData = NonNullable<{loot: Loot, tier: LootTier}>
 
-class DungeonTile {
+class DungeonTile implements TmpDungeonTileType {
     _isVisible: boolean;
     _isVisited: boolean;
     _hasPlayer: boolean;

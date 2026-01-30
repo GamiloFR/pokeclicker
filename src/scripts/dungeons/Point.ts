@@ -1,4 +1,4 @@
-class Point {
+class Point implements TmpPointType {
     x: number;
     y: number;
     floor: number;

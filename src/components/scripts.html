@@ -1,0 +1,101 @@
+<div
+    id="scripts"
+    class="card sortable border-secondary mb-3"
+    data-bind="visible: player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None"
+>
+    <div class="card-header p-0" data-toggle="collapse" href="#scriptsBody">
+        <span>Scripts</span>
+    </div>
+    <img
+        class="clickable" src="assets/images/fa-cog.svg"
+        style="position: absolute; right: 0px; top: 0px; width: auto; height: 41px; padding: 8px; padding-right: 4px;"
+        data-toggle="modal"
+        href="#scriptsSettingsModal"
+    />
+    <div id="scriptsBody" class="card-body p-0 show">
+        <div class="table-responsive d-flex flex-column">
+            <div class="flex-grow-1 flex-shrink-1" style="overflow: auto;">
+                <table class="table table-sm m-0">
+                    <tbody data-bind="foreach: Scripts.list">
+                        <tr data-bind="template: { name: 'ScriptTemplate', data: $data }, visible: $data.isUnlocked()"></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal noselect fade"
+    id="scriptsSettingsModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="scriptsSettingsModalLabel"
+>
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style='justify-content: space-around;'>
+                <h5 class="modal-title">Scripts Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table table-striped table-hover m-0" data-bind="foreach: ScriptsSettings.groups">
+                    <thead>
+                        <tr>
+                            <th colspan="2" data-bind="text: $data.name">Group name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: $data.items -->
+                        <tr data-bind="template: { name: 'ScriptSettingTemplate', data: $data }"></tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="ScriptTemplate">
+    <td class="p-2">
+        <label class="m-0" data-bind="attr: { for: $data.id }, text: `${$data.name}:`">
+            script name
+        </label>
+    </td>
+    <td class="p-2">
+        <input
+            class="clickable"
+            type="checkbox"
+            data-bind="checked: $data.isActive, attr: { id: $data.id }"
+            onchange="Scripts.setScript(this.id, this.checked)"
+        />
+    </td>
+</script>
+
+<script type="text/html" id="ScriptSettingTemplate">
+    <!-- ko if: $data.isVisible -->
+    <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
+    <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
+    <!-- /ko -->
+</script>
+
+<script type="text/html" id="SelectScriptSettingTemplate">
+    <select
+        class="form-control"
+        onchange="ScriptsSettings.setSetting(this.id, this.value)"
+        data-bind="foreach: $data.options, attr: { id: $data.id, name: $data.name }"
+    >
+        <option data-bind="text: $data.name, value: $data.value, attr: { selected: $parent.value == $data.value}"></option>
+    </select>
+</script>
+
+<script type="text/html" id="NumberScriptSettingTemplate">
+    <input
+        type="number"
+        class="form-control"
+        onchange="ScriptsSettings.setSetting(this.id, this.value)"
+        data-bind="attr: { id: $data.id, name: $data.name }, value: $data.value"
+    />
+</script>
