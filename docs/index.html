@@ -17,10 +17,10 @@
     <script src="libs/Sortable.min.js"></script>
 
     <!-- New module-based code from './modules' -->
-    <script src="scripts/modules.min.js?v=0.10.25-custom1"></script>
+    <script src="scripts/modules.min.js?v=0.10.25-custom2"></script>
 
     <!--Minified scripts-->
-    <script src="scripts/script.min.js?v=0.10.25-custom1"></script>
+    <script src="scripts/script.min.js?v=0.10.25-custom2"></script>
 
     <!--Popper.js-->
     <script src="libs/popper.min.js"></script>
@@ -38,7 +38,7 @@
     <link href="libs/introjs-modern.css" rel="stylesheet">
 
     <!--Minified styles-->
-    <link href="styles/styles.min.css?v=0.10.25-custom1" rel="stylesheet">
+    <link href="styles/styles.min.css?v=0.10.25-custom2" rel="stylesheet">
 
     <style>
         #game.loading {
@@ -1538,7 +1538,21 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
             <div class="flex-grow-1 flex-shrink-1" style="overflow: auto;">
                 <table class="table table-sm m-0">
                     <tbody data-bind="foreach: Scripts.list">
-                        <tr data-bind="template: { name: 'ScriptTemplate', data: $data }, visible: $data.isUnlocked()"></tr>
+                        <tr data-bind="visible: $data.isUnlocked()">
+                            <td class="p-2">
+                                <label class="m-0" data-bind="attr: { for: $data.id }, text: `${$data.name}:`">
+                                    script name
+                                </label>
+                            </td>
+                            <td class="p-2">
+                                <input
+                                    class="clickable"
+                                    type="checkbox"
+                                    data-bind="checked: $data.isActive, attr: { id: $data.id }"
+                                    onchange="Scripts.setScript(this.id, this.checked)"
+                                />
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1570,7 +1584,10 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                     </thead>
                     <tbody>
                         <!-- ko foreach: $data.items -->
-                        <tr data-bind="template: { name: 'ScriptSettingTemplate', data: $data }"></tr>
+                        <tr data-bind="visible: $data.isVisible">
+                            <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
+                            <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
+                        </tr>
                         <!-- /ko -->
                     </tbody>
                 </table>
@@ -1578,29 +1595,6 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
         </div>
     </div>
 </div>
-
-<script type="text/html" id="ScriptTemplate">
-    <td class="p-2">
-        <label class="m-0" data-bind="attr: { for: $data.id }, text: `${$data.name}:`">
-            script name
-        </label>
-    </td>
-    <td class="p-2">
-        <input
-            class="clickable"
-            type="checkbox"
-            data-bind="checked: $data.isActive, attr: { id: $data.id }"
-            onchange="Scripts.setScript(this.id, this.checked)"
-        />
-    </td>
-</script>
-
-<script type="text/html" id="ScriptSettingTemplate">
-    <!-- ko if: $data.isVisible -->
-    <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
-    <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
-    <!-- /ko -->
-</script>
 
 <script type="text/html" id="SelectScriptSettingTemplate">
     <select
@@ -3031,8 +3025,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Kanto').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-kanto.png?v=0.10.25-custom1',
-            href:'assets/images/kanto-kanto.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/kanto-kanto.png?v=0.10.25-custom2',
+            href:'assets/images/kanto-kanto.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -5563,8 +5557,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 123').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-sevii123.png?v=0.10.25-custom1',
-            href:'assets/images/kanto-sevii123.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/kanto-sevii123.png?v=0.10.25-custom2',
+            href:'assets/images/kanto-sevii123.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -6130,8 +6124,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 4567').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-sevii4567.png?v=0.10.25-custom1',
-            href:'assets/images/kanto-sevii4567.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/kanto-sevii4567.png?v=0.10.25-custom2',
+            href:'assets/images/kanto-sevii4567.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -7789,8 +7783,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <!-- imported from src/components/regionMaps/JohtoSVG.html -->
 <g data-bind='visible: player.region == GameConstants.Region.johto'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/johto.png?v=0.10.25-custom1',
-        href:'assets/images/johto.png?v=0.10.25-custom1'
+        'xlink:href':'assets/images/johto.png?v=0.10.25-custom2',
+        href:'assets/images/johto.png?v=0.10.25-custom2'
     }"></image>
 
     <!-- ------ -->
@@ -10418,8 +10412,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <!-- imported from src/components/regionMaps/HoennSVG.html -->
 <g data-bind='visible: player.region == GameConstants.Region.hoenn'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/hoenn.png?v=0.10.25-custom1',
-        href:'assets/images/hoenn.png?v=0.10.25-custom1'
+        'xlink:href':'assets/images/hoenn.png?v=0.10.25-custom2',
+        href:'assets/images/hoenn.png?v=0.10.25-custom2'
     }"></image>
 
     <!-- ------ -->
@@ -13907,8 +13901,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
      <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.hoenn, 'Orre').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/orre.png?v=0.10.25-custom1',
-            href:'assets/images/orre.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/orre.png?v=0.10.25-custom2',
+            href:'assets/images/orre.png?v=0.10.25-custom2'
         }"></image>
 
     <!-- ------ -->
@@ -15293,8 +15287,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <!-- imported from src/components/regionMaps/SinnohSVG.html -->
 <g data-bind='visible: player.region == GameConstants.Region.sinnoh'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/sinnoh.png?v=0.10.25-custom1',
-        href:'assets/images/sinnoh.png?v=0.10.25-custom1'
+        'xlink:href':'assets/images/sinnoh.png?v=0.10.25-custom2',
+        href:'assets/images/sinnoh.png?v=0.10.25-custom2'
     }"></image>
 
     <!-- ------ -->
@@ -18419,8 +18413,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <!-- imported from src/components/regionMaps/UnovaSVG.html -->
 <g data-bind='visible: player.region == GameConstants.Region.unova'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/unova.png?v=0.10.25-custom1',
-        href:'assets/images/unova.png?v=0.10.25-custom1'
+        'xlink:href':'assets/images/unova.png?v=0.10.25-custom2',
+        href:'assets/images/unova.png?v=0.10.25-custom2'
     }"></image>
 
     <!-- ------ -->
@@ -21611,8 +21605,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <!-- imported from src/components/regionMaps/KalosSVG.html -->
 <g data-bind='visible: player.region == GameConstants.Region.kalos'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/kalos.png?v=0.10.25-custom1',
-        href:'assets/images/kalos.png?v=0.10.25-custom1'
+        'xlink:href':'assets/images/kalos.png?v=0.10.25-custom2',
+        href:'assets/images/kalos.png?v=0.10.25-custom2'
     }"></image>
 
     <!-- ------ -->
@@ -24359,8 +24353,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Melemele Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-melemele.png?v=0.10.25-custom1',
-            href:'assets/images/alola-melemele.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/alola-melemele.png?v=0.10.25-custom2',
+            href:'assets/images/alola-melemele.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -27950,8 +27944,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Akala Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-akala.png?v=0.10.25-custom1',
-            href:'assets/images/alola-akala.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/alola-akala.png?v=0.10.25-custom2',
+            href:'assets/images/alola-akala.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -30342,8 +30336,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Ula\'ula Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-ulaula.png?v=0.10.25-custom1',
-            href:'assets/images/alola-ulaula.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/alola-ulaula.png?v=0.10.25-custom2',
+            href:'assets/images/alola-ulaula.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -33249,8 +33243,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Poni Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-poni.png?v=0.10.25-custom1',
-            href:'assets/images/alola-poni.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/alola-poni.png?v=0.10.25-custom2',
+            href:'assets/images/alola-poni.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -35651,8 +35645,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Magikarp Jump').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-magikarp-jump.png?v=0.10.25-custom1',
-            href:'assets/images/alola-magikarp-jump.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/alola-magikarp-jump.png?v=0.10.25-custom2',
+            href:'assets/images/alola-magikarp-jump.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -37887,8 +37881,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'South Galar').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-south.png?v=0.10.25-custom1',
-            href:'assets/images/galar-south.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/galar-south.png?v=0.10.25-custom2',
+            href:'assets/images/galar-south.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -40329,8 +40323,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'North Galar').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-north.png?v=0.10.25-custom1',
-            href:'assets/images/galar-north.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/galar-north.png?v=0.10.25-custom2',
+            href:'assets/images/galar-north.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -41431,8 +41425,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'Isle of Armor').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-isle-of-armor.png?v=0.10.25-custom1',
-            href:'assets/images/galar-isle-of-armor.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/galar-isle-of-armor.png?v=0.10.25-custom2',
+            href:'assets/images/galar-isle-of-armor.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->
@@ -44352,8 +44346,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'Crown Tundra').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-crown-tundra.png?v=0.10.25-custom1',
-            href:'assets/images/galar-crown-tundra.png?v=0.10.25-custom1'
+            'xlink:href':'assets/images/galar-crown-tundra.png?v=0.10.25-custom2',
+            href:'assets/images/galar-crown-tundra.png?v=0.10.25-custom2'
         }"></image>
 
         <!-- ------ -->

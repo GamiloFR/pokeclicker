@@ -16,7 +16,7 @@ class AutoGymScriptClass extends Script {
     public constructor() {
         super('custom.scripts.autogym', 'Auto-gym');
         this.mode = ko.observable('NORMAL');
-        this.clears = ko.observable(ACHIEVEMENT_DEFEAT_GYM_VALUES.at(-1));
+        this.clears = ko.observable(ACHIEVEMENT_DEFEAT_GYM_VALUES.at(-1)).extend({ numeric: 0 });
 
         GameLoadState.onLoadState(GameLoadState.states.running, () => {
             const startGym = GymRunner.startGym;

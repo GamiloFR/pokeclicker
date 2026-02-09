@@ -230,3 +230,5 @@ class BreedingController {
         document.querySelector('#breeding-pokemon-list-container .scrolling-div-breeding-list').scrollTop = 0;
     }
 }
+
+BreedingController satisfies TmpBreedingControllerType;

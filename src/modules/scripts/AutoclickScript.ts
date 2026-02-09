@@ -4,7 +4,7 @@ import Battle from '../battles/Battle';
 
 class AutoclickScriptClass extends Script {
     public constructor() {
-        super('scripts.autoclick', 'Auto-click');
+        super('custom.scripts.autoclick', 'Auto-click');
     }
 
     public isUnlocked(): boolean {

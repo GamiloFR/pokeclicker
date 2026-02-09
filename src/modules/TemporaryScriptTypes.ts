@@ -36,6 +36,9 @@ import type BagItem from './interfaces/BagItem';
 import type BattlePokemon from './battles/BattlePokemon';
 import Battle from './battles/Battle';
 import Requirement from './requirements/Requirement';
+import EggType from './breeding/EggType';
+import Amount from './wallet/Amount';
+import { PokemonListData } from './pokemons/PokemonList';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -88,7 +91,6 @@ import Requirement from './requirements/Requirement';
 
 // TODO types for classes not yet described
 export type TmpUpdateType = any;
-export type TmpBreedingType = any;
 export type TmpPokeballsType = any;
 export type TmpGemsType = any;
 export type TmpFarmingType = any;
@@ -358,6 +360,8 @@ export type TmpPartyPokemonType = {
     heldItem: KnockoutObservable<TmpHeldItemType>;
     defaultFemaleSprite: KnockoutObservable<boolean>;
     hideShinyImage: KnockoutObservable<boolean>;
+    isHatchable: KnockoutComputed<boolean>;
+    isHatchableFiltered: KnockoutComputed<boolean>;
     canUseStone(stoneType: GameConstants.StoneType): boolean;
     addCategory(id: number): void;
     removeCategory(id: number): void;
@@ -366,6 +370,8 @@ export type TmpPartyPokemonType = {
 };
 
 export type TmpPartyType = {
+    hasMaxLevelPokemon: KnockoutComputed<boolean>;
+    hasShadowPokemon: KnockoutComputed<boolean>;
     caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
     activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
     gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
@@ -442,3 +448,71 @@ export type TmpTownType = {
 };
 
 export type TmpTownContentType = {};
+
+type HatcheryQueueEntry = [EggType.Pokemon, number] | [EggType.EggItem, GameConstants.EggItemType];
+
+export type TmpBreedingType = {
+    hatcheryHelpers: TmpHatcheryHelpersType;
+    queueSlots: KnockoutObservable<number>;
+    readonly hatchList: Record<GameConstants.EggItemType, PokemonNameType[][]>;
+    eggSlots: number;
+    queueList: KnockoutObservable<Array<HatcheryQueueEntry>>;
+    eggList: Array<KnockoutObservable<TmpEggType>>;
+    usableQueueSlots: KnockoutObservable<number>;
+
+    canAccess(): boolean;
+    canBreedPokemon(): boolean;
+    hasFreeEggSlot(isHelper?: boolean): boolean;
+    hasFreeQueueSlot(): boolean;
+    gainEgg(e: TmpEggType, eggSlot?: number): boolean;
+    progressEggsBattle(route: number, region: GameConstants.Region): void;
+    progressEggs(amount: number): void;
+    addPokemonToHatchery(pokemon: TmpPartyPokemonType): boolean;
+    addEggItemToHatchery(eggItem: GameConstants.EggItemType): boolean;
+    removeFromQueue(index: number): boolean;
+    clearQueue(shouldConfirm?: boolean): void;
+    gainPokemonEgg(pokemon: TmpPartyPokemonType | PokemonListData, eggSlot?: number): boolean;
+    hatchPokemonEgg(index: number, nextEgg?: boolean): void;
+    moveEggs(): void;
+    createEgg(pokemonId: number, type?: EggType): TmpEggType;
+    getSteps(eggCycles: number): number;
+    calculateBaseForm(pokemonName: PokemonNameType): PokemonNameType;
+    getEggSlotCost(slot: number): number;
+    buyEggSlot(): void;
+    nextEggSlotCost(): Amount;
+    gainEggSlot(): void;
+    gainQueueSlot(amt?: number): void;
+    queueSlotsGainedFromRegion(region: GameConstants.Region): number;
+    getAllCaughtStatus(): CaughtStatus;
+    getTypeCaughtStatus(type: GameConstants.EggItemType): CaughtStatus;
+    checkCloseModal(): void;
+    updateQueueSizeLimit(): void;
+    fireAllButtonTooltip(): string;
+};
+
+export type TmpBreedingControllerType = {
+    selectedEggItem: KnockoutObservable<GameConstants.EggItemType>;
+    queueSizeLimit: KnockoutObservable<number>;
+    viewResetWaiting: KnockoutObservable<boolean>;
+    viewSortedFilteredList: KnockoutComputed<Array<TmpPartyPokemonType>>;
+
+    initialize(): void;
+    openBreedingModal(): void;
+    getEggCssClass(egg: TmpEggType): string;
+    getEggSpots(pokemonName: PokemonNameType): string;
+    getQueueImage([type, id]: HatcheryQueueEntry): string;
+    getEggPokemonName(egg: TmpEggType): string | null;
+    formatSearch(value: string): void;
+    getSearchString(): any;
+    getRegionFilterString(): string;
+    isPureType(pokemon: TmpPartyPokemonType, type: (PokemonType | null)): boolean;
+    getDisplayValue(pokemon: TmpPartyPokemonType): string;
+    calculateRegionalMultiplier(pokemon: TmpPartyPokemonType): number;
+    calcEggOdds(eggItem: GameConstants.EggItemType, pokemon: PokemonNameType): number;
+};
+
+export type TmpEggType = {
+    canHatch(): boolean;
+};
+
+export type TmpHatcheryHelpersType = any;

@@ -4,7 +4,7 @@ import { ACHIEVEMENT_DEFEAT_DUNGEON_VALUES, DungeonTileType, GameState, getDunge
 import Rand from '../utilities/Rand';
 import { Observable } from 'knockout';
 import GameLoadState from '../utilities/GameLoadState';
-import { TmpDungeonType } from '../TemporaryScriptTypes';
+import { TmpDungeonTileType, TmpDungeonType } from '../TemporaryScriptTypes';
 
 export type AutoDungeonMode = 'NORMAL' | 'BOSS_RUSH' | 'CLEARS' | 'ALL_CAUGHT' | 'ALL_SHINY';
 
@@ -18,7 +18,7 @@ class AutoDungeonScriptClass extends Script {
     public constructor() {
         super('custom.scripts.autodungeon', 'Auto-dungeon');
         this.mode = ko.observable('NORMAL');
-        this.clears = ko.observable(ACHIEVEMENT_DEFEAT_DUNGEON_VALUES.at(-1));
+        this.clears = ko.observable(ACHIEVEMENT_DEFEAT_DUNGEON_VALUES.at(-1)).extend({ numeric: 0 });
         this.started = false;
 
         GameLoadState.onLoadState(GameLoadState.states.running, () => {
@@ -114,19 +114,29 @@ class AutoDungeonScriptClass extends Script {
             .filter(tile => !tile.isVisited && DungeonRunner.map.hasAccessToTile(tile.position));
         if (accessibleTiles.length > 0) {
             const weights = accessibleTiles.map(tile => {
+                if (!tile.isVisible) {
+                    return 0;
+                }
+
                 switch (this.mode()) {
                     case 'BOSS_RUSH':
                     case 'CLEARS':
                         return [DungeonTileType.ladder, DungeonTileType.boss].includes(tile.type()) ? 1 : 0;
                     default:
-                        return 1;
+                        return 0;
                 }
             });
-            const nextTile = Rand.fromWeightedArray(accessibleTiles, weights);
+            const nextTile = this.selectRandomTile(accessibleTiles, weights);
             DungeonRunner.map.moveToTile(nextTile.position);
         } else {
             throw new Error('Unable to move in dungeon: no accessible tiles');
         }
+    }
+
+    private selectRandomTile(tiles: TmpDungeonTileType[], weights: number[]): TmpDungeonTileType {
+        const maxWeight = Math.max(...weights);
+        const tilesWithMaxWeight = tiles.filter((_, index) => weights[index] === maxWeight);
+        return Rand.fromArray(tilesWithMaxWeight);
     }
 }
 

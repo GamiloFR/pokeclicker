@@ -88,6 +88,21 @@ class ScriptsSettings {
         this.groups.push(autoDungeon, autoGym);
     }
 
+    public static load(settings: Record<string, any>) {
+        this.list.forEach(setting => {
+            if (setting.id in settings) {
+                this.setSetting(setting.id, settings[setting.id]);
+            }
+        });
+    }
+
+    public static store(): Record<string, unknown> {
+        return this.list.reduce((acc, setting) => ({
+            ...acc,
+            [setting.id]: setting.value,
+        }), {});
+    }
+
     public static setSetting<T>(id: string, value: T) {
         const setting = this.list.find(s => s.id === id);
         setting.value = value;

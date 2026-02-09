@@ -17,7 +17,21 @@
             <div class="flex-grow-1 flex-shrink-1" style="overflow: auto;">
                 <table class="table table-sm m-0">
                     <tbody data-bind="foreach: Scripts.list">
-                        <tr data-bind="template: { name: 'ScriptTemplate', data: $data }, visible: $data.isUnlocked()"></tr>
+                        <tr data-bind="visible: $data.isUnlocked()">
+                            <td class="p-2">
+                                <label class="m-0" data-bind="attr: { for: $data.id }, text: `${$data.name}:`">
+                                    script name
+                                </label>
+                            </td>
+                            <td class="p-2">
+                                <input
+                                    class="clickable"
+                                    type="checkbox"
+                                    data-bind="checked: $data.isActive, attr: { id: $data.id }"
+                                    onchange="Scripts.setScript(this.id, this.checked)"
+                                />
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -49,7 +63,10 @@
                     </thead>
                     <tbody>
                         <!-- ko foreach: $data.items -->
-                        <tr data-bind="template: { name: 'ScriptSettingTemplate', data: $data }"></tr>
+                        <tr data-bind="visible: $data.isVisible">
+                            <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
+                            <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
+                        </tr>
                         <!-- /ko -->
                     </tbody>
                 </table>
@@ -57,29 +74,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/html" id="ScriptTemplate">
-    <td class="p-2">
-        <label class="m-0" data-bind="attr: { for: $data.id }, text: `${$data.name}:`">
-            script name
-        </label>
-    </td>
-    <td class="p-2">
-        <input
-            class="clickable"
-            type="checkbox"
-            data-bind="checked: $data.isActive, attr: { id: $data.id }"
-            onchange="Scripts.setScript(this.id, this.checked)"
-        />
-    </td>
-</script>
-
-<script type="text/html" id="ScriptSettingTemplate">
-    <!-- ko if: $data.isVisible -->
-    <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
-    <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
-    <!-- /ko -->
-</script>
 
 <script type="text/html" id="SelectScriptSettingTemplate">
     <select

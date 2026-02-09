@@ -31,6 +31,7 @@ module.exports = {
         PokemonFactory: 'readonly',
         PartyController: 'readonly',
         TemporaryBattleBattle: 'readonly',
+        BreedingController: 'readonly',
     },
     rules: {
         indent: 'off',

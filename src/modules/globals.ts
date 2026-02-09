@@ -21,4 +21,5 @@ declare global {
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const TemporaryBattleBattle: TempTypes.TmpTemporaryBattleBattleType;
     const BagHandler: TempTypes.TmpBagHandlerType;
+    const BreedingController: TempTypes.TmpBreedingControllerType;
 }

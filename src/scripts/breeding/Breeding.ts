@@ -2,9 +2,7 @@
 /// <reference path="../../declarations/DataStore/common/Feature.d.ts" />
 /// <reference path="../../declarations/breeding/EggType.d.ts" />
 
-type HatcheryQueueEntry = [EggType.Pokemon, number] | [EggType.EggItem, GameConstants.EggItemType];
-
-class Breeding implements Feature {
+class Breeding implements Feature, TmpBreedingType {
     name = 'Breeding';
     saveKey = 'breeding';
 
