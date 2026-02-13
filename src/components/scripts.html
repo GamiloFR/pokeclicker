@@ -65,7 +65,10 @@
                         <!-- ko foreach: $data.items -->
                         <tr data-bind="visible: $data.isVisible">
                             <td class="p-2" style="width: 60%" data-bind="text: `${$data.name}:`"></td>
-                            <td class="p-0" data-bind="template: { name: $data.template, data: $data }"></td>
+                            <td
+                                class="p-0 vertical-middle"
+                                data-bind="template: { name: $data.template, data: $data }"
+                            ></td>
                         </tr>
                         <!-- /ko -->
                     </tbody>
@@ -79,7 +82,7 @@
     <select
         class="form-control"
         onchange="ScriptsSettings.setSetting(this.id, this.value)"
-        data-bind="foreach: $data.options, attr: { id: $data.id, name: $data.name }"
+        data-bind="foreach: $data.options, attr: { id: $data.id }"
     >
         <option data-bind="text: $data.name, value: $data.value, attr: { selected: $parent.value == $data.value}"></option>
     </select>
@@ -90,6 +93,15 @@
         type="number"
         class="form-control"
         onchange="ScriptsSettings.setSetting(this.id, this.value)"
-        data-bind="attr: { id: $data.id, name: $data.name }, value: $data.value"
+        data-bind="attr: { id: $data.id }, value: $data.value"
+    />
+</script>
+
+<script type="text/html" id="BooleanScriptSettingTemplate">
+    <input
+        type="checkbox"
+        class="clickable"
+        onchange="ScriptsSettings.setSetting(this.id, this.checked)"
+        data-bind="attr: { id: $data.id }, checked: $data.value"
     />
 </script>

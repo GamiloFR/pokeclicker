@@ -1,8 +1,9 @@
 import { ObservableArray } from 'knockout';
-import ScriptSetting from './ScriptSetting';
+import ScriptSetting, { BooleanScriptSetting, NumberScriptSetting } from './ScriptSetting';
 import SelectScriptSetting, { SelectOption } from './SelectScriptSetting';
 import AutoDungeonScript, { AutoDungeonMode } from '../AutoDungeonScript';
 import AutoGymScript, { AutoGymMode } from '../AutoGymScript';
+import AutoSafariScript, { AutoSafariMode } from '../AutoSafariScript';
 
 const autoDungeonModeOptions: SelectOption<AutoDungeonMode>[] = [
     {
@@ -38,6 +39,21 @@ const autoGymModeOptions: SelectOption<AutoGymMode>[] = [
     },
 ];
 
+const autoSafariModeOptions: SelectOption<AutoSafariMode>[] = [
+    {
+        name: 'Normal',
+        value: 'NORMAL',
+    },
+    {
+        name: 'All pokemons caught',
+        value: 'CAUGHT',
+    },
+    {
+        name: 'All pokemons caught shiny',
+        value: 'SHINY',
+    },
+];
+
 type ScriptSettingGroup = {
     id?: string;
     name: string;
@@ -49,43 +65,58 @@ class ScriptsSettings {
 
     public static init() {
         const autoDungeon = {
-            id: 'custom.scripts.autodungeon',
+            id: 'autodungeon',
             name: 'Auto-dungeon',
             items: ko.observableArray([
                 new SelectScriptSetting(
-                    'custom.scripts.autodungeon.mode',
+                    'autodungeon.mode',
                     'Mode',
                     AutoDungeonScript.mode,
                     autoDungeonModeOptions,
-                ), new ScriptSetting(
-                    'custom.scripts.autodungeon.clears',
+                ), new NumberScriptSetting(
+                    'autodungeon.clears',
                     'Clears',
                     AutoDungeonScript.clears,
-                    'NumberScriptSettingTemplate',
                     () => AutoDungeonScript.mode() === 'CLEARS',
                 ),
             ]),
         };
         const autoGym: ScriptSettingGroup = {
-            id: 'custom.scripts.autogym',
+            id: 'autogym',
             name: 'Auto-gym',
             items: ko.observableArray([
                 new SelectScriptSetting(
-                    'custom.scripts.autogym.mode',
+                    'autogym.mode',
                     'Mode',
                     AutoGymScript.mode,
                     autoGymModeOptions,
                 ),
-                new ScriptSetting(
-                    'custom.scrips.autogym.clears',
+                new NumberScriptSetting(
+                    'autogym.clears',
                     'Clears',
                     AutoGymScript.clears,
-                    'NumberScriptSettingTemplate',
                     () => AutoGymScript.mode() === 'CLEARS',
                 ),
             ]),
         };
-        this.groups.push(autoDungeon, autoGym);
+        const autoSafari: ScriptSettingGroup = {
+            id: 'autosafari',
+            name: 'Auto-safari',
+            items: ko.observableArray([
+                new SelectScriptSetting(
+                    'autosafari.mode',
+                    'Mode',
+                    AutoSafariScript.mode,
+                    autoSafariModeOptions,
+                ),
+                new BooleanScriptSetting(
+                    'autosafari.shouldThrowRock',
+                    'Throw rocks to end battle',
+                    AutoSafariScript.shouldThrowRock,
+                ),
+            ]),
+        };
+        this.groups.push(autoDungeon, autoGym, autoSafari);
     }
 
     public static load(settings: Record<string, any>) {

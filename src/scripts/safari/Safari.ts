@@ -9,7 +9,7 @@ class Safari {
     static walking = false;
     static isMoving = false;
     static queue: Array<string> = [];
-    private static playerXY = {'x': 0, 'y': 0};
+    static playerXY = { 'x': 0, 'y': 0 };
     private static origin;
     static inProgress: KnockoutObservable<boolean> = ko.observable(false);
     static inBattle: KnockoutObservable<boolean> = ko.observable(false);

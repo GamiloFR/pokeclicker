@@ -5,12 +5,21 @@ import { ObservableArray } from 'knockout';
 import AutoGymScript from './AutoGymScript';
 import AutoHatcheryScript from './AutoHatcheryScript';
 import { ScriptsSettings } from './index';
+import AutoUndergroundScript from './AutoUndergroundScript';
+import AutoSafariScript from './AutoSafariScript';
 
 class Scripts {
     public static readonly list: ObservableArray<Script> = ko.observableArray();
 
     public static init() {
-        this.list.push(AutoclickScriptClass, AutoDungeonScript, AutoGymScript, AutoHatcheryScript);
+        this.list.push(
+            AutoclickScriptClass,
+            AutoDungeonScript,
+            AutoGymScript,
+            AutoHatcheryScript,
+            AutoUndergroundScript,
+            AutoSafariScript,
+        );
 
         document.addEventListener('DOMContentLoaded', () => {
             const load = Save.load;

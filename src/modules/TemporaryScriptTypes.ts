@@ -39,6 +39,8 @@ import Requirement from './requirements/Requirement';
 import EggType from './breeding/EggType';
 import Amount from './wallet/Amount';
 import { PokemonListData } from './pokemons/PokemonList';
+import { SortOptions } from './settings/SortOptions';
+import SafariEnvironments from './enums/SafariEnvironments';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -362,6 +364,7 @@ export type TmpPartyPokemonType = {
     hideShinyImage: KnockoutObservable<boolean>;
     isHatchable: KnockoutComputed<boolean>;
     isHatchableFiltered: KnockoutComputed<boolean>;
+    matchesHatcheryFilters: KnockoutComputed<boolean>;
     canUseStone(stoneType: GameConstants.StoneType): boolean;
     addCategory(id: number): void;
     removeCategory(id: number): void;
@@ -413,8 +416,14 @@ export type TmpPartyType = {
 
 export type TmpPartyControllerType = {
     getCaughtStatusByName: (name: PokemonNameType) => CaughtStatus;
+    getCaughtStatus: (id: number) => CaughtStatus;
     getPokerusStatusByName: (name: PokemonNameType) => GameConstants.Pokerus;
+    getPokerusStatus: (id: number) => GameConstants.Pokerus;
     getEvsByName: (name: PokemonNameType) => number;
+    compareBy: (option: SortOptions, direction: boolean, region?: number) => (
+        a: TmpPartyPokemonType,
+        b: TmpPartyPokemonType,
+    ) => number
 };
 
 export type TmpBagHandlerType = {
@@ -516,3 +525,86 @@ export type TmpEggType = {
 };
 
 export type TmpHatcheryHelpersType = any;
+
+export type TmpSafariType = {
+    grid: Array<Array<number>>;
+    accessibleTiles: Array<Array<boolean>>;
+    pokemonGrid: KnockoutObservableArray<TmpSafariPokemonType>;
+    itemGrid: KnockoutObservableArray<TmpSafariItemType>;
+    lastDirection: string;
+    nextDirection: string;
+    steps: number;
+    walking: boolean;
+    isMoving: boolean;
+    queue: Array<string>;
+    playerXY: { x: number, y: number };
+    inProgress: KnockoutObservable<boolean>;
+    inBattle: KnockoutObservable<boolean>;
+    balls: KnockoutObservable<number>;
+    activeRegion: KnockoutObservable<GameConstants.Region>;
+    activeEnvironment: KnockoutObservable<SafariEnvironments>;
+
+    move: (dir: string) => void;
+    stop: (dir: string) => void;
+};
+
+export type TmpSafariBattleType = {
+    enemy: TmpSafariPokemonType;
+    busy: KnockoutObservable<boolean>;
+    text: KnockoutObservable<string>;
+    escapeAttempts: number;
+    ballParticle: JQuery<HTMLElement>;
+    selectedBait: KnockoutObservable<TmpBaitType>;
+
+    throwBall: () => void;
+    throwBait: () => void;
+    throwRock: () => void;
+    run: () => void;
+};
+
+export type TmpBaitTypeType = any;
+
+export interface TmpSafariPokemonType {
+    name: PokemonNameType;
+    id: number;
+    type1: PokemonType;
+    type2: PokemonType;
+    shiny: boolean;
+    baseCatchFactor: number;
+    baseEscapeFactor: number;
+    gender: GameConstants.BattlePokemonGender;
+    shadow: GameConstants.ShadowStatus;
+
+    // Used for overworld sprites
+    x: number;
+    y: number;
+    steps: number;
+
+    // Affects catch/flee chance
+    angry: number;
+    eating: number;
+    eatingBait: TmpBaitTypeType;
+    levelModifier: number;
+    spriteID: number;
+
+    catchFactor: number;
+    escapeFactor: number;
+}
+
+export type TmpSafariItemType = {
+    x: number;
+    y: number;
+};
+
+export type TmpBaitType = {
+    type: TmpBaitTypeType,
+    name: string,
+    useName: string,
+    image: string,
+    amount: () => string | number,
+    use: (pokemon: TmpSafariPokemonType) => void
+};
+
+export type TmpBaitListType = {
+    [name: string]: TmpBaitType;
+};

@@ -16,7 +16,7 @@ class AutoDungeonScriptClass extends Script {
     private dungeon: TmpDungeonType;
 
     public constructor() {
-        super('custom.scripts.autodungeon', 'Auto-dungeon');
+        super('autodungeon', 'Auto-dungeon');
         this.mode = ko.observable('NORMAL');
         this.clears = ko.observable(ACHIEVEMENT_DEFEAT_DUNGEON_VALUES.at(-1)).extend({ numeric: 0 });
         this.started = false;

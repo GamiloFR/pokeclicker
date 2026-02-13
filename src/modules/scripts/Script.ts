@@ -1,17 +1,18 @@
-import { Observable } from 'knockout';
+import { Observable, Subscription } from 'knockout';
 
 abstract class Script {
     public id: string;
     public name: string;
 
     protected active: Observable<boolean>;
+    protected activeSub: Subscription;
     protected interval: NodeJS.Timeout;
 
     protected constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
         this.active = ko.observable(false);
-        this.active.subscribe(active => {
+        this.activeSub = this.active.subscribe(active => {
             if (active) {
                 this.interval = setInterval(() => this.tick(), 100);
             } else if (this.interval) {

@@ -1,6 +1,9 @@
 import { Computed, Observable } from 'knockout';
 
-export type ScriptSettingTemplate = 'SelectScriptSettingTemplate' | 'NumberScriptSettingTemplate';
+export type ScriptSettingTemplate =
+    'SelectScriptSettingTemplate'
+    | 'NumberScriptSettingTemplate'
+    | 'BooleanScriptSettingTemplate';
 
 class ScriptSetting<T> {
     public readonly id: string;
@@ -30,6 +33,28 @@ class ScriptSetting<T> {
 
     public set value(t: T) {
         this._value(t);
+    }
+}
+
+export class NumberScriptSetting extends ScriptSetting<number> {
+    public constructor(
+        id: string,
+        name: string,
+        value: Observable<number>,
+        isVisible = () => true,
+    ) {
+        super(id, name, value, 'NumberScriptSettingTemplate', isVisible);
+    }
+}
+
+export class BooleanScriptSetting extends ScriptSetting<boolean> {
+    public constructor(
+        id: string,
+        name: string,
+        value: Observable<boolean>,
+        isVisible = () => true,
+    ) {
+        super(id, name, value, 'BooleanScriptSettingTemplate', isVisible);
     }
 }
 

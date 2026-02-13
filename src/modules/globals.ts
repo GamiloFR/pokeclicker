@@ -22,4 +22,7 @@ declare global {
     const TemporaryBattleBattle: TempTypes.TmpTemporaryBattleBattleType;
     const BagHandler: TempTypes.TmpBagHandlerType;
     const BreedingController: TempTypes.TmpBreedingControllerType;
+    const Safari: TempTypes.TmpSafariType;
+    const SafariBattle: TempTypes.TmpSafariBattleType;
+    const BaitList: TempTypes.TmpBaitListType;
 }

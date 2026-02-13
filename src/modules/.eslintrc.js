@@ -32,6 +32,9 @@ module.exports = {
         PartyController: 'readonly',
         TemporaryBattleBattle: 'readonly',
         BreedingController: 'readonly',
+        Safari: 'readonly',
+        SafariBattle: 'readonly',
+        BaitList: 'readonly',
     },
     rules: {
         indent: 'off',
