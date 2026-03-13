@@ -80,3 +80,18 @@ export const findPath = <T extends GridTile>(grid: T[][], goal: GridCoordinate, 
     }
     throw new Error(`Unable to find path from (${start.x},${start.y}) to (${goal.x},${goal.y})`);
 };
+
+/**
+ * Parse a time formatted by {@link formatTime}.
+ * @return The time in seconds
+ */
+export const parseTime = (str: string): number => {
+    if (str === 'Ready') {
+        return 0;
+    } else if (str === '∞') {
+        return Infinity;
+    }
+
+    const [hours, minutes, seconds] = str.split(':', 3);
+    return Number.parseInt(hours, 10) * 3600 + Number.parseInt(minutes) * 60 + Number.parseInt(seconds);
+};

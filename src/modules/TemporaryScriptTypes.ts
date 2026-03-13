@@ -4,43 +4,51 @@ import type {
     Observable as KnockoutObservable,
     ObservableArray as KnockoutObservableArray,
 } from 'knockout';
-import type LogBook from './logbook/LogBook';
-import type BadgeCase from './DataStore/BadgeCase';
-import type Profile from './profile/Profile';
-import type Statistics from './DataStore/StatisticStore';
-import type Challenges from './challenges/Challenges';
-import type Multiplier from './multiplier/Multiplier';
-import type * as GameConstants from './GameConstants';
-import type Wallet from './wallet/Wallet';
-import type PokemonCategories from './party/Category';
-import type OakItems from './oakItems/OakItems';
-import type OakItemLoadouts from './oakItems/OakItemLoadouts';
-import type SaveReminder from './saveReminder/SaveReminder';
-import type Translate from './translation/Translation';
 import type Achievement from './achievements/Achievement';
-import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
 import type AchievementCategory from './achievements/AchievementCategory';
-import type KeyItems from './keyItems/KeyItems';
-import type PokeballFilters from './pokeballs/PokeballFilters';
-import type { Underground } from './underground/Underground';
-import type SubRegion from './subRegion/SubRegion';
-import type CssVariableSetting from './settings/CssVariableSetting';
-import type { EvoData } from './pokemons/evolutions/Base';
-import type { PokemonNameType } from './pokemons/PokemonNameType';
-import type CaughtStatus from './enums/CaughtStatus';
-import type SpecialEvents from './specialEvents/SpecialEvents';
-import type PokemonType from './enums/PokemonType';
-import type WeatherType from './weather/WeatherType';
-import type { MultiplierDecreaser } from './items/types';
-import type BagItem from './interfaces/BagItem';
-import type BattlePokemon from './battles/BattlePokemon';
+import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
 import Battle from './battles/Battle';
-import Requirement from './requirements/Requirement';
+import type BattlePokemon from './battles/BattlePokemon';
 import EggType from './breeding/EggType';
-import Amount from './wallet/Amount';
-import { PokemonListData } from './pokemons/PokemonList';
-import { SortOptions } from './settings/SortOptions';
+import type Challenges from './challenges/Challenges';
+import type BadgeCase from './DataStore/BadgeCase';
+import type Statistics from './DataStore/StatisticStore';
+import AuraType from './enums/AuraType';
+import BerryColor from './enums/BerryColor';
+import BerryFirmness from './enums/BerryFirmness';
+import BerryType from './enums/BerryType';
+import type CaughtStatus from './enums/CaughtStatus';
+import FarmNotificationType from './enums/FarmNotificationType';
+import FlavorType from './enums/FlavorType';
+import MulchType from './enums/MulchType';
+import PlotStage from './enums/PlotStage';
+import type PokemonType from './enums/PokemonType';
 import SafariEnvironments from './enums/SafariEnvironments';
+import type * as GameConstants from './GameConstants';
+import type BagItem from './interfaces/BagItem';
+import type { MultiplierDecreaser } from './items/types';
+import type KeyItems from './keyItems/KeyItems';
+import type LogBook from './logbook/LogBook';
+import type Multiplier from './multiplier/Multiplier';
+import type OakItemLoadouts from './oakItems/OakItemLoadouts';
+import type OakItems from './oakItems/OakItems';
+import type PokemonCategories from './party/Category';
+import type PokeballFilters from './pokeballs/PokeballFilters';
+import type { EvoData } from './pokemons/evolutions/Base';
+import { PokemonListData } from './pokemons/PokemonList';
+import type { PokemonNameType } from './pokemons/PokemonNameType';
+import type Profile from './profile/Profile';
+import Requirement from './requirements/Requirement';
+import type SaveReminder from './saveReminder/SaveReminder';
+import type CssVariableSetting from './settings/CssVariableSetting';
+import { SortOptions } from './settings/SortOptions';
+import type SpecialEvents from './specialEvents/SpecialEvents';
+import type SubRegion from './subRegion/SubRegion';
+import type Translate from './translation/Translation';
+import type { Underground } from './underground/Underground';
+import Amount from './wallet/Amount';
+import type Wallet from './wallet/Wallet';
+import type WeatherType from './weather/WeatherType';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -95,7 +103,6 @@ import SafariEnvironments from './enums/SafariEnvironments';
 export type TmpUpdateType = any;
 export type TmpPokeballsType = any;
 export type TmpGemsType = any;
-export type TmpFarmingType = any;
 export type TmpRedeemableCodesType = any;
 export type TmpQuestsType = any;
 export type TmpQuestType = any;
@@ -608,3 +615,286 @@ export type TmpBaitType = {
 export type TmpBaitListType = {
     [name: string]: TmpBaitType;
 };
+
+export interface BerryFlavor {
+    type: FlavorType;
+    value: number;
+}
+
+export type TmpFarmingType = {
+    name: string;
+    saveKey: string;
+    berryData: TmpBerryType[];
+    mutations: TmpMutationType[];
+    farmHands: TmpFarmHandsType;
+    externalAuras: KnockoutObservable<number>[];
+    mutationCounter: number;
+    wanderCounter: number;
+    mulchCounter: number;
+    defaults: {
+        berryList: number[];
+        unlockedBerries: boolean[];
+        mulchList: number[];
+        plotList: TmpPlotType[];
+        shovelAmt: number;
+        mulchShovelAmt: number;
+    };
+    berryList: KnockoutObservable<number>[];
+    unlockedBerries: KnockoutObservable<boolean>[];
+    mulchList: KnockoutObservable<number>[];
+    plotList: Array<TmpPlotType>;
+    unlockedPlotCount: KnockoutObservable<number>;
+    shovelAmt: KnockoutObservable<number>;
+    mulchShovelAmt: KnockoutObservable<number>;
+    highestUnlockedBerry: KnockoutComputed<number>;
+    possiblePlotMutations: KnockoutComputed<Array<Array<string>>>;
+
+    initialize(): void;
+    getGrowthMultiplier(): number;
+    getReplantMultiplier(): number;
+    getMulchDurationMultiplier(): number;
+    getMutationMultiplier(): number;
+    update(delta: number): void;
+    handleNotification(farmNotiType: FarmNotificationType, wanderList?: TmpWandererPokemonType[]): void;
+    multiplyPlotAuras(auraType: AuraType): number;
+    addPlotAuras(auraType: AuraType): number;
+    unlockPlot(index: number): void;
+    allPlotsUnlocked(): boolean
+    canBuyPlot(index: number): boolean;
+    plotFPCost(index: number): number;
+    plotBerryCost(index: number): { type: BerryType, amount: number };
+    togglePlotSafeLock(index: number): void;
+    plant(index: number, berry: BerryType): void;
+    plantAll(berry: BerryType): void;
+    /**
+     * Harvest a plot at the given index
+     * @param index The index of the plot to harvest
+     */
+    harvest(index: number): void;
+    /**
+     * Try to harvest all plots
+     */
+    harvestAll(): void;
+    /**
+     * Handles using the Berry Shovel to remove a Berry plant
+     * @param index The plot index
+     */
+    shovel(index: number): void;
+    /**
+     * Handles using the Mulch Shovel to remove mulch from a plot
+     * @param index The plot index
+     */
+    shovelMulch(index: number): void;
+    /**
+     * Adds mulch to a plot
+     * @param index The plot index
+     * @param mulch The MulchType to be added
+     * @param amount The amount of mulch to apply. Defaults to 1
+     */
+    addMulch(index: number, mulch: MulchType, amount?: number): void;
+    /**
+     * Attempts to add mulch to all plots
+     * @param mulch The MulchType to be added
+     * @param amount The amount of mulch to apply to each plot. Defaults to 1
+     */
+    mulchAll(mulch: MulchType, amount?: number): void;
+    /**
+     * Gives the player a random Berry from the first 8 types
+     * @param amount Amount of berries to give. Defaults to 1.
+     * @param disableNotification Set to true to not notify the player. Defaults to false.
+     */
+    gainRandomBerry(amount?: number, disableNotification?: boolean): void;
+    gainBerry(berry: BerryType, amount?: number, farming?: boolean): void;
+    hasBerry(berry: BerryType): boolean;
+    hasMulch(mulch: MulchType): boolean
+    canAccess(): boolean;
+    unlockBerry(berry: BerryType): void;
+    /**
+     * Checks whether a Berry plant exists on the farm
+     * @param berry The Berry type
+     * @param stage The stage of the Berry plant. Defaults to PlotStage.Berry
+     * @param ignoreFrozen
+     */
+    berryInFarm(berry: BerryType, stage?: PlotStage, ignoreFrozen?: boolean): boolean;
+    toJSON(): Record<string, any>;
+    fromJSON(json: Record<string, any>): void;
+    auraDisplay(berry: BerryType, stage: number): void;
+    handleWanderer(plot: TmpPlotType): void;
+    attemptCatchWanderer(plot: TmpPlotType): void;
+    wandererIsFleeing(plot: TmpPlotType): void
+};
+
+export type TmpBerryType = {
+    flavors: BerryFlavor[];
+    wander: PokemonNameType[];
+    type: BerryType;
+    growthTime: number[];
+    harvestAmount: number;
+    replantRate: number;
+    farmValue: number;
+    exp: number;
+    smoothness: number;
+    color: BerryColor;
+    size: number;
+    firmness: BerryFirmness;
+    description: string[];
+    aura?: TmpAuraType;
+
+    get descriptionHTML(): string;
+};
+
+export type TmpAuraType = {
+    auraType: AuraType;
+    auraMultipliers: number[];
+
+    getAuraValue(stage: PlotStage): number;
+};
+
+export type TmpMutationType = {
+    saveKey: string;
+    defaults: Record<string, any>;
+    mutatedBerry: BerryType;
+    showHint: boolean;
+
+    /**
+     * Determines whether the player can even cause this mutation
+     */
+    get unlocked(): boolean;
+    /**
+     * Handles getting the hint for this mutation for the Kanto Berry Master
+     */
+    get hint(): string;
+    get hintSeen(): boolean
+    set hintSeen(bool: boolean);
+
+    toJSON(): boolean | boolean[];
+    fromJSON(hintSeen: boolean | boolean[]): void;
+    /**
+     * Determines which plots can mutate
+     * @return The plot indices that can mutate
+     */
+    getMutationPlots(): number[];
+    /**
+     * Handles updating the farm with the mutation
+     * @param index The plot index to mutate
+     */
+    handleMutation(index: number): void;
+    /**
+     * Handles getting the mutation chance
+     * @param idx The plot index
+     */
+    mutationChance(idx: number): number;
+    /**
+     * Update tag for mutations. Returns true if this mutation will occur
+     */
+    mutate(): boolean;
+    getTotalMutationChance(plotIndex: number): number;
+};
+
+export type TmpFarmHandsType = any;
+
+export type TmpPlotType = {
+    saveKey: string;
+    defaults: {
+        isUnlocked: boolean;
+        berry: BerryType;
+        age: number;
+        mulch: MulchType;
+        mulchTimeLeft: number;
+        isSafeLocked: boolean;
+    };
+
+    formattedStageTimeLeft: KnockoutComputed<string>;
+    formattedTimeLeft: KnockoutComputed<string>;
+    calcFormattedStageTimeLeft: (includeGrowthMultiplier: boolean) => string;
+    calcFormattedTimeLeft: (includeGrowthMultiplier: boolean) => string;
+    formattedBaseStageTimeLeft: KnockoutComputed<string>;
+    formattedBaseTimeLeft: KnockoutComputed<string>;
+    formattedMulchTimeLeft: KnockoutComputed<string>;
+    formattedAuras: KnockoutComputed<string>;
+
+    auraGrowth: KnockoutComputed<number>;
+    auraHarvest: KnockoutComputed<number>;
+    auraMutation: KnockoutComputed<number>;
+    auraReplant: KnockoutComputed<number>;
+    auraDeath: KnockoutComputed<number>;
+    auraDecay: KnockoutComputed<number>;
+    auraBoost: KnockoutComputed<number>;
+
+    isEmpty: KnockoutComputed<boolean>;
+    isMulched: KnockoutComputed<boolean>;
+    stage: KnockoutComputed<number>;
+    tooltip: KnockoutComputed<string>;
+    notifications: FarmNotificationType[];
+
+    emittingAura: {
+        type: KnockoutComputed<AuraType | null>;
+        value: KnockoutComputed<number | null>;
+    }
+
+    /**
+     * Handles updating the berry plant
+     * @param seconds Number of seconds to add to the plants age
+     * @returns Whether the plot stage has changed this update
+     */
+    update(seconds: number): boolean;
+    /**
+     * Handles planting a berry on the plot
+     * @param berry The BerryType
+     */
+    plant(berry: BerryType): void;
+    /**
+     * Returns how many berries will be harvested
+     */
+    harvestAmount(): number;
+    /**
+     * Handles killing the berry plant
+     * @param harvested Whether this death was due to the player harvesting manually, or by withering
+     */
+    die(harvested?: boolean): void;
+    generateWanderPokemon(): TmpWandererPokemonType;
+    /**
+     * Gets the growth multiplier for this plot
+     */
+    getGrowthMultiplier(): number;
+    /**
+     * Gets the harvest multiplier for this plot
+     */
+    getHarvestMultiplier(): number;
+    /**
+     * Gets the replant multiplier for this plot
+     */
+    getReplantMultiplier(): number;
+    /**
+     * Gets the mutation multiplier for this plot
+     */
+    getMutationMultiplier(): number;
+    /**
+     * returns true if the plot had mulch.
+     */
+    clearMulch(): boolean;
+    fromJSON(json: Record<string, any>): void;
+    toJSON(): Record<string, any>;
+    neighbours(): TmpPlotType[];
+    canCatchWanderer(): boolean;
+    get berryData(): TmpBerryType;
+    // Knockout getters
+    get isUnlocked(): boolean;
+    set isUnlocked(value: boolean);
+    get isSafeLocked(): boolean;
+    set isSafeLocked(value: boolean);
+    get berry(): BerryType;
+    set berry(berry: BerryType);
+    get lastPlanted(): BerryType;
+    set lastPlanted(berry: BerryType);
+    get age(): number;
+    set age(value: number);
+    get mulch(): MulchType;
+    set mulch(value: MulchType);
+    get mulchTimeLeft(): number;
+    set mulchTimeLeft(value: number);
+    get wanderer(): TmpWandererPokemonType;
+    set wanderer(wanderer: TmpWandererPokemonType);
+};
+
+export type TmpWandererPokemonType = any;

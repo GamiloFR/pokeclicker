@@ -33,6 +33,11 @@ class AutoGymScriptClass extends Script {
         return App.game.statistics.dungeonsCleared[getDungeonIndex('Viridian Forest')]() > 0;
     }
 
+    deactivate() {
+        super.deactivate();
+        this.started = false;
+    }
+
     protected tick() {
         if (!this.started) {
             return;

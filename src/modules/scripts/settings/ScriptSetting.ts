@@ -3,7 +3,8 @@ import { Computed, Observable } from 'knockout';
 export type ScriptSettingTemplate =
     'SelectScriptSettingTemplate'
     | 'NumberScriptSettingTemplate'
-    | 'BooleanScriptSettingTemplate';
+    | 'BooleanScriptSettingTemplate'
+    | 'ButtonScriptSettingTemplate';
 
 class ScriptSetting<T> {
     public readonly id: string;
@@ -55,6 +56,15 @@ export class BooleanScriptSetting extends ScriptSetting<boolean> {
         isVisible = () => true,
     ) {
         super(id, name, value, 'BooleanScriptSettingTemplate', isVisible);
+    }
+}
+
+export class ButtonScriptSetting extends ScriptSetting<unknown> {
+    public target: string;
+
+    public constructor(id: string, name: string, target: string, isVisible = () => true) {
+        super(id, name, ko.observable(), 'ButtonScriptSettingTemplate', isVisible);
+        this.target = target;
     }
 }
 

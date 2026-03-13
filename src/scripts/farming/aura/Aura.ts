@@ -1,4 +1,4 @@
-class Aura {
+class Aura implements TmpAuraType {
 
     constructor(
         public auraType: AuraType,

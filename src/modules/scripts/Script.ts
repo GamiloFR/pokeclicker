@@ -26,6 +26,14 @@ abstract class Script {
 
     protected abstract tick(): void;
 
+    public load(value: any) {
+        this.active(value);
+    }
+
+    public store(): any {
+        return this.active();
+    }
+
     public activate(): void {
         this.active(true);
     }

@@ -4,12 +4,7 @@
 /// <reference path="../../declarations/enums/BerryFirmness.d.ts"/>
 /// <reference path="../../declarations/enums/SizeUnits.d.ts"/>
 
-interface BerryFlavor {
-    type: FlavorType,
-    value: number,
-}
-
-class Berry {
+class Berry implements TmpBerryType {
     public flavors: BerryFlavor[];
     public wander: PokemonNameType[];
 

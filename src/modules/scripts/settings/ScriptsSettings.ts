@@ -1,9 +1,10 @@
 import { ObservableArray } from 'knockout';
-import ScriptSetting, { BooleanScriptSetting, NumberScriptSetting } from './ScriptSetting';
+import ScriptSetting, { BooleanScriptSetting, ButtonScriptSetting, NumberScriptSetting } from './ScriptSetting';
 import SelectScriptSetting, { SelectOption } from './SelectScriptSetting';
 import AutoDungeonScript, { AutoDungeonMode } from '../AutoDungeonScript';
 import AutoGymScript, { AutoGymMode } from '../AutoGymScript';
 import AutoSafariScript, { AutoSafariMode } from '../AutoSafariScript';
+import AutoFarmScript from '../AutoFarmScript';
 
 const autoDungeonModeOptions: SelectOption<AutoDungeonMode>[] = [
     {
@@ -81,6 +82,7 @@ class ScriptsSettings {
                 ),
             ]),
         };
+
         const autoGym: ScriptSettingGroup = {
             id: 'autogym',
             name: 'Auto-gym',
@@ -99,6 +101,24 @@ class ScriptsSettings {
                 ),
             ]),
         };
+
+        const autoFarm: ScriptSettingGroup = {
+            id: 'autofarm',
+            name: 'Auto-farm',
+            items: ko.observableArray([
+                new ButtonScriptSetting(
+                    'autofarm.setup',
+                    'Setup',
+                    '#autoFarmSetupModal',
+                ),
+                new BooleanScriptSetting(
+                    'autofarm.harvestWhenReady',
+                    'Harvest berry when it\'s ready',
+                    AutoFarmScript.harvestWhenReady,
+                ),
+            ]),
+        };
+
         const autoSafari: ScriptSettingGroup = {
             id: 'autosafari',
             name: 'Auto-safari',
@@ -116,7 +136,8 @@ class ScriptsSettings {
                 ),
             ]),
         };
-        this.groups.push(autoDungeon, autoGym, autoSafari);
+
+        this.groups.push(autoDungeon, autoGym, autoFarm, autoSafari);
     }
 
     public static load(settings: Record<string, any>) {

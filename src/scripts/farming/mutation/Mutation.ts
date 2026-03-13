@@ -5,7 +5,7 @@ interface MutationOptions {
     showHint?: boolean,
 }
 
-abstract class Mutation {
+abstract class Mutation implements TmpMutationType {
 
     saveKey: string;
 

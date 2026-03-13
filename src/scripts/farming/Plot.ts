@@ -1,4 +1,4 @@
-class Plot implements Saveable {
+class Plot implements Saveable, TmpPlotType {
     saveKey = '';
     defaults = {
         isUnlocked: false,

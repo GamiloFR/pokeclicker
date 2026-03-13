@@ -7,6 +7,7 @@ import AutoHatcheryScript from './AutoHatcheryScript';
 import { ScriptsSettings } from './index';
 import AutoUndergroundScript from './AutoUndergroundScript';
 import AutoSafariScript from './AutoSafariScript';
+import AutoFarmScript from './AutoFarmScript';
 
 class Scripts {
     public static readonly list: ObservableArray<Script> = ko.observableArray();
@@ -17,6 +18,7 @@ class Scripts {
             AutoDungeonScript,
             AutoGymScript,
             AutoHatcheryScript,
+            AutoFarmScript,
             AutoUndergroundScript,
             AutoSafariScript,
         );
@@ -42,11 +44,11 @@ class Scripts {
         if (saved) {
             const { scripts, settings } = JSON.parse(saved);
 
-            this.list().forEach(script => {
-                if (script.id in scripts) {
-                    this.setScript(script.id, scripts[script.id]);
-                }
-            });
+            this.list()
+                .filter(script => script.id in scripts)
+                .forEach(script => {
+                    script.load(scripts[script.id]);
+                });
             ScriptsSettings.load(settings);
         }
     }
@@ -54,7 +56,7 @@ class Scripts {
     public static store() {
         const scripts = this.list().reduce((acc, script) => ({
             ...acc,
-            [script.id]: script.isActive,
+            [script.id]: script.store(),
         }), {});
         const settings = ScriptsSettings.store();
 

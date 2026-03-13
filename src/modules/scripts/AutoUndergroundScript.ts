@@ -26,17 +26,22 @@ class AutoUndergroundScriptClass extends Script {
                 .find(tile => tile.reward && tile.layerDepth > 0 && this.itemIsPartiallyFound(tile.reward.rewardID))
                 .reward.rewardID;
             const itemIndexes = this.getItemIndexes(item);
-            const { index: hammerIndex } = itemIndexes.reduce(
-                ({ index, maxNearbyItemIndexes }, itemIndex) => {
-                    const nearbyItemIndexes = this.getNearbyItemIndexes(itemIndexes, itemIndex);
-                    if (nearbyItemIndexes.length > 2 && nearbyItemIndexes.length > maxNearbyItemIndexes) {
-                        index = itemIndex;
-                        maxNearbyItemIndexes = nearbyItemIndexes.length;
-                    }
-                    return { index, maxNearbyItemIndexes };
-                },
-                { index: -1, maxNearbyItemIndexes: 0 },
-            );
+
+            let hammerIndex = -1;
+            if (App.game.underground.tools.getTool(UndergroundToolType.Hammer).canUseTool()) {
+                ({ index: hammerIndex } = itemIndexes.reduce(
+                    ({ index, maxNearbyItemIndexes }, itemIndex) => {
+                        const nearbyItemIndexes = this.getNearbyItemIndexes(itemIndexes, itemIndex);
+                        if (nearbyItemIndexes.length > 2 && nearbyItemIndexes.length > maxNearbyItemIndexes) {
+                            index = itemIndex;
+                            maxNearbyItemIndexes = nearbyItemIndexes.length;
+                        }
+                        return { index, maxNearbyItemIndexes };
+                    },
+                    { index: -1, maxNearbyItemIndexes: 0 },
+                ));
+            }
+
             if (hammerIndex === -1) {
                 // We use the chisel: we choose a random tile between the item tiles that aren't completely dug up
                 tool = UndergroundToolType.Chisel;
@@ -62,7 +67,7 @@ class AutoUndergroundScriptClass extends Script {
                     return index;
                 }
                 return undefined;
-            }).filter(Boolean);
+            }).filter(index => index !== undefined);
     }
 
     private getNearbyItemIndexes(itemIndexes: number[], index: number): number[] {

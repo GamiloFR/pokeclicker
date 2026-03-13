@@ -230,6 +230,8 @@ import TranslationHelper from './translation/TranslationHelper';
 import * as DownloadUtil from './utilities/DownloadUtil';
 
 import { Scripts, ScriptsSettings } from './scripts';
+import AutoFarmScript from './scripts/AutoFarmScript';
+import AutoFarmScriptController from './scripts/AutoFarmScriptController';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -478,5 +480,7 @@ Object.assign(<any>window, {
     TranslationHelper,
     DownloadUtil,
     Scripts,
-    ScriptsSettings: ScriptsSettings,
+    ScriptsSettings,
+    AutoFarmScript,
+    AutoFarmScriptController,
 });

@@ -41,6 +41,178 @@
 
 <div
     class="modal noselect fade"
+    id="autoFarmSetupModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="autofarmSetupModalLabel"
+>
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style='justify-content: space-around;'>
+                <h5 class="modal-title">Auto-farm setup</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="farmView" class="justify-content-center no-select row">
+                    <div class="col-12 col-lg-4">
+                        <div class="input-group input-group-sm mt-1">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Search"
+                                data-bind="textInput: FarmController.berryListSearch"
+                            />
+                            <div class="input-group-append">
+                                <span
+                                    class="input-group-text justify-content-center"
+                                    style="min-width: 32px; cursor: pointer;"
+                                    data-bind="visible: FarmController.berryListSearch().length, click: () =>  FarmController.berryListSearch('')"
+                                >✕</span>
+                                <span
+                                    class="input-group-text justify-content-center" style="min-width: 32px;" data-bind="tooltip: {
+                                                    title: 'Search for berries by name. Use a space to search for multiple berries.',
+                                                    trigger: 'hover',
+                                                    placement: 'right',
+                                                }"
+                                >ⓘ</span>
+                            </div>
+                        </div>
+                        <ul id="seedList" class="list-group p-0">
+                            <!-- ko foreach: FarmController.getUnlockedBerryListWithIndex() -->
+                            <li
+                                class="list-group-item list-group-item-action seed-list-item p-2 d-flex align-items-center"
+                                data-bind="click: function() { AutoFarmScriptController.selectedBerry($data); }, css: { 'active': AutoFarmScriptController.selectedBerry() === $data }"
+                            >
+                                <img
+                                    src="" height="28px"
+                                    data-bind="attr:{ src: FarmController.getBerryImage($data) }, css: {'berryLocked': !App.game.farming.unlockedBerries[$data]() }"
+                                    alt="berry"
+                                >
+                                <span data-bind="text: App.game.farming.unlockedBerries[$data]() ? BerryType[$data] : '???'"></span>
+                                <span
+                                    class="flex-grow-1 text-right"
+                                    data-bind="text: App.game.farming.berryList[$data]().toLocaleString('en-US')"
+                                ></span>
+                            </li>
+                            <!-- /ko -->
+                        </ul>
+
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-4 pr-0">
+                                <button
+                                    class="btn btn-block btn-secondary"
+                                    onclick="FarmController.navigateLeft()"
+                                    data-bind="disable: FarmController.navigateIndex() === 0,
+                                                        css: { disabled: FarmController.navigateIndex() === 0 }"
+                                >
+                                    <img
+                                        src="assets/images/arrow.svg"
+                                        style="transform: scaleX(-1);"
+                                        height="20"
+                                        alt="arrow"
+                                    >
+                                </button>
+                            </div>
+                            <div
+                                class="col-4"
+                                data-bind="text: FarmController.navigateIndex()+1 + '/' + (FarmController.numberOfTabs())"
+                            ></div>
+                            <div class="col-4 pl-0">
+                                <button
+                                    class="btn btn-block btn-secondary"
+                                    onclick="FarmController.navigateRight()"
+                                    data-bind="disable: FarmController.navigateIndex() === FarmController.numberOfTabs() - 1,
+                                                        css: { disabled: FarmController.navigateIndex() === FarmController.numberOfTabs() - 1 }"
+                                >
+                                    <img src="assets/images/arrow.svg" height="20" alt="arrow">
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center py-1">
+                            <div class="col-6 pr-0">
+                                <button
+                                    class="btn btn-primary btn-block"
+                                    data-bind="click: function(){AutoFarmScriptController.plantAll()}"
+                                >
+                                    Plant All
+                                </button>
+                            </div>
+                            <div class="col-6 pl-0">
+                                <button
+                                    class="btn btn-danger btn-block"
+                                    data-bind="click: function(){AutoFarmScriptController.removeAll()}"
+                                >
+                                    Remove All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-8">
+                        <div
+                            id="plotList"
+                            class="row"
+                            data-bind="foreach: AutoFarmScriptController.plotList, css: { ShiftPressed: GameController.keyHeld.Shift() }"
+                        >
+                            <!-- ko if: $index() % GameConstants.FARM_PLOT_WIDTH == 0 -->
+                            <div class="w-100"></div>
+                            <!-- /ko -->
+                            <div class="plot col" data-bind="css: { plotLocked : !$data.isUnlocked }">
+                                <div class="plot-content" data-bind="class: FarmController.calculateCssClass($data)">
+                                    <div class="plotImage">
+                                        <img
+                                            style="width: 100%;" src="assets/images/farm/soil.png"
+                                            data-bind="class: FarmController.calcMulchClass($data)"
+                                            alt="soil"
+                                        >
+                                        <!-- ko if: !$data.isUnlocked -->
+                                        <div
+                                            class="plotButton plotLockHover" data-bind="tooltip: {
+                                              title: `Unlock this plot in the Farm`,
+                                              placement: 'bottom',
+                                              trigger: 'hover'
+                                            }" onclick="FarmController.openFarmModal()"
+                                        >
+                                            <img alt="lock" class="lock" src="assets/images/breeding/lock.svg">
+                                        </div>
+                                        <!-- /ko -->
+                                        <div
+                                            class="plotButton"
+                                            data-bind="ifnot: $data.isEmpty(),
+                                                    click: function(data, event){AutoFarmScriptController.plotClick($index())},
+                                                    tooltip: {title: $data.tooltip(), trigger: 'hover', animation: false, html: true}"
+                                        >
+                                            <img
+                                                width="100%" height="100%" src=""
+                                                style="width: 68.75%; max-height: 100%; image-rendering: pixelated;"
+                                                data-bind="attr:{ src: `assets/images/farm/${BerryType[$data.berry]}TreeBerry.png` }"
+                                            >
+                                        </div>
+                                        <!-- ko if: $data.isSafeLocked -->
+                                        <img class="plotSafeLockIcon" src="assets/images/farm/plotSafeLock.svg">
+                                        <!-- /ko -->
+
+                                        <span
+                                            class="position-absolute border border-2 border-dark rounded-circle bg-success"
+                                            style="bottom: 3px; left: 3px; padding: 0.4rem; pointer-events: none;"
+                                            data-bind="visible: App.game.farming.possiblePlotMutations()[$index()].length > 0"
+                                        ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal noselect fade"
     id="scriptsSettingsModal"
     tabindex="-1"
     role="dialog"
@@ -104,4 +276,10 @@
         onchange="ScriptsSettings.setSetting(this.id, this.checked)"
         data-bind="attr: { id: $data.id }, checked: $data.value"
     />
+</script>
+
+<script type="text/html" id="ButtonScriptSettingTemplate">
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-bind="attr: { 'data-target': $data.target }">
+        Open modal
+    </button>
 </script>
