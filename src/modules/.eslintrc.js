@@ -28,6 +28,7 @@ module.exports = {
         PokemonLocations: 'readonly',
         PokemonFactory: 'readonly',
         PartyController: 'readonly',
+        GymList: 'readonly',
     },
     rules: {
         indent: 'off',

@@ -1,39 +1,40 @@
 // importing only types, as we are "allowed" to have circular type dependencies
 import type {
+    Computed as KnockoutComputed,
     Observable as KnockoutObservable,
     ObservableArray as KnockoutObservableArray,
-    Computed as KnockoutComputed,
 } from 'knockout';
-import type LogBook from './logbook/LogBook';
-import type BadgeCase from './DataStore/BadgeCase';
-import type Profile from './profile/Profile';
-import type Statistics from './DataStore/StatisticStore';
-import type Challenges from './challenges/Challenges';
-import type Multiplier from './multiplier/Multiplier';
-import type * as GameConstants from './GameConstants';
-import type Wallet from './wallet/Wallet';
-import type PokemonCategories from './party/Category';
-import type OakItems from './oakItems/OakItems';
-import type OakItemLoadouts from './oakItems/OakItemLoadouts';
-import type SaveReminder from './saveReminder/SaveReminder';
-import type Translate from './translation/Translation';
 import type Achievement from './achievements/Achievement';
-import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
 import type AchievementCategory from './achievements/AchievementCategory';
+import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
+import type BattlePokemon from './battles/BattlePokemon';
+import type Challenges from './challenges/Challenges';
+import type BadgeCase from './DataStore/BadgeCase';
+import type Statistics from './DataStore/StatisticStore';
+import BadgeEnums from './enums/Badges';
+import type CaughtStatus from './enums/CaughtStatus';
+import type PokemonType from './enums/PokemonType';
+import type * as GameConstants from './GameConstants';
+import type BagItem from './interfaces/BagItem';
+import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
+import type LogBook from './logbook/LogBook';
+import type Multiplier from './multiplier/Multiplier';
+import type OakItemLoadouts from './oakItems/OakItemLoadouts';
+import type OakItems from './oakItems/OakItems';
+import type PokemonCategories from './party/Category';
 import type PokeballFilters from './pokeballs/PokeballFilters';
-import type { Underground } from './underground/Underground';
-import type SubRegion from './subRegion/SubRegion';
-import type CssVariableSetting from './settings/CssVariableSetting';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
-import type CaughtStatus from './enums/CaughtStatus';
+import type Profile from './profile/Profile';
+import type SaveReminder from './saveReminder/SaveReminder';
+import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
-import type PokemonType from './enums/PokemonType';
+import type SubRegion from './subRegion/SubRegion';
+import type Translate from './translation/Translation';
+import type { Underground } from './underground/Underground';
+import type Wallet from './wallet/Wallet';
 import type WeatherType from './weather/WeatherType';
-import type { MultiplierDecreaser } from './items/types';
-import type BagItem from './interfaces/BagItem';
-import type BattlePokemon from './battles/BattlePokemon';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -228,11 +229,14 @@ export type TmpDungeonRunnerType = {
 
 export type TmpGymType = {
     town: string;
+    badgeReward: BadgeEnums
 };
 
 export type TmpGymRunnerType = {
     gymObservable: () => TmpGymType;
 };
+
+export type TmpGymListType = { [townName: string]: TmpGymType };
 
 export type TmpAchievementHandlerType = {
     achievementList: Achievement[];

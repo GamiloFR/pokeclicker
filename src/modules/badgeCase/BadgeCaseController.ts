@@ -1,20 +1,25 @@
-/// <reference path="../../declarations/enums/Badges.d.ts"/>
+import BadgeEnums from '../enums/Badges';
+import { Region, RegionGyms } from '../GameConstants';
+
+type DisplayableBadges = {
+    [key: string]: string[]
+};
 
 class BadgeCaseController {
     private static optionalLeagueNames = ['Orange League', 'Magikarp Jump', 'Orre'];
 
-    static getDisplayableBadges() {
+    static getDisplayableBadges(): DisplayableBadges {
         const highestRegion = player.highestRegion();
-        const result = {};
-        GameConstants.RegionGyms.forEach((region, i) => {
+        const result: DisplayableBadges = {};
+        RegionGyms.forEach((region, i) => {
             // Optional leagues
-            if (i >= GameConstants.Region.final) {
+            if (i >= Region.final) {
                 if (!region.some(gym => App.game.badgeCase.hasBadge(GymList[gym].badgeReward))) {
                     return;
                 }
                 const badges = this.regionToBadges(region);
                 if (badges.length) {
-                    result[this.optionalLeagueNames[i - GameConstants.Region.final]] = badges;
+                    result[this.optionalLeagueNames[i - Region.final]] = badges;
                 }
                 return;
             }
@@ -23,14 +28,16 @@ class BadgeCaseController {
             if (i > highestRegion) {
                 return;
             }
-            result[GameConstants.Region[i].charAt(0).toUpperCase() + GameConstants.Region[i].slice(1)] = this.regionToBadges(region);
+            result[Region[i].charAt(0).toUpperCase() + Region[i].slice(1)] = this.regionToBadges(region);
         });
         return result;
     }
 
-    private static regionToBadges(region: string[]) {
+    private static regionToBadges(region: string[]): string[] {
         return region
             .map(gym => BadgeEnums[GymList[gym].badgeReward])
             .filter(b => !b.startsWith('Elite') && b != 'None');
     }
 }
+
+export default BadgeCaseController;
