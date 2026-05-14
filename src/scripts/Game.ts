@@ -4,6 +4,7 @@
 /// <reference path="../declarations/party/Category.d.ts"/>
 /// <reference path="../declarations/effectEngine/effectEngineRunner.d.ts"/>
 /// <reference path="../declarations/items/ItemHandler.d.ts"/>
+/// <reference path="../declarations/wildBattle/RouteHelper.d.ts" />
 
 /**
  * Main game class.

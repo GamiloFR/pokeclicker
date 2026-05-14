@@ -1,7 +1,7 @@
-import type { TranslationNamespace } from './Translation';
+import GameHelper from '../GameHelper';
 import { pokemonList } from '../pokemons/PokemonList';
 import * as DownloadUtil from '../utilities/DownloadUtil';
-import GameHelper from '../GameHelper';
+import type { TranslationNamespace } from './Translation';
 
 export default class TranslationHelper {
     /**
@@ -80,7 +80,7 @@ export default class TranslationHelper {
         const replaceNames = (text) => pokemonNames.reduce((t, regex) => t.replace(regex, '[[pokemon::$1]]'), text);
 
         const defaultsTree = TranslationHelper.exportCachedTranslationDefaults('questlines', replaceNames);
-        const questlineOrder = App.game.quests.questLines().map(ql => ql.name);
+        const questlineOrder: string[] = App.game.quests.questLines().map(ql => ql.name);
         const questlineNames = new Set(questlineOrder);
         // Use a sorted list of all keys as the sort order for stringify
         // Unfortunately JSON does not have a non-awkward-workaround solution to this

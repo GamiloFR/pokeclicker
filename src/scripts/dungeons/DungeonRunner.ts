@@ -1,5 +1,6 @@
 /// <reference path="../../declarations/TemporaryScriptTypes.d.ts" />
 /// <reference path="../../declarations/GameHelper.d.ts" />
+/// <reference path="../../declarations/wildBattle/RouteHelper.d.ts" />
 
 class DungeonRunner {
     public static dungeon: Dungeon;

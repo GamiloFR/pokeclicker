@@ -1,4 +1,4 @@
-class QuestLine {
+class QuestLine implements TmpQuestLineType {
     private cachedTranslatedName?: KnockoutComputed<string>;
     private _description: string;
     private cachedTranslatedDescription?: KnockoutComputed<string>;

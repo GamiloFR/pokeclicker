@@ -27,12 +27,16 @@ import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
+import { QuestLineNameType } from './quests/QuestLineNameType';
+import QuestLineState from './quests/QuestLineState';
+import Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
 import type Translate from './translation/Translation';
 import type { Underground } from './underground/Underground';
+import Amount from './wallet/Amount';
 import type Wallet from './wallet/Wallet';
 import type WeatherType from './weather/WeatherType';
 
@@ -92,8 +96,6 @@ export type TmpPokeballsType = any;
 export type TmpGemsType = any;
 export type TmpFarmingType = any;
 export type TmpRedeemableCodesType = any;
-export type TmpQuestsType = any;
-export type TmpQuestType = any;
 export type TmpDiscordType = any;
 export type TmpAchievementTrackerType = any;
 export type TmpBattleFrontierType = any;
@@ -227,6 +229,10 @@ export type TmpDungeonRunnerType = {
     };
 };
 
+export type TmpDungeonType = {
+  allAvailablePokemon(): PokemonNameType[]
+}
+
 export type TmpGymType = {
     town: string;
     badgeReward: BadgeEnums
@@ -303,6 +309,7 @@ export type TmpPartyPokemonType = {
     heldItem: KnockoutObservable<TmpHeldItemType>;
     defaultFemaleSprite: KnockoutObservable<boolean>;
     hideShinyImage: KnockoutObservable<boolean>;
+    evs: KnockoutComputed<number>;
     canUseStone(stoneType: GameConstants.StoneType): boolean;
     addCategory(id: number): void;
     removeCategory(id: number): void;
@@ -375,4 +382,123 @@ export type TmpTemporaryBattleType = {
 
 export type TmpTownType = {
     name: string;
+};
+
+export type TmpQuestOptionalArgumentType = {
+    clearedMessage?: string;
+    npcDisplayName?: string,
+    npcImageName?: string,
+};
+
+export type TmpQuestType = {
+    index: number;
+    amount: number
+    pointsReward: number;
+    progress: KnockoutComputed<number>;
+    progressText: KnockoutComputed<string>;
+    inProgress: KnockoutComputed<boolean>;
+    isCompleted: KnockoutComputed<boolean>;
+    claimed: KnockoutObservable<boolean>;
+    initial: KnockoutObservable<any>;
+    notified: boolean;
+    autoComplete: boolean;
+    mainQuest: TmpQuestType;
+    autoCompleter: KnockoutSubscription;
+    inQuestLine: boolean;
+    onLoadCalled: boolean;
+    suspended: boolean;
+    optionalArgs?: TmpQuestOptionalArgumentType;
+    initialValue?: number;
+    parentQuestLine?: TmpQuestLineType;
+	description: string
+	defaultDescription: string
+    xpReward: number
+    focus: KnockoutObservable<any>
+
+    customReward?: () => void;
+	claim(): boolean
+    quit(shouldConfirm?: boolean): void
+    begin(): void
+    onLoad(): void
+    complete(bypassAutoCompleter?: boolean): void
+    createAutoCompleter(): void
+    deleteAutoCompleter(): void
+    deleteFocusSub(fromMainQuest?: boolean): boolean
+    withDescription(description: string): TmpQuestType
+    withOnLoad(onLoad: () => void): TmpQuestType
+    withCustomReward(customReward: () => void): TmpQuestType
+    withOptionalArgs(optionalArgs: TmpQuestOptionalArgumentType): TmpQuestType
+    withInitialValue(initialValue: number): TmpQuestType
+    asSubQuest(mainQuest: TmpQuestType): void
+    getClearedMessage(): string
+    getNpcDisplayName(): string
+    getNpcImage(): string
+    toJSON(): Record<string, any>
+    fromJSON(json: any): void
+}
+
+export type TmpQuestLineType = {
+	state: KnockoutObservable<QuestLineState>;
+    quests: KnockoutObservableArray<TmpQuestType>;
+    curQuest: KnockoutComputed<number>;
+    curQuestObject: KnockoutComputed<any>;
+    curQuestInitial: KnockoutObservable<number>;
+    totalQuests: number;
+	name: QuestLineNameType,
+    requirement?: Requirement;
+    bulletinBoard: GameConstants.BulletinBoards
+	displayName: string;
+    description: string
+    autoBegin: KnockoutSubscription;
+    pauseTooltip: string
+    
+    addQuest(quest: TmpQuestType): void
+    beginQuest(index?: number, initial?: number, notifyStart?: boolean): void
+    resumeAt(index: number, initial?: number): void
+    suspendQuest(skipPausableCheck?: boolean): void
+    resumeSuspendedQuest(): void
+    isPausable(): boolean
+    toJSON(): Record<string, any>
+}
+
+export type TmpQuestsType = {
+    xp: KnockoutObservable<number>;
+    refreshes: KnockoutObservable<number>;
+    lastRefresh: Date;
+    lastRefreshLevel: number;
+    lastRefreshRegion: number;
+    freeRefresh: KnockoutObservable<boolean>;
+    questList: KnockoutObservableArray<TmpQuestType>;
+    questLines: KnockoutObservableArray<TmpQuestLineType>;
+    level: KnockoutComputed<number>;
+    questSlots: KnockoutComputed<number>
+    completedQuests: KnockoutComputed<Array<TmpQuestType>>
+    currentQuests: KnockoutComputed<Array<TmpQuestType>>
+    incompleteQuests: KnockoutComputed<Array<TmpQuestType>>;
+    sortedQuestList: KnockoutComputed<Array<TmpQuestType>>
+    
+    getQuestLine(name: QuestLineNameType): TmpQuestLineType | undefined
+    beginQuest(index: number): void
+    quitQuest(index: number, shouldConfirm?: boolean): void
+    claimQuest(index: number): void
+    calcListBonus(): number
+    calcListBonusPercent(level: number): number
+    addXP(amount: number): void
+    generateQuestList(date?: Date, level?: number): void
+    refreshQuests(free?: boolean, shouldConfirm?: boolean): Promise<void>
+    resetRefreshes(): void;
+    canAffordRefresh(): boolean
+    isRefreshFree(): boolean
+	getRefreshCost(): Amount
+    canStartNewQuest(): boolean
+    allQuestClaimed(): boolean
+    levelToXP(level: number): number
+    xpToLevel(xp: number): number
+    percentToNextQuestLevel(): number
+    questProgressTooltip(): { title: string; trigger: string}
+    isDailyQuestsUnlocked(): boolean
+    loadQuestList(questList: TmpQuestType[]): void
+    loadQuestLines(questLines: TmpQuestLineType[]): void
+    toJSON(): Record<string, any>
+    fromJSON(json: any): void
 };

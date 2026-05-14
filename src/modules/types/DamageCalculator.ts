@@ -1,9 +1,9 @@
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
-import WeatherType from '../weather/WeatherType';
-import { getPokemonByName } from '../pokemons/PokemonHelper';
 import GameHelper from '../GameHelper';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
 import type { TmpPartyPokemonType } from '../TemporaryScriptTypes';
+import WeatherType from '../weather/WeatherType';
 
 export default class DamageCalculator {
     public static type1 = ko.observable(PokemonType.None).extend({ numeric: 0 });
@@ -50,7 +50,7 @@ export default class DamageCalculator {
         const activePokemon  = App.game.party.partyPokemonActiveInSubRegion(DamageCalculator.region(), DamageCalculator.subregion());
 
         for (const pokemon of activePokemon) {
-            const dataPokemon = getPokemonByName(pokemon.name);
+            const dataPokemon = PokemonHelper.getPokemonByName(pokemon.name);
             if (dataPokemon.type1 === PokemonType.None) {
                 continue;
             }
@@ -69,7 +69,7 @@ export default class DamageCalculator {
     // TODO replace temporary type with PartyPokemon type once that class is ported
     public static getOneTypeDetail(pokemon: TmpPartyPokemonType): TypeDetail {
         const ignoreRegionMultiplier = DamageCalculator.region() == Region.none;
-        const dataPokemon = getPokemonByName(pokemon.name);
+        const dataPokemon = PokemonHelper.getPokemonByName(pokemon.name);
         return {
             id: dataPokemon.id,
             name: dataPokemon.name,
@@ -93,7 +93,7 @@ export default class DamageCalculator {
 
     public static getTypeDetail(): TypeDetail[] {
         return App.game.party.partyPokemonActiveInSubRegion(DamageCalculator.region(), DamageCalculator.subregion()).filter(pokemon => {
-            const dataPokemon = getPokemonByName(pokemon.name);
+            const dataPokemon = PokemonHelper.getPokemonByName(pokemon.name);
             return dataPokemon.type1 == DamageCalculator.detailType() || dataPokemon.type2 == DamageCalculator.detailType();
         }).reduce((details, pokemon) => {
             details.push(DamageCalculator.getOneTypeDetail(pokemon));

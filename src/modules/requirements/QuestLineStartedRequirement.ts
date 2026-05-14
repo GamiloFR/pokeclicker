@@ -1,12 +1,12 @@
 import { AchievementOption } from '../GameConstants';
-import QuestLineState from '../quests/QuestLineState';
 import { QuestLineNameType } from '../quests/QuestLineNameType';
-import type { TmpQuestType } from '../TemporaryScriptTypes';
+import QuestLineState from '../quests/QuestLineState';
+import type { TmpQuestLineType } from '../TemporaryScriptTypes';
 
 import Requirement from './Requirement';
 
 export default class QuestLineStartedRequirement extends Requirement {
-    cachedQuest: TmpQuestType;
+    cachedQuest: TmpQuestLineType;
     get quest() {
         if (!this.cachedQuest) {
             this.cachedQuest = App.game.quests.getQuestLine(this.questLineName);

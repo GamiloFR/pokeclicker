@@ -5,7 +5,7 @@ import MaxRegionRequirement from '../../requirements/MaxRegionRequirement';
 import ObtainedPokemonRequirement from '../../requirements/ObtainedPokemonRequirement';
 import PokemonLevelRequirement from '../../requirements/PokemonLevelRequirement';
 import Requirement from '../../requirements/Requirement';
-import { calcNativeRegion } from '../PokemonHelper';
+import * as PokemonHelper from '../PokemonHelper';
 import { PokemonNameType } from '../PokemonNameType';
 
 export enum EvoTrigger {
@@ -46,7 +46,7 @@ export const Evo = (basePokemon: PokemonNameType, evolvedPokemon: PokemonNameTyp
             // wrapping because pokemonMap is needed to calcNativeRegion,
             // but we use Evos while making pokemonMap...
             // wrapping here delays execution until later, after pokemon is available
-            () => new MaxRegionRequirement(calcNativeRegion(evolvedPokemon)),
+            () => new MaxRegionRequirement(PokemonHelper.calcNativeRegion(evolvedPokemon)),
         ),
     ],
     ignoreECChange,

@@ -1,13 +1,13 @@
-import '../koExtenders';
 import type {
     Observable as KnockoutObservable,
 } from 'knockout';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
-import Notifier from '../notifications/Notifier';
-import Rand from '../utilities/Rand';
 import GameHelper from '../GameHelper';
+import '../koExtenders';
+import Notifier from '../notifications/Notifier';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
+import Rand from '../utilities/Rand';
 
 export default class Profile implements Saveable {
     public static MAX_TRAINER = 163;

@@ -236,6 +236,7 @@ import Weather from './weather/Weather';
 import WeatherApp from './weather/WeatherApp';
 import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
+import RouteHelper from './wildBattle/RouteHelper';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -484,4 +485,5 @@ Object.assign(<any>window, {
     TranslationHelper,
     DownloadUtil,
     BadgeCaseController,
+    RouteHelper,
 });

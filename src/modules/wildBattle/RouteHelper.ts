@@ -1,5 +1,15 @@
-///<reference path="../../declarations/routes/Routes.d.ts"/>
-///<reference path="../../declarations/routes/RoutePokemon.d.ts"/>
+import KeyItemType from '../enums/KeyItemType';
+import { Pokerus, Region } from '../GameConstants';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import RouteKillRequirement from '../requirements/RouteKillRequirement';
+import { Routes } from '../routes';
+import { TmpDungeonType } from '../TemporaryScriptTypes';
+
+declare class TmpDefeatPokemonsQuestType {
+    public route: number;
+    public region: Region;
+}
 
 /**
  * Helper class to retrieve information from RoutePokemon
@@ -12,7 +22,7 @@ class RouteHelper {
      * @param includeHeadbutt
      * @returns {string[]} list of all Pokémon that can be caught
      */
-    public static getAvailablePokemonList(route: number, region: GameConstants.Region, includeHeadbutt = true): PokemonNameType[] {
+    public static getAvailablePokemonList(route: number, region: Region, includeHeadbutt = true): PokemonNameType[] {
         // If the route is somehow higher than allowed, use the first route to generateWildPokemon Pokémon
         const possiblePokemons = Routes.getRoute(region, route)?.pokemon;
         if (!possiblePokemons) {
@@ -38,18 +48,18 @@ class RouteHelper {
         return pokemonList;
     }
 
-    public static routePokerusEVs(route:number, region:GameConstants.Region): string {
+    public static routePokerusEVs(route:number, region:Region): string {
         const possiblePokemon: PokemonNameType[] = [...new Set(RouteHelper.getAvailablePokemonList(route, region))];
-        if (this.minPokerus(possiblePokemon) == GameConstants.Pokerus.Resistant) {
+        if (this.minPokerus(possiblePokemon) == Pokerus.Resistant) {
             return 'All Pokémon on this route are resistant!';
         }
         const currentEVs = this.getEvs(possiblePokemon);
         return `EVs until all Pokémon are resistant on this route: ${currentEVs}&nbsp;/&nbsp;${50 * possiblePokemon.length}.`;
     }
 
-    public static dungeonPokerusEVs(dungeon: Dungeon): string {
+    public static dungeonPokerusEVs(dungeon: TmpDungeonType): string {
         const possiblePokemon: PokemonNameType[] = [...new Set(dungeon.allAvailablePokemon())];
-        if (this.minPokerus(possiblePokemon) == GameConstants.Pokerus.Resistant) {
+        if (this.minPokerus(possiblePokemon) == Pokerus.Resistant) {
             return 'All Pokémon in this dungeon are resistant!';
         }
         const currentEVs = this.getEvs(possiblePokemon);
@@ -60,10 +70,10 @@ class RouteHelper {
     private static getEvs(possiblePokemon: PokemonNameType[]): number {
         let currentEVs = 0;
         possiblePokemon.forEach(pkmn => {
-            const partyPokemon: PartyPokemon = App.game.party.getPokemonByName(pkmn);
-            if (partyPokemon.pokerus == GameConstants.Pokerus.Resistant) {
+            const partyPokemon = App.game.party.getPokemonByName(pkmn);
+            if (partyPokemon?.pokerus == Pokerus.Resistant) {
                 currentEVs += 50;
-            } else if (partyPokemon.pokerus == GameConstants.Pokerus.Contagious) {
+            } else if (partyPokemon?.pokerus == Pokerus.Contagious) {
                 currentEVs += partyPokemon.evs();
             }
         });
@@ -79,7 +89,7 @@ class RouteHelper {
      * @returns {boolean} true if all Pokémon on this route are caught.
      */
 
-    public static routeCompleted(route: number, region: GameConstants.Region, includeShiny: boolean, includeHeadbutt = true): boolean {
+    public static routeCompleted(route: number, region: Region, includeShiny: boolean, includeHeadbutt = true): boolean {
         return RouteHelper.listCompleted(RouteHelper.getAvailablePokemonList(route, region, includeHeadbutt), includeShiny);
     }
 
@@ -111,16 +121,18 @@ class RouteHelper {
         return this.minPokerus(possiblePokemon) > 0;
     }
 
-    public static isAchievementsComplete(route: number, region: GameConstants.Region) {
+    public static isAchievementsComplete(route: number, region: Region) {
         return AchievementHandler.achievementList.every(achievement => {
             return !(achievement.property instanceof RouteKillRequirement && achievement.property.region === region && achievement.property.route === route && !achievement.isCompleted());
         });
     }
 
-    public static isThereQuestAtLocation(route: number, region: GameConstants.Region) {
+    public static isThereQuestAtLocation(route: number, region: Region) {
         return App.game.quests.currentQuests().some(q => {
-            return q instanceof DefeatPokemonsQuest && q.route == route && q.region == region;
+            return q instanceof TmpDefeatPokemonsQuestType && q.route == route && q.region == region;
         });
     }
 
 }
+
+export default RouteHelper;

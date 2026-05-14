@@ -1,4 +1,5 @@
 ///<reference path="../../declarations/globals.d.ts"/>
+/// <reference path="../../declarations/wildBattle/RouteHelper.d.ts" />
 
 class PokemonFactory {
 

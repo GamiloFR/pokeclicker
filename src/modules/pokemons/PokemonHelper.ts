@@ -1,22 +1,22 @@
 import type { Computed } from 'knockout';
-import {
-    MaxIDPerRegion,
-    Region,
-    BattlePokemonGender,
-    PokemonStatisticsType,
-    ShadowStatus,
-    MegaStoneType,
-} from '../GameConstants';
-import type { PokemonNameType } from './PokemonNameType';
-import P from './mapProvider';
 import PokemonType from '../enums/PokemonType';
-import DataPokemon from './DataPokemon';
+import {
+    BattlePokemonGender,
+    MaxIDPerRegion,
+    MegaStoneType,
+    PokemonStatisticsType,
+    Region,
+    ShadowStatus,
+} from '../GameConstants';
 import GameHelper from '../GameHelper';
-import MegaEvolveRequirement from '../requirements/MegaEvolveRequirement';
-import type MegaStoneItem from '../items/MegaStoneItem';
 import { ItemList } from '../items/ItemList';
+import type MegaStoneItem from '../items/MegaStoneItem';
+import MegaEvolveRequirement from '../requirements/MegaEvolveRequirement';
 import Settings from '../settings/Settings';
 import type { TmpPartyPokemonType } from '../TemporaryScriptTypes';
+import DataPokemon from './DataPokemon';
+import P from './mapProvider';
+import type { PokemonNameType } from './PokemonNameType';
 
 // TODO remove when Dungeon is ported to modules
 declare class Dungeon {
@@ -24,7 +24,6 @@ declare class Dungeon {
 }
 declare const dungeonList: { [dungeonName: string]: Dungeon };
 
-// eslint-disable-next-line import/prefer-default-export
 export function calcNativeRegion(pokemonName: PokemonNameType) {
     const pokemon = P.pokemonMap[pokemonName];
     if (pokemon.nativeRegion !== undefined) {
