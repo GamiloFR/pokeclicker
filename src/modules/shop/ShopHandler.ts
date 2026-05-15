@@ -1,8 +1,25 @@
-///<reference path="Shop.ts"/>
+import { Observable } from 'knockout';
+import { getGymIndex } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import Item from '../items/Item';
+import Settings from '../settings';
+import Amount from '../wallet/Amount';
+import Shop from './Shop';
+
 class ShopHandler {
-    static shopObservable: KnockoutObservable<Shop> = ko.observable(new Shop([]));
-    static selected: KnockoutObservable<number> = ko.observable(0);
-    static amount: KnockoutObservable<number> = ko.observable(1);
+    static shopObservable: Observable<Shop>;
+    static selected: Observable<number>;
+    static amount: Observable<number>;
+
+    public static shortcutVisible = ko.pureComputed(() => {
+        return App.game.statistics.gymsDefeated[getGymIndex('Champion Lance')]() > 0;
+    });
+
+    public static init() {
+        ShopHandler.shopObservable = ko.observable(new Shop([]));
+        ShopHandler.selected = ko.observable(0);
+        ShopHandler.amount = ko.observable(1);
+    }
 
     public static showShop(shop: Shop) {
         this.setSelected(0);
@@ -14,14 +31,12 @@ class ShopHandler {
         });
     }
 
-    //#region Controls
-
     public static setSelected(i: number) {
         this.selected(i);
     }
 
     public static buyItem() {
-        const item: Item = this.shopObservable().items[ShopHandler.selected()];
+        const item: Item = this.shop.items[ShopHandler.selected()];
         item.buy(this.amount());
 
         if (Settings.getSetting('resetShopAmountOnPurchase').observableValue()) {
@@ -30,35 +45,31 @@ class ShopHandler {
     }
 
     public static resetAmount() {
-        this.shopObservable().amountInput().val(1).change();
+        this.shop.amountInput().val(1).change();
     }
 
     public static increaseAmount(n: number) {
-        const newVal = (parseInt(this.shopObservable().amountInput().val().toString(), 10) || 0) + n;
-        this.shopObservable().amountInput().val(newVal > 1 ? newVal : 1).change();
+        const newVal = (parseInt(this.shop.amountInput().val().toString(), 10) || 0) + n;
+        this.shop.amountInput().val(newVal > 1 ? newVal : 1).change();
     }
 
     public static multiplyAmount(n: number) {
-        const newVal = (parseInt(this.shopObservable().amountInput().val().toString(), 10) || 0) * n;
-        this.shopObservable().amountInput().val(newVal > 1 ? newVal : 1).change();
+        const newVal = (parseInt(this.shop.amountInput().val().toString(), 10) || 0) * n;
+        this.shop.amountInput().val(newVal > 1 ? newVal : 1).change();
     }
 
     public static maxAmount() {
-        const item: Item = this.shopObservable().items[ShopHandler.selected()];
+        const item: Item = this.shop.items[ShopHandler.selected()];
 
         if (!item || !item.isAvailable()) {
-            return this.shopObservable().amountInput().val(0).change();
+            return this.shop.amountInput().val(0).change();
         }
 
         const tooMany = (amt: number) => amt > item.maxAmount || !App.game.wallet.hasAmount(new Amount(item.totalPrice(amt), item.currency));
         const amt = GameHelper.binarySearch(tooMany, 0, Number.MAX_SAFE_INTEGER);
 
-        this.shopObservable().amountInput().val(amt).change();
+        this.shop.amountInput().val(amt).change();
     }
-
-    //#endregion
-
-    //#region UI
 
     public static calculateCss(i: number): string {
         if (this.selected() == i) {
@@ -69,7 +80,7 @@ class ShopHandler {
     }
 
     public static calculateButtonCss(): string {
-        const item: Item = this.shopObservable().items[ShopHandler.selected()];
+        const item: Item = this.shop.items[ShopHandler.selected()];
 
         if (item && !(item.isAvailable() && App.game.wallet.hasAmount(new Amount(item.totalPrice(this.amount()), item.currency)))
                 || this.amount() < 1) {
@@ -79,9 +90,13 @@ class ShopHandler {
         }
     }
 
-    //#endregion
-
-    public static shortcutVisible: KnockoutComputed<boolean> = ko.pureComputed(() => {
-        return App.game.statistics.gymsDefeated[GameConstants.getGymIndex('Champion Lance')]() > 0;
-    });
+    private static get shop(): Shop {
+        const shop = this.shopObservable();
+        if (!shop) {
+            throw new Error('No shop');
+        }
+        return shop;
+    }
 }
+
+export default ShopHandler;

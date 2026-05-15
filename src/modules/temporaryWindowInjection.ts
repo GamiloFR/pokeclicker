@@ -203,6 +203,12 @@ import RangeSetting from './settings/RangeSetting';
 import Setting from './settings/Setting';
 import SettingOption from './settings/SettingOption';
 import { SortOptionConfigs, SortOptions } from './settings/SortOptions';
+import BerryMasterShop from './shop/BerryMasterShop';
+import GemMasterShop from './shop/GemMasterShop';
+import GenericTraderShop from './shop/GenericTraderShop';
+import ShardTraderShop from './shop/ShardTraderShop';
+import Shop from './shop/Shop';
+import ShopHandler from './shop/ShopHandler';
 import { SortModules, SortSaves } from './Sortable';
 import SpecialEvent from './specialEvents/SpecialEvent';
 import SpecialEvents from './specialEvents/SpecialEvents';
@@ -518,6 +524,12 @@ Object.assign(<any>window, {
     Quests,
     MultipleQuestsQuest,
     TownContent,
+    Shop,
+    BerryMasterShop,
+    GemMasterShop,
+    GenericTraderShop,
+    ShardTraderShop,
+    ShopHandler,
     ProfNPC,
     NPC,
     KantoBerryMasterNPC,

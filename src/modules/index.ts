@@ -9,3 +9,5 @@ import './koBindingHandlers';
 
 // Load everything else
 import './temporaryWindowInjection';
+
+import './shop/index';

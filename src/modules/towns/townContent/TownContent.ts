@@ -8,8 +8,7 @@ import Requirement from '../../requirements/Requirement';
 import Town from '../Town';
 
 abstract class TownContent {
-    public tooltip?: string = undefined;
-
+    public tooltip?: string;
     public requirements: (Requirement | OneFromManyRequirement)[];
     public parent?: Town;
 

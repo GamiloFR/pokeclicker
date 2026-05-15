@@ -8,9 +8,11 @@
 ///<reference path="../../declarations/requirements/MultiRequirement.d.ts"/>
 ///<reference path="../safari/SafariTownContent.ts"/>
 ///<reference path="../../declarations/towns/purifyChamber/PurifyChamber.d.ts"/>
-///<reference path="../shop/GenericTraderShop.ts"/>
+///<reference path="../../declarations/shop/GenericTraderShop.d.ts"/>
 
-// TODO Move to modules along with Shop
+// TODO Move to modules after following:
+// - GymList
+// - TemporaryBattleList
 
 const TownList: { [name: string]: Town } = {};
 

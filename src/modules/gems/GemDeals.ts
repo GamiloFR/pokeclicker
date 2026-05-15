@@ -1,12 +1,12 @@
-import GemDeal from './GemDeal';
-import GemDealList from './GemDealList';
 import type { ObservableArray as KnockoutObservableArray } from 'knockout';
 import BadgeEnums from '../enums/Badges';
 import { GemShops } from '../GameConstants';
-import { ItemList } from '../items/ItemList';
 import GameHelper from '../GameHelper';
+import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import GemDeal from './GemDeal';
+import GemDealList from './GemDealList';
 
 export default class GemDeals {
     public static list: Partial<Record<GemShops, KnockoutObservableArray<GemDeal>>> = {
@@ -17,7 +17,7 @@ export default class GemDeals {
         // No randomly-generated deals exist right now
     }
 
-    public static getDeals(shop: GemShops) {
+    public static getDeals(shop: GemShops): GemDeal[] {
         return GemDeals.list[shop]?.() ?? [];
     }
 

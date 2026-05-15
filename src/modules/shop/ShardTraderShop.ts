@@ -1,11 +1,17 @@
-/// <reference path="./Shop.ts"/>
+import areaStatus from '../enums/AreaStatus';
+import { ShardTraderLocations } from '../GameConstants';
+import PokemonItem from '../items/PokemonItem';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import { ShardDeal } from '../underground/ShardDeal';
+import Shop from './Shop';
+import ShopHandler from './ShopHandler';
 
 class ShardTraderShop extends Shop {
     constructor(
-        public location: GameConstants.ShardTraderLocations,
+        public location: ShardTraderLocations,
         public name: string = 'Shard Trader',
         public hidePlayerInventory: boolean = false,
-        public currencyName: string = 'Item'
+        public currencyName: string = 'Item',
     ) {
         super([], name);
     }
@@ -38,3 +44,5 @@ class ShardTraderShop extends Shop {
         return false;
     }
 }
+
+export default ShardTraderShop;

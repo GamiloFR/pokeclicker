@@ -1,30 +1,43 @@
-///<reference path="../../declarations/towns/townContent/TownContent.d.ts"/>
+import areaStatus from '../enums/AreaStatus';
+import Item from '../items/Item';
+import PokemonItem from '../items/PokemonItem';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import TownContent from '../towns/townContent/TownContent';
+import ShopHandler from './ShopHandler';
 
 class Shop extends TownContent {
+    public static DEFAULT = new Shop([]);
+
+    public tooltip = 'Visit shops to buy items.';
+
+    constructor(
+        public items: Item[],
+        public name?: string,
+        requirements: (Requirement | OneFromManyRequirement)[] = [],
+        private hideBeforeUnlocked = false,
+    ) {
+        super(requirements);
+    }
+
     public cssClass() {
         return 'btn btn-secondary';
     }
+
     public text(): string {
         return this.name ?? 'Poké Mart';
     }
+
     public isVisible(): boolean {
         if (!super.isVisible()) {
             return false;
         }
         return !(this.hideBeforeUnlocked && !this.isUnlocked());
     }
+
     public onclick(): void {
         ShopHandler.showShop(this);
         $('#shopModal').modal('show');
-    }
-    public tooltip = 'Visit shops to buy items.';
-    constructor(
-        public items: Item[],
-        public name = undefined,
-        requirements: (Requirement | OneFromManyRequirement)[] = [],
-        private hideBeforeUnlocked = false
-    ) {
-        super(requirements);
     }
 
     public areaStatus() {
@@ -37,6 +50,10 @@ class Shop extends TownContent {
         return itemStatusArray;
     }
 
+    public amountInput() {
+        return $('#shopModal').find('input[name="amountOfItems"]');
+    }
+
     get displayName() {
         if (this.name) {
             return this.name;
@@ -46,6 +63,6 @@ class Shop extends TownContent {
         }
         return `Poké Mart ${this.parent.name}`;
     }
-
-    public amountInput = () => $('#shopModal').find('input[name="amountOfItems"]');
 }
+
+export default Shop;

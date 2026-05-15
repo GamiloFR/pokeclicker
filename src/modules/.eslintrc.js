@@ -32,6 +32,7 @@ module.exports = {
         GymList: 'readonly',
         TownList: 'readonly',
         BattleFrontierMilestones: 'readonly',
+        BerryDeal: 'readonly',
     },
     rules: {
         indent: 'off',

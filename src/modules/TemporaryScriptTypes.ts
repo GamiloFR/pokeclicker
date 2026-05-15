@@ -21,6 +21,7 @@ import type PokemonType from './enums/PokemonType';
 import type * as GameConstants from './GameConstants';
 import GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
+import Item from './items/Item';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -442,10 +443,6 @@ export type TmpTownListType = {
     [name: string]: Town;
 };
 
-export type TmpNPCType = {
-    talkedTo: KnockoutObservable<boolean>;
-};
-
 export type TmpFarmingType = {
     berryData: TmpBerryType[];
     mutations: TmpMutationType[];
@@ -498,6 +495,21 @@ export type TmpMutationType = {
 
     get hintSeen(): boolean
     set hintSeen(bool: boolean)
+};
+
+export type TmpBerryDealStaticType = {
+    list: Partial<Record<GameConstants.BerryTraderLocations, KnockoutObservableArray<TmpBerryDealType>>>
+};
+
+export type TmpBerryDealType = {
+    berries: Array<{
+        berryType: BerryType,
+        amount: number
+    }>;
+    item: {
+        itemType: Item,
+        amount: number
+    };
 };
 
 export type TmpBattleFrontierMilestonesType = {
