@@ -103,6 +103,7 @@ import * as PokemonHelper from './pokemons/PokemonHelper';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
 import RoamingPokemon from './pokemons/RoamingPokemon';
 import RoamingPokemonList from './pokemons/RoamingPokemonList';
+import BulletinBoard from './quests/BulletinBoard';
 import Quest from './quests/Quest';
 import QuestLineHelper from './quests/QuestLineHelper';
 import Quests from './quests/Quests';
@@ -207,6 +208,28 @@ import SpecialEvent from './specialEvents/SpecialEvent';
 import SpecialEvents from './specialEvents/SpecialEvents';
 import SubRegion from './subRegion/SubRegion';
 import SubRegions from './subRegion/SubRegions';
+import AssistantNPC from './towns/AssistantNPC';
+import BattleCafe from './towns/battleCafe/BattleCafe';
+import BattleCafeController from './towns/battleCafe/BattleCafeController';
+import BattleCafeSaveObject from './towns/battleCafe/BattleCafeSaveObject';
+import DreamOrbController, { DreamOrbTownContent } from './towns/DreamOrbController';
+import DungeonTown from './towns/DungeonTown';
+import KantoBerryMasterNPC from './towns/KantoBerryMasterNPC';
+import NPC from './towns/NPC';
+import NPCController from './towns/NPCController';
+import PokemonGiftNPC from './towns/PokemonGiftNPC';
+import ProfNPC from './towns/ProfNPC';
+import PurifyChamber from './towns/purifyChamber/PurifyChamber';
+import PurifyChamberTownContent from './towns/purifyChamber/PurifyChamberTownContent';
+import RoamerNPC from './towns/RoamerNPC';
+import Town from './towns/Town';
+import AccessGym from './towns/townContent/AccessGym';
+import BattleFrontierTownContent from './towns/townContent/BattleFrontierTownContent';
+import DockTownContent from './towns/townContent/DockTownContent';
+import MoveToDungeon from './towns/townContent/MoveToDungeon';
+import MoveToTown from './towns/townContent/MoveToTown';
+import TownContent from './towns/townContent/TownContent';
+import WeatherAppTownContent from './towns/townContent/WeatherAppTownContent';
 import Translate from './translation/Translation';
 import TranslationHelper from './translation/TranslationHelper';
 import DamageCalculator from './types/DamageCalculator';
@@ -490,8 +513,32 @@ Object.assign(<any>window, {
     DownloadUtil,
     BadgeCaseController,
     RouteHelper,
-    Quest: Quest,
+    Quest,
     QuestLineHelper,
     Quests,
     MultipleQuestsQuest,
+    TownContent,
+    ProfNPC,
+    NPC,
+    KantoBerryMasterNPC,
+    PokemonGiftNPC,
+    RoamerNPC,
+    Town,
+    BulletinBoard,
+    MoveToDungeon,
+    DockTownContent,
+    DungeonTown,
+    AssistantNPC,
+    BattleFrontierTownContent,
+    MoveToTown,
+    PurifyChamberTownContent,
+    WeatherAppTownContent,
+    DreamOrbTownContent,
+    AccessGym,
+    BattleCafe,
+    BattleCafeSaveObject,
+    DreamOrbController,
+    PurifyChamber,
+    BattleCafeController,
+    NPCController,
 });

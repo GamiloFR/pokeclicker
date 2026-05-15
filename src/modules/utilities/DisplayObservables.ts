@@ -1,6 +1,6 @@
 import type { Observable } from 'knockout';
 
-enum BootstrapState {
+export enum BootstrapState {
     'hidden' = 'hidden',
     'hide' = 'hide',
     'show' = 'show',

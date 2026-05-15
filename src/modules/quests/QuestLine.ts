@@ -5,10 +5,7 @@ import Requirement from '../requirements/Requirement';
 import Quest from './Quest';
 import { QuestLineNameType } from './QuestLineNameType';
 import QuestLineState from './QuestLineState';
-
-declare class MultipleQuestsQuest {
-    public quests: Quest[];
-}
+import MultipleQuestsQuest from './questTypes/MultipleQuestsQuest';
 
 class QuestLine {
     public state = ko.observable(QuestLineState.inactive).extend({ numeric: 0 });

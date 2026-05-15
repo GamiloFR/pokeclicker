@@ -2,14 +2,10 @@ import KeyItemType from '../enums/KeyItemType';
 import { Pokerus, Region } from '../GameConstants';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
+import DefeatPokemonsQuest from '../quests/questTypes/DefeatPokemonsQuest';
 import RouteKillRequirement from '../requirements/RouteKillRequirement';
 import { Routes } from '../routes';
 import { TmpDungeonType } from '../TemporaryScriptTypes';
-
-declare class TmpDefeatPokemonsQuestType {
-    public route: number;
-    public region: Region;
-}
 
 /**
  * Helper class to retrieve information from RoutePokemon
@@ -129,7 +125,7 @@ class RouteHelper {
 
     public static isThereQuestAtLocation(route: number, region: Region) {
         return App.game.quests.currentQuests().some(q => {
-            return q instanceof TmpDefeatPokemonsQuestType && q.route == route && q.region == region;
+            return q instanceof DefeatPokemonsQuest && q.route == route && q.region == region;
         });
     }
 

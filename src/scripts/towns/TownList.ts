@@ -3,12 +3,14 @@
 ///<reference path="../../declarations/requirements/GymBadgeRequirement.d.ts"/>
 ///<reference path="../../declarations/requirements/OneFromManyRequirement.d.ts"/>
 ///<reference path="../../declarations/requirements/SpecialEventRequirement.d.ts"/>
-///<reference path="../quests/BulletinBoard.ts" />
-///<reference path="BattleCafe.ts"/>
+///<reference path="../../declarations/quests/BulletinBoard.d.ts" />
+///<reference path="../../declarations/towns/battleCafe/BattleCafe.d.ts"/>
 ///<reference path="../../declarations/requirements/MultiRequirement.d.ts"/>
 ///<reference path="../safari/SafariTownContent.ts"/>
-///<reference path="PurifyChamber.ts"/>
+///<reference path="../../declarations/towns/purifyChamber/PurifyChamber.d.ts"/>
 ///<reference path="../shop/GenericTraderShop.ts"/>
+
+// TODO Move to modules along with Shop
 
 const TownList: { [name: string]: Town } = {};
 

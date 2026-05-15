@@ -1,4 +1,4 @@
-///<reference path="../towns/TownContent.ts"/>
+///<reference path="../../declarations/towns/townContent/TownContent.d.ts"/>
 
 class Shop extends TownContent {
     public cssClass() {

@@ -14,14 +14,8 @@ import QuestLine from './QuestLine';
 import QuestLineHelper from './QuestLineHelper';
 import { QuestLineNameType } from './QuestLineNameType';
 import QuestLineState from './QuestLineState';
-
-declare class MultipleQuestsQuest {
-    public quests: Quest[];
-}
-
-declare class CapturePokemonsQuest extends Quest {
-    public constructor(capturesNeeded: number, reward: number);
-}
+import CapturePokemonsQuest from './questTypes/CapturePokemonsQuest';
+import MultipleQuestsQuest from './questTypes/MultipleQuestsQuest';
 
 class Quests implements Saveable {
     saveKey = 'quests';

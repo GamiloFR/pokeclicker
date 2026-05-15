@@ -1,10 +1,16 @@
-///<reference path="./NPC.ts"/>
+import GameHelper from '../GameHelper';
+import SeededRand from '../utilities/SeededRand';
+import NPC from './NPC';
+
+declare class EnigmaMutation {
+    get partialHint(): string;
+}
 
 class KantoBerryMasterNPC extends NPC {
 
     constructor(
         public name: string,
-        public dialog: string[]
+        public dialog: string[],
     ) {
         super(name, dialog);
     }
@@ -31,7 +37,7 @@ class KantoBerryMasterNPC extends NPC {
         }
 
         SeededRand.seedWithDate(date);
-        possibleMutations.forEach(b => SeededRand.boolean());
+        possibleMutations.forEach(() => SeededRand.boolean());
         const mutationToShow = SeededRand.fromArray(possibleMutations);
         mutationToShow.hintSeen = true;
 
@@ -42,3 +48,5 @@ class KantoBerryMasterNPC extends NPC {
     }
 
 }
+
+export default KantoBerryMasterNPC;

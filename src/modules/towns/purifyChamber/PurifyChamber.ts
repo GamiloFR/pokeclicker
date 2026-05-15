@@ -1,67 +1,44 @@
-class PurifyChamberTownContent extends TownContent {
-    constructor() {
-        super([PurifyChamber.requirements]);
-    }
-    public cssClass(): string {
-        return 'btn btn-info';
-    }
-    public text(): string {
-        return 'Purify Chamber';
-    }
-    public onclick(): void {
-        PurifyChamber.openPurifyChamberModal();
-    }
-
-    public isUnlocked(): boolean {
-        return PurifyChamber.requirements.isCompleted();
-    }
-
-    public areaStatus(): areaStatus[] {
-        if (!this.isUnlocked()) {
-            return [areaStatus.locked];
-        }
-        const canPurify = App.game.purifyChamber.currentFlow() >= App.game.purifyChamber.flowNeeded() && App.game.party.caughtPokemon.some(p => p.shadow == GameConstants.ShadowStatus.Shadow);
-        return [canPurify ? areaStatus.incomplete : areaStatus.completed];
-    }
-
-}
+import { Saveable } from '../../DataStore/common/Saveable';
+import { AchievementOption, MINUTE, ShadowStatus } from '../../GameConstants';
+import NotificationConstants from '../../notifications/NotificationConstants';
+import Notifier from '../../notifications/Notifier';
+import MultiRequirement from '../../requirements/MultiRequirement';
+import QuestLineStepCompletedRequirement from '../../requirements/QuestLineStepCompletedRequirement';
+import ShadowPokemonRequirement from '../../requirements/ShadowPokemonRequirement';
+import { TmpPartyPokemonType } from '../../TemporaryScriptTypes';
 
 class PurifyChamber implements Saveable {
+    saveKey = 'PurifyChamber';
+    defaults = {};
+
     public static requirements = new QuestLineStepCompletedRequirement('Shadows in the Desert', 17);
 
-    public selectedPokemon: KnockoutObservable<PartyPokemon>;
-    public currentFlow: KnockoutObservable<number>;
-    public flowNeeded: KnockoutComputed<number>;
+    public selectedPokemon = ko.observable<TmpPartyPokemonType>();
+    public currentFlow = ko.observable(0);
+    public flowNeeded = ko.pureComputed(() => {
+        const purifiedPokemon = App.game.party.caughtPokemon.filter((p) => p.shadow == ShadowStatus.Purified).length;
+        const flow = 15 * purifiedPokemon * purifiedPokemon +
+                15 * purifiedPokemon +
+                1500 * Math.exp(0.1 * purifiedPokemon);
+        return Math.round(flow);
+    });
     private notified = false;
 
     private static shortcutRequirement = new MultiRequirement([
-        new ShadowPokemonRequirement(1, GameConstants.ShadowStatus.Purified),
-        new ShadowPokemonRequirement(131, GameConstants.ShadowStatus.Purified, GameConstants.AchievementOption.less),
+        new ShadowPokemonRequirement(1, ShadowStatus.Purified),
+        new ShadowPokemonRequirement(131, ShadowStatus.Purified, AchievementOption.less),
     ]);
     public static shortcutVisible = ko.pureComputed((): boolean => {
         return PurifyChamber.shortcutRequirement.isCompleted();
     });
 
-    constructor() {
-        this.selectedPokemon = ko.observable(undefined);
-        this.currentFlow = ko.observable(0);
-        this.flowNeeded = ko.pureComputed(() => {
-            const purifiedPokemon = App.game.party.caughtPokemon.filter((p) => p.shadow == GameConstants.ShadowStatus.Purified).length;
-            const flow = 15 * purifiedPokemon * purifiedPokemon +
-                15 * purifiedPokemon +
-                1500 * Math.exp(0.1 * purifiedPokemon);
-            return Math.round(flow);
-        });
-    }
-
     public canPurify() : boolean {
-        if (!this.selectedPokemon()) {
+        const selectedPokemon = this.selectedPokemon();
+        if (!selectedPokemon) {
             return false;
-        }
-        if (this.selectedPokemon().shadow != GameConstants.ShadowStatus.Shadow) {
+        } else if (selectedPokemon.shadow != ShadowStatus.Shadow) {
             return false;
-        }
-        if (this.currentFlow() < this.flowNeeded()) {
+        } else if (this.currentFlow() < this.flowNeeded()) {
             return false;
         }
         return true;
@@ -71,7 +48,11 @@ class PurifyChamber implements Saveable {
         if (!this.canPurify()) {
             return;
         }
-        this.selectedPokemon().shadow = GameConstants.ShadowStatus.Purified;
+
+        const selectedPokemon = this.selectedPokemon();
+        if (selectedPokemon) {
+            selectedPokemon.shadow = ShadowStatus.Purified;
+        }
         this.currentFlow(0);
         this.notified = false;
     }
@@ -90,7 +71,7 @@ class PurifyChamber implements Saveable {
                 message: 'Maximum Flow has accumulated at the Purify Chamber in Orre!',
                 type: NotificationConstants.NotificationOption.primary,
                 sound: NotificationConstants.NotificationSound.General.max_flow,
-                timeout: 15 * GameConstants.MINUTE,
+                timeout: 15 * MINUTE,
             });
         }
     }
@@ -106,8 +87,6 @@ class PurifyChamber implements Saveable {
         }
     }
 
-    saveKey = 'PurifyChamber';
-    defaults: Record<string, any>;
     toJSON(): Record<string, any> {
         return {
             selectedPokemon: this.selectedPokemon()?.id,
@@ -119,7 +98,7 @@ class PurifyChamber implements Saveable {
         if (json) {
             if (json.selectedPokemon) {
                 let selectedPokemon = App.game.party.getPokemon(json.selectedPokemon);
-                if (selectedPokemon.shadow != GameConstants.ShadowStatus.Shadow) {
+                if (selectedPokemon?.shadow != ShadowStatus.Shadow) {
                     selectedPokemon = undefined;
                 }
                 this.selectedPokemon(selectedPokemon);
@@ -129,3 +108,5 @@ class PurifyChamber implements Saveable {
         }
     }
 }
+
+export default PurifyChamber;

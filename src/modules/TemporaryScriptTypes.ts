@@ -39,6 +39,8 @@ import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
+import Town from './towns/Town';
+import TownContent from './towns/townContent/TownContent';
 import type Translate from './translation/Translation';
 import type { Underground } from './underground/Underground';
 import type Wallet from './wallet/Wallet';
@@ -186,7 +188,7 @@ export type TmpPlayerType = {
     route: number;
     region: GameConstants.Region;
     subregion: number;
-    town: TmpTownType;
+    town: Town;
     regionStarters: Array<KnockoutObservable<GameConstants.Starter>>;
     subregionObject: KnockoutObservable<SubRegion>;
     trainerId: string;
@@ -224,6 +226,7 @@ export type TmpMapHelperType = {
     openShipModal: () => void;
     ableToTravel: () => boolean;
     travelToNextRegion: () => void;
+    getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
 };
 
 export type TmpDungeonRunnerType = {
@@ -254,7 +257,7 @@ export type TmpOptionalGymArgsType = {
     visibleRequirement?: Requirement,
 };
 
-export type TmpGymType = TmpTownContentType & {
+export type TmpGymType = TownContent & {
     town: string;
     buttonText: string;
     tooltip: string;
@@ -288,6 +291,8 @@ export type TmpGymType = TmpTownContentType & {
 
 export type TmpGymRunnerType = {
     gymObservable: () => TmpGymType;
+
+    startGym(gym: TmpGymType, autoRestart?: boolean, initialRun?: boolean): void;
 };
 
 export type TmpGymListType = { [townName: string]: TmpGymType };
@@ -371,6 +376,7 @@ export type TmpPartyType = {
     caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
     activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
     pokemonAttackObservable: KnockoutComputed<number>;
+    hasShadowPokemon: KnockoutComputed<boolean>;
 
     gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainPokemonById: (id: number, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
@@ -425,30 +431,15 @@ export type TmpTemporaryBattleListType = {
     [battleName: string]: TmpTemporaryBattleType;
 };
 
-export type TmpTemporaryBattleType = {
+export type TmpTemporaryBattleType = TownContent & {
     name: string;
-    parent?: TmpTownType;
-    getTown: () => TmpTownType | undefined;
+    parent?: Town;
+    getTown: () => Town | undefined;
     getDisplayName: () => string;
 };
 
-export type TmpTownType = {
-    name: string;
-    region: GameConstants.Region;
-    requirements: Requirement[];
-    startingTown: boolean;
-    subRegion: GameConstants.SubRegions;
-    ignoreAreaStatus: boolean;
-
-    isUnlocked(): boolean
-};
-
-export type TmpTownContentType = {
-    parent: TmpTownType;
-};
-
 export type TmpTownListType = {
-    [name: string]: TmpTownType
+    [name: string]: Town;
 };
 
 export type TmpNPCType = {
@@ -457,6 +448,7 @@ export type TmpNPCType = {
 
 export type TmpFarmingType = {
     berryData: TmpBerryType[];
+    mutations: TmpMutationType[];
     farmHands: TmpFarmHandsType;
     berryList: KnockoutObservable<number>[];
     unlockedBerries: KnockoutObservable<boolean>[];
@@ -496,6 +488,17 @@ export type TmpFarmHandsType = {
 };
 
 export type TmpFarmHandType = {};
+
+export type TmpMutationType = {
+    mutatedBerry: BerryType;
+    showHint: boolean;
+
+    get unlocked(): boolean
+    get hint(): string
+
+    get hintSeen(): boolean
+    set hintSeen(bool: boolean)
+};
 
 export type TmpBattleFrontierMilestonesType = {
     milestoneRewards: TmpBattleFrontierMilestoneType[]

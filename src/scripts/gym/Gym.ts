@@ -2,7 +2,7 @@
 ///<reference path="../pokemons/PokemonFactory.ts"/>
 ///<reference path="../../declarations/requirements/OneFromManyRequirement.d.ts"/>
 ///<reference path="../../declarations/enums/Badges.d.ts"/>
-///<reference path="../towns/TownContent.ts"/>
+///<reference path="../../declarations/towns/townContent/TownContent.d.ts"/>
 
 /**
  * Data list that contains all gymLeaders, accessible by townName.

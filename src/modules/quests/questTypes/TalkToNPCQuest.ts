@@ -1,11 +1,11 @@
-import { TmpNPCType } from '../../TemporaryScriptTypes';
+import NPC from '../../towns/NPC';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';
 
 class TalkToNPCQuest extends Quest implements QuestInterface {
-    npc: TmpNPCType;
+    npc: NPC;
 
-    constructor(npc: TmpNPCType, description: string, reward = 0) {
+    constructor(npc: NPC, description: string, reward = 0) {
         super(1, reward);
         this.npc = npc;
         this.customDescription = description;
