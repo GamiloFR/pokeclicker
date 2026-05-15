@@ -1,4 +1,7 @@
-/// <reference path="./GrowMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import GrowMutation from './GrowMutation';
 
 /**
  * Mutation that requires a total amount of flavor in the field
@@ -21,7 +24,7 @@ class FieldFlavorMutation extends GrowMutation {
     getMutationPlots(): number[] {
         const emptyPlots = super.getMutationPlots();
         const nearFlavors = [0, 0, 0, 0, 0];
-        App.game.farming.plotList.forEach((plot, idx) => {
+        App.game.farming.plotList.forEach((plot) => {
             if (!plot.isUnlocked) {
                 return;
             }
@@ -45,3 +48,5 @@ class FieldFlavorMutation extends GrowMutation {
     }
 
 }
+
+export default FieldFlavorMutation;

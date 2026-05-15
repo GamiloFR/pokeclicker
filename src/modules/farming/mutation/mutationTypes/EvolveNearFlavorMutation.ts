@@ -1,4 +1,7 @@
-/// <reference path="./EvolveNearMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import EvolveNearMutation from './EvolveNearMutation';
 
 /**
  * Mutation that requires specific flavored Berry plants near a Berry plot
@@ -49,3 +52,5 @@ class EvolveNearFlavorMutation extends EvolveNearMutation {
     }
 
 }
+
+export default EvolveNearFlavorMutation;

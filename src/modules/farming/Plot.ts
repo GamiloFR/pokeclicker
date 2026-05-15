@@ -1,3 +1,20 @@
+import { Computed, Observable } from 'knockout';
+import { Saveable } from '../DataStore/common/Saveable';
+import AuraType from '../enums/AuraType';
+import BerryType from '../enums/BerryType';
+import FarmNotificationType from '../enums/FarmNotificationType';
+import MulchType from '../enums/MulchType';
+import PlotStage from '../enums/PlotStage';
+import { AMAZE_MULCH_GROWTH_MULTIPLIER, AMAZE_MULCH_MUTATE_MULTIPLIER, AMAZE_MULCH_PRODUCE_MULTIPLIER, BOOST_MULCH_MULTIPLIER, FARM_PLOT_HEIGHT, FARM_PLOT_WIDTH, formatTime, FREEZE_MULCH_MULTIPLIER, MegaStoneType, Region, RICH_MULCH_MULTIPLIER, SURPRISE_MULCH_MULTIPLIER, WANDER_RATE } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import { createLogContent } from '../logbook/helpers';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import Settings from '../settings';
+import Rand from '../utilities/Rand';
+import Berry from './Berry';
+import WandererPokemon from './WandererPokemon';
+
 class Plot implements Saveable {
     saveKey = '';
     defaults = {
@@ -9,75 +26,68 @@ class Plot implements Saveable {
         isSafeLocked: false,
     };
 
-    _isUnlocked: KnockoutObservable<boolean>;
-    _isSafeLocked: KnockoutObservable<boolean>;
-    _berry: KnockoutObservable<BerryType>;
-    _lastPlanted: KnockoutObservable<BerryType>;
-    _age: KnockoutObservable<number>;
+    _isUnlocked: Observable<boolean>;
+    _isSafeLocked = ko.observable(false);
+    _berry: Observable<BerryType>;
+    _lastPlanted: Observable<BerryType>;
+    _age: Observable<number>;
 
-    _mulch: KnockoutObservable<MulchType>;
-    _mulchTimeLeft: KnockoutObservable<number>;
+    _mulch: Observable<MulchType>;
+    _mulchTimeLeft: Observable<number>;
 
-    _wanderer: KnockoutObservable<WandererPokemon>;
+    _wanderer = ko.observable<WandererPokemon>();
 
     _hasWarnedAboutToWither: boolean;
 
-    formattedStageTimeLeft: KnockoutComputed<string>;
-    formattedTimeLeft: KnockoutComputed<string>;
+    formattedStageTimeLeft: Computed<string>;
+    formattedTimeLeft: Computed<string>;
     calcFormattedStageTimeLeft: (includeGrowthMultiplier: boolean) => string;
     calcFormattedTimeLeft: (includeGrowthMultiplier: boolean) => string;
-    formattedBaseStageTimeLeft: KnockoutComputed<string>;
-    formattedBaseTimeLeft: KnockoutComputed<string>;
-    formattedMulchTimeLeft: KnockoutComputed<string>;
-    formattedAuras: KnockoutComputed<string>;
+    formattedBaseStageTimeLeft: Computed<string>;
+    formattedBaseTimeLeft: Computed<string>;
+    formattedMulchTimeLeft: Computed<string>;
+    formattedAuras: Computed<string>;
 
-    auraGrowth: KnockoutComputed<number>;
-    auraHarvest: KnockoutComputed<number>;
-    auraMutation: KnockoutComputed<number>;
-    auraReplant: KnockoutComputed<number>;
-    auraDeath: KnockoutComputed<number>;
-    auraDecay: KnockoutComputed<number>;
-    auraBoost: KnockoutComputed<number>;
+    auraGrowth: Computed<number>;
+    auraHarvest: Computed<number>;
+    auraMutation: Computed<number>;
+    auraReplant: Computed<number>;
+    auraDeath: Computed<number>;
+    auraDecay: Computed<number>;
+    auraBoost: Computed<number>;
 
-    isEmpty: KnockoutComputed<boolean>;
-    isMulched: KnockoutComputed<boolean>;
-    stage: KnockoutComputed<number>;
-    tooltip: KnockoutComputed<string>;
+    isEmpty: Computed<boolean>;
+    isMulched: Computed<boolean>;
+    stage: Computed<number>;
+    tooltip: Computed<string>;
     notifications: FarmNotificationType[];
 
-    emittingAura: {
-        type: KnockoutComputed<AuraType | null>,
-        value: KnockoutComputed<number | null>,
-    }
+    emittingAura = {
+        type: ko.pureComputed(() => {
+            if (this.stage() < PlotStage.Taller || this.mulch === MulchType.Freeze_Mulch) {
+                return null;
+            }
 
-    constructor(isUnlocked: boolean, berry: BerryType, age: number, mulch: MulchType, mulchTimeLeft: number, public index) {
+            return this.berryData?.aura?.auraType ?? null;
+        }).extend({ rateLimit: 50 }),
+        value: ko.pureComputed(() => {
+            if (!this.berryData?.aura) {
+                return null;
+            }
+
+            const boost = this.auraBoost();
+            const value = this.berryData.aura.getAuraValue(this.stage());
+            return value > 1 || this.berry === BerryType.Micle ? value * boost : value / boost;
+        }).extend({ rateLimit: 50 }),
+    };
+
+    constructor(isUnlocked: boolean, berry: BerryType, age: number, mulch: MulchType, mulchTimeLeft: number, public index: number) {
         this._isUnlocked = ko.observable(isUnlocked);
-        this._isSafeLocked = ko.observable(false);
         this._berry = ko.observable(berry).extend({ numeric: 0 });
         this._lastPlanted = ko.observable(berry).extend({ numeric: 0 });
         this._age = ko.observable(age);
         this._mulch = ko.observable(mulch).extend({ numeric: 0 });
         this._mulchTimeLeft = ko.observable(mulchTimeLeft).extend({ numeric: 3 });
-        this._wanderer = ko.observable(undefined);
-
-        this.emittingAura = {
-            type: ko.pureComputed(() => {
-                if (this.stage() < PlotStage.Taller || this.mulch === MulchType.Freeze_Mulch) {
-                    return null;
-                }
-
-                return this.berryData?.aura?.auraType ?? null;
-            }).extend({ rateLimit: 50 }),
-            value: ko.pureComputed(() => {
-                if (!this.berryData?.aura) {
-                    return null;
-                }
-
-                const boost = this.auraBoost();
-                const value = this.berryData.aura.getAuraValue(this.stage());
-                return value > 1 || this.berry === BerryType.Micle ? value * boost : value / boost;
-            }).extend({ rateLimit: 50 }),
-        };
 
         this.calcFormattedStageTimeLeft = ((includeGrowthMultiplier: boolean) => {
             if (this.berry === BerryType.None) {
@@ -88,7 +98,7 @@ class Plot implements Saveable {
             const growthMultiplier = includeGrowthMultiplier
                 ? App.game.farming.getGrowthMultiplier() * this.getGrowthMultiplier()
                 : 1;
-            return GameConstants.formatTime(Math.ceil(timeLeft / growthMultiplier));
+            return formatTime(Math.ceil(timeLeft / growthMultiplier));
         });
 
         this.formattedStageTimeLeft = ko.pureComputed(() => {
@@ -112,7 +122,7 @@ class Plot implements Saveable {
             const growthMultiplier = includeGrowthMultiplier
                 ? App.game.farming.getGrowthMultiplier() * this.getGrowthMultiplier()
                 : 1;
-            return GameConstants.formatTime(Math.ceil(timeLeft / growthMultiplier));
+            return formatTime(Math.ceil(timeLeft / growthMultiplier));
         });
 
         this.formattedTimeLeft = ko.pureComputed(() => {
@@ -127,7 +137,7 @@ class Plot implements Saveable {
             if (this.mulch === MulchType.None) {
                 return '';
             }
-            return GameConstants.formatTime(this.mulchTimeLeft * App.game.farming.getMulchDurationMultiplier());
+            return formatTime(this.mulchTimeLeft * App.game.farming.getMulchDurationMultiplier());
         });
 
         this.auraGrowth = ko.pureComputed(() => {
@@ -281,7 +291,7 @@ class Plot implements Saveable {
             if (this.mulch !== MulchType.None) {
                 const mulchTime = this.formattedMulchTimeLeft();
                 tooltip.push('<u>Mulch</u>');
-                tooltip.push(`${MulchType[this.mulch].replace('_Mulch','')} : ${mulchTime}`);
+                tooltip.push(`${MulchType[this.mulch].replace('_Mulch', '')} : ${mulchTime}`);
             }
 
             // Wanderer
@@ -290,7 +300,7 @@ class Plot implements Saveable {
             }
 
             // Mutation
-            const possibleMutations = App.game.farming.possiblePlotMutations()[this.index];
+            const possibleMutations: string[] = App.game.farming.possiblePlotMutations()[this.index];
             if (possibleMutations.length) {
                 tooltip.push('<u>Possible Mutations</u>');
                 possibleMutations.forEach((mutation) => tooltip.push(mutation));
@@ -400,9 +410,9 @@ class Plot implements Saveable {
 
             // Check for Banetteite drop if Kasib died
             if (this.berry == BerryType.Kasib) {
-                if (player.highestRegion() >= GameConstants.Region.kalos && App.game.party.alreadyCaughtPokemonByName('Banette') && !player.hasMegaStone(GameConstants.MegaStoneType.Banettite)) {
+                if (player.highestRegion() >= Region.kalos && App.game.party.alreadyCaughtPokemonByName('Banette') && !player.hasMegaStone(MegaStoneType.Banettite)) {
                     if (Rand.chance(0.05)) {
-                        player.gainMegaStone(GameConstants.MegaStoneType.Banettite);
+                        player.gainMegaStone(MegaStoneType.Banettite);
                     }
                 }
             }
@@ -437,7 +447,7 @@ class Plot implements Saveable {
         this.age = 0;
     }
 
-    generateWanderPokemon(): WandererPokemon {
+    generateWanderPokemon(): WandererPokemon | undefined {
         // Ticking the wanderer
         if (this.wanderer) {
             if (this.wanderer.tick()) {
@@ -450,7 +460,7 @@ class Plot implements Saveable {
             return undefined;
         }
         // Chance to generate wandering Pokemon
-        if (Rand.chance(GameConstants.WANDER_RATE * App.game.farming.externalAuras[AuraType.Attract]())) {
+        if (Rand.chance(WANDER_RATE * App.game.farming.externalAuras[AuraType.Attract]())) {
             // Get a random Pokemon from the list of possible encounters
             const wanderer = PokemonFactory.generateWandererData(this);
             this.wanderer = wanderer;
@@ -461,12 +471,12 @@ class Plot implements Saveable {
                     LogBookTypes.SHINY,
                     App.game.party.alreadyCaughtPokemonByName(wanderer.name, true)
                         ? createLogContent.shinyWanderDupe({ pokemon : wanderer.name })
-                        : createLogContent.shinyWander({ pokemon : wanderer.name })
+                        : createLogContent.shinyWander({ pokemon : wanderer.name }),
                 );
             } else {
                 App.game.logbook.newLog(
                     LogBookTypes.WANDER,
-                    createLogContent.wildWander({ pokemon : wanderer.name })
+                    createLogContent.wildWander({ pokemon : wanderer.name }),
                 );
             }
 
@@ -479,11 +489,19 @@ class Plot implements Saveable {
      * Gets the growth multiplier for this plot
      */
     getGrowthMultiplier(): number {
-        let multiplier = {
-            [MulchType.Boost_Mulch]: GameConstants.BOOST_MULCH_MULTIPLIER,
-            [MulchType.Amaze_Mulch]: GameConstants.AMAZE_MULCH_GROWTH_MULTIPLIER,
-            [MulchType.Freeze_Mulch]: GameConstants.FREEZE_MULCH_MULTIPLIER,
-        }[this.mulch] ?? 1;
+        let multiplier = 1;
+
+        switch (this.mulch) {
+            case MulchType.Boost_Mulch:
+                multiplier = BOOST_MULCH_MULTIPLIER;
+                break;
+            case MulchType.Amaze_Mulch:
+                multiplier = AMAZE_MULCH_GROWTH_MULTIPLIER;
+                break;
+            case MulchType.Freeze_Mulch:
+                multiplier = FREEZE_MULCH_MULTIPLIER;
+                break;
+        }
 
         if (this.stage() !== PlotStage.Berry) {
             multiplier *= this.auraGrowth();
@@ -504,9 +522,9 @@ class Plot implements Saveable {
     getHarvestMultiplier(): number {
         let multiplier = 1;
         if (this.mulch === MulchType.Rich_Mulch) {
-            multiplier = GameConstants.RICH_MULCH_MULTIPLIER;
+            multiplier = RICH_MULCH_MULTIPLIER;
         } else if (this.mulch === MulchType.Amaze_Mulch) {
-            multiplier = GameConstants.AMAZE_MULCH_PRODUCE_MULTIPLIER;
+            multiplier = AMAZE_MULCH_PRODUCE_MULTIPLIER;
         }
 
         multiplier *= this.auraHarvest();
@@ -520,9 +538,9 @@ class Plot implements Saveable {
     getReplantMultiplier(): number {
         let multiplier = 1;
         if (this.mulch === MulchType.Rich_Mulch) {
-            multiplier = GameConstants.RICH_MULCH_MULTIPLIER;
+            multiplier = RICH_MULCH_MULTIPLIER;
         } else if (this.mulch === MulchType.Amaze_Mulch) {
-            multiplier = GameConstants.AMAZE_MULCH_PRODUCE_MULTIPLIER;
+            multiplier = AMAZE_MULCH_PRODUCE_MULTIPLIER;
         }
 
         multiplier *= this.auraReplant();
@@ -536,9 +554,9 @@ class Plot implements Saveable {
     getMutationMultiplier(): number {
         let multiplier = 1;
         if (this.mulch === MulchType.Surprise_Mulch) {
-            multiplier = GameConstants.SURPRISE_MULCH_MULTIPLIER;
+            multiplier = SURPRISE_MULCH_MULTIPLIER;
         } else if (this.mulch === MulchType.Amaze_Mulch) {
-            multiplier = GameConstants.AMAZE_MULCH_MUTATE_MULTIPLIER;
+            multiplier = AMAZE_MULCH_MUTATE_MULTIPLIER;
         }
 
         multiplier *= this.auraMutation();
@@ -603,18 +621,18 @@ class Plot implements Saveable {
     public static findNearPlots(index: number): number[] {
         const plots = [];
 
-        const posX = index % GameConstants.FARM_PLOT_WIDTH;
-        const posY = (index - posX) / GameConstants.FARM_PLOT_HEIGHT;
+        const posX = index % FARM_PLOT_WIDTH;
+        const posY = (index - posX) / FARM_PLOT_HEIGHT;
 
         for (let y = posY - 1; y <= posY + 1; y++) {
             for (let x = posX - 1; x <= posX + 1; x++) {
-                if (y < 0 || y > GameConstants.FARM_PLOT_HEIGHT - 1 || x < 0 || x >  GameConstants.FARM_PLOT_WIDTH - 1) {
+                if (y < 0 || y > FARM_PLOT_HEIGHT - 1 || x < 0 || x >  FARM_PLOT_WIDTH - 1) {
                     continue;
                 }
                 if (y === posY && x === posX) {
                     continue;
                 }
-                const id = y * GameConstants.FARM_PLOT_HEIGHT + x;
+                const id = y * FARM_PLOT_HEIGHT + x;
                 plots.push(id);
             }
         }
@@ -627,22 +645,22 @@ class Plot implements Saveable {
     }
 
     public canCatchWanderer(): boolean {
-        return this.wanderer && !this.wanderer.catching() && !this.wanderer.fleeing();
+        return !!this.wanderer && !this.wanderer.catching() && !this.wanderer.fleeing();
     }
 
     /**
      * Finds the plot indices that are directly next to the plot (aka a plus sign)
      * @param index The plot index
      */
-    public static findPlusPlots(index: number, filter?: (n: number) => boolean): number[] {
-        const posX = index % GameConstants.FARM_PLOT_WIDTH;
-        const posY = (index - posX) / GameConstants.FARM_PLOT_HEIGHT;
+    public static findPlusPlots(index: number): number[] {
+        const posX = index % FARM_PLOT_WIDTH;
+        const posY = (index - posX) / FARM_PLOT_HEIGHT;
 
         const possiblePlots = [[posY - 1, posX], [posY, posX - 1], [posY, posX + 1], [posY + 1, posX]];
 
         return possiblePlots.filter(([y, x]) => {
-            return y >= 0 && y < GameConstants.FARM_PLOT_HEIGHT && x >= 0 && x < GameConstants.FARM_PLOT_WIDTH;
-        }).map(([y, x]) => y * GameConstants.FARM_PLOT_HEIGHT + x);
+            return y >= 0 && y < FARM_PLOT_HEIGHT && x >= 0 && x < FARM_PLOT_WIDTH;
+        }).map(([y, x]) => y * FARM_PLOT_HEIGHT + x);
     }
 
     get berryData(): Berry {
@@ -706,12 +724,14 @@ class Plot implements Saveable {
         this._mulchTimeLeft(value);
     }
 
-    get wanderer(): WandererPokemon {
+    get wanderer(): WandererPokemon | undefined {
         return this._wanderer();
     }
 
-    set wanderer(wanderer: WandererPokemon) {
+    set wanderer(wanderer: WandererPokemon | undefined) {
         this._wanderer(wanderer);
     }
 
 }
+
+export default Plot;

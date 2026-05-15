@@ -1,14 +1,19 @@
-/// <reference path="./EvolveMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import OakItemType from '../../../enums/OakItemType';
+import Plot from '../../Plot';
+import { MutationOptions } from '../Mutation';
+import EvolveMutation from './EvolveMutation';
 
 /**
  * Mutation that applies to a current Berry plant based on the active state of Oak Items
  */
 class OakMutation extends EvolveMutation {
-
+    originalBerry: BerryType;
     oakItem: OakItemType;
 
     constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, oakItem: OakItemType, options?: MutationOptions) {
         super(mutationChance, mutatedBerry, originalBerry, options);
+        this.originalBerry = originalBerry;
         this.oakItem = oakItem;
     }
 
@@ -20,7 +25,7 @@ class OakMutation extends EvolveMutation {
         const plots = super.getMutationPlots();
         return plots.filter((idx) => {
             const plot = App.game.farming.plotList[idx];
-            return this.plotFitRequirements(plot, idx);
+            return this.plotFitRequirements(plot);
         });
     }
 
@@ -29,7 +34,7 @@ class OakMutation extends EvolveMutation {
      * @param plot The Plot
      * @param idx The Plot index
      */
-    plotFitRequirements(plot: Plot, idx: number): boolean {
+    plotFitRequirements(plot: Plot): boolean {
         if (!App.game.oakItems.isActive(this.oakItem)) {
             return false;
         }
@@ -60,3 +65,5 @@ class OakMutation extends EvolveMutation {
         return `I've heard that using the ${App.game.oakItems.itemList[this.oakItem].displayName} can cause ${BerryType[this.originalBerry]} Berries to change!`;
     }
 }
+
+export default OakMutation;

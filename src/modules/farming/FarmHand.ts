@@ -1,3 +1,19 @@
+import type { Computed } from 'knockout';
+import BerryType from '../enums/BerryType';
+import PlotStage from '../enums/PlotStage';
+import { Currency, FARM_PLOT_HEIGHT, FARM_PLOT_WIDTH, formatTimeFullLetters, HOUR, MINUTE, SECOND, TICK_TIME } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import { createLogContent } from '../logbook/helpers';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import MultiRequirement from '../requirements/MultiRequirement';
+import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
+import Requirement from '../requirements/Requirement';
+import Rand from '../utilities/Rand';
+import SeededRand from '../utilities/SeededRand';
+import Amount from '../wallet/Amount';
+
 const FarmHandSkills = [
     'energy',
     'efficiency',
@@ -5,7 +21,7 @@ const FarmHandSkills = [
     'cost',
 ];
 
-enum FarmHandSpeeds {
+export enum FarmHandSpeeds {
     Fastest,
     Faster,
     Fast,
@@ -25,16 +41,12 @@ Work in levels/experience somehow
 Use accuracy to decide if they plant the right berry or plant a berry at all (still use up energy?)
 Use accuracy to decide if they harvest a berry by accident? (still use up energy?)
 */
-enum FarmHandBerryType {
+export enum FarmHandBerryType {
     'Random' = -3,
     'Replant' = -2,
 }
 
-const FarmHandBerryTypes = {
-    ...FarmHandBerryType,
-    ...BerryType,
-};
-type FarmHandBerryTypes = (typeof FarmHandBerryTypes)[keyof typeof FarmHandBerryTypes];
+export type FarmHandBerryTypes = FarmHandBerryType | BerryType;
 
 class FarmHand {
     public defaults = {
@@ -51,21 +63,21 @@ class FarmHand {
     // Maximum Efficiency value
     public maxEfficiency = 50;
     // Negative value so they are charged on the first tick and work on the first tick
-    public workTicks = ko.observable(-GameConstants.TICK_TIME).extend({ numeric: 0 });
-    public costTicks = ko.observable(-GameConstants.TICK_TIME).extend({ numeric: 0 });
+    public workTicks = ko.observable(-TICK_TIME).extend({ numeric: 0 });
+    public costTicks = ko.observable(-TICK_TIME).extend({ numeric: 0 });
     // When to charge the player whatever the cost is, when to work
     public workTick;
-    public costTick = GameConstants.HOUR;
+    public costTick = HOUR;
 
-    public cost = new Amount(+0, GameConstants.Currency.farmPoint);
+    public cost = new Amount(+0, Currency.farmPoint);
     public trainerSprite = 0;
-    public focus: KnockoutObservable<FarmHandBerryTypes> = ko.observable(BerryType.None);
-    public shouldHarvest: KnockoutObservable<boolean> = ko.observable(false).extend({ boolean: null });
-    public energy: KnockoutObservable<number> = ko.observable(0).extend({ numeric: 0 });
-    public hired: KnockoutObservable<boolean> = ko.observable(false).extend({ boolean: null });
-    public plots: KnockoutObservableArray<number> = ko.observableArray(new Array(GameConstants.FARM_PLOT_WIDTH * GameConstants.FARM_PLOT_HEIGHT).fill(0).map((v, i) => i));
-    public tooltip: KnockoutComputed<string>;
-    public shouldCatch: KnockoutObservable<boolean> = ko.observable(false);
+    public focus = ko.observable<FarmHandBerryTypes>(BerryType.None);
+    public shouldHarvest = ko.observable(false).extend({ boolean: null });
+    public energy = ko.observable(0).extend({ numeric: 0 });
+    public hired = ko.observable(false).extend({ boolean: null });
+    public plots = ko.observableArray(new Array(FARM_PLOT_WIDTH * FARM_PLOT_HEIGHT).fill(0).map((v, i) => i));
+    public tooltip: Computed<string>;
+    public shouldCatch = ko.observable(false);
     // public level: number;
     // public experience: number;
 
@@ -76,31 +88,31 @@ class FarmHand {
         public speed: FarmHandSpeeds,
         public accuracy: number, // 0 - 10 (80% - 100%)
         cost: number, // 0 - 10? (can go higher if needed)
-        public unlockRequirement?: Requirement | MultiRequirement | OneFromManyRequirement
+        public unlockRequirement?: Requirement | MultiRequirement | OneFromManyRequirement,
     ) {
         SeededRand.seed(parseInt(this.name, 36));
         this.trainerSprite = SeededRand.intBetween(0, 118);
         // Negative value so they are charged on the first tick and work on the first tick
-        this.workTicks(-GameConstants.TICK_TIME);
-        this.costTicks(-GameConstants.TICK_TIME);
+        this.workTicks(-TICK_TIME);
+        this.costTicks(-TICK_TIME);
         // Set initial energy to maximum energy
         this.energy(this.maxEnergy);
         // Calculate how much to charge the player in farm points
-        this.cost = new Amount(+Math.pow(100, 1 + cost * 0.08).toPrecision(2), GameConstants.Currency.farmPoint);
+        this.cost = new Amount(+Math.pow(100, 1 + cost * 0.08).toPrecision(2), Currency.farmPoint);
         // Calculate how often they work
         this.workTick = this.calcWorkTick(this.speed);
 
         this.tooltip = ko.pureComputed(() => `<strong>${this.name}</strong><br/>
             Energy: ${this.energy()}/${this.maxEnergy}<br/>
-            Work Cycle: ${GameConstants.formatTimeFullLetters((this.workTick - this.workTicks()) / GameConstants.SECOND)}<br/>
-            Next Payment: ${GameConstants.formatTimeFullLetters((this.costTick - this.costTicks()) / GameConstants.SECOND)}`
+            Work Cycle: ${formatTimeFullLetters((this.workTick - this.workTicks()) / SECOND)}<br/>
+            Next Payment: ${formatTimeFullLetters((this.costTick - this.costTicks()) / SECOND)}`,
         );
     }
 
     private calcWorkTick(speed: FarmHandSpeeds): number {
         speed = ((speed + 1) * 0.03) + 1;
-        let time = Math.pow(GameConstants.MINUTE, speed);
-        time -= time > 5 * GameConstants.MINUTE ? time % GameConstants.MINUTE : time % (30 * GameConstants.SECOND);
+        let time = Math.pow(MINUTE, speed);
+        time -= time > 5 * MINUTE ? time % MINUTE : time % (30 * SECOND);
         return time;
     }
 
@@ -120,8 +132,8 @@ class FarmHand {
 
     hire(): void {
         // Negative value so they are charged on the first tick and work on the first tick
-        this.workTicks(-GameConstants.TICK_TIME);
-        this.costTicks(-GameConstants.TICK_TIME);
+        this.workTicks(-TICK_TIME);
+        this.costTicks(-TICK_TIME);
 
         // Check the player has enough Farm Points to hire this Farm Hand
         if (!App.game.wallet.hasAmount(this.cost)) {
@@ -129,7 +141,7 @@ class FarmHand {
                 title: `[FARM HAND] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
                 message: `You don't have enough Farm Points to hire me...\nCost: <img src="./assets/images/currency/farmPoint.svg" height="24px"/> ${this.cost.amount.toLocaleString('en-US')}`,
                 type: NotificationConstants.NotificationOption.warning,
-                timeout: 30 * GameConstants.SECOND,
+                timeout: 30 * SECOND,
             });
             return;
         }
@@ -139,7 +151,7 @@ class FarmHand {
             title: `[FARM HAND] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
             message: 'Thanks for hiring me,\nI won\'t let you down!',
             type: NotificationConstants.NotificationOption.success,
-            timeout: 30 * GameConstants.SECOND,
+            timeout: 30 * SECOND,
             setting: NotificationConstants.NotificationSetting.Farming.farm_hand,
         });
     }
@@ -149,7 +161,7 @@ class FarmHand {
             title: `[FARM HAND] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
             message: 'Thanks for the work.\nLet me know when you\'re hiring again!',
             type: NotificationConstants.NotificationOption.info,
-            timeout: 30 * GameConstants.SECOND,
+            timeout: 30 * SECOND,
             setting: NotificationConstants.NotificationSetting.Farming.farm_hand,
         });
         this.hired(false);
@@ -162,15 +174,15 @@ class FarmHand {
             return;
         }
         // Charge player when cost tick reached
-        GameHelper.incrementObservable(this.costTicks, GameConstants.TICK_TIME);
-        if (this.costTicks() % this.costTick < GameConstants.TICK_TIME && this.hired()) {
+        GameHelper.incrementObservable(this.costTicks, TICK_TIME);
+        if (this.costTicks() % this.costTick < TICK_TIME && this.hired()) {
             this.costTicks(0);
             this.charge();
         }
 
         // Work/Restore energy when work ticks reached
-        GameHelper.incrementObservable(this.workTicks, GameConstants.TICK_TIME);
-        if (this.workTicks() % this.workTick < GameConstants.TICK_TIME) {
+        GameHelper.incrementObservable(this.workTicks, TICK_TIME);
+        if (this.workTicks() % this.workTick < TICK_TIME) {
             this.workTicks(0);
             if (this.hired()) {
                 this.work();
@@ -196,13 +208,14 @@ class FarmHand {
         if (this.shouldHarvest()) {
             let readyPlotIndex;
             do {
-                readyPlotIndex = App.game.farming.plotList.findIndex((p, i) => p.isUnlocked && p.berry !== BerryType.None && p.stage() >= PlotStage.Berry && this.plots().includes(i) && !p.isSafeLocked);
+                readyPlotIndex = App.game.farming.plotList
+                    .findIndex((p, i) => p.isUnlocked && p.berry !== BerryType.None && p.stage() >= PlotStage.Berry && this.plots().includes(i) && !p.isSafeLocked);
                 if (readyPlotIndex >= 0 && workTimes > 0) {
                     const berry = App.game.farming.plotList[readyPlotIndex].berry;
                     App.game.farming.harvest(readyPlotIndex);
                     workTimes--;
                     worked = true;
-                    if (this.focus() == FarmHandBerryTypes.Replant) {
+                    if (this.focus() == FarmHandBerryType.Replant) {
                         App.game.farming.plant(readyPlotIndex, berry);
                         workTimes--;
                     }
@@ -211,7 +224,7 @@ class FarmHand {
         }
 
         // Planting berries
-        if (this.focus() != FarmHandBerryTypes.None) {
+        if (this.focus() != BerryType.None) {
             let emptyPlotIndex;
             let berry;
             do {
@@ -221,10 +234,10 @@ class FarmHand {
                 if (emptyPlotIndex >= 0 && workTimes > 0) {
                     // Plant the expected berry
                     switch (this.focus()) {
-                        case FarmHandBerryTypes.Replant: // Re-plant last berry used
+                        case FarmHandBerryType.Replant: // Re-plant last berry used
                             berry = App.game.farming.plotList[emptyPlotIndex].lastPlanted;
                             break;
-                        case FarmHandBerryTypes.Random: // Plant a random berry
+                        case FarmHandBerryType.Random: // Plant a random berry
                             berry = Rand.fromArray(App.game.farming.farmHands.availableBerries().filter(b => b >= 0));
                             break;
                         default:
@@ -289,12 +302,12 @@ class FarmHand {
                 title: `[FARM HAND] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
                 message: `It looks like you are a little short on Farm Points right now...\nLet me know when you're hiring again!\nCost: <img src="./assets/images/currency/farmPoint.svg" height="24px"/> ${this.cost.amount.toLocaleString('en-US')}`,
                 type: NotificationConstants.NotificationOption.danger,
-                timeout: 30 * GameConstants.MINUTE,
+                timeout: 30 * MINUTE,
             });
             this.hired(false);
             App.game.logbook.newLog(
                 LogBookTypes.OTHER,
-                createLogContent.unableToPayFarmHand({ name: this.name})
+                createLogContent.unableToPayFarmHand({ name: this.name }),
             );
             return;
         }
@@ -303,7 +316,7 @@ class FarmHand {
             title: `[FARM HAND] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
             message: `Here's your bill for the hour!\nCost: <img src="./assets/images/currency/farmPoint.svg" height="24px"/> ${this.cost.amount.toLocaleString('en-US')}`,
             type: NotificationConstants.NotificationOption.info,
-            timeout: 30 * GameConstants.SECOND,
+            timeout: 30 * SECOND,
         });
     }
 
@@ -346,61 +359,4 @@ class FarmHand {
     }
 }
 
-class FarmHands {
-    public static list: FarmHand[] = [];
-
-    public static add(farmHand: FarmHand) {
-        this.list.push(farmHand);
-    }
-
-    public MAX_HIRES = 3;
-    public available: KnockoutComputed<FarmHand[]>;
-    public hired: KnockoutComputed<FarmHand[]>;
-    public availableBerries: KnockoutComputed<FarmHandBerryTypes[]>;
-    public canHire: KnockoutComputed<boolean>;
-    public requirement = new BerriesUnlockedRequirement(8);
-
-    constructor() {
-        this.available = ko.pureComputed(() => FarmHands.list.filter(f => f.isUnlocked()));
-        this.hired = ko.pureComputed(() => FarmHands.list.filter(f => f.hired()));
-        this.availableBerries = ko.pureComputed(() => GameHelper.enumNumbers(FarmHandBerryTypes).filter(b => App.game.farming.unlockedBerries[b]?.() || b < 0).sort((a, b) => a - b));
-        this.canHire =  ko.pureComputed(() => this.hired().length < this.MAX_HIRES);
-    }
-
-    public isUnlocked() {
-        return this.requirement.isCompleted();
-    }
-
-    public tick() {
-        // run game tick for all farmhands
-        FarmHands.list.forEach(f => f.tick());
-    }
-
-    public toJSON(): Record<string, any>[] {
-        return this.available().map(f => f.toJSON());
-    }
-
-    public fromJSON(json: Array<any>): void {
-        if (!json || !json.length) {
-            return;
-        }
-
-        FarmHands.list.forEach(f => {
-            const data = json?.find(_f => _f.name == f.name);
-            if (data) {
-                f.fromJSON(data);
-            }
-        });
-    }
-}
-
-// Note: Gender-neutral names used as the trainer sprite is (seeded) randomly generated
-FarmHands.add(new FarmHand('Alex', 10, 1, FarmHandSpeeds.Lazy, 1, 1, new BerriesUnlockedRequirement(8)));
-FarmHands.add(new FarmHand('Logan', 15, 3, FarmHandSpeeds.Slowest, 2, 4, new BerriesUnlockedRequirement(16)));
-FarmHands.add(new FarmHand('Joey', 10, 5, FarmHandSpeeds.Slow, 2, 5, new BerriesUnlockedRequirement(24)));
-FarmHands.add(new FarmHand('Charlie', 30, 10, FarmHandSpeeds.BelowAverage, 7, 6, new BerriesUnlockedRequirement(32)));
-FarmHands.add(new FarmHand('Bailey', 10, 12, FarmHandSpeeds.Average, 7, 7, new UniqueItemOwnedRequirement('FarmHandBailey', 'purchase', 'Purchased in the Johto region.')));
-FarmHands.add(new FarmHand('Kerry', 50, 16, FarmHandSpeeds.AboveAverage, 8, 8, new UniqueItemOwnedRequirement('FarmHandKerry', 'purchase', 'Purchased in the Hoenn region.')));
-FarmHands.add(new FarmHand('Riley', 70, 25, FarmHandSpeeds.Fast, 8, 10, new UniqueItemOwnedRequirement('FarmHandRiley', 'purchase', 'Purchased in the Sinnoh region.')));
-FarmHands.add(new FarmHand('Jamie', 65, 5, FarmHandSpeeds.Faster, 9, 10, new UniqueItemOwnedRequirement('FarmHandJamie', 'purchase', 'Purchased in the Hoenn region.')));
-FarmHands.add(new FarmHand('Jessie', 100, 50, FarmHandSpeeds.Fastest, 10, 12, new BerriesUnlockedRequirement(56)));
+export default FarmHand;

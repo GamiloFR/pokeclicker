@@ -1,4 +1,8 @@
-/// <reference path="./GrowMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import Farming from '../../Farming';
+import { MutationOptions } from '../Mutation';
+import GrowMutation from './GrowMutation';
 
 /**
  * Mutation for the Petaya Berry. Requires all 18 typed Berries to be in the field.
@@ -16,7 +20,7 @@ class PetayaMutation extends GrowMutation {
     getMutationPlots(): number[] {
         const emptyPlots = super.getMutationPlots();
         const fieldPlots: any = {};
-        App.game.farming.plotList.forEach((plot, idx) => {
+        App.game.farming.plotList.forEach((plot) => {
             if (!plot.isUnlocked) {
                 return;
             }
@@ -62,5 +66,6 @@ class PetayaMutation extends GrowMutation {
         }
         return 'Legends tell of a mysterious Berry that only appears while surrounded by all types of Berries.';
     }
-
 }
+
+export default PetayaMutation;

@@ -1,11 +1,14 @@
-/// <reference path="./GrowNearMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import Plot from '../../Plot';
+import { MutationOptions } from '../Mutation';
+import GrowNearMutation from './GrowNearMutation';
 
 /**
  * Mutation that requires specific flavored Berry plants near an empty plot
  * Will check the surround plots for the flavors of the nearby Berry plants. Must be in the range of the flavorReqs
  */
 class GrowNearFlavorMutation extends GrowNearMutation {
-
     flavorReqs: number[][];
 
     readonly flavorRatio = [0.5, 0.75, 1];  // Determines how much flavor a Berry plant has before fully mature.
@@ -59,5 +62,6 @@ class GrowNearFlavorMutation extends GrowNearMutation {
         }).length;
         return super.mutationChance(idx) * Math.pow(4, -sameBerries);
     }
-
 }
+
+export default GrowNearFlavorMutation;

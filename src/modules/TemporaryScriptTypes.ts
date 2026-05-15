@@ -13,15 +13,14 @@ import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
 import areaStatus from './enums/AreaStatus';
 import BadgeEnums from './enums/Badges';
-import BerryColor from './enums/BerryColor';
-import BerryFirmness from './enums/BerryFirmness';
-import BerryType from './enums/BerryType';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
+import Farming from './farming/Farming';
+import Plot from './farming/Plot';
+import WandererPokemon from './farming/WandererPokemon';
 import type * as GameConstants from './GameConstants';
 import GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
-import Item from './items/Item';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -34,7 +33,6 @@ import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import Quests from './quests/Quests';
-import BerriesUnlockedRequirement from './requirements/BerriesUnlockedRequirement';
 import Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
@@ -130,7 +128,7 @@ export type TmpGameType = {
     party: TmpPartyType;
     gems: TmpGemsType;
     underground: Underground;
-    farming: TmpFarmingType;
+    farming: Farming;
     logbook: LogBook;
     redeemableCodes: TmpRedeemableCodesType;
     statistics: Statistics;
@@ -340,6 +338,7 @@ export type TmpPokemonFactoryType = {
     generateShiny(chance: number, skipBonus?: boolean): boolean;
     generateGenderById(id: number): GameConstants.BattlePokemonGender;
     routeHealth(route: number, region: GameConstants.Region): number;
+    generateWandererData(plot: Plot): WandererPokemon;
 };
 
 export type TmpPartyPokemonType = {
@@ -441,75 +440,6 @@ export type TmpTemporaryBattleType = TownContent & {
 
 export type TmpTownListType = {
     [name: string]: Town;
-};
-
-export type TmpFarmingType = {
-    berryData: TmpBerryType[];
-    mutations: TmpMutationType[];
-    farmHands: TmpFarmHandsType;
-    berryList: KnockoutObservable<number>[];
-    unlockedBerries: KnockoutObservable<boolean>[];
-    mulchList: KnockoutObservable<number>[];
-    plotList: Array<TmpPlotType>;
-    unlockedPlotCount: KnockoutObservable<number>;
-    shovelAmt: KnockoutObservable<number>;
-    mulchShovelAmt: KnockoutObservable<number>;
-
-    canAccess(): boolean
-    gainBerry(berry: BerryType, amount?: number, farming?: boolean): void;
-    gainRandomBerry(amount?: number, disableNotification?: boolean): void;
-};
-
-export type TmpBerryType = {
-    type: BerryType,
-    growthTime: number[],
-    harvestAmount: number,
-    replantRate: number,
-    farmValue: number,
-    exp: number,
-    smoothness: number,
-    color: BerryColor,
-    size: number,
-    firmness: BerryFirmness,
-    description: string[],
-};
-
-export type TmpPlotType = {};
-
-export type TmpFarmHandsType = {
-    MAX_HIRES: number;
-    available: KnockoutComputed<TmpFarmHandType[]>;
-    hired: KnockoutComputed<TmpFarmHandType[]>;
-    canHire: KnockoutComputed<boolean>;
-    requirement: BerriesUnlockedRequirement;
-};
-
-export type TmpFarmHandType = {};
-
-export type TmpMutationType = {
-    mutatedBerry: BerryType;
-    showHint: boolean;
-
-    get unlocked(): boolean
-    get hint(): string
-
-    get hintSeen(): boolean
-    set hintSeen(bool: boolean)
-};
-
-export type TmpBerryDealStaticType = {
-    list: Partial<Record<GameConstants.BerryTraderLocations, KnockoutObservableArray<TmpBerryDealType>>>
-};
-
-export type TmpBerryDealType = {
-    berries: Array<{
-        berryType: BerryType,
-        amount: number
-    }>;
-    item: {
-        itemType: Item,
-        amount: number
-    };
 };
 
 export type TmpBattleFrontierMilestonesType = {

@@ -1,24 +1,76 @@
-/// <reference path="../../declarations/enums/MulchType.d.ts"/>
+import type { Computed } from 'knockout';
+import AuraType from '../enums/AuraType';
+import BerryType from '../enums/BerryType';
+import FarmingTool from '../enums/FarmingTool';
+import KeyItemType from '../enums/KeyItemType';
+import MulchType from '../enums/MulchType';
+import PlotStage from '../enums/PlotStage';
+import { BerryColor, humanifyString } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import { pokemonMap } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import { RegionRoute, Routes } from '../routes';
+import Settings from '../settings';
+import Rand from '../utilities/Rand';
+import Plot from './Plot';
 
 class FarmController {
 
-    public static navigateIndex: KnockoutObservable<number> = ko.observable(0);
-    public static berryListFiltered: KnockoutObservableArray<BerryType> = ko.observableArray([]);
-    public static numberOfTabs: KnockoutComputed<number>;
-    public static farmingModalTabSelected: KnockoutObservable<string> = ko.observable('berryFarmView');
+    public static navigateIndex = ko.observable(0);
+    public static berryListFiltered = ko.observableArray<BerryType>([]);
+    public static numberOfTabs: Computed<number>;
+    public static farmingModalTabSelected = ko.observable('berryFarmView');
 
-    public static berryListEnd: KnockoutComputed<number>;
-    public static berryListSearch: KnockoutObservable<string> = ko.observable('');
+    public static berryListEnd: Computed<number>;
+    public static berryListSearch = ko.observable('');
 
-    public static selectedBerry: KnockoutObservable<BerryType> = ko.observable(BerryType.Cheri);
-    public static selectedMulch: KnockoutObservable<MulchType> = ko.observable(MulchType.Boost_Mulch);
-    public static selectedFarmTool: KnockoutObservable<FarmingTool> = ko.observable(FarmingTool.Berry);
-    public static selectedFarmModuleTool: KnockoutObservable<FarmingTool> = ko.observable(FarmingTool.Berry);
+    public static selectedBerry = ko.observable(BerryType.Cheri);
+    public static selectedMulch = ko.observable(MulchType.Boost_Mulch);
+    public static selectedFarmTool = ko.observable(FarmingTool.Berry);
+    public static selectedFarmModuleTool = ko.observable(FarmingTool.Berry);
 
-    public static berryListVisible: KnockoutObservable<boolean> = ko.observable(true);
+    public static berryListVisible = ko.observable(true);
 
     public static multipliers = ['×1', '×10', '×100', '×1000', 'All'];
-    public static multIndex: KnockoutObservable<number> = ko.observable(0);
+    public static multIndex = ko.observable(0);
+
+    public static filteredBerryList = ko.pureComputed((): Array<BerryType> => {
+        let berryList = FarmController.getUnlockedBerryList();
+        const searchVal = FarmController.berryListSearch().trim();
+        if (searchVal.length) {
+            const split = searchVal.toLowerCase().split(' ').filter(s => s);
+            berryList = berryList.filter((berry) => App.game.farming.unlockedBerries[berry]() && split.some((val) => BerryType[berry].toLowerCase().includes(val)));
+        }
+        return berryList;
+    });
+
+    public static additionalInfoTooltip = ko.pureComputed(() => {
+        const tooltip = [];
+
+        // External Auras
+        App.game.farming.externalAuras.forEach((aura, idx) => {
+            if (typeof aura === 'undefined') {
+                return;
+            }
+            if (aura() !== 1) {
+                tooltip.push(`${AuraType[idx]}: ×${aura().toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
+            }
+
+        });
+
+        // Adding header if necessary
+        if (tooltip.length) {
+            tooltip.unshift('<u>External Auras</u>');
+        }
+
+        return tooltip.join('<br>');
+    });
+
+    public static shortcutVisible = ko.pureComputed(() => {
+        return App.game.farming.canAccess() && Settings.getSetting('showFarmModule').observableValue() === 'never';
+    });
 
     static readonly BERRIES_PER_PAGE = 8;
 
@@ -30,7 +82,9 @@ class FarmController {
         });
 
         this.berryListEnd = ko.pureComputed(() => {
-            const highestMutation = App.game.farming.mutations.slice().sort((a, b) => b.mutatedBerry - a.mutatedBerry).find(mut => mut._hintSeen() && !App.game.farming.unlockedBerries[mut.mutatedBerry]());
+            const highestMutation = App.game.farming.mutations.slice()
+                .sort((a, b) => b.mutatedBerry - a.mutatedBerry)
+                .find(mut => mut._hintSeen() && !App.game.farming.unlockedBerries[mut.mutatedBerry]());
             const highestMutationHint = highestMutation?.mutatedBerry ?? 0;
             return Math.max(App.game.farming.highestUnlockedBerry(), highestMutationHint);
         });
@@ -45,7 +99,7 @@ class FarmController {
             $('#farmModal').modal('show');
         } else {
             Notifier.notify({
-                message: `You need the ${GameConstants.humanifyString(KeyItemType[KeyItemType.Wailmer_pail])} to access this location.\n<i>Clear Route 6 first.</i>`,
+                message: `You need the ${humanifyString(KeyItemType[KeyItemType.Wailmer_pail])} to access this location.\n<i>Clear Route 6 first.</i>`,
                 type: NotificationConstants.NotificationOption.warning,
             });
         }
@@ -208,16 +262,6 @@ class FarmController {
         }
     }
 
-    public static filteredBerryList = ko.pureComputed((): Array<BerryType> => {
-        let berryList = FarmController.getUnlockedBerryList();
-        const searchVal = FarmController.berryListSearch().trim();
-        if (searchVal.length) {
-            const split = searchVal.toLowerCase().split(' ').filter(s => s);
-            berryList = berryList.filter((berry) => App.game.farming.unlockedBerries[berry]() && split.some((val) => BerryType[berry].toLowerCase().includes(val)));
-        }
-        return berryList;
-    });
-
     public static getUnlockedBerryListWithIndex() {
         return FarmController.filteredBerryList().slice(this.navigateIndex() * this.BERRIES_PER_PAGE, (this.navigateIndex() * this.BERRIES_PER_PAGE) + this.BERRIES_PER_PAGE);
     }
@@ -240,11 +284,11 @@ class FarmController {
 
     public static getBackgroundColor(index: number) {
         if (App.game.farming.unlockedBerries[index]()) {
-            return GameConstants.BerryColor[App.game.farming.berryData[index].color];
+            return BerryColor[App.game.farming.berryData[index].color];
         } else if (FarmController.getHint(index, true) !== '') {
-            return GameConstants.BerryColor[8];
+            return BerryColor[8];
         } else {
-            return GameConstants.BerryColor[9];
+            return BerryColor[9];
         }
 
     }
@@ -257,7 +301,7 @@ class FarmController {
         if (checkUnlocked && App.game.farming.unlockedBerries[index]()) {
             return '';
         }
-        const mutation = App.game.farming.mutations.find(mutation => mutation.mutatedBerry === index && mutation.showHint);
+        const mutation = App.game.farming.mutations.find(m => m.mutatedBerry === index && m.showHint);
         if (mutation) {
             if (checkSeen && !mutation.hintSeen) {
                 return '';
@@ -266,28 +310,6 @@ class FarmController {
         }
         return '';
     }
-
-    public static additionalInfoTooltip: KnockoutComputed<string> = ko.pureComputed(() => {
-        const tooltip = [];
-
-        // External Auras
-        App.game.farming.externalAuras.forEach((aura, idx) => {
-            if (typeof aura === 'undefined') {
-                return;
-            }
-            if (aura() !== 1) {
-                tooltip.push(`${AuraType[idx]}: ×${aura().toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
-            }
-
-        });
-
-        // Adding header if necessary
-        if (tooltip.length) {
-            tooltip.unshift('<u>External Auras</u>');
-        }
-
-        return tooltip.join('<br>');
-    });
 
     // For preview in Farm Modal's BerryDex Tab
     public static handleBerryDexClick(berryId: number) {
@@ -330,8 +352,6 @@ class FarmController {
             return 'walkDown';
         }
     }
-
-    public static shortcutVisible: KnockoutComputed<boolean> = ko.pureComputed(() => {
-        return App.game.farming.canAccess() && Settings.getSetting('showFarmModule').observableValue() === 'never';
-    });
 }
+
+export default FarmController;

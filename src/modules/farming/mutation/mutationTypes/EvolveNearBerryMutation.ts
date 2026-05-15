@@ -1,14 +1,16 @@
-/// <reference path="./EvolveNearMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import EvolveNearMutation from './EvolveNearMutation';
 
 /**
  * Mutation that requires specific Berry plants near a Berry plot.
  * The required Berry plants must be in the Berry stage for mutations to occur.
  */
 class EvolveNearBerryMutation extends EvolveNearMutation {
-
     berryReqs: BerryType[];
 
-    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, berryReqs: BerryType[], options?: MutationOptions) {
+    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType | undefined, berryReqs: BerryType[], options?: MutationOptions) {
         super(mutationChance, mutatedBerry, originalBerry, options);
         this.berryReqs = berryReqs;
     }
@@ -20,7 +22,7 @@ class EvolveNearBerryMutation extends EvolveNearMutation {
     nearPlotsFitRequirements(plots: number[]) {
         return this.berryReqs.every((req) => {
             return plots.some((plot) => {
-                return this.checkRequirement(plot,req);
+                return this.checkRequirement(plot, req);
             });
         });
     }
@@ -69,5 +71,6 @@ class EvolveNearBerryMutation extends EvolveNearMutation {
         }
         return super.unlocked;
     }
-
 }
+
+export default EvolveNearBerryMutation;

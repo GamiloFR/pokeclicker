@@ -1,22 +1,26 @@
-/// <reference path="./GrowMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import Rand from '../../../utilities/Rand';
+import SeededRand from '../../../utilities/SeededRand';
+import Farming from '../../Farming';
+import Plot from '../../Plot';
+import GrowMutation from './GrowMutation';
 
 /**
  * Mutation to produce the Enigma Berry
  */
 class EnigmaMutation extends GrowMutation {
-
     hintsSeen: KnockoutObservable<boolean>[];
-    private lastIndex: KnockoutObservable<number>;
+    private lastIndex = ko.observable<number>();
 
     constructor(mutationChance: number) {
         super(mutationChance, BerryType.Enigma, {
-            unlockReq: function(): boolean {
+            unlockReq: function (): boolean {
                 return EnigmaMutation.getReqs().every(req => App.game.farming.unlockedBerries[req]());
             },
         });
 
         this.hintsSeen = Array<boolean>(4).fill(false).map(val => ko.observable(val));
-        this.lastIndex = ko.observable(null);
     }
 
     /**
@@ -33,8 +37,8 @@ class EnigmaMutation extends GrowMutation {
             if (nearPlots.length !== 4) {
                 return false;
             }
-            return nearPlots.every((idx, n) => {
-                const plot = App.game.farming.plotList[idx];
+            return nearPlots.every((nearPlotIndex, n) => {
+                const plot = App.game.farming.plotList[nearPlotIndex];
                 if (!plot.isUnlocked) {
                     return false;
                 }
@@ -66,32 +70,23 @@ class EnigmaMutation extends GrowMutation {
         berryTypes = berryTypes.filter(berry => {
             return ![BerryType.Occa, BerryType.Kebia, BerryType.Colbur, BerryType.Babiri].includes(berry);
         });
-        return [...new Array(4)].map((_) => SeededRand.fromArray(berryTypes));
-    }
-
-    /**
-     * Handles getting the hint for this mutation for the Kanto Berry Master
-     */
-    generateIndex(): void {
-        if (this.lastIndex()) {
-            return;
-        }
-        this.lastIndex(Rand.fromArray([...new Array(this.hintsSeen.length)].map((_, i) => i).filter(i => !this.hintsSeen[i]())));
+        return [...new Array(4)].map(() => SeededRand.fromArray(berryTypes));
     }
 
     resetIndex(): void {
-        this.lastIndex(null);
+        this.lastIndex(undefined);
     }
 
     get partialHint(): string {
-        if (this.lastIndex() === null) {
+        let lastIndex = this.lastIndex();
+        if (!lastIndex) {
             if (this.hintsSeen.every(s => s())) {
                 return this.hint;
             }
-            this.generateIndex();
-            this.hintsSeen[this.lastIndex()](true);
+            lastIndex = this.generateIndex();
+            this.hintsSeen[lastIndex](true);
         }
-        return `There's a mysterious berry that requires ${this.getHint(this.lastIndex())}.`;
+        return `There's a mysterious berry that requires ${this.getHint(lastIndex)}.`;
     }
 
     private getHint(idx: number) {
@@ -117,7 +112,7 @@ class EnigmaMutation extends GrowMutation {
      * Handles getting the full hint for the BerryDex
      */
     get hint(): string {
-        const hints = [];
+        const hints: string[] = [];
         const unlocked = App.game.farming.unlockedBerries[this.mutatedBerry]();
         this.hintsSeen.forEach((hintSeen, idx) => {
             if (!hintSeen() && !unlocked) {
@@ -138,7 +133,7 @@ class EnigmaMutation extends GrowMutation {
     }
 
     toJSON(): any {
-        return {seen: this.hintsSeen.map(h => h()), last: this.lastIndex()};
+        return { seen: this.hintsSeen.map(h => h()), last: this.lastIndex() };
     }
 
     fromJSON(hints: any): void {
@@ -156,4 +151,12 @@ class EnigmaMutation extends GrowMutation {
         }
     }
 
+    /**
+     * Handles getting the hint for this mutation for the Kanto Berry Master
+     */
+    private generateIndex(): number {
+        return Rand.fromArray([...new Array(this.hintsSeen.length)].map((_, i) => i).filter(i => !this.hintsSeen[i]()));
+    }
 }
+
+export default EnigmaMutation;

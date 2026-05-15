@@ -1,14 +1,10 @@
-/// <reference path="./EvolveMutation.ts" />
+import Plot from '../../Plot';
+import GrowMutation from './GrowMutation';
 
 /**
- * Mutation that requires a specific environment near a Berry plot.
+ * Mutation that requires a specific environment near an empty plot.
  */
-abstract class EvolveNearMutation extends EvolveMutation {
-
-    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, options?: MutationOptions) {
-        super(mutationChance, mutatedBerry, originalBerry, options);
-    }
-
+abstract class GrowNearMutation extends GrowMutation {
     /**
      * Determines which plots can mutate
      * @return The plot indices that can mutate
@@ -29,3 +25,5 @@ abstract class EvolveNearMutation extends EvolveMutation {
     abstract nearPlotsFitRequirements(plots: number[]): boolean;
 
 }
+
+export default GrowNearMutation;

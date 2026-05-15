@@ -1,15 +1,15 @@
-/// <reference path="../Mutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import Mutation, { MutationOptions } from '../Mutation';
 
 /**
  * Mutation that occurs on a Berry plant that is PlotStage.Taller or older.
  */
 abstract class EvolveMutation extends Mutation {
-
     originalBerry?: BerryType;
 
-    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, options?: MutationOptions) {
+    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry?: BerryType, options?: MutationOptions) {
         super(mutationChance, mutatedBerry, options);
-
         this.originalBerry = originalBerry;
     }
 
@@ -18,7 +18,7 @@ abstract class EvolveMutation extends Mutation {
      * @return The plot indices that can mutate
      */
     getMutationPlots(): number[] {
-        const plots = [];
+        const plots: number[] = [];
         App.game.farming.plotList.forEach((plot, idx) => {
             if (!plot.isUnlocked) {
                 return;
@@ -71,3 +71,5 @@ abstract class EvolveMutation extends Mutation {
     }
 
 }
+
+export default EvolveMutation;

@@ -1,17 +1,20 @@
-/// <reference path="./EvolveNearMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import EvolveNearMutation from './EvolveNearMutation';
+import { StrictBerryReq } from './GrowNearBerryStrictMutation';
+
 /**
- * Mutation that requires very specific Berry plants near an empty plot.
+ * Mutation that requires at least some amount of specific Berry plants near an empty plot.
  * The required Berry plants must be in the Berry stage for mutations to occur.
  */
-class EvolveNearBerryStrictMutation extends EvolveNearMutation {
+class EvolveNearBerryMinMutation extends EvolveNearMutation {
 
     berryReqs: StrictBerryReq;
-    neighborStageReq: PlotStage;
 
-    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, berryReqs: StrictBerryReq, neighborStageReq: PlotStage, options?: MutationOptions) {
+    constructor(mutationChance: number, mutatedBerry: BerryType, originalBerry: BerryType, berryReqs: StrictBerryReq, options?: MutationOptions) {
         super(mutationChance, mutatedBerry, originalBerry, options);
         this.berryReqs = berryReqs;
-        this.neighborStageReq = neighborStageReq;
     }
 
     /**
@@ -23,13 +26,7 @@ class EvolveNearBerryStrictMutation extends EvolveNearMutation {
 
         plots.forEach((idx) => {
             const plot = App.game.farming.plotList[idx];
-            if (!plot.isUnlocked) {
-                return;
-            }
-            if (plot.isEmpty()) {
-                return;
-            }
-            if (plot.stage() < this.neighborStageReq) {
+            if (plot.stage() !== PlotStage.Berry) {
                 return;
             }
             if (!currentReqs[plot.berry]) {
@@ -39,14 +36,17 @@ class EvolveNearBerryStrictMutation extends EvolveNearMutation {
             }
         });
 
-        return GameHelper.shallowEqual(this.berryReqs,currentReqs);
+        return Object.keys(this.berryReqs).every(key => {
+            const berryReqsKey = key as unknown as keyof typeof this.berryReqs;
+            return currentReqs[berryReqsKey] !== undefined && currentReqs[berryReqsKey] >= this.berryReqs[berryReqsKey];
+        });
     }
 
     /**
      * Determines whether the player can even cause this mutation
      */
     get unlocked(): boolean {
-        for (const berry of Object.keys(this.berryReqs)) {
+        for (const berry in this.berryReqs) {
             if (!App.game.farming.unlockedBerries[berry]()) {
                 return false;
             }
@@ -55,3 +55,5 @@ class EvolveNearBerryStrictMutation extends EvolveNearMutation {
     }
 
 }
+
+export default EvolveNearBerryMinMutation;

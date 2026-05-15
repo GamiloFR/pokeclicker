@@ -1,20 +1,15 @@
-/// <reference path="../Mutation.ts" />
+import Mutation from '../Mutation';
 
 /**
  * Mutation that occurs on an empty Plot
  */
 abstract class GrowMutation extends Mutation {
-
-    constructor(mutationChance: number, mutatedBerry: BerryType, options?: MutationOptions) {
-        super(mutationChance, mutatedBerry, options);
-    }
-
     /**
      * Determines which plots can mutate
      * @return The plot indices that can mutate
      */
     getMutationPlots(): number[] {
-        const plots = [];
+        const plots: number[] = [];
         App.game.farming.plotList.forEach((plot, idx) => {
             if (!plot.isUnlocked) {
                 return;
@@ -38,5 +33,6 @@ abstract class GrowMutation extends Mutation {
         plot.notifications = [];
         App.game.farming.unlockBerry(this.mutatedBerry);
     }
-
 }
+
+export default GrowMutation;

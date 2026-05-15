@@ -1,15 +1,16 @@
+import BerryType from '../../enums/BerryType';
+import OakItemType from '../../enums/OakItemType';
+import Rand from '../../utilities/Rand';
 
-interface MutationOptions {
+export interface MutationOptions {
     hint?: string,
     unlockReq?: () => boolean,
     showHint?: boolean,
 }
 
 abstract class Mutation {
-
-    saveKey: string;
-
-    defaults: Record<string, any>;
+    saveKey = '';
+    defaults = {};
 
     _mutationChance: number;
     mutatedBerry: BerryType;
@@ -76,7 +77,8 @@ abstract class Mutation {
      * Handles getting the mutation chance
      * @param idx The plot index
      */
-    mutationChance(idx: number): number {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the param is used in overwriting implementations
+    mutationChance(_idx: number): number {
         return this._mutationChance;
     }
 
@@ -123,3 +125,5 @@ abstract class Mutation {
     }
 
 }
+
+export default Mutation;

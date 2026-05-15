@@ -1,4 +1,4 @@
-/// <reference path="../Mutation.ts" />
+import Mutation from '../Mutation';
 
 /**
  * A Blank Mutation to be used to store hint data.
@@ -8,7 +8,10 @@ class BlankMutation extends Mutation {
     getMutationPlots(): number[] {
         return [];
     }
-    handleMutation(index: number): void {
+
+    handleMutation(): void {
         return;
     }
 }
+
+export default BlankMutation;

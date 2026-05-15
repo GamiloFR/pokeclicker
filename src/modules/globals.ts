@@ -22,5 +22,4 @@ declare global {
     const GymList: TempTypes.TmpGymListType;
     const TownList: TempTypes.TmpTownListType;
     const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
-    const BerryDeal: TempTypes.TmpBerryDealStaticType;
 }

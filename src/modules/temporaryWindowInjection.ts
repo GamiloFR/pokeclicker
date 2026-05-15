@@ -50,6 +50,12 @@ import areaStatus from './enums/AreaStatus';
 import EncounterType from './enums/EncounterType';
 import OakItemType from './enums/OakItemType';
 import UndergroundItemValueType from './enums/UndergroundItemValueType';
+import Berry from './farming/Berry';
+import BerryDeal from './farming/BerryDeal';
+import FarmController from './farming/FarmController';
+import FarmHands from './farming/FarmHands';
+import Farming from './farming/Farming';
+import WandererPokemon from './farming/WandererPokemon';
 import FluteEffectRunner from './gems/FluteEffectRunner';
 import GemDeals from './gems/GemDeals';
 import Gems from './gems/Gems';
@@ -553,4 +559,10 @@ Object.assign(<any>window, {
     PurifyChamber,
     BattleCafeController,
     NPCController,
+    FarmController,
+    Farming,
+    BerryDeal,
+    Berry,
+    FarmHands,
+    WandererPokemon,
 });

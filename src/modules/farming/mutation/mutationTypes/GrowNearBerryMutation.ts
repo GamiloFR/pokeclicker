@@ -1,11 +1,13 @@
-/// <reference path="./GrowNearMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import GrowNearMutation from './GrowNearMutation';
 
 /**
  * Mutation that requires specific Berry plants near an empty plot.
  * The required Berry plants must be in the Berry stage for mutations to occur.
  */
 class GrowNearBerryMutation extends GrowNearMutation {
-
     berryReqs: BerryType[];
 
     constructor(mutationChance: number, mutatedBerry: BerryType, berryReqs: BerryType[], options?: MutationOptions) {
@@ -20,7 +22,7 @@ class GrowNearBerryMutation extends GrowNearMutation {
     nearPlotsFitRequirements(plots: number[]) {
         return this.berryReqs.every((req) => {
             return plots.some((plot) => {
-                return this.checkRequirement(plot,req);
+                return this.checkRequirement(plot, req);
             });
         });
     }
@@ -68,5 +70,6 @@ class GrowNearBerryMutation extends GrowNearMutation {
         }
         return super.unlocked;
     }
-
 }
+
+export default GrowNearBerryMutation;

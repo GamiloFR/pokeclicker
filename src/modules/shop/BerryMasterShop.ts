@@ -1,11 +1,11 @@
 import areaStatus from '../enums/AreaStatus';
+import BerryDeal from '../farming/BerryDeal';
 import { BerryTraderLocations } from '../GameConstants';
 import Item from '../items/Item';
 import PokemonItem from '../items/PokemonItem';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
-import { TmpBerryDealType } from '../TemporaryScriptTypes';
 import Shop from './Shop';
 import ShopHandler from './ShopHandler';
 
@@ -33,10 +33,10 @@ class BerryMasterShop extends Shop {
 
         const berryListIndex = BerryTraderLocations[this.parent.name as keyof typeof BerryTraderLocations];
         if (berryListIndex > -1) {
-            const berryDeals = BerryDeal.list[berryListIndex]();
+            const berryDeals: BerryDeal[] = BerryDeal.list[berryListIndex]();
             const berryTraderPokemon = berryDeals
-                .filter((d: TmpBerryDealType) => d.item.itemType instanceof PokemonItem)
-                .map((d: TmpBerryDealType) => d.item.itemType.type) as PokemonNameType[];
+                .filter((d) => d.item.itemType instanceof PokemonItem)
+                .map((d) => d.item.itemType.type) as PokemonNameType[];
             const statuses = MapHelper.getPokemonAreaStatus(berryTraderPokemon);
             itemStatusArray.push(...statuses);
         }

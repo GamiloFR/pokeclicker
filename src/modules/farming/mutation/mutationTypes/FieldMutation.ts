@@ -1,9 +1,12 @@
-/// <reference path="./GrowMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import { MutationOptions } from '../Mutation';
+import GrowMutation from './GrowMutation';
 
 type FieldMutationFieldBerry = {
     berry: BerryType,
     amountRequired: number
-}
+};
 
 /**
  * Mutation that requires a number of Berry plants in the farm
@@ -20,7 +23,7 @@ class FieldMutation extends GrowMutation {
     getMutationPlots(): number[] {
         const emptyPlots = super.getMutationPlots();
         const fieldPlots = Array<number>(this.fieldBerries.length).fill(0);
-        App.game.farming.plotList.forEach((plot, idx) => {
+        App.game.farming.plotList.forEach((plot) => {
             if (!plot.isUnlocked) {
                 return;
             }
@@ -61,5 +64,6 @@ class FieldMutation extends GrowMutation {
         const berries = this.fieldBerries.map((fb) => BerryType[fb.berry]).join(', ');
         return `Legends tell of a mysterious Berry that only appears in a field of ${berries} Berries.`;
     }
-
 }
+
+export default FieldMutation;

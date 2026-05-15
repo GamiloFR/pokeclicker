@@ -1,4 +1,5 @@
-/// <reference path="./EvolveNearBerryMutation.ts" />
+import BerryType from '../../../enums/BerryType';
+import EvolveNearBerryMutation from './EvolveNearBerryMutation';
 
 /**
  * Parasite Mutation
@@ -20,5 +21,6 @@ class ParasiteMutation extends EvolveNearBerryMutation {
             return App.game.farming.plotList[idx].berry !== this.mutatedBerry;
         });
     }
-
 }
+
+export default ParasiteMutation;
