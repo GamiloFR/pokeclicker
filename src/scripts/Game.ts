@@ -5,6 +5,7 @@
 /// <reference path="../declarations/effectEngine/effectEngineRunner.d.ts"/>
 /// <reference path="../declarations/items/ItemHandler.d.ts"/>
 /// <reference path="../declarations/wildBattle/RouteHelper.d.ts" />
+/// <reference path="../declarations/quests/Quests.d.ts" />
 
 /**
  * Main game class.

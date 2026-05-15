@@ -11,10 +11,15 @@ import type BattlePokemon from './battles/BattlePokemon';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
+import areaStatus from './enums/AreaStatus';
 import BadgeEnums from './enums/Badges';
+import BerryColor from './enums/BerryColor';
+import BerryFirmness from './enums/BerryFirmness';
+import BerryType from './enums/BerryType';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
 import type * as GameConstants from './GameConstants';
+import GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
@@ -27,8 +32,8 @@ import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
-import { QuestLineNameType } from './quests/QuestLineNameType';
-import QuestLineState from './quests/QuestLineState';
+import Quests from './quests/Quests';
+import BerriesUnlockedRequirement from './requirements/BerriesUnlockedRequirement';
 import Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
@@ -36,7 +41,6 @@ import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
 import type Translate from './translation/Translation';
 import type { Underground } from './underground/Underground';
-import Amount from './wallet/Amount';
 import type Wallet from './wallet/Wallet';
 import type WeatherType from './weather/WeatherType';
 
@@ -94,7 +98,6 @@ export type TmpUpdateType = any;
 export type TmpBreedingType = any;
 export type TmpPokeballsType = any;
 export type TmpGemsType = any;
-export type TmpFarmingType = any;
 export type TmpRedeemableCodesType = any;
 export type TmpDiscordType = any;
 export type TmpAchievementTrackerType = any;
@@ -128,7 +131,7 @@ export type TmpGameType = {
     logbook: LogBook;
     redeemableCodes: TmpRedeemableCodesType;
     statistics: Statistics;
-    quests: TmpQuestsType;
+    quests: Quests;
     specialEvents: SpecialEvents;
     discord: TmpDiscordType;
     achievementTracker: TmpAchievementTrackerType;
@@ -224,18 +227,63 @@ export type TmpMapHelperType = {
 };
 
 export type TmpDungeonRunnerType = {
-    dungeon: {
-        name: string
-    };
+    dungeon: TmpDungeonType;
+    defeatedBoss: KnockoutObservable<string>
 };
 
 export type TmpDungeonType = {
-  allAvailablePokemon(): PokemonNameType[]
-}
+    name: string,
+    baseHealth: number,
+    tokenCost: number,
+    difficultyRoute: number,
 
-export type TmpGymType = {
+    rewardFunction(): void,
+    allAvailablePokemon(): PokemonNameType[]
+};
+
+export type TmpDungeonListType = {
+    [dungeonName: string]: TmpDungeonType
+};
+
+export type TmpOptionalGymArgsType = {
+    displayName?: string,
+    imageName?: string,
+    environment?: GameConstants.Environment[],
+    battleBackground?: GameConstants.BattleBackground,
+    hideUntilUnlocked?: boolean,
+    visibleRequirement?: Requirement,
+};
+
+export type TmpGymType = TmpTownContentType & {
     town: string;
-    badgeReward: BadgeEnums
+    buttonText: string;
+    tooltip: string;
+    flags: {
+        quest: boolean,
+        achievement: boolean,
+        champion: boolean,
+    };
+    leaderName: string,
+    badgeReward: BadgeEnums,
+    moneyReward: number,
+    defeatMessage: string,
+    rewardFunction: () => void
+    optionalArgs: TmpOptionalGymArgsType
+
+    get imagePath(): string
+    get imageName(): string
+    get displayName(): string
+    get autoRestartTooltip(): string
+
+    cssClass(): string
+    text(): string
+    isVisible(): boolean
+    onclick(): void
+    areaStatus(): areaStatus[]
+    clears(): number
+    firstWinReward(): void
+    autoRestartReward(): number
+    getPokemonList(): GymPokemon[]
 };
 
 export type TmpGymRunnerType = {
@@ -273,6 +321,7 @@ export type TmpAchievementHandlerType = {
     getAchievementCategoryByExtraCategory: (category: GameConstants.ExtraAchievementCategories) => AchievementCategory;
     initialize: (multiplier: Multiplier, challenges: Challenges) => void;
     load: () => void;
+    unlockAchievement (achievementName: string): void
 };
 
 export type TmpPokemonLocationsType = {
@@ -284,6 +333,7 @@ export type TmpPokemonFactoryType = {
     routeDungeonTokens(route: number, region: GameConstants.Region): number;
     generateShiny(chance: number, skipBonus?: boolean): boolean;
     generateGenderById(id: number): GameConstants.BattlePokemonGender;
+    routeHealth(route: number, region: GameConstants.Region): number;
 };
 
 export type TmpPartyPokemonType = {
@@ -320,6 +370,8 @@ export type TmpPartyPokemonType = {
 export type TmpPartyType = {
     caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
     activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
+    pokemonAttackObservable: KnockoutComputed<number>;
+
     gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainPokemonById: (id: number, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainExp: (exp: number, level?: number, trainer?: boolean) => void;
@@ -382,123 +434,77 @@ export type TmpTemporaryBattleType = {
 
 export type TmpTownType = {
     name: string;
+    region: GameConstants.Region;
+    requirements: Requirement[];
+    startingTown: boolean;
+    subRegion: GameConstants.SubRegions;
+    ignoreAreaStatus: boolean;
+
+    isUnlocked(): boolean
 };
 
-export type TmpQuestOptionalArgumentType = {
-    clearedMessage?: string;
-    npcDisplayName?: string,
-    npcImageName?: string,
+export type TmpTownContentType = {
+    parent: TmpTownType;
 };
 
-export type TmpQuestType = {
-    index: number;
-    amount: number
-    pointsReward: number;
-    progress: KnockoutComputed<number>;
-    progressText: KnockoutComputed<string>;
-    inProgress: KnockoutComputed<boolean>;
-    isCompleted: KnockoutComputed<boolean>;
-    claimed: KnockoutObservable<boolean>;
-    initial: KnockoutObservable<any>;
-    notified: boolean;
-    autoComplete: boolean;
-    mainQuest: TmpQuestType;
-    autoCompleter: KnockoutSubscription;
-    inQuestLine: boolean;
-    onLoadCalled: boolean;
-    suspended: boolean;
-    optionalArgs?: TmpQuestOptionalArgumentType;
-    initialValue?: number;
-    parentQuestLine?: TmpQuestLineType;
-	description: string
-	defaultDescription: string
-    xpReward: number
-    focus: KnockoutObservable<any>
+export type TmpTownListType = {
+    [name: string]: TmpTownType
+};
 
-    customReward?: () => void;
-	claim(): boolean
-    quit(shouldConfirm?: boolean): void
-    begin(): void
-    onLoad(): void
-    complete(bypassAutoCompleter?: boolean): void
-    createAutoCompleter(): void
-    deleteAutoCompleter(): void
-    deleteFocusSub(fromMainQuest?: boolean): boolean
-    withDescription(description: string): TmpQuestType
-    withOnLoad(onLoad: () => void): TmpQuestType
-    withCustomReward(customReward: () => void): TmpQuestType
-    withOptionalArgs(optionalArgs: TmpQuestOptionalArgumentType): TmpQuestType
-    withInitialValue(initialValue: number): TmpQuestType
-    asSubQuest(mainQuest: TmpQuestType): void
-    getClearedMessage(): string
-    getNpcDisplayName(): string
-    getNpcImage(): string
-    toJSON(): Record<string, any>
-    fromJSON(json: any): void
-}
+export type TmpNPCType = {
+    talkedTo: KnockoutObservable<boolean>;
+};
 
-export type TmpQuestLineType = {
-	state: KnockoutObservable<QuestLineState>;
-    quests: KnockoutObservableArray<TmpQuestType>;
-    curQuest: KnockoutComputed<number>;
-    curQuestObject: KnockoutComputed<any>;
-    curQuestInitial: KnockoutObservable<number>;
-    totalQuests: number;
-	name: QuestLineNameType,
-    requirement?: Requirement;
-    bulletinBoard: GameConstants.BulletinBoards
-	displayName: string;
-    description: string
-    autoBegin: KnockoutSubscription;
-    pauseTooltip: string
-    
-    addQuest(quest: TmpQuestType): void
-    beginQuest(index?: number, initial?: number, notifyStart?: boolean): void
-    resumeAt(index: number, initial?: number): void
-    suspendQuest(skipPausableCheck?: boolean): void
-    resumeSuspendedQuest(): void
-    isPausable(): boolean
-    toJSON(): Record<string, any>
-}
+export type TmpFarmingType = {
+    berryData: TmpBerryType[];
+    farmHands: TmpFarmHandsType;
+    berryList: KnockoutObservable<number>[];
+    unlockedBerries: KnockoutObservable<boolean>[];
+    mulchList: KnockoutObservable<number>[];
+    plotList: Array<TmpPlotType>;
+    unlockedPlotCount: KnockoutObservable<number>;
+    shovelAmt: KnockoutObservable<number>;
+    mulchShovelAmt: KnockoutObservable<number>;
 
-export type TmpQuestsType = {
-    xp: KnockoutObservable<number>;
-    refreshes: KnockoutObservable<number>;
-    lastRefresh: Date;
-    lastRefreshLevel: number;
-    lastRefreshRegion: number;
-    freeRefresh: KnockoutObservable<boolean>;
-    questList: KnockoutObservableArray<TmpQuestType>;
-    questLines: KnockoutObservableArray<TmpQuestLineType>;
-    level: KnockoutComputed<number>;
-    questSlots: KnockoutComputed<number>
-    completedQuests: KnockoutComputed<Array<TmpQuestType>>
-    currentQuests: KnockoutComputed<Array<TmpQuestType>>
-    incompleteQuests: KnockoutComputed<Array<TmpQuestType>>;
-    sortedQuestList: KnockoutComputed<Array<TmpQuestType>>
-    
-    getQuestLine(name: QuestLineNameType): TmpQuestLineType | undefined
-    beginQuest(index: number): void
-    quitQuest(index: number, shouldConfirm?: boolean): void
-    claimQuest(index: number): void
-    calcListBonus(): number
-    calcListBonusPercent(level: number): number
-    addXP(amount: number): void
-    generateQuestList(date?: Date, level?: number): void
-    refreshQuests(free?: boolean, shouldConfirm?: boolean): Promise<void>
-    resetRefreshes(): void;
-    canAffordRefresh(): boolean
-    isRefreshFree(): boolean
-	getRefreshCost(): Amount
-    canStartNewQuest(): boolean
-    allQuestClaimed(): boolean
-    levelToXP(level: number): number
-    xpToLevel(xp: number): number
-    percentToNextQuestLevel(): number
-    questProgressTooltip(): { title: string; trigger: string}
-    isDailyQuestsUnlocked(): boolean
-    loadQuestList(questList: TmpQuestType[]): void
-    loadQuestLines(questLines: TmpQuestLineType[]): void
-    toJSON(): Record<string, any>
-    fromJSON(json: any): void
+    canAccess(): boolean
+    gainBerry(berry: BerryType, amount?: number, farming?: boolean): void;
+    gainRandomBerry(amount?: number, disableNotification?: boolean): void;
+};
+
+export type TmpBerryType = {
+    type: BerryType,
+    growthTime: number[],
+    harvestAmount: number,
+    replantRate: number,
+    farmValue: number,
+    exp: number,
+    smoothness: number,
+    color: BerryColor,
+    size: number,
+    firmness: BerryFirmness,
+    description: string[],
+};
+
+export type TmpPlotType = {};
+
+export type TmpFarmHandsType = {
+    MAX_HIRES: number;
+    available: KnockoutComputed<TmpFarmHandType[]>;
+    hired: KnockoutComputed<TmpFarmHandType[]>;
+    canHire: KnockoutComputed<boolean>;
+    requirement: BerriesUnlockedRequirement;
+};
+
+export type TmpFarmHandType = {};
+
+export type TmpBattleFrontierMilestonesType = {
+    milestoneRewards: TmpBattleFrontierMilestoneType[]
+};
+
+export type TmpBattleFrontierMilestoneType = {
+    obtained: KnockoutObservable<boolean>
+};
+
+export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneType & {
+    pokemonName: string
 };

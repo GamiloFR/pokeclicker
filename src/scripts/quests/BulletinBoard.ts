@@ -1,3 +1,4 @@
+// TODO Move to modules with TownContent
 class BulletinBoard extends TownContent {
     public static selectedBulletinBoard: KnockoutObservable<BulletinBoard> = ko.observable(undefined);
 

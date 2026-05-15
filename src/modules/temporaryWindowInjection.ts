@@ -103,6 +103,10 @@ import * as PokemonHelper from './pokemons/PokemonHelper';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
 import RoamingPokemon from './pokemons/RoamingPokemon';
 import RoamingPokemonList from './pokemons/RoamingPokemonList';
+import Quest from './quests/Quest';
+import QuestLineHelper from './quests/QuestLineHelper';
+import Quests from './quests/Quests';
+import MultipleQuestsQuest from './quests/questTypes/MultipleQuestsQuest';
 import AchievementRequirement from './requirements/AchievementRequirement';
 import AllFlutesTimeActiveRequirement from './requirements/AllFlutesTimeActiveRequirement';
 import AttackRequirement from './requirements/AttackRequirement';
@@ -486,4 +490,8 @@ Object.assign(<any>window, {
     DownloadUtil,
     BadgeCaseController,
     RouteHelper,
+    Quest: Quest,
+    QuestLineHelper,
+    Quests,
+    MultipleQuestsQuest,
 });

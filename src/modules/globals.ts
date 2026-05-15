@@ -11,6 +11,7 @@ declare global {
     const Save: TempTypes.TmpSaveType;
     const MapHelper: TempTypes.TmpMapHelperType;
     const DungeonRunner: TempTypes.TmpDungeonRunnerType;
+    const dungeonList: TempTypes.TmpDungeonListType;
     const GymRunner: TempTypes.TmpGymRunnerType;
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
     const PokemonLocations: TempTypes.TmpPokemonLocationsType;
@@ -19,4 +20,6 @@ declare global {
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const BagHandler: TempTypes.TmpBagHandlerType;
     const GymList: TempTypes.TmpGymListType;
+    const TownList: TempTypes.TmpTownListType;
+    const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
 }

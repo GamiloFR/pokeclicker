@@ -5,7 +5,7 @@ class ExternalHelper {
     private static routeCache: {[name: string] : boolean} = {};
     private static gymCache: {[name: string] : boolean} = {};
 
-    public static isInLiveVersion(content: Town | QuestLine | TmpQuestLineType | TemporaryBattle | RegionRoute | Gym) {
+    public static isInLiveVersion(content: Town | QuestLine | TemporaryBattle | RegionRoute | Gym) {
         if (content instanceof Town) {
             if (content.region > GameConstants.MAX_AVAILABLE_REGION) {
                 return false;
