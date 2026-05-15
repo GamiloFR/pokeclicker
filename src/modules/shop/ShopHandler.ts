@@ -36,7 +36,7 @@ class ShopHandler {
     }
 
     public static buyItem() {
-        const item: Item = this.shop.items[ShopHandler.selected()];
+        const item: Item = this.shopObservable().items[ShopHandler.selected()];
         item.buy(this.amount());
 
         if (Settings.getSetting('resetShopAmountOnPurchase').observableValue()) {
@@ -45,30 +45,30 @@ class ShopHandler {
     }
 
     public static resetAmount() {
-        this.shop.amountInput().val(1).change();
+        this.shopObservable().amountInput().val(1).change();
     }
 
     public static increaseAmount(n: number) {
-        const newVal = (parseInt(this.shop.amountInput().val().toString(), 10) || 0) + n;
-        this.shop.amountInput().val(newVal > 1 ? newVal : 1).change();
+        const newVal = (parseInt(this.shopObservable().amountInput().val().toString(), 10) || 0) + n;
+        this.shopObservable().amountInput().val(newVal > 1 ? newVal : 1).change();
     }
 
     public static multiplyAmount(n: number) {
-        const newVal = (parseInt(this.shop.amountInput().val().toString(), 10) || 0) * n;
-        this.shop.amountInput().val(newVal > 1 ? newVal : 1).change();
+        const newVal = (parseInt(this.shopObservable().amountInput().val().toString(), 10) || 0) * n;
+        this.shopObservable().amountInput().val(newVal > 1 ? newVal : 1).change();
     }
 
     public static maxAmount() {
-        const item: Item = this.shop.items[ShopHandler.selected()];
+        const item: Item = this.shopObservable().items[ShopHandler.selected()];
 
         if (!item || !item.isAvailable()) {
-            return this.shop.amountInput().val(0).change();
+            return this.shopObservable().amountInput().val(0).change();
         }
 
         const tooMany = (amt: number) => amt > item.maxAmount || !App.game.wallet.hasAmount(new Amount(item.totalPrice(amt), item.currency));
         const amt = GameHelper.binarySearch(tooMany, 0, Number.MAX_SAFE_INTEGER);
 
-        this.shop.amountInput().val(amt).change();
+        this.shopObservable().amountInput().val(amt).change();
     }
 
     public static calculateCss(i: number): string {
@@ -80,7 +80,7 @@ class ShopHandler {
     }
 
     public static calculateButtonCss(): string {
-        const item: Item = this.shop.items[ShopHandler.selected()];
+        const item: Item = this.shopObservable().items[ShopHandler.selected()];
 
         if (item && !(item.isAvailable() && App.game.wallet.hasAmount(new Amount(item.totalPrice(this.amount()), item.currency)))
                 || this.amount() < 1) {
@@ -88,14 +88,6 @@ class ShopHandler {
         } else {
             return 'btn btn-success smallButton smallFont';
         }
-    }
-
-    private static get shop(): Shop {
-        const shop = this.shopObservable();
-        if (!shop) {
-            throw new Error('No shop');
-        }
-        return shop;
     }
 }
 

@@ -7,8 +7,6 @@ import TownContent from '../towns/townContent/TownContent';
 import ShopHandler from './ShopHandler';
 
 class Shop extends TownContent {
-    public static DEFAULT = new Shop([]);
-
     public tooltip = 'Visit shops to buy items.';
 
     constructor(
