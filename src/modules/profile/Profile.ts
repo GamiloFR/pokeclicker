@@ -6,7 +6,7 @@ import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
 import '../koExtenders';
 import Notifier from '../notifications/Notifier';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { matchPokemonByNames } from '../pokemons/PokemonHelper';
 import Rand from '../utilities/Rand';
 
 export default class Profile implements Saveable {
@@ -35,7 +35,7 @@ export default class Profile implements Saveable {
         } else if (this.pokemonSearch() != '') {
             // Search by name
             const regex = GameHelper.safelyBuildRegex(this.pokemonSearch());
-            caughtPokemon = caughtPokemon.filter((pokemon) => PokemonHelper.matchPokemonByNames(regex, pokemon.name, pokemon));
+            caughtPokemon = caughtPokemon.filter((pokemon) => matchPokemonByNames(regex, pokemon.name, pokemon));
         }
         return caughtPokemon;
     });

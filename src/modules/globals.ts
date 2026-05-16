@@ -10,9 +10,8 @@ declare global {
     const player: TempTypes.TmpPlayerType;
     const Save: TempTypes.TmpSaveType;
     const MapHelper: TempTypes.TmpMapHelperType;
-    const DungeonRunner: TempTypes.TmpDungeonRunnerType;
-    const dungeonList: TempTypes.TmpDungeonListType;
     const GymRunner: TempTypes.TmpGymRunnerType;
+    const GymBattle: TempTypes.TmpGymBattleType;
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
     const PokemonLocations: TempTypes.TmpPokemonLocationsType;
     const PokemonFactory: TempTypes.TmpPokemonFactoryType;

@@ -9,3 +9,5 @@ class Point {
         this.floor = floor;
     }
 }
+
+export default Point;

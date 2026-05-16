@@ -18,12 +18,6 @@ import DataPokemon from './DataPokemon';
 import P from './mapProvider';
 import type { PokemonNameType } from './PokemonNameType';
 
-// TODO remove when Dungeon is ported to modules
-declare class Dungeon {
-    public allShadowPokemon(): Array<PokemonNameType>;
-}
-declare const dungeonList: { [dungeonName: string]: Dungeon };
-
 export function calcNativeRegion(pokemonName: PokemonNameType) {
     const pokemon = P.pokemonMap[pokemonName];
     if (pokemon.nativeRegion !== undefined) {
@@ -165,10 +159,6 @@ export function hasUncaughtGigantamaxForm(pokemonName: PokemonNameType): boolean
 export function isGigantamaxForm(pokemonName: PokemonNameType): boolean {
     return pokemonName.startsWith('Gigantamax') || pokemonName.startsWith('Eternamax');
 }
-
-export const getAllShadowPokemon = ko.pureComputed((): Set<PokemonNameType> => {
-    return new Set(Object.values(dungeonList).flatMap(d => d.allShadowPokemon()));
-});
 
 // To have encounter/caught/defeat/hatch statistics in a single place
 export function incrementPokemonStatistics(pokemonId: number, statistic: PokemonStatisticsType, shiny: boolean, gender: BattlePokemonGender, shadow: ShadowStatus) {

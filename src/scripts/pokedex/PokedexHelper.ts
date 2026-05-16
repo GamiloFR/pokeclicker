@@ -1,3 +1,7 @@
+const getAllShadowPokemon = ko.pureComputed((): Set<PokemonNameType> => {
+    return new Set(Object.values(DungeonList).flatMap(d => d.allShadowPokemon()));
+});
+
 class PokedexHelper {
 
     public static initialize() {
@@ -83,7 +87,7 @@ class PokedexHelper {
             return Math.max(highestSeen, highestEncountered, highestDefeated, highestCaught, highestRegionID);
         }).peek();
 
-        const shadowPokemon = PokemonHelper.getAllShadowPokemon.peek();
+        const shadowPokemon = getAllShadowPokemon.peek();
 
         return pokemonList.filter((pokemon) => {
             // Checks based on caught/shiny status

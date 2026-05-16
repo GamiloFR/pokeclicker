@@ -11,6 +11,7 @@ import type BattlePokemon from './battles/BattlePokemon';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
+import DungeonBossPokemon from './dungeons/DungeonBossPokemon';
 import areaStatus from './enums/AreaStatus';
 import BadgeEnums from './enums/Badges';
 import type CaughtStatus from './enums/CaughtStatus';
@@ -228,25 +229,6 @@ export type TmpMapHelperType = {
     getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
 };
 
-export type TmpDungeonRunnerType = {
-    dungeon: TmpDungeonType;
-    defeatedBoss: KnockoutObservable<string>
-};
-
-export type TmpDungeonType = {
-    name: string,
-    baseHealth: number,
-    tokenCost: number,
-    difficultyRoute: number,
-
-    rewardFunction(): void,
-    allAvailablePokemon(): PokemonNameType[]
-};
-
-export type TmpDungeonListType = {
-    [dungeonName: string]: TmpDungeonType
-};
-
 export type TmpOptionalGymArgsType = {
     displayName?: string,
     imageName?: string,
@@ -289,12 +271,18 @@ export type TmpGymType = TownContent & {
 };
 
 export type TmpGymRunnerType = {
-    gymObservable: () => TmpGymType;
+    gymObservable: KnockoutObservable<TmpGymType>;
 
     startGym(gym: TmpGymType, autoRestart?: boolean, initialRun?: boolean): void;
 };
 
 export type TmpGymListType = { [townName: string]: TmpGymType };
+
+export type TmpGymBattleType = {
+    gym: TmpGymType;
+    index: KnockoutObservable<number>;
+    totalPokemons: KnockoutObservable<number>;
+};
 
 export type TmpAchievementHandlerType = {
     achievementList: Achievement[];
@@ -339,6 +327,10 @@ export type TmpPokemonFactoryType = {
     generateGenderById(id: number): GameConstants.BattlePokemonGender;
     routeHealth(route: number, region: GameConstants.Region): number;
     generateWandererData(plot: Plot): WandererPokemon;
+    generateDungeonPokemon(name: PokemonNameType, chestsOpened: number, baseHealth: number, level: number, mimic?: boolean): BattlePokemon;
+    generateDungeonTrainerPokemon(pokemon: GymPokemon, chestsOpened: number, baseHealth: number, level: number, isBoss: boolean, trainerPokemon?: number): BattlePokemon;
+    generateDungeonBoss(bossPokemon: DungeonBossPokemon, chestsOpened: number): BattlePokemon;
+    routeLevel(route: number, region: GameConstants.Region): number
 };
 
 export type TmpPartyPokemonType = {

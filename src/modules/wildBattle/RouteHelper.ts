@@ -1,11 +1,11 @@
+import Dungeon from '../dungeons/Dungeon';
 import KeyItemType from '../enums/KeyItemType';
 import { Pokerus, Region } from '../GameConstants';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import DefeatPokemonsQuest from '../quests/questTypes/DefeatPokemonsQuest';
 import RouteKillRequirement from '../requirements/RouteKillRequirement';
-import { Routes } from '../routes';
-import { TmpDungeonType } from '../TemporaryScriptTypes';
+import Routes from '../routes/Routes';
 
 /**
  * Helper class to retrieve information from RoutePokemon
@@ -53,7 +53,7 @@ class RouteHelper {
         return `EVs until all Pokémon are resistant on this route: ${currentEVs}&nbsp;/&nbsp;${50 * possiblePokemon.length}.`;
     }
 
-    public static dungeonPokerusEVs(dungeon: TmpDungeonType): string {
+    public static dungeonPokerusEVs(dungeon: Dungeon): string {
         const possiblePokemon: PokemonNameType[] = [...new Set(dungeon.allAvailablePokemon())];
         if (this.minPokerus(possiblePokemon) == Pokerus.Resistant) {
             return 'All Pokémon in this dungeon are resistant!';

@@ -1,6 +1,6 @@
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
-import { Routes } from '../routes';
+import Routes from '../routes/Routes';
 import WeatherType from '../weather/WeatherType';
 
 class QuestHelper {

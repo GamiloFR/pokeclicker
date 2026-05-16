@@ -103,7 +103,7 @@ class PokemonLocations {
             return cache[maxRegion][pokemonName];
         }
         const cacheLine = this.initRegionalCacheLine(cache, maxRegion, Array<object>);
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex(d => d.includes(dungeonName));
@@ -137,7 +137,7 @@ class PokemonLocations {
             return cache[maxRegion][pokemonName];
         }
         const cacheLine = this.initRegionalCacheLine(cache, maxRegion, Array<object>);
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex(d => d.includes(dungeonName));
@@ -163,7 +163,7 @@ class PokemonLocations {
             return cache[maxRegion][pokemonName];
         }
         const cacheLine = this.initRegionalCacheLine(cache, maxRegion, Array<object>);
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex(d => d.includes(dungeonName));
@@ -191,7 +191,7 @@ class PokemonLocations {
             return cache[maxRegion][pokemonName];
         }
         const cacheLine = this.initRegionalCacheLine(cache, maxRegion, Array<string>);
-        Object.entries(dungeonList).forEach(([dungeonName, dungeon]) => {
+        Object.entries(DungeonList).forEach(([dungeonName, dungeon]) => {
             // If we only want to check up to a maximum region
             if (maxRegion != GameConstants.Region.none) {
                 const region = GameConstants.RegionDungeons.findIndex(d => d.includes(dungeonName));
@@ -454,7 +454,7 @@ class PokemonLocations {
             return cache[pokemonName];
         }
         const cacheLine = this.initCacheLine(cache, Array<string>);
-        Object.values(dungeonList).forEach(dungeon => {
+        Object.values(DungeonList).forEach(dungeon => {
             const rewardFunction = dungeon.rewardFunction?.toString();
             this.getPokemonRewards(rewardFunction).forEach(pokemon => {
                 cacheLine[pokemon].push(dungeon.name);

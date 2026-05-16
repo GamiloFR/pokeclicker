@@ -1,12 +1,12 @@
+import Dungeon from '../../dungeons/Dungeon';
 import areaStatus from '../../enums/AreaStatus';
 import { getDungeonIndex } from '../../GameConstants';
 import QuestLineHelper from '../../quests/QuestLineHelper';
 import Requirement from '../../requirements/Requirement';
-import { TmpDungeonType } from '../../TemporaryScriptTypes';
 import TownContent from './TownContent';
 
 class MoveToDungeon extends TownContent {
-    constructor(private dungeon: TmpDungeonType, private visibleRequirement?: Requirement) {
+    constructor(private dungeon: Dungeon, private visibleRequirement?: Requirement) {
         super([]);
     }
 

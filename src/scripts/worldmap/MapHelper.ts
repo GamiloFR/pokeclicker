@@ -205,14 +205,14 @@ class MapHelper {
             return areaStatus[areaStatus.locked];
         }
         // Is this location a dungeon
-        if (dungeonList[townName] && dungeonList[townName].isUnlocked()) {
-            const shadowPokemon = dungeonList[townName].allAvailableShadowPokemon();
-            const possiblePokemon = [...dungeonList[townName].allAvailablePokemon(), ...shadowPokemon];
+        if (DungeonList[townName] && DungeonList[townName].isUnlocked()) {
+            const shadowPokemon = DungeonList[townName].allAvailableShadowPokemon();
+            const possiblePokemon = [...DungeonList[townName].allAvailablePokemon(), ...shadowPokemon];
 
             if (!App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(townName)]()) {
                 states.add(areaStatus.incomplete);
             }
-            if (dungeonList[townName].isThereQuestAtLocation()) {
+            if (DungeonList[townName].isThereQuestAtLocation()) {
                 states.add(areaStatus.questAtLocation);
             }
             MapHelper.getPokemonAreaStatus(possiblePokemon)
@@ -220,7 +220,7 @@ class MapHelper {
             if (shadowPokemon.some(p => App.game.party.alreadyCaughtPokemonByName(p) && App.game.party.getPokemonByName(p).shadow == GameConstants.ShadowStatus.None)) {
                 states.add(areaStatus.uncaughtShadowPokemon);
             }
-            if (!DungeonRunner.isAchievementsComplete(dungeonList[townName])) {
+            if (!DungeonRunner.isAchievementsComplete(DungeonList[townName])) {
                 states.add(areaStatus.missingAchievement);
             }
         }

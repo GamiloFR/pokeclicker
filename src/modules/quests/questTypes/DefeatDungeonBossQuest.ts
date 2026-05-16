@@ -1,3 +1,4 @@
+import DungeonRunner from '../../dungeons/DungeonRunner';
 import { getDungeonRegion, Region } from '../../GameConstants';
 import { PokemonNameType } from '../../pokemons/PokemonNameType';
 import Quest from '../Quest';

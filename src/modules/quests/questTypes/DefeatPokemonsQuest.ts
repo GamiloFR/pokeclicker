@@ -1,5 +1,5 @@
 import { DEFEAT_POKEMONS_BASE_REWARD, Region, StartingRoutes } from '../../GameConstants';
-import { Routes } from '../../routes';
+import Routes from '../../routes/Routes';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';

@@ -45,6 +45,10 @@ import { CodeCredits, SpriteCredits } from './Credits';
 import DayCycle from './dayCycle/DayCycle';
 import DayCyclePart from './dayCycle/DayCyclePart';
 import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
+import DungeonBattle from './dungeons/DungeonBattle';
+import DungeonGuides from './dungeons/DungeonGuides';
+import DungeonList from './dungeons/DungeonList';
+import DungeonTrainer from './dungeons/DungeonTrainer';
 import EffectEngineRunner from './effectEngine/effectEngineRunner';
 import areaStatus from './enums/AreaStatus';
 import EncounterType from './enums/EncounterType';
@@ -196,12 +200,10 @@ import UndergroundUseToolRequirement from './requirements/UndergroundUseToolRequ
 import UniqueItemOwnedRequirement from './requirements/UniqueItemOwnedRequirement';
 import VitaminObtainRequirement from './requirements/VitaminObtainRequirement';
 import WeatherRequirement from './requirements/WeatherRequirement';
-import {
-    RegionRoute,
-    RoutePokemon,
-    Routes,
-    SpecialRoutePokemon,
-} from './routes';
+import RegionRoute from './routes/RegionRoute';
+import RoutePokemon from './routes/RoutePokemon';
+import Routes from './routes/Routes';
+import SpecialRoutePokemon from './routes/SpecialRoutePokemon';
 import SaveReminder from './saveReminder/SaveReminder';
 import BooleanSetting from './settings/BooleanSetting';
 import Settings, { breedingFilterSettingKeys, pokedexFilterSettingKeys } from './settings/index';
@@ -276,6 +278,7 @@ import WeatherApp from './weather/WeatherApp';
 import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
+import DungeonRunner from './dungeons/DungeonRunner';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -565,4 +568,9 @@ Object.assign(<any>window, {
     Berry,
     FarmHands,
     WandererPokemon,
+    DungeonList,
+    DungeonTrainer,
+    DungeonBattle,
+    DungeonGuides,
+    DungeonRunner,
 });

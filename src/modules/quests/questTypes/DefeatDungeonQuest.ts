@@ -1,3 +1,4 @@
+import DungeonList from '../../dungeons/DungeonList';
 import { ACTIVE_QUEST_MULTIPLIER, DEFEAT_POKEMONS_BASE_REWARD, getDungeonIndex, getDungeonRegion, QUEST_CLICKS_PER_SECOND, Region, RegionDungeons } from '../../GameConstants';
 import SubRegions from '../../subRegion/SubRegions';
 import SeededRand from '../../utilities/SeededRand';
@@ -35,7 +36,7 @@ class DefeatDungeonQuest extends Quest implements QuestInterface {
 
     private static calcReward(amount: number, dungeon: string): number {
         const playerDamage = App.game.party.calculateClickAttack() + (App.game.party.pokemonAttackObservable() / QUEST_CLICKS_PER_SECOND);
-        const attacksToDefeatPokemon = Math.ceil(Math.min(4, dungeonList[dungeon].baseHealth / playerDamage));
+        const attacksToDefeatPokemon = Math.ceil(Math.min(4, DungeonList[dungeon].baseHealth / playerDamage));
         const averageTilesToBoss = 13;
         const attacksToCompleteDungeon = attacksToDefeatPokemon * averageTilesToBoss;
         const completeDungeonsReward = attacksToCompleteDungeon * DEFEAT_POKEMONS_BASE_REWARD * ACTIVE_QUEST_MULTIPLIER * amount;
@@ -52,7 +53,7 @@ class DefeatDungeonQuest extends Quest implements QuestInterface {
             region = Region.kanto;
         }
         const tokens = PokemonFactory.routeDungeonTokens(route, region);
-        const routeKillsPerDungeon = dungeonList[dungeon].tokenCost / tokens;
+        const routeKillsPerDungeon = DungeonList[dungeon].tokenCost / tokens;
         const collectTokensReward = routeKillsPerDungeon * DEFEAT_POKEMONS_BASE_REWARD * amount;
 
         const reward = Math.min(5000, Math.ceil(completeDungeonsReward + collectTokensReward));

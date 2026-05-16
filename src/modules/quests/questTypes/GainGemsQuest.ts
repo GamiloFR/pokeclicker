@@ -2,7 +2,7 @@ import PokemonType from '../../enums/PokemonType';
 import { DEFEAT_POKEMONS_BASE_REWARD } from '../../GameConstants';
 import GameHelper from '../../GameHelper';
 import { pokemonMap } from '../../pokemons/PokemonList';
-import { Routes } from '../../routes';
+import Routes from '../../routes/Routes';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';
