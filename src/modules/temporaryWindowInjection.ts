@@ -35,7 +35,10 @@ import BadgeCaseController from './badgeCase/BadgeCaseController';
 import Battle from './battles/Battle';
 import BattlePokemon from './battles/BattlePokemon';
 import Trainer from './battles/Trainer';
+import Breeding from './breeding/Breeding';
+import BreedingController from './breeding/BreedingController';
 import EggType from './breeding/EggType';
+import HatcheryHelpers from './breeding/HatcheryHelpers';
 import Challenges from './challenges/Challenges';
 import ChangelogItems from './changelog/ChangelogItems';
 import RedeemableCode from './codes/RedeemableCode';
@@ -595,4 +598,7 @@ Object.assign(<any>window, {
     PartyPokemon,
     PokemonLocations,
     PokemonFactory,
+    Breeding,
+    BreedingController,
+    HatcheryHelpers,
 });

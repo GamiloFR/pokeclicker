@@ -1,3 +1,4 @@
+import BreedingController from '../breeding/BreedingController';
 import CaughtStatus from '../enums/CaughtStatus';
 import PokemonType from '../enums/PokemonType';
 import { Pokerus, StoneType, VitaminType } from '../GameConstants';

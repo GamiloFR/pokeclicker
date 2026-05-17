@@ -3,4 +3,5 @@ enum EggType {
     Pokemon,
     EggItem,
 }
+
 export default EggType;

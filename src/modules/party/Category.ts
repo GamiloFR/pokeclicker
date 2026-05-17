@@ -8,7 +8,6 @@ import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import PokeballFilter from '../pokeballs/PokeballFilter';
 import Settings from '../settings/Settings';
-import { TmpHatcheryHelperType } from '../TemporaryScriptTypes';
 
 export type PokemonCategory = {
     id: number,
@@ -117,7 +116,7 @@ class PokemonCategories implements Saveable {
         App.game.party.caughtPokemon.forEach((p) => p.removeCategory(cat.id));
 
         // Remove category from hatchery helper filters if selected
-        App.game.breeding.hatcheryHelpers.available().forEach((helper: TmpHatcheryHelperType) => {
+        App.game.breeding.hatcheryHelpers.available().forEach(helper => {
             const idx = helper.categories().indexOf(cat.id);
             if (idx > -1) {
                 helper.categories().splice(idx, 1);

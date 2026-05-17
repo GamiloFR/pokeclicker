@@ -7,13 +7,11 @@ import type {
 import type Achievement from './achievements/Achievement';
 import type AchievementCategory from './achievements/AchievementCategory';
 import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
-import type EggType from './breeding/EggType';
+import Breeding from './breeding/Breeding';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
 import type areaStatus from './enums/AreaStatus';
-import type CaughtStatus from './enums/CaughtStatus';
-import type PokemonType from './enums/PokemonType';
 import type SafariEnvironments from './enums/SafariEnvironments';
 import type Farming from './farming/Farming';
 import type * as GameConstants from './GameConstants';
@@ -33,11 +31,9 @@ import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import type Quests from './quests/Quests';
-import type HatchRequirement from './requirements/HatchRequirement';
 import type Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
-import type { SortOptions } from './settings/SortOptions';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
 import type Town from './towns/Town';
@@ -115,7 +111,7 @@ export type TmpGameType = {
     // constructor properties
     update: TmpUpdateType;
     profile: Profile;
-    breeding: TmpBreedingType;
+    breeding: Breeding;
     pokeballs: TmpPokeballsType;
     pokeballFilters: PokeballFilters;
     wallet: Wallet;
@@ -324,69 +320,6 @@ export type TmpHeldItemType = Item & {
 
 export type TmpHeldItemStaticType = {
     heldItemSelected: KnockoutObservable<TmpHeldItemType>
-};
-
-export type TmpBreedingControllerType = {
-    isPureType(pokemon: PartyPokemon, type: (PokemonType | null)): boolean;
-};
-
-export type TmpHatcheryHelperType = {
-    trainerSprite: number;
-    hired: KnockoutObservable<boolean>;
-    tooltip: KnockoutComputed<string>;
-    fireAllButtonTooltip: KnockoutComputed<string>;
-    sortOption: KnockoutObservable<SortOptions>;
-    sortDirection: KnockoutObservable<boolean>;
-    hatched: KnockoutObservable<number>;
-    hatchBonus: KnockoutObservable<number>;
-    stepEfficiency: KnockoutObservable<number>;
-    attackEfficiency: KnockoutObservable<number>;
-    prevBonus: KnockoutObservable<number>;
-    nextBonus: KnockoutObservable<number>;
-    categories: KnockoutObservableArray<number>;
-    useHatcheryFilters: KnockoutObservable<boolean>;
-};
-
-export type TmpHatcheryHelpersType = {
-    MAX_HIRES: number;
-    available: KnockoutComputed<TmpHatcheryHelperType[]>;
-    hired: KnockoutComputed<TmpHatcheryHelperType[]>;
-    canHire: KnockoutComputed<boolean>;
-    requirement: HatchRequirement;
-};
-
-export type TmpEggType = {
-    steps: KnockoutObservable<number>;
-    pokemonType1: PokemonType;
-    pokemonType2: PokemonType;
-    progress: KnockoutComputed<number>;
-    progressText: KnockoutComputed<string>;
-    stepsRemaining: KnockoutComputed<number>;
-    partyPokemon: KnockoutObservable<PartyPokemon>;
-    stepsRequired: number;
-    type: EggType;
-    totalSteps: number;
-    pokemon: number;
-    shinyChance: number;
-    notified: boolean;
-
-    isNone(): boolean;
-    canHatch(): boolean
-};
-
-export type TmpBreedingType = {
-    hatcheryHelpers: TmpHatcheryHelpersType;
-    hatchList: Record<GameConstants.EggItemType, PokemonNameType[][]>
-
-    get eggList(): Array<KnockoutObservable<TmpEggType>>;
-    set eggList(value: Array<KnockoutObservable<TmpEggType>>);
-
-    canAccess(): boolean
-    getSteps(eggCycles: number): number;
-    addEggItemToHatchery(eggItem: GameConstants.EggItemType): boolean;
-    getAllCaughtStatus(): CaughtStatus;
-    getTypeCaughtStatus(type: GameConstants.EggItemType): CaughtStatus;
-    progressEggsBattle(route: number, region: GameConstants.Region): void;
 };
 
 export type TmpOverworldSpriteTypeType = 'base' | 'self' | PokemonNameType;
