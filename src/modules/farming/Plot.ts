@@ -11,7 +11,7 @@ import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import Berry from './Berry';
 import WandererPokemon from './WandererPokemon';

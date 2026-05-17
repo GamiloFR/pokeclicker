@@ -1,12 +1,14 @@
 import { Computed, Observable, ObservableArray } from 'knockout';
-import BreedingController from '../breeding/BreedingController';
 import { Saveable } from '../DataStore/common/Saveable';
 import KeyItemType from '../enums/KeyItemType';
 import PokemonType from '../enums/PokemonType';
 import { BattlePokemonGender, BREEDING_ATTACK_BONUS, ConsumableType, EGG_CYCLE_MULTIPLIER, EP_CHALLENGE_MODIFIER, EP_EV_RATIO, Pokerus, Region, ShadowStatus, StoneType, VitaminType } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import AttackGainConsumable from '../items/AttackGainConsumable';
-import Item from '../items/Item';
+import AttackBonusHeldItem from '../items/heldItem/AttackBonusHeldItem';
+import ExpGainedBonusHeldItem from '../items/heldItem/ExpGainedBonusHeldItem';
+import HeldItem from '../items/heldItem/HeldItem';
+import HybridAttackBonusHeldItem from '../items/heldItem/HybridAttackBonusHeldItem';
 import ItemHandler from '../items/ItemHandler';
 import { ItemList } from '../items/ItemList';
 import { createLogContent } from '../logbook/helpers';
@@ -17,13 +19,13 @@ import { EvoData, EvoTrigger, StoneEvoData } from '../pokemons/evolutions/Base';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonList, pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import Settings from '../settings';
 import SearchSetting from '../settings/SearchSetting';
-import { TmpHeldItemType } from '../TemporaryScriptTypes';
+import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import PokemonCategories, { PokemonCategory } from './Category';
 import EvolutionHandler from './evolutions/EvolutionHandler';
 import { levelRequirements } from './LevelType';
+import PartyHelper from './PartyHelper';
 
 enum PartyPokemonSaveKeys {
     attackBonusPercent = 0,
@@ -42,23 +44,6 @@ enum PartyPokemonSaveKeys {
     nickname,
     shadow,
     showShadowImage,
-}
-
-declare class TmpHeldItem extends Item implements TmpHeldItemType {
-    regionUnlocked: Region;
-    canUse: (pokemon: PartyPokemon) => boolean;
-}
-
-declare class HybridAttackBonusHeldItem extends TmpHeldItem {
-    get clickAttackBonus(): number;
-}
-
-declare class ExpGainedBonusHeldItem extends TmpHeldItem {
-    gainedBonus: number;
-}
-
-declare class AttackBonusHeldItem extends TmpHeldItem {
-    get attackBonus(): number;
 }
 
 class PartyPokemon implements Saveable {
@@ -101,7 +86,7 @@ class PartyPokemon implements Saveable {
     _pokerus: Observable<Pokerus>;
     vitaminsUsed: Record<VitaminType, Observable<number>>;
     _effortPoints: Observable<number>;
-    heldItem: Observable<TmpHeldItemType>;
+    heldItem: Observable<HeldItem>;
     defaultFemaleSprite: Observable<boolean>;
     hideShinyImage: Observable<boolean>;
     _shadow: Observable<ShadowStatus>;
@@ -256,7 +241,7 @@ class PartyPokemon implements Saveable {
             const { type: types } = pokemonMap[this.name];
             if ([type1, type2].includes(PokemonType.None)) {
                 const type = (type1 == PokemonType.None) ? type2 : type1;
-                if (!BreedingController.isPureType(this, type)) {
+                if (!PartyHelper.isPureType(this, type)) {
                     return false;
                 }
             } else if ((type1 !== null && !types.includes(type1)) || (type2 !== null && !types.includes(type2))) {
@@ -598,7 +583,7 @@ class PartyPokemon implements Saveable {
         });
     }
 
-    public giveHeldItem = (heldItem: TmpHeldItemType): void => {
+    public giveHeldItem = (heldItem: HeldItem): void => {
         if (!this.heldItem() || heldItem.name != this.heldItem().name) {
             if (heldItem && !heldItem.canUse(this)) {
                 Notifier.notify({
@@ -632,7 +617,7 @@ class PartyPokemon implements Saveable {
         }
     };
 
-    private addOrRemoveHeldItem(heldItem: TmpHeldItemType) {
+    private addOrRemoveHeldItem(heldItem: HeldItem) {
         if (this.heldItem() && this.heldItem().name == heldItem.name) {
             this.heldItem(undefined);
         } else {
@@ -702,8 +687,8 @@ class PartyPokemon implements Saveable {
         this.pokerus = json[PartyPokemonSaveKeys.pokerus] ?? this.defaults.pokerus;
         this.effortPoints = json[PartyPokemonSaveKeys.effortPoints] ?? this.defaults.effortPoints;
         this.heldItem(
-            json[PartyPokemonSaveKeys.heldItem] && ItemList[json[PartyPokemonSaveKeys.heldItem]] instanceof TmpHeldItem
-                ? ItemList[json[PartyPokemonSaveKeys.heldItem]] as TmpHeldItem
+            json[PartyPokemonSaveKeys.heldItem] && ItemList[json[PartyPokemonSaveKeys.heldItem]] instanceof HeldItem
+                ? ItemList[json[PartyPokemonSaveKeys.heldItem]] as HeldItem
                 : undefined,
         );
         this.defaultFemaleSprite(json[PartyPokemonSaveKeys.defaultFemaleSprite] ?? this.defaults.defaultFemaleSprite);

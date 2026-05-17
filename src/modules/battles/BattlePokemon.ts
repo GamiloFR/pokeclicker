@@ -4,6 +4,7 @@ import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
 import type BagItem from '../interfaces/BagItem';
+import BagHandler from '../items/BagHandler';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import NotificationConstants from '../notifications/NotificationConstants';

@@ -1,3 +1,16 @@
+import { Observable } from 'knockout';
+import BerryType from '../enums/BerryType';
+import ItemType from '../enums/ItemType';
+import PokemonType from '../enums/PokemonType';
+import FarmController from '../farming/FarmController';
+import Gems from '../gems/Gems';
+import BagItem from '../interfaces/BagItem';
+import { UndergroundController } from '../underground/UndergroundController';
+import UndergroundItem from '../underground/UndergroundItem';
+import UndergroundItems from '../underground/UndergroundItems';
+import Item from './Item';
+import { ItemList } from './ItemList';
+
 /**
  * Static class as an API for handling items.
  */
@@ -48,7 +61,7 @@ class BagHandler {
      * be some additional code that needs to be run via the base gainItem API calls. Use BagHandler.gainItem instead.
      * @param item The item identifier
      */
-    public static amount(item: BagItem): KnockoutObservable<number> {
+    public static amount(item: BagItem): Observable<number> {
         if (!item) {
             return null;
         }
@@ -56,7 +69,7 @@ class BagHandler {
             case ItemType.item:
                 return player.itemList[this.getItem(item.id).name];
             case ItemType.underground:
-                return player.itemList[this.getUndergroundItem(item.id).itemName]();
+                return player.itemList[this.getUndergroundItem(item.id).itemName];
             case ItemType.berry:
                 return App.game.farming.berryList[this.getBerry(item.id)];
             case ItemType.gem:
@@ -138,5 +151,4 @@ class BagHandler {
 
 }
 
-
-BagHandler satisfies TmpBagHandlerType;
+export default BagHandler;

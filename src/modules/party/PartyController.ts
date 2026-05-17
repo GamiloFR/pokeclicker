@@ -1,10 +1,10 @@
-import BreedingController from '../breeding/BreedingController';
 import CaughtStatus from '../enums/CaughtStatus';
 import PokemonType from '../enums/PokemonType';
 import { Pokerus, StoneType, VitaminType } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import Consumable from '../items/Consumable';
 import ConsumableController from '../items/ConsumableController';
+import HeldItem from '../items/heldItem/HeldItem';
 import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
@@ -14,12 +14,13 @@ import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import InRegionRequirement from '../requirements/InRegionRequirement';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
-import Settings from '../settings';
 import SearchSetting from '../settings/SearchSetting';
+import Settings from '../settings/Settings';
 import { SortOptionConfigs, SortOptions } from '../settings/SortOptions';
 import { modalState } from '../utilities/DisplayObservables';
 import PokemonCategories, { PokemonCategory } from './Category';
 import EvolutionHandler from './evolutions/EvolutionHandler';
+import PartyHelper from './PartyHelper';
 import PartyPokemon from './PartyPokemon';
 
 class PartyController {
@@ -266,7 +267,7 @@ class PartyController {
                 const { type: types } = pokemonMap[pokemon.name];
                 if ([type1, type2].includes(PokemonType.None)) {
                     const type = (type1 == PokemonType.None) ? type2 : type1;
-                    if (!BreedingController.isPureType(pokemon, type === -2 ? null : type)) {
+                    if (!PartyHelper.isPureType(pokemon, type === -2 ? null : type)) {
                         return false;
                     }
                 } else if ((type1 !== -2 && !types.includes(type1)) || (type2 !== -2 && !types.includes(type2))) {

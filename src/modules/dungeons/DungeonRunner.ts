@@ -9,6 +9,7 @@ import FluteEffectRunner from '../gems/FluteEffectRunner';
 import BattleItem from '../items/BattleItem';
 import EggItem from '../items/EggItem';
 import EnergyRestore from '../items/EnergyRestore';
+import EvolutionStone from '../items/EvolutionStone';
 import { ItemList } from '../items/ItemList';
 import MegaStoneItem from '../items/MegaStoneItem';
 import PokeballItem from '../items/PokeballItem';
@@ -19,7 +20,7 @@ import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import { UndergroundController } from '../underground/UndergroundController';
 import UndergroundItem from '../underground/UndergroundItem';
 import UndergroundItems from '../underground/UndergroundItems';
@@ -31,8 +32,6 @@ import DungeonBattle from './DungeonBattle';
 import DungeonFlash from './DungeonFlash';
 import DungeonGuides from './DungeonGuides';
 import DungeonMap from './DungeonMap';
-
-declare class EvolutionStone {}
 
 class DungeonRunner {
     public static dungeon: Dungeon;

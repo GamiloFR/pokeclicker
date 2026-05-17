@@ -13,7 +13,7 @@ import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import RegionRoute from '../routes/RegionRoute';
 import Routes from '../routes/Routes';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import Plot from './Plot';
 

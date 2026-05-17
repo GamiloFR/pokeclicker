@@ -3,13 +3,12 @@ import { Feature } from '../DataStore/common/Feature';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import OakItemType from '../enums/OakItemType';
 import PokemonType from '../enums/PokemonType';
-import { AlolaSubRegions, BASE_EP_YIELD, BattlePokemonGender, Currency, FLUTE_TYPE_ATTACK_MULTIPLIER, FluteItemType, PokemonStatisticsType, Pokerus, Region, SHADOW_EP_MODIFIER, ShadowStatus, SHINY_EP_MODIFIER, SubRegions } from '../GameConstants';
+import { AlolaSubRegions, BASE_EP_YIELD, BattlePokemonGender, FLUTE_TYPE_ATTACK_MULTIPLIER, FluteItemType, PokemonStatisticsType, Pokerus, Region, SHADOW_EP_MODIFIER, ShadowStatus, SHINY_EP_MODIFIER, SubRegions } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import FluteEffectRunner from '../gems/FluteEffectRunner';
 import BattleItem from '../items/BattleItem';
-import Item from '../items/Item';
+import EVsGainedBonusHeldItem from '../items/heldItem/EvsGainedBonusHeldItem';
 import { ItemList } from '../items/ItemList';
-import { ShopOptions } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import Multiplier from '../multiplier/Multiplier';
@@ -19,29 +18,11 @@ import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import { TmpHeldItemType } from '../TemporaryScriptTypes';
 import TypeHelper from '../types/TypeHelper';
 import Weather from '../weather/Weather';
 import WeatherType from '../weather/WeatherType';
 import ClickAttackBreakdown from './ClickAttackBreakdown';
 import PartyPokemon from './PartyPokemon';
-
-declare class EVsGainedBonusHeldItem extends Item implements TmpHeldItemType {
-    gainedBonus: number;
-
-    regionUnlocked: Region;
-    canUse: (pokemon: PartyPokemon) => boolean;
-
-    constructor(
-        name: string,
-        basePrice: number,
-        currency: Currency,
-        shopOptions : ShopOptions,
-        displayName: string,
-        gainedBonus: number,
-        regionUnlocked: Region
-    );
-}
 
 class Party implements Feature {
     name = 'Pokemon Party';

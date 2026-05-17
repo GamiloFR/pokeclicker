@@ -1,8 +1,11 @@
-/// <reference path="../../declarations/items/Item.d.ts"/>
+import FarmHand from '../farming/FarmHand';
+import FarmHands from '../farming/FarmHands';
+import { Currency, formatTimeFullLetters, MINUTE } from '../GameConstants';
+import Item from './Item';
 
 class FarmHandItem extends Item {
 
-    constructor(public farmHandName: string, basePrice: number, currency = GameConstants.Currency.farmPoint) {
+    constructor(public farmHandName: string, basePrice: number, currency = Currency.farmPoint) {
         super(`FarmHand${farmHandName}`, basePrice, currency, { maxAmount: 1 }, `Farm Hand ${farmHandName}`);
     }
 
@@ -13,7 +16,7 @@ class FarmHandItem extends Item {
     get description(): string {
         const farmHand = this.farmHand;
         return `Cost: <img alt="Farm Points" src="assets/images/currency/farmPoint.svg" width="20px">&nbsp;${(farmHand?.cost?.amount ?? 0).toLocaleString('en-US')}/hour<br/>
-        Work Speed: ${GameConstants.formatTimeFullLetters((farmHand?.workTick ?? GameConstants.MINUTE) / 1000)}<br/>
+        Work Speed: ${formatTimeFullLetters((farmHand?.workTick ?? MINUTE) / 1000)}<br/>
         Efficiency: ${(farmHand?.efficiency ?? 0).toLocaleString('en-US')}<br/>
         Max Energy: ${(farmHand?.maxEnergy ?? 0).toLocaleString('en-US')}`;
     }
@@ -29,10 +32,4 @@ class FarmHandItem extends Item {
     }
 }
 
-// Berry Masters
-ItemList.FarmHandBailey   = new FarmHandItem('Bailey', 50000, GameConstants.Currency.farmPoint); // Johto (50k)
-ItemList.FarmHandKerry   = new FarmHandItem('Kerry', 100000, GameConstants.Currency.farmPoint); // Hoenn (100k)
-ItemList.FarmHandRiley   = new FarmHandItem('Riley', 200000, GameConstants.Currency.farmPoint); // Sinnoh (200k)
-//ItemList['FarmHandJessie']   = new FarmHandItem('Jessie', 500000, GameConstants.Currency.farmPoint); // Alola (500k) (not implemented)
-// Battle Frontier
-ItemList.FarmHandJamie   = new FarmHandItem('Jamie', 20000, GameConstants.Currency.battlePoint);
+export default FarmHandItem;

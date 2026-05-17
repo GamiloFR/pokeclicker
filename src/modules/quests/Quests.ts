@@ -5,7 +5,7 @@ import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import Quest from './Quest';

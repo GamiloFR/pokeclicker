@@ -79,7 +79,11 @@ class PokemonLocations {
     PRETTY MUCH ONLY USED BY THE BOT BELOW
     */
     private static readonly pokemonLocationsCache = {};
-    private static readonly pokemonNames: string[] = pokemonList.map(p => p.name);
+    private static pokemonNames: string[];
+
+    public static init() {
+        this.pokemonNames = pokemonList.map(p => p.name);
+    }
 
     private static getCache<T>(cacheName: string) {
         let cache: { [name: string]: T } = this.pokemonLocationsCache[cacheName];

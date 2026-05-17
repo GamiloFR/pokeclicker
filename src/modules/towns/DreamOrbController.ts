@@ -2,6 +2,7 @@ import { Saveable } from '../DataStore/common/Saveable';
 import ItemType from '../enums/ItemType';
 import GameHelper from '../GameHelper';
 import BagItem from '../interfaces/BagItem';
+import BagHandler from '../items/BagHandler';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import MultiRequirement from '../requirements/MultiRequirement';

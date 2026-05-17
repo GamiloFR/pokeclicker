@@ -1,14 +1,14 @@
 /* eslint-disable class-methods-use-this */
 import { ObservableArray } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
+import PokemonType from '../enums/PokemonType';
 import { Pokeball, Pokerus } from '../GameConstants';
+import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
+import Settings from '../settings/Settings';
+import { findRight } from '../utilities/arrayUtils';
 import PokeballFilter, { PokeballFilterParams } from './PokeballFilter';
 import { PokeballFilterMatchData, PokeballFilterOptions, pokeballFilterOptions } from './PokeballFilterOptions';
-import Notifier from '../notifications/Notifier';
-import NotificationOption from '../notifications/NotificationOption';
-import { findRight } from '../utilities/arrayUtils';
-import Settings from '../settings';
-import PokemonType from '../enums/PokemonType';
 
 export default class PokeballFilters implements Feature {
     name = 'Pokeball Filters';

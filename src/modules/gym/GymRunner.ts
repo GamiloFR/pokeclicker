@@ -1,3 +1,4 @@
+import { Computed, Observable } from 'knockout';
 import DungeonRunner from '../dungeons/DungeonRunner';
 import BadgeEnums from '../enums/Badges';
 import KeyItemType from '../enums/KeyItemType';
@@ -7,25 +8,36 @@ import FluteEffectRunner from '../gems/FluteEffectRunner';
 import KeyItemController from '../keyItems/KeyItemController';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Amount from '../wallet/Amount';
 import Gym from './Gym';
 import GymBattle from './GymBattle';
 import GymList from './GymList';
 
 class GymRunner {
-    public static timeLeft = ko.observable(GYM_TIME);
-    public static timeLeftPercentage = ko.observable(100);
-    public static timeBonus = ko.observable(1);
+    public static timeLeft: Observable<number>;
+    public static timeLeftPercentage: Observable<number>;
+    public static timeBonus: Observable<number>;
 
-    public static gymObservable = ko.observable(GymList['Pewter City']);
-    public static running = ko.observable(false);
-    public static autoRestart = ko.observable(false);
-    public static initialRun = true;
+    public static gymObservable: Observable<Gym>;
+    public static running: Observable<boolean>;
+    public static autoRestart: Observable<boolean>;
+    public static initialRun: boolean;
 
-    public static timeLeftSeconds = ko.pureComputed(() => {
-        return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
-    });
+    public static timeLeftSeconds: Computed<string>;
+
+    public static init() {
+        this.timeLeft = ko.observable(GYM_TIME);
+        this.timeLeftPercentage = ko.observable(100);
+        this.timeBonus = ko.observable(1);
+        this.gymObservable = ko.observable(GymList['Pewter City']);
+        this.running = ko.observable(false);
+        this.autoRestart = ko.observable(false);
+        this.initialRun = true;
+        this.timeLeftSeconds  = ko.pureComputed(() => {
+            return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
+        });
+    }
 
     public static startGym(
         gym: Gym,

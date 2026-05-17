@@ -1,7 +1,15 @@
-import Setting from './Setting';
-import SettingOption from './SettingOption';
 import { camelCaseToString } from '../GameConstants';
 import GameHelper from '../GameHelper';
+import Setting from './Setting';
+import SettingOption from './SettingOption';
+
+// Hatchery Filters
+export const breedingFilterSettingKeys = ['breedingNameFilter', 'breedingIDFilter', 'breedingRegionFilter', 'breedingType1Filter', 'breedingType2Filter',
+    'breedingShinyFilter', 'breedingPokerusFilter', 'breedingCategoryFilter', 'breedingUniqueTransformationFilter', 'breedingHideAltFilter'];
+
+// Pokedex Filters
+export const pokedexFilterSettingKeys = ['pokedexNameFilter', 'pokedexIDFilter', 'pokedexRegionFilter', 'pokedexType1Filter', 'pokedexType2Filter', 'pokedexCaughtFilter',
+    'pokedexPokerusFilter', 'pokedexCategoryFilter', 'pokedexUniqueTransformationFilter', 'pokedexHeldItemFilter', 'pokedexHideAltFilter'];
 
 export default class Settings {
     static list: Setting<any>[] = [];

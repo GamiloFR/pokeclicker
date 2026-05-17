@@ -15,10 +15,8 @@ declare global {
     const MapHelper: TempTypes.TmpMapHelperType;
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
-    const BagHandler: TempTypes.TmpBagHandlerType;
     const TownList: TempTypes.TmpTownListType;
     const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
-    const HeldItem: TempTypes.TmpHeldItemStaticType;
     const SafariPokemonList: TempTypes.TmpSafariPokemonListType;
     const SafariPokemon: TempTypes.TmpSafariPokemonStaticType;
     const SafariItemController: TempTypes.TmpSafariItemControllerType;

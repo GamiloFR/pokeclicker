@@ -9,9 +9,13 @@ import GemDeal from './GemDeal';
 import GemDealList from './GemDealList';
 
 export default class GemDeals {
-    public static list: Partial<Record<GemShops, KnockoutObservableArray<GemDeal>>> = {
-        ...GemDealList, // static deals
-    };
+    public static list: Partial<Record<GemShops, KnockoutObservableArray<GemDeal>>>;
+
+    public static init() {
+        this.list  = {
+            ...GemDealList, // static deals
+        };
+    }
 
     public static generateDeals() {
         // No randomly-generated deals exist right now

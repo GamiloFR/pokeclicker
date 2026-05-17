@@ -2,12 +2,12 @@
 /* eslint-disable class-methods-use-this */
 import { Observable as KnockoutObservable } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
-import GameHelper from '../GameHelper';
 import { Currency, formatNumber } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import Multiplier from '../multiplier/Multiplier';
-import Amount from './Amount';
+import Settings from '../settings/Settings';
 import { animateCurrency } from '../utilities/UI';
-import Settings from '../settings';
+import Amount from './Amount';
 
 export default class Wallet implements Feature {
     name = 'Wallet';

@@ -14,6 +14,7 @@ import GameHelper from '../GameHelper';
 import Gym from '../gym/Gym';
 import GymPokemon from '../gym/GymPokemon';
 import BagItem from '../interfaces/BagItem';
+import BagHandler from '../items/BagHandler';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import NotificationConstants from '../notifications/NotificationConstants';

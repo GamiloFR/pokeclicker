@@ -2,7 +2,10 @@
 
 import { Observable } from 'knockout';
 import {
-    Currency, ITEM_PRICE_MULTIPLIER, humanifyString, camelCaseToString, pluralizeString,
+    Currency, ITEM_PRICE_MULTIPLIER,
+    camelCaseToString,
+    humanifyString,
+    pluralizeString,
 } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
@@ -10,7 +13,7 @@ import Requirement from '../requirements/Requirement';
 import Amount from '../wallet/Amount';
 import { MultiplierDecreaser, ShopOptions } from './types';
 
-export default class Item {
+class Item {
     saveName: string;
     type: any;
 
@@ -230,3 +233,5 @@ export default class Item {
         return tooltip;
     }
 }
+
+export default Item;

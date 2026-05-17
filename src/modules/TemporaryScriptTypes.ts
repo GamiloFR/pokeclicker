@@ -17,7 +17,6 @@ import type Farming from './farming/Farming';
 import type * as GameConstants from './GameConstants';
 import type GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
-import type Item from './items/Item';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -26,7 +25,6 @@ import type OakItemLoadouts from './oakItems/OakItemLoadouts';
 import type OakItems from './oakItems/OakItems';
 import type PokemonCategories from './party/Category';
 import type Party from './party/Party';
-import type PartyPokemon from './party/PartyPokemon';
 import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
@@ -255,12 +253,6 @@ export type TmpAchievementHandlerType = {
     unlockAchievement (achievementName: string): void
 };
 
-export type TmpBagHandlerType = {
-    displayName(item: BagItem): string;
-    image(item: BagItem): string;
-    gainItem(item: BagItem, amount?: number): void;
-};
-
 export type TmpTemporaryBattleListType = {
     [battleName: string]: TmpTemporaryBattleType;
 };
@@ -311,15 +303,6 @@ export type TmpBattleFrontierMilestoneType = {
 
 export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneType & {
     pokemonName: string
-};
-
-export type TmpHeldItemType = Item & {
-    regionUnlocked: GameConstants.Region;
-    canUse: (pokemon: PartyPokemon) => boolean
-};
-
-export type TmpHeldItemStaticType = {
-    heldItemSelected: KnockoutObservable<TmpHeldItemType>
 };
 
 export type TmpOverworldSpriteTypeType = 'base' | 'self' | PokemonNameType;

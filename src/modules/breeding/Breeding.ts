@@ -14,7 +14,7 @@ import DataPokemon from '../pokemons/DataPokemon';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonListData, pokemonBabyPrevolutionMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import BreedingController from './BreedingController';

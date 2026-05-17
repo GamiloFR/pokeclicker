@@ -2,7 +2,7 @@ import { Observable } from 'knockout';
 import { getGymIndex } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import Item from '../items/Item';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Amount from '../wallet/Amount';
 import Shop from './Shop';
 

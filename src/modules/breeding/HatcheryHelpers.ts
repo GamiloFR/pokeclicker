@@ -6,7 +6,7 @@ import HatchRequirement from '../requirements/HatchRequirement';
 import QuestRequirement from '../requirements/QuestRequirement';
 import UndergroundLayersMinedRequirement from '../requirements/UndergroundLayersMinedRequirement';
 import UniqueItemOwnedRequirement from '../requirements/UniqueItemOwnedRequirement';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 import Amount from '../wallet/Amount';
 import Breeding from './Breeding';
 import Egg from './Egg';

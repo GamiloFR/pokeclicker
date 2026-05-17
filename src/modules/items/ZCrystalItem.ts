@@ -1,12 +1,17 @@
-/// <reference path="../../declarations/items/Item.d.ts"/>
+import PokemonType from '../enums/PokemonType';
+import { zCrystalItemType } from '../GameConstants';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Item from './Item';
+import ItemHandler from './ItemHandler';
 
 class ZCrystalItem extends Item {
 
     constructor(
-        public type: PokemonType
+        public type: PokemonType,
     ) {
         const description = `Allows ${PokemonType[type]}-type Pokémon to use Z-Moves for the next battle. They then need to rest a bit.`;
-        super(GameConstants.zCrystalItemType[type], Infinity, undefined, { maxAmount : 1 }, undefined, description, 'zCrystal');
+        super(zCrystalItemType[type], Infinity, undefined, { maxAmount : 1 }, undefined, description, 'zCrystal');
     }
 
     use(): boolean {
@@ -43,6 +48,4 @@ class ZCrystalItem extends Item {
 
 }
 
-GameConstants.zCrystalItemType.forEach((name, type) => {
-    ItemList[name] = new ZCrystalItem(type);
-});
+export default ZCrystalItem;

@@ -10,7 +10,20 @@ import './koBindingHandlers';
 // Load everything else
 import './temporaryWindowInjection';
 
-import './pokemons/index';
-import './routes/index';
-import './shop/index';
+import initGems from './gems';
+import initGyms from './gym/index';
+import initItems from './items/index';
+import initPokemons from './pokemons';
+import initRoutes from './routes/index';
+import initSettings from './settings/index';
+import initShop from './shop/index';
 
+initPokemons();
+initGyms();
+initItems();
+initRoutes();
+initSettings();
+initShop();
+
+// After initItems
+initGems();

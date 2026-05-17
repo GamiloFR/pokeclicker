@@ -1,5 +1,4 @@
 import { Computed, Observable } from 'knockout';
-import PokemonType from '../enums/PokemonType';
 import { camelCaseToString, EggItemType, Region } from '../GameConstants';
 import { SkippableRateLimit } from '../koExtenders';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -9,7 +8,7 @@ import PartyPokemon from '../party/PartyPokemon';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import Settings, { breedingFilterSettingKeys } from '../settings';
+import Settings, { breedingFilterSettingKeys } from '../settings/Settings';
 import { BootstrapState, modalState } from '../utilities/DisplayObservables';
 import SeededRand from '../utilities/SeededRand';
 import { HatcheryQueueEntry } from './Breeding';
@@ -30,31 +29,10 @@ class BreedingController {
 
     // Pausable access to the sorted list for the modal, with view logic
     private static _cachedSortedFilteredList: PartyPokemon[] = [];
-    public static viewSortedFilteredList = ko.pureComputed(() => {
-        // Pause updates while the modal is closed
-        if (modalState.breedingModal === 'show') {
-            BreedingController._cachedSortedFilteredList = BreedingController.hatcherySortedFilteredList();
-            // Finish resetting the LazyLoader display after filters change
-            if (BreedingController.viewResetReady) {
-                BreedingController.resetHatcheryView();
-            }
-        }
-        return BreedingController._cachedSortedFilteredList;
-    });
+    public static viewSortedFilteredList: Computed<PartyPokemon[]>;
 
     // Sorted list of pokemon that match hatchery filters
-    private static hatcherySortedFilteredList = ko.pureComputed(() => {
-        const hatcheryList = Array.from(BreedingController.hatcheryFilteredList());
-        // Don't adjust attack based on region if debuff is disabled
-        const region = App.game.challenges.list.regionalAttackDebuff.active() ? Settings.getSetting('breedingRegionalAttackDebuffSetting').observableValue() : -1;
-        hatcheryList.sort(PartyController.compareBy(Settings.getSetting('hatcherySort').observableValue(), Settings.getSetting('hatcherySortDirection').observableValue(), region));
-        // If a filter or sort order just changed
-        if (BreedingController.viewResetWaiting.peek()) {
-            // Ready to rerender now that the list is up to date
-            BreedingController.viewResetReady = true;
-        }
-        return hatcheryList;
-    }).extend({ skippableRateLimit: 500 }) as Computed<PartyPokemon[]> & SkippableRateLimit;  // Lets us rerender immediately after filter changes
+    private static hatcherySortedFilteredList: Computed<PartyPokemon[]> & SkippableRateLimit;
 
     // Filters for pokemon that match hatchery filters
     private static hatcheryFilteredList = ko.pureComputed(() => {
@@ -69,6 +47,31 @@ class BreedingController {
     private static resetFilteredListNotifier = ko.observable(null);
 
     public static initialize() {
+        this.viewSortedFilteredList  = ko.pureComputed(() => {
+        // Pause updates while the modal is closed
+            if (modalState.breedingModal === 'show') {
+                BreedingController._cachedSortedFilteredList = BreedingController.hatcherySortedFilteredList();
+                // Finish resetting the LazyLoader display after filters change
+                if (BreedingController.viewResetReady) {
+                    BreedingController.resetHatcheryView();
+                }
+            }
+            return BreedingController._cachedSortedFilteredList;
+        });
+
+        this.hatcherySortedFilteredList = ko.pureComputed(() => {
+            const hatcheryList = Array.from(BreedingController.hatcheryFilteredList());
+            // Don't adjust attack based on region if debuff is disabled
+            const region = App.game.challenges.list.regionalAttackDebuff.active() ? Settings.getSetting('breedingRegionalAttackDebuffSetting').observableValue() : -1;
+            hatcheryList.sort(PartyController.compareBy(Settings.getSetting('hatcherySort').observableValue(), Settings.getSetting('hatcherySortDirection').observableValue(), region));
+            // If a filter or sort order just changed
+            if (BreedingController.viewResetWaiting.peek()) {
+                // Ready to rerender now that the list is up to date
+                BreedingController.viewResetReady = true;
+            }
+            return hatcheryList;
+        }).extend({ skippableRateLimit: 500 }) as Computed<PartyPokemon[]> & SkippableRateLimit;  // Lets us rerender immediately after filter changes
+
         // Track view settings for hatchery list rerendering
         const hatcheryListSettings = [...breedingFilterSettingKeys, 'hatcherySort', 'hatcherySortDirection'];
 
@@ -174,11 +177,6 @@ class BreedingController {
         } else {
             return 'None';
         }
-    }
-
-    public static isPureType(pokemon: PartyPokemon, type: (PokemonType | null)): boolean {
-        const pokemonData = pokemonMap[pokemon.name];
-        return ((type == null || pokemonData.type[0] === type) && (pokemonData.type[1] == undefined || pokemonData.type[1] == PokemonType.None));
     }
 
     // Value displayed at bottom of image

@@ -73,14 +73,17 @@ import GymBattle from './gym/GymBattle';
 import GymList from './gym/GymList';
 import GymPokemon from './gym/GymPokemon';
 import GymRunner from './gym/GymRunner';
+import BagHandler from './items/BagHandler';
 import CaughtIndicatingItem from './items/CaughtIndicatingItem';
 import ChristmasPresent from './items/ChristmasPresent';
 import Consumable from './items/Consumable';
 import ConsumableController from './items/ConsumableController';
 import EggItem from './items/EggItem';
 import EnergyRestore from './items/EnergyRestore';
+import HeldItem from './items/heldItem/HeldItem';
 import Item from './items/Item';
 import ItemHandler from './items/ItemHandler';
+import ItemHelper from './items/ItemHelper';
 import { ItemList } from './items/ItemList';
 import MegaStoneItem from './items/MegaStoneItem';
 import PokeballItem from './items/PokeballItem';
@@ -220,10 +223,10 @@ import Routes from './routes/Routes';
 import SpecialRoutePokemon from './routes/SpecialRoutePokemon';
 import SaveReminder from './saveReminder/SaveReminder';
 import BooleanSetting from './settings/BooleanSetting';
-import Settings, { breedingFilterSettingKeys, pokedexFilterSettingKeys } from './settings/index';
 import RangeSetting from './settings/RangeSetting';
 import Setting from './settings/Setting';
 import SettingOption from './settings/SettingOption';
+import Settings, { breedingFilterSettingKeys, pokedexFilterSettingKeys } from './settings/Settings';
 import { SortOptionConfigs, SortOptions } from './settings/SortOptions';
 import BerryMasterShop from './shop/BerryMasterShop';
 import GemMasterShop from './shop/GemMasterShop';
@@ -601,4 +604,7 @@ Object.assign(<any>window, {
     Breeding,
     BreedingController,
     HatcheryHelpers,
+    BagHandler,
+    ItemHelper,
+    HeldItem,
 });
