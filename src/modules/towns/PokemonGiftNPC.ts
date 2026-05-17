@@ -1,5 +1,6 @@
 import areaStatus from '../enums/AreaStatus';
 import { SHINY_CHANCE_REWARD } from '../GameConstants';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import GiftNPC from './GiftNPC';
 import { NPCOptionalArgument } from './NPC';

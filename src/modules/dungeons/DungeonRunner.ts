@@ -15,6 +15,7 @@ import PokeballItem from '../items/PokeballItem';
 import Vitamin from '../items/Vitamin';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';

@@ -6,6 +6,7 @@ import GameHelper from '../GameHelper';
 import { MultiplierDecreaser } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonMap } from '../pokemons/PokemonList';
 import Routes from '../routes/Routes';

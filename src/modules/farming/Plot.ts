@@ -9,6 +9,7 @@ import { AMAZE_MULCH_GROWTH_MULTIPLIER, AMAZE_MULCH_MUTATE_MULTIPLIER, AMAZE_MUL
 import GameHelper from '../GameHelper';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import Settings from '../settings';
 import Rand from '../utilities/Rand';

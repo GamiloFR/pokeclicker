@@ -1,5 +1,6 @@
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import Routes from '../routes/Routes';
 import WeatherType from '../weather/WeatherType';
 

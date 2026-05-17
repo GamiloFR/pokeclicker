@@ -5,6 +5,7 @@ import GameHelper from '../GameHelper';
 import { MultiplierDecreaser } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Rand from '../utilities/Rand';

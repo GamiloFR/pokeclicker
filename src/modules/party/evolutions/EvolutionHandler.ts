@@ -5,6 +5,7 @@ import { LogBookTypes } from '../../logbook/LogBookTypes';
 import NotificationConstants from '../../notifications/NotificationConstants';
 import Notifier from '../../notifications/Notifier';
 import { EvoData, beforeEvolve } from '../../pokemons/evolutions/Base';
+import PokemonFactory from '../../pokemons/PokemonFactory';
 import * as PokemonHelper from '../../pokemons/PokemonHelper';
 
 class EvolutionHandler {

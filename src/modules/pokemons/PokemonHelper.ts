@@ -16,6 +16,7 @@ import MegaEvolveRequirement from '../requirements/MegaEvolveRequirement';
 import Settings from '../settings/Settings';
 import DataPokemon from './DataPokemon';
 import P from './mapProvider';
+import PokemonLocations from './PokemonLocations';
 import type { PokemonNameType } from './PokemonNameType';
 
 export function calcNativeRegion(pokemonName: PokemonNameType) {

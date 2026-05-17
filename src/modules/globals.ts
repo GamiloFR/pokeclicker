@@ -14,12 +14,13 @@ declare global {
     const Save: TempTypes.TmpSaveType;
     const MapHelper: TempTypes.TmpMapHelperType;
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
-    const PokemonLocations: TempTypes.TmpPokemonLocationsType;
-    const PokemonFactory: TempTypes.TmpPokemonFactoryType;
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const BagHandler: TempTypes.TmpBagHandlerType;
     const TownList: TempTypes.TmpTownListType;
     const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
     const HeldItem: TempTypes.TmpHeldItemStaticType;
     const BreedingController: TempTypes.TmpBreedingControllerType;
+    const SafariPokemonList: TempTypes.TmpSafariPokemonListType;
+    const SafariPokemon: TempTypes.TmpSafariPokemonStaticType;
+    const SafariItemController: TempTypes.TmpSafariItemControllerType;
 }

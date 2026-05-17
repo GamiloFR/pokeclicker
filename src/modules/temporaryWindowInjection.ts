@@ -118,8 +118,10 @@ import {
     beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution,
 } from './pokemons/evolutions/Base';
 import * as OtherEvos from './pokemons/evolutions/Methods';
+import PokemonFactory from './pokemons/PokemonFactory';
 import * as PokemonHelper from './pokemons/PokemonHelper';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
+import PokemonLocations from './pokemons/PokemonLocations';
 import RoamingPokemon from './pokemons/RoamingPokemon';
 import RoamingPokemonList from './pokemons/RoamingPokemonList';
 import BulletinBoard from './quests/BulletinBoard';
@@ -591,4 +593,6 @@ Object.assign(<any>window, {
     Party,
     PartyController,
     PartyPokemon,
+    PokemonLocations,
+    PokemonFactory,
 });

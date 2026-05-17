@@ -1,6 +1,7 @@
 import Battle from '../battles/Battle';
 import { Region } from '../GameConstants';
 import { MultiplierDecreaser } from '../items/types';
+import PokemonFactory from '../pokemons/PokemonFactory';
 import Gym from './Gym';
 import GymRunner from './GymRunner';
 

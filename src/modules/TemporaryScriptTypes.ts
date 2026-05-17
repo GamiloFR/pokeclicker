@@ -7,20 +7,16 @@ import type {
 import type Achievement from './achievements/Achievement';
 import type AchievementCategory from './achievements/AchievementCategory';
 import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
-import type BattlePokemon from './battles/BattlePokemon';
 import type EggType from './breeding/EggType';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
-import type DungeonBossPokemon from './dungeons/DungeonBossPokemon';
 import type areaStatus from './enums/AreaStatus';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
+import type SafariEnvironments from './enums/SafariEnvironments';
 import type Farming from './farming/Farming';
-import type Plot from './farming/Plot';
-import type WandererPokemon from './farming/WandererPokemon';
 import type * as GameConstants from './GameConstants';
-import type Gym from './gym/Gym';
 import type GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
 import type Item from './items/Item';
@@ -34,11 +30,11 @@ import type PokemonCategories from './party/Category';
 import type Party from './party/Party';
 import type PartyPokemon from './party/PartyPokemon';
 import type PokeballFilters from './pokeballs/PokeballFilters';
-import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import type Quests from './quests/Quests';
 import type HatchRequirement from './requirements/HatchRequirement';
+import type Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type { SortOptions } from './settings/SortOptions';
@@ -263,25 +259,6 @@ export type TmpAchievementHandlerType = {
     unlockAchievement (achievementName: string): void
 };
 
-export type TmpPokemonLocationsType = {
-    getPokemonPrevolution: (pokemonName: PokemonNameType, maxRegion?: GameConstants.Region) => EvoData[];
-};
-
-export type TmpPokemonFactoryType = {
-    generateWildPokemon(route: number, region: GameConstants.Region, subRegion: SubRegion): BattlePokemon;
-    routeDungeonTokens(route: number, region: GameConstants.Region): number;
-    generateShiny(chance: number, skipBonus?: boolean): boolean;
-    generateGenderById(id: number): GameConstants.BattlePokemonGender;
-    routeHealth(route: number, region: GameConstants.Region): number;
-    generateWandererData(plot: Plot): WandererPokemon;
-    generateDungeonPokemon(name: PokemonNameType, chestsOpened: number, baseHealth: number, level: number, mimic?: boolean): BattlePokemon;
-    generateDungeonTrainerPokemon(pokemon: GymPokemon, chestsOpened: number, baseHealth: number, level: number, isBoss: boolean, trainerPokemon?: number): BattlePokemon;
-    generateDungeonBoss(bossPokemon: DungeonBossPokemon, chestsOpened: number): BattlePokemon;
-    routeLevel(route: number, region: GameConstants.Region): number
-    generateGymPokemon(gym: Gym, index: number): BattlePokemon
-    generatePartyPokemon(id: number, shiny?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus): PartyPokemon
-};
-
 export type TmpBagHandlerType = {
     displayName(item: BagItem): string;
     image(item: BagItem): string;
@@ -292,11 +269,28 @@ export type TmpTemporaryBattleListType = {
     [battleName: string]: TmpTemporaryBattleType;
 };
 
+export type TmpTemporaryBattleOptionalArgumentType = {
+    rewardFunction?: () => void,
+    firstTimeRewardFunction?: () => void,
+    isTrainerBattle?: boolean,
+    displayName?: string,
+    returnTown?: string, // If in town, that town will be used. If not in town, this will be used, with the Dock town as default
+    imageName?: string,
+    visibleRequirement?: Requirement,
+    hideTrainer?: boolean,
+    environment?: GameConstants.Environment[],
+    battleBackground?: GameConstants.BattleBackground,
+    resetDaily?: boolean,
+    finalPokemonImage?: string // trainer image when on final pokemon
+};
+
 export type TmpTemporaryBattleType = TownContent & {
     name: string;
     parent?: Town;
+    optionalArgs: TmpTemporaryBattleOptionalArgumentType;
     getTown: () => Town | undefined;
     getDisplayName: () => string;
+    getPokemonList(): GymPokemon[];
 };
 
 export type TmpTownListType = {
@@ -309,6 +303,14 @@ export type TmpBattleFrontierMilestonesType = {
 
 export type TmpBattleFrontierMilestoneType = {
     obtained: KnockoutObservable<boolean>
+    stage: number,
+    rewardFunction: () => void,
+    requirement?: Requirement,
+    _image?: string;
+
+    get image(): string | undefined;
+    get description(): string | undefined;
+    get displayName(): string | KnockoutObservable<string>
 };
 
 export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneType & {
@@ -374,6 +376,7 @@ export type TmpEggType = {
 
 export type TmpBreedingType = {
     hatcheryHelpers: TmpHatcheryHelpersType;
+    hatchList: Record<GameConstants.EggItemType, PokemonNameType[][]>
 
     get eggList(): Array<KnockoutObservable<TmpEggType>>;
     set eggList(value: Array<KnockoutObservable<TmpEggType>>);
@@ -384,4 +387,36 @@ export type TmpBreedingType = {
     getAllCaughtStatus(): CaughtStatus;
     getTypeCaughtStatus(type: GameConstants.EggItemType): CaughtStatus;
     progressEggsBattle(route: number, region: GameConstants.Region): void;
+};
+
+export type TmpOverworldSpriteTypeType = 'base' | 'self' | PokemonNameType;
+
+export type TmpSafariEncounterType = {
+    requirement: Requirement;
+    name: PokemonNameType,
+    weight: number,
+    environments: SafariEnvironments[];
+    hide: boolean;
+    sprite: TmpOverworldSpriteTypeType;
+    isAvailable(): boolean
+};
+
+export type TmpSafariPokemonListType = {
+    list: Partial<Record<GameConstants.Region, KnockoutObservable<Array<TmpSafariEncounterType>>>>
+};
+
+export type TmpSafariPokemonStaticType = {
+    calcPokemonWeight(pokemon: TmpSafariEncounterType): number;
+};
+
+export type TmpSafariItemWeighedType = {
+    item: BagItem,
+    weight: number,
+    requirement?: Requirement
+};
+
+export type TmpSafariItemControllerType = {
+    list: Partial<Record<GameConstants.Region, Array<TmpSafariItemWeighedType>>>;
+    getRandomItem(): BagItem | undefined;
+    currentRegionHasItems(): boolean;
 };

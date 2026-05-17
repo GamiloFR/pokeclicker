@@ -10,6 +10,7 @@ import './koBindingHandlers';
 // Load everything else
 import './temporaryWindowInjection';
 
+import './pokemons/index';
 import './routes/index';
 import './shop/index';
 
