@@ -13,13 +13,13 @@ import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
 import DungeonBossPokemon from './dungeons/DungeonBossPokemon';
 import areaStatus from './enums/AreaStatus';
-import BadgeEnums from './enums/Badges';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
 import Farming from './farming/Farming';
 import Plot from './farming/Plot';
 import WandererPokemon from './farming/WandererPokemon';
 import type * as GameConstants from './GameConstants';
+import Gym from './gym/Gym';
 import GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
 import type { MultiplierDecreaser } from './items/types';
@@ -34,7 +34,6 @@ import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import Quests from './quests/Quests';
-import Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
@@ -229,61 +228,6 @@ export type TmpMapHelperType = {
     getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
 };
 
-export type TmpOptionalGymArgsType = {
-    displayName?: string,
-    imageName?: string,
-    environment?: GameConstants.Environment[],
-    battleBackground?: GameConstants.BattleBackground,
-    hideUntilUnlocked?: boolean,
-    visibleRequirement?: Requirement,
-};
-
-export type TmpGymType = TownContent & {
-    town: string;
-    buttonText: string;
-    tooltip: string;
-    flags: {
-        quest: boolean,
-        achievement: boolean,
-        champion: boolean,
-    };
-    leaderName: string,
-    badgeReward: BadgeEnums,
-    moneyReward: number,
-    defeatMessage: string,
-    rewardFunction: () => void
-    optionalArgs: TmpOptionalGymArgsType
-
-    get imagePath(): string
-    get imageName(): string
-    get displayName(): string
-    get autoRestartTooltip(): string
-
-    cssClass(): string
-    text(): string
-    isVisible(): boolean
-    onclick(): void
-    areaStatus(): areaStatus[]
-    clears(): number
-    firstWinReward(): void
-    autoRestartReward(): number
-    getPokemonList(): GymPokemon[]
-};
-
-export type TmpGymRunnerType = {
-    gymObservable: KnockoutObservable<TmpGymType>;
-
-    startGym(gym: TmpGymType, autoRestart?: boolean, initialRun?: boolean): void;
-};
-
-export type TmpGymListType = { [townName: string]: TmpGymType };
-
-export type TmpGymBattleType = {
-    gym: TmpGymType;
-    index: KnockoutObservable<number>;
-    totalPokemons: KnockoutObservable<number>;
-};
-
 export type TmpAchievementHandlerType = {
     achievementList: Achievement[];
     navigateIndex: KnockoutObservable<number>;
@@ -331,6 +275,7 @@ export type TmpPokemonFactoryType = {
     generateDungeonTrainerPokemon(pokemon: GymPokemon, chestsOpened: number, baseHealth: number, level: number, isBoss: boolean, trainerPokemon?: number): BattlePokemon;
     generateDungeonBoss(bossPokemon: DungeonBossPokemon, chestsOpened: number): BattlePokemon;
     routeLevel(route: number, region: GameConstants.Region): number
+    generateGymPokemon(gym: Gym, index: number): BattlePokemon
 };
 
 export type TmpPartyPokemonType = {

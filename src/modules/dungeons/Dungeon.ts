@@ -1,6 +1,9 @@
 import BerryNameType from '../enums/BerryNameType';
 import KeyItemType from '../enums/KeyItemType';
 import { getDungeonRegion, Pokerus, Region, ShadowStatus } from '../GameConstants';
+import Gym from '../gym/Gym';
+import GymBattle from '../gym/GymBattle';
+import GymRunner from '../gym/GymRunner';
 import { ItemList } from '../items/ItemList';
 import { ItemNameType } from '../items/ItemNameType';
 import { pokemonMap } from '../pokemons/PokemonList';
@@ -9,7 +12,6 @@ import DefeatDungeonQuest from '../quests/questTypes/DefeatDungeonQuest';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
-import { TmpGymType } from '../TemporaryScriptTypes';
 import UndergroundItemNameType from '../underground/UndergroundItemNameType';
 import Rand from '../utilities/Rand';
 import DungeonBossPokemon from './DungeonBossPokemon';
@@ -83,7 +85,7 @@ type MimicData = {
 
 // Gain a gym badge after first completion of a dungeon
 // Used for trials pre 10.16, could be useful for something else?
-const DungeonGainGymBadge = (gym: TmpGymType) => {
+const DungeonGainGymBadge = (gym: Gym) => {
     // Check that the player hasn't already obtained the badge
     if (!App.game.badgeCase.hasBadge(gym.badgeReward)) {
         // Set the set to our expected gym

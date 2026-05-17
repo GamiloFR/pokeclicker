@@ -1,42 +1,57 @@
-/// <reference path="../../declarations/TemporaryScriptTypes.d.ts" />
-/// <reference path="../../declarations/GameHelper.d.ts" />
-/// <reference path="../../declarations/enums/Badges.d.ts" />
+import DungeonRunner from '../dungeons/DungeonRunner';
+import BadgeEnums from '../enums/Badges';
+import KeyItemType from '../enums/KeyItemType';
+import { Currency, FluteItemType, GYM_COUNTDOWN, GYM_TICK, GYM_TIME, GameState, getGymIndex } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
+import KeyItemController from '../keyItems/KeyItemController';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Settings from '../settings';
+import Amount from '../wallet/Amount';
+import Gym from './Gym';
+import GymBattle from './GymBattle';
+import GymList from './GymList';
 
 class GymRunner {
-    public static timeLeft: KnockoutObservable<number> = ko.observable(GameConstants.GYM_TIME);
-    public static timeLeftPercentage: KnockoutObservable<number> = ko.observable(100);
-    public static timeBonus: KnockoutObservable<number> = ko.observable(1);
+    public static timeLeft = ko.observable(GYM_TIME);
+    public static timeLeftPercentage = ko.observable(100);
+    public static timeBonus = ko.observable(1);
 
-    public static gymObservable: KnockoutObservable<Gym> = ko.observable(GymList['Pewter City']);
-    public static running: KnockoutObservable<boolean> = ko.observable(false);
-    public static autoRestart: KnockoutObservable<boolean> = ko.observable(false);
+    public static gymObservable = ko.observable(GymList['Pewter City']);
+    public static running = ko.observable(false);
+    public static autoRestart = ko.observable(false);
     public static initialRun = true;
+
+    public static timeLeftSeconds = ko.pureComputed(() => {
+        return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
+    });
 
     public static startGym(
         gym: Gym,
         autoRestart = false,
-        initialRun = true
+        initialRun = true,
     ) {
         GymRunner.initialRun = initialRun;
         GymRunner.autoRestart(autoRestart);
         GymRunner.running(false);
         GymRunner.gymObservable(gym);
-        App.game.gameState = GameConstants.GameState.idle;
-        DungeonRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute));
-        GymRunner.timeLeft(GameConstants.GYM_TIME * GymRunner.timeBonus());
+        App.game.gameState = GameState.idle;
+        DungeonRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute));
+        GymRunner.timeLeft(GYM_TIME * GymRunner.timeBonus());
         GymRunner.timeLeftPercentage(100);
 
         GymBattle.gym = gym;
         GymBattle.totalPokemons(gym.getPokemonList().length);
         GymBattle.index(0);
         GymBattle.generateNewEnemy();
-        App.game.gameState = GameConstants.GameState.gym;
+        App.game.gameState = GameState.gym;
         GymRunner.running(true);
         GymRunner.resetGif();
 
         setTimeout(() => {
             GymRunner.hideGif();
-        }, GameConstants.GYM_COUNTDOWN);
+        }, GYM_COUNTDOWN);
     }
 
     private static hideGif() {
@@ -65,10 +80,10 @@ class GymRunner {
             GymRunner.gymLost();
         }
 
-        GymRunner.timeLeft(GymRunner.timeLeft() - GameConstants.GYM_TICK);
-        GymRunner.timeLeftPercentage(Math.floor(GymRunner.timeLeft() / (GameConstants.GYM_TIME * FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute)) * 100));
+        GymRunner.timeLeft(GymRunner.timeLeft() - GYM_TICK);
+        GymRunner.timeLeftPercentage(Math.floor(GymRunner.timeLeft() / (GYM_TIME * FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute)) * 100));
 
-        const currentFluteBonus = FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute);
+        const currentFluteBonus = FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute);
         if (currentFluteBonus != GymRunner.timeBonus()) {
             if (currentFluteBonus > GymRunner.timeBonus()) {
                 if (GymRunner.timeBonus() === 1) {
@@ -93,7 +108,7 @@ class GymRunner {
                 message: `It appears you are not strong enough to defeat ${GymBattle.gym.leaderName.replace(/\d/g, '')}.`,
                 type: NotificationConstants.NotificationOption.danger,
             });
-            App.game.gameState = GameConstants.GameState.town;
+            App.game.gameState = GameState.town;
         }
     }
 
@@ -109,13 +124,13 @@ class GymRunner {
             if (!App.game.badgeCase.hasBadge(gym.badgeReward)) {
                 gym.firstWinReward();
             }
-            GameHelper.incrementObservable(App.game.statistics.gymsDefeated[GameConstants.getGymIndex(gym.town)]);
+            GameHelper.incrementObservable(App.game.statistics.gymsDefeated[getGymIndex(gym.town)]);
 
             // Auto restart gym battle
             if (GymRunner.autoRestart()) {
-                const clears = App.game.statistics.gymsDefeated[GameConstants.getGymIndex(gym.town)]();
+                const clears = App.game.statistics.gymsDefeated[getGymIndex(gym.town)]();
                 const cost = clears >= 100 ? 0 : (GymRunner.gymObservable().moneyReward || 10) * 2;
-                const amt = new Amount(cost, GameConstants.Currency.money);
+                const amt = new Amount(cost, Currency.money);
                 const reward = GymRunner.gymObservable().autoRestartReward();
                 // If the player can afford it, restart the gym
                 if (cost === 0 || App.game.wallet.loseAmount(amt)) {
@@ -130,13 +145,9 @@ class GymRunner {
             // Award money for defeating gym
             App.game.wallet.gainMoney(gym.moneyReward);
             // Send the player back to a town state
-            App.game.gameState = GameConstants.GameState.town;
+            App.game.gameState = GameState.town;
         }
     }
-
-    public static timeLeftSeconds = ko.pureComputed(() => {
-        return (Math.ceil(GymRunner.timeLeft() / 100) / 10).toFixed(1);
-    })
 
     public static getEnvironmentArea() {
         const gym = GymRunner.gymObservable();
@@ -161,4 +172,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-GymRunner satisfies TmpGymRunnerType;
+export default GymRunner;

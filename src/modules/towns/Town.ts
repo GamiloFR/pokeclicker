@@ -1,5 +1,6 @@
 import Dungeon from '../dungeons/Dungeon';
 import { DockTowns, Region, StartingTowns, SubRegions } from '../GameConstants';
+import GymList from '../gym/GymList';
 import Requirement from '../requirements/Requirement';
 import NPC from './NPC';
 import DockTownContent from './townContent/DockTownContent';

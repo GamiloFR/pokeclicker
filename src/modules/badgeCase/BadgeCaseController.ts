@@ -1,5 +1,6 @@
 import BadgeEnums from '../enums/Badges';
 import { Region, RegionGyms } from '../GameConstants';
+import GymList from '../gym/GymList';
 
 type DisplayableBadges = {
     [key: string]: string[]

@@ -1,4 +1,5 @@
 import { GAIN_MONEY_BASE_REWARD, getGymIndex, getGymRegion, KantoGyms } from '../../GameConstants';
+import GymList from '../../gym/GymList';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';

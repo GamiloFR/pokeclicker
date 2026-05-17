@@ -1,16 +1,23 @@
-import * as GameConstants from '../GameConstants';
-import Requirement from '../requirements/Requirement';
+import { ShadowStatus } from '../GameConstants';
 import type { PokemonNameType } from '../pokemons/PokemonNameType';
+import Requirement from '../requirements/Requirement';
 
-export default class GymPokemon {
+class GymPokemon {
     name: PokemonNameType;
     maxHealth: number;
     level: number;
     shiny: boolean;
-    shadow: GameConstants.ShadowStatus;
+    shadow: ShadowStatus;
     requirements: Requirement[];
 
-    constructor(name: PokemonNameType, maxHealth: number, level: number, requirements: Requirement | Requirement[] = [], shiny?: boolean, shadow = GameConstants.ShadowStatus.None) {
+    constructor(
+        name: PokemonNameType,
+        maxHealth: number,
+        level: number,
+        requirements: Requirement | Requirement[] = [],
+        shiny = false,
+        shadow = ShadowStatus.None,
+    ) {
         this.name = name;
         this.maxHealth = maxHealth;
         this.level = level;
@@ -23,3 +30,5 @@ export default class GymPokemon {
         this.shadow = shadow;
     }
 }
+
+export default GymPokemon;

@@ -1,10 +1,11 @@
+import Gym from '../../gym/Gym';
+import GymRunner from '../../gym/GymRunner';
 import Requirement from '../../requirements/Requirement';
-import { TmpGymType } from '../../TemporaryScriptTypes';
 import TownContent from './TownContent';
 
 class AccessGym extends TownContent {
     // only use for gyms that disappear from a town
-    constructor(private gym: TmpGymType, private requirement: Requirement) {
+    constructor(private gym: Gym, private requirement: Requirement) {
         super([]);
     }
 

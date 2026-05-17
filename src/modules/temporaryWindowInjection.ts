@@ -48,6 +48,7 @@ import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
 import DungeonBattle from './dungeons/DungeonBattle';
 import DungeonGuides from './dungeons/DungeonGuides';
 import DungeonList from './dungeons/DungeonList';
+import DungeonRunner from './dungeons/DungeonRunner';
 import DungeonTrainer from './dungeons/DungeonTrainer';
 import EffectEngineRunner from './effectEngine/effectEngineRunner';
 import areaStatus from './enums/AreaStatus';
@@ -63,6 +64,9 @@ import WandererPokemon from './farming/WandererPokemon';
 import FluteEffectRunner from './gems/FluteEffectRunner';
 import GemDeals from './gems/GemDeals';
 import Gems from './gems/Gems';
+import Gym from './gym/Gym';
+import GymBattle from './gym/GymBattle';
+import GymList from './gym/GymList';
 import GymPokemon from './gym/GymPokemon';
 import CaughtIndicatingItem from './items/CaughtIndicatingItem';
 import ChristmasPresent from './items/ChristmasPresent';
@@ -278,7 +282,7 @@ import WeatherApp from './weather/WeatherApp';
 import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
-import DungeonRunner from './dungeons/DungeonRunner';
+import GymRunner from './gym/GymRunner';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -573,4 +577,8 @@ Object.assign(<any>window, {
     DungeonBattle,
     DungeonGuides,
     DungeonRunner,
+    GymList,
+    GymBattle,
+    GymRunner,
+    Gym,
 });

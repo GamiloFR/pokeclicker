@@ -1,5 +1,6 @@
 import BadgeEnums from '../../enums/Badges';
 import { ACTIVE_QUEST_MULTIPLIER, DEFEAT_POKEMONS_BASE_REWARD, getGymIndex, getGymRegion, Region, RegionGyms } from '../../GameConstants';
+import GymList from '../../gym/GymList';
 import SubRegions from '../../subRegion/SubRegions';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';

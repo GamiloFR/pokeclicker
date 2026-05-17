@@ -1,4 +1,5 @@
 import { AchievementOption } from '../GameConstants';
+import GymRunner from '../gym/GymRunner';
 import Requirement from './Requirement';
 
 export default class InGymRequirement extends Requirement {
