@@ -25,9 +25,10 @@ module.exports = {
         AchievementHandler: 'readonly',
         PokemonLocations: 'readonly',
         PokemonFactory: 'readonly',
-        PartyController: 'readonly',
         TownList: 'readonly',
         BattleFrontierMilestones: 'readonly',
+        HeldItem: 'readonly',
+        BreedingController: 'readonly',
     },
     rules: {
         indent: 'off',

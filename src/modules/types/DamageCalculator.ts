@@ -1,8 +1,8 @@
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
 import GameHelper from '../GameHelper';
+import PartyPokemon from '../party/PartyPokemon';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
-import type { TmpPartyPokemonType } from '../TemporaryScriptTypes';
 import WeatherType from '../weather/WeatherType';
 
 export default class DamageCalculator {
@@ -67,7 +67,7 @@ export default class DamageCalculator {
     }
 
     // TODO replace temporary type with PartyPokemon type once that class is ported
-    public static getOneTypeDetail(pokemon: TmpPartyPokemonType): TypeDetail {
+    public static getOneTypeDetail(pokemon: PartyPokemon): TypeDetail {
         const ignoreRegionMultiplier = DamageCalculator.region() == Region.none;
         const dataPokemon = PokemonHelper.getPokemonByName(pokemon.name);
         return {

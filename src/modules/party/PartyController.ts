@@ -1,8 +1,62 @@
-///<reference path="../../declarations/globals.d.ts"/>
-
-declare const DisplayObservables: { modalState: typeof modalState };
+import CaughtStatus from '../enums/CaughtStatus';
+import PokemonType from '../enums/PokemonType';
+import { Pokerus, StoneType, VitaminType } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import Consumable from '../items/Consumable';
+import ConsumableController from '../items/ConsumableController';
+import { ItemList } from '../items/ItemList';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import { EvoData, EvoTrigger, StoneEvoData } from '../pokemons/evolutions/Base';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { pokemonMap } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import InRegionRequirement from '../requirements/InRegionRequirement';
+import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
+import Settings from '../settings';
+import SearchSetting from '../settings/SearchSetting';
+import { SortOptionConfigs, SortOptions } from '../settings/SortOptions';
+import { modalState } from '../utilities/DisplayObservables';
+import PokemonCategories, { PokemonCategory } from './Category';
+import EvolutionHandler from './evolutions/EvolutionHandler';
+import PartyPokemon from './PartyPokemon';
 
 class PartyController {
+    private static consumableSortedList: PartyPokemon[] = [];
+    private static vitaminSortedList: PartyPokemon[] = [];
+    private static heldItemSortedList: PartyPokemon[] = [];
+
+    static getConsumableSortedList = ko.pureComputed(() => {
+        // If the consumable modal is open, we should sort it.
+        if (modalState.consumableModal === 'show') {
+            PartyController.consumableSortedList = PartyController.getConsumableFilteredList();
+            return PartyController.consumableSortedList.sort(PartyController.compareBy(Settings.getSetting('consumableSort').observableValue(), Settings.getSetting('consumableSortDirection').observableValue()));
+        }
+        return PartyController.consumableSortedList;
+    }).extend({ rateLimit: 100 });
+
+    static getSortedList = ko.pureComputed(() => {
+        const list = [...App.game.party.caughtPokemon];
+        return list.sort(PartyController.compareBy(Settings.getSetting('partySort').observableValue(), Settings.getSetting('partySortDirection').observableValue()));
+    }).extend({ rateLimit: 500 });
+
+    static getVitaminSortedList = ko.pureComputed(() => {
+        // If the vitamin modal is open, we should sort it.
+        if (modalState.pokemonVitaminExpandedModal === 'show') {
+            PartyController.vitaminSortedList = PartyController.getVitaminFilteredList();
+            return PartyController.vitaminSortedList.sort(PartyController.compareBy(Settings.getSetting('vitaminSort').observableValue(), Settings.getSetting('vitaminSortDirection').observableValue()));
+        }
+        return PartyController.vitaminSortedList;
+    }).extend({ rateLimit: 100 });
+
+    static getHeldItemSortedList = ko.pureComputed(() => {
+        // If the held item modal is open, we should sort it.
+        if (modalState.heldItemModal === 'show') {
+            PartyController.heldItemSortedList = PartyController.getHeldItemFilteredList();
+            return PartyController.heldItemSortedList.sort(PartyController.compareBy(Settings.getSetting('heldItemSort').observableValue(), Settings.getSetting('heldItemSortDirection').observableValue()));
+        }
+        return PartyController.heldItemSortedList;
+    }).extend({ rateLimit: 100 });
 
     static getCaughtStatusByName(name: PokemonNameType): CaughtStatus {
         return this.getCaughtStatus(PokemonHelper.getPokemonByName(name).id);
@@ -28,33 +82,33 @@ class PartyController {
         return this.getEvs(PokemonHelper.getPokemonByName(name).id);
     }
 
-    static getPokerusStatusByName(name: PokemonNameType): GameConstants.Pokerus {
+    static getPokerusStatusByName(name: PokemonNameType): Pokerus {
         return this.getPokerusStatus(PokemonHelper.getPokemonByName(name).id);
     }
 
-    static getPokerusStatus(id: number): GameConstants.Pokerus {
-        return App.game.party.getPokemon(id)?.pokerus ?? GameConstants.Pokerus.Uninfected;
+    static getPokerusStatus(id: number): Pokerus {
+        return App.game.party.getPokemon(id)?.pokerus ?? Pokerus.Uninfected;
     }
 
-    public static getPokemonStoneEvos(partyPokemon: PartyPokemon | undefined, evoType: GameConstants.StoneType): EvoData[] {
+    public static getPokemonStoneEvos(partyPokemon?: PartyPokemon, evoType?: StoneType): EvoData[] {
         return partyPokemon?.evolutions?.filter(
             (evo) => evo.trigger === EvoTrigger.STONE
                 && (evo as StoneEvoData).stone == evoType
                 && PokemonHelper.calcNativeRegion(evo.evolvedPokemon) <= player.highestRegion()
                 && !evo.restrictions.find(
                     req => (req instanceof InRegionRequirement && !req.isCurrentlyPossible())
-                        || (req instanceof MaxRegionRequirement && !req.isCompleted())
-                )
+                        || (req instanceof MaxRegionRequirement && !req.isCompleted()),
+                ),
         ) ?? [];
     }
 
-    public static getPokemonsWithEvolution(evoType: GameConstants.StoneType): PartyPokemon[] {
+    public static getPokemonsWithEvolution(evoType: StoneType): PartyPokemon[] {
         return App.game.party.caughtPokemon.filter((partyPokemon: PartyPokemon) => {
             return PartyController.getPokemonStoneEvos(partyPokemon, evoType).length > 0;
         }).sort((a, b) => a.id - b.id);
     }
 
-    static getStoneEvolutions<T>(id: number, getStatus: (evo: EvoData) => T, evoType?: GameConstants.StoneType): { status: T, evs:number, locked: boolean, lockHint: string }[] {
+    static getStoneEvolutions<T>(id: number, getStatus: (evo: EvoData) => T, evoType?: StoneType): { status: T, evs:number, locked: boolean, lockHint: string }[] {
         const pokemon = App.game.party.getPokemon(id);
         return PartyController.getPokemonStoneEvos(pokemon, evoType)
             .map((evo) => ({
@@ -65,27 +119,27 @@ class PartyController {
             }));
     }
 
-    static getStoneEvolutionsCaughtData(id: number, evoType?: GameConstants.StoneType): { status: CaughtStatus, locked: boolean, lockHint: string }[] {
+    static getStoneEvolutionsCaughtData(id: number, evoType?: StoneType): { status: CaughtStatus, locked: boolean, lockHint: string }[] {
         const getStatus = (evo: EvoData) => this.getCaughtStatusByName(evo.evolvedPokemon);
         return this.getStoneEvolutions(id, getStatus, evoType);
     }
 
-    static getStoneEvolutionsPokerusData(id: number, evoType?: GameConstants.StoneType): { status: GameConstants.Pokerus, evs: number, locked: boolean, lockHint: string }[] {
+    static getStoneEvolutionsPokerusData(id: number, evoType?: StoneType): { status: Pokerus, evs: number, locked: boolean, lockHint: string }[] {
         const getStatus = (evo: EvoData) => this.getPokerusStatusByName(evo.evolvedPokemon);
         return this.getStoneEvolutions(id, getStatus, evoType);
     }
 
-    static hasMultipleStoneEvolutionsAvailable(pokemonName: PokemonNameType, evoType: GameConstants.StoneType) {
+    static hasMultipleStoneEvolutionsAvailable(pokemonName: PokemonNameType, evoType: StoneType) {
         const pokemon = App.game.party.getPokemonByName(pokemonName);
         // We only want to check against pokemon that have multiple possible evolutions that can happen now
         return PartyController.getPokemonStoneEvos(pokemon, evoType).length > 1;
     }
 
-    public static async removeVitaminFromParty(vitamin: GameConstants.VitaminType, amount = Infinity, shouldConfirm = true) {
+    public static async removeVitaminFromParty(vitamin: VitaminType, amount = Infinity, shouldConfirm = true) {
         if (shouldConfirm) {
             if (!await Notifier.confirm({
-                title: `Remove All ${GameConstants.VitaminType[vitamin]}?`,
-                message: `All ${GameConstants.VitaminType[vitamin]} will be removed from <u>every</u> Pokémon in your party.`,
+                title: `Remove All ${VitaminType[vitamin]}?`,
+                message: `All ${VitaminType[vitamin]} will be removed from <u>every</u> Pokémon in your party.`,
                 type: NotificationConstants.NotificationOption.warning,
                 confirm: 'OK',
             })) {
@@ -104,7 +158,7 @@ class PartyController {
         });
         if (arePokemonInHatchery) {
             Notifier.notify({
-                message: `${GameConstants.VitaminType[vitamin]} couldn\'t be modified for Pokémon in Hatchery or Queue.`,
+                message: `${VitaminType[vitamin]} couldn\'t be modified for Pokémon in Hatchery or Queue.`,
                 type: NotificationConstants.NotificationOption.warning,
             });
         }
@@ -122,7 +176,7 @@ class PartyController {
             }
         }
 
-        const vitamins = GameHelper.enumNumbers(GameConstants.VitaminType);
+        const vitamins = GameHelper.enumNumbers(VitaminType);
         let arePokemonInHatchery = false;
         App.game.party.caughtPokemon.forEach((p) => {
             vitamins.forEach((v) => {
@@ -147,21 +201,6 @@ class PartyController {
             return !partyPokemon.breeding && partyPokemon.level >= 100;
         });
     }
-
-    static getSortedList = ko.pureComputed(() => {
-        const list = [...App.game.party.caughtPokemon];
-        return list.sort(PartyController.compareBy(Settings.getSetting('partySort').observableValue(), Settings.getSetting('partySortDirection').observableValue()));
-    }).extend({ rateLimit: 500 });
-
-    private static vitaminSortedList = [];
-    static getVitaminSortedList = ko.pureComputed(() => {
-        // If the vitamin modal is open, we should sort it.
-        if (DisplayObservables.modalState.pokemonVitaminExpandedModal === 'show') {
-            PartyController.vitaminSortedList = PartyController.getVitaminFilteredList();
-            return PartyController.vitaminSortedList.sort(PartyController.compareBy(Settings.getSetting('vitaminSort').observableValue(), Settings.getSetting('vitaminSortDirection').observableValue()));
-        }
-        return PartyController.vitaminSortedList;
-    }).extend({ rateLimit: 100 });
 
     static getVitaminFilteredList(): Array<PartyPokemon> {
         return App.game.party.caughtPokemon.filter((pokemon) => {
@@ -191,16 +230,6 @@ class PartyController {
             return true;
         });
     }
-
-    private static heldItemSortedList = [];
-    static getHeldItemSortedList = ko.pureComputed(() => {
-        // If the held item modal is open, we should sort it.
-        if (DisplayObservables.modalState.heldItemModal === 'show') {
-            PartyController.heldItemSortedList = PartyController.getHeldItemFilteredList();
-            return PartyController.heldItemSortedList.sort(PartyController.compareBy(Settings.getSetting('heldItemSort').observableValue(), Settings.getSetting('heldItemSortDirection').observableValue()));
-        }
-        return PartyController.heldItemSortedList;
-    }).extend({ rateLimit: 100 });
 
     static getHeldItemFilteredList(): Array<PartyPokemon> {
         return App.game.party.caughtPokemon.filter((pokemon) => {
@@ -255,16 +284,6 @@ class PartyController {
         });
     }
 
-    private static consumableSortedList = [];
-    static getConsumableSortedList = ko.pureComputed(() => {
-        // If the consumable modal is open, we should sort it.
-        if (DisplayObservables.modalState.consumableModal === 'show') {
-            PartyController.consumableSortedList = PartyController.getConsumableFilteredList();
-            return PartyController.consumableSortedList.sort(PartyController.compareBy(Settings.getSetting('consumableSort').observableValue(), Settings.getSetting('consumableSortDirection').observableValue()));
-        }
-        return PartyController.consumableSortedList;
-    }).extend({ rateLimit: 100 });
-
     static getConsumableFilteredList(): Array<PartyPokemon> {
         return App.game.party.caughtPokemon.filter((pokemon) => {
             if (pokemon.id <= 0) {
@@ -304,7 +323,7 @@ class PartyController {
 
     public static moveCategoryPokemon(fromCategory: number, toCategory: number) {
         // Category should exist
-        if (!PokemonCategories.categories().some((c) => c.id === toCategory)) {
+        if (!PokemonCategories.categories().some((c: PokemonCategory) => c.id === toCategory)) {
             return;
         }
 
@@ -328,7 +347,7 @@ class PartyController {
         }
 
         if (shouldConfirm) {
-            const categoryName = PokemonCategories.categories().find((c) => c.id === category).name();
+            const categoryName = PokemonCategories.categories().find((c: PokemonCategory) => c.id === category).name();
             if (!await Notifier.confirm({
                 title: 'Batch Add Category',
                 message: `Add the <strong>${categoryName}</strong> category to ${pokemonList.length.toLocaleString('en-US')} Pokémon?`,
@@ -348,7 +367,7 @@ class PartyController {
         }
 
         if (shouldConfirm) {
-            const categoryName = PokemonCategories.categories().find((c) => c.id === category).name();
+            const categoryName = PokemonCategories.categories().find((c: PokemonCategory) => c.id === category).name();
             if (!await Notifier.confirm({
                 title: 'Batch Remove Category',
                 message: `Remove the <strong>${categoryName}</strong> category from ${pokemonList.length.toLocaleString('en-US')} Pokémon?`,
@@ -404,4 +423,4 @@ class PartyController {
 
 }
 
-PartyController satisfies TmpPartyControllerType;
+export default PartyController;

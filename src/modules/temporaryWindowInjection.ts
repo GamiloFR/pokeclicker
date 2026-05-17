@@ -60,6 +60,7 @@ import BerryDeal from './farming/BerryDeal';
 import FarmController from './farming/FarmController';
 import FarmHands from './farming/FarmHands';
 import Farming from './farming/Farming';
+import EnigmaMutation from './farming/mutation/mutationTypes/EnigmaMutation';
 import WandererPokemon from './farming/WandererPokemon';
 import FluteEffectRunner from './gems/FluteEffectRunner';
 import GemDeals from './gems/GemDeals';
@@ -68,6 +69,7 @@ import Gym from './gym/Gym';
 import GymBattle from './gym/GymBattle';
 import GymList from './gym/GymList';
 import GymPokemon from './gym/GymPokemon';
+import GymRunner from './gym/GymRunner';
 import CaughtIndicatingItem from './items/CaughtIndicatingItem';
 import ChristmasPresent from './items/ChristmasPresent';
 import Consumable from './items/Consumable';
@@ -105,6 +107,9 @@ import OakItemLoadouts from './oakItems/OakItemLoadouts';
 import OakItems from './oakItems/OakItems';
 import PokemonCategories from './party/Category';
 import LevelType, { levelRequirements } from './party/LevelType';
+import Party from './party/Party';
+import PartyController from './party/PartyController';
+import PartyPokemon from './party/PartyPokemon';
 import PokeballFilter from './pokeballs/PokeballFilter';
 import { pokeballFilterOptions } from './pokeballs/PokeballFilterOptions';
 import PokeballFilters from './pokeballs/PokeballFilters';
@@ -235,6 +240,7 @@ import DungeonTown from './towns/DungeonTown';
 import KantoBerryMasterNPC from './towns/KantoBerryMasterNPC';
 import NPC from './towns/NPC';
 import NPCController from './towns/NPCController';
+import NPCType from './towns/NPCType';
 import PokemonGiftNPC from './towns/PokemonGiftNPC';
 import ProfNPC from './towns/ProfNPC';
 import PurifyChamber from './towns/purifyChamber/PurifyChamber';
@@ -282,7 +288,6 @@ import WeatherApp from './weather/WeatherApp';
 import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
-import GymRunner from './gym/GymRunner';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -545,6 +550,7 @@ Object.assign(<any>window, {
     ShopHandler,
     ProfNPC,
     NPC,
+    NPCType,
     KantoBerryMasterNPC,
     PokemonGiftNPC,
     RoamerNPC,
@@ -572,6 +578,7 @@ Object.assign(<any>window, {
     Berry,
     FarmHands,
     WandererPokemon,
+    EnigmaMutation,
     DungeonList,
     DungeonTrainer,
     DungeonBattle,
@@ -581,4 +588,7 @@ Object.assign(<any>window, {
     GymBattle,
     GymRunner,
     Gym,
+    Party,
+    PartyController,
+    PartyPokemon,
 });

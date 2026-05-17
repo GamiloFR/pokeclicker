@@ -1,10 +1,13 @@
 import * as TempTypes from './TemporaryScriptTypes';
+import { modalState } from './utilities/DisplayObservables';
 
 /*
     Globals declared here also need to be listed in .eslintrc.js
 */
 
 // Where all the magic happens
+export declare const DisplayObservables: { modalState: typeof modalState };
+
 declare global {
     const App: TempTypes.TmpAppType;
     const player: TempTypes.TmpPlayerType;
@@ -13,9 +16,10 @@ declare global {
     const AchievementHandler: TempTypes.TmpAchievementHandlerType;
     const PokemonLocations: TempTypes.TmpPokemonLocationsType;
     const PokemonFactory: TempTypes.TmpPokemonFactoryType;
-    const PartyController: TempTypes.TmpPartyControllerType;
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const BagHandler: TempTypes.TmpBagHandlerType;
     const TownList: TempTypes.TmpTownListType;
     const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
+    const HeldItem: TempTypes.TmpHeldItemStaticType;
+    const BreedingController: TempTypes.TmpBreedingControllerType;
 }

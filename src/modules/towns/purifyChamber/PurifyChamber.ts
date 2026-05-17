@@ -2,10 +2,10 @@ import { Saveable } from '../../DataStore/common/Saveable';
 import { AchievementOption, MINUTE, ShadowStatus } from '../../GameConstants';
 import NotificationConstants from '../../notifications/NotificationConstants';
 import Notifier from '../../notifications/Notifier';
+import PartyPokemon from '../../party/PartyPokemon';
 import MultiRequirement from '../../requirements/MultiRequirement';
 import QuestLineStepCompletedRequirement from '../../requirements/QuestLineStepCompletedRequirement';
 import ShadowPokemonRequirement from '../../requirements/ShadowPokemonRequirement';
-import { TmpPartyPokemonType } from '../../TemporaryScriptTypes';
 
 class PurifyChamber implements Saveable {
     saveKey = 'PurifyChamber';
@@ -13,7 +13,7 @@ class PurifyChamber implements Saveable {
 
     public static requirements = new QuestLineStepCompletedRequirement('Shadows in the Desert', 17);
 
-    public selectedPokemon = ko.observable<TmpPartyPokemonType>();
+    public selectedPokemon = ko.observable<PartyPokemon>();
     public currentFlow = ko.observable(0);
     public flowNeeded = ko.pureComputed(() => {
         const purifiedPokemon = App.game.party.caughtPokemon.filter((p) => p.shadow == ShadowStatus.Purified).length;

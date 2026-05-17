@@ -1,3 +1,12 @@
+import { SHINY_CHANCE_STONE, STONE_EP_YIELD, ShadowStatus } from '../../GameConstants';
+import GameHelper from '../../GameHelper';
+import { createLogContent } from '../../logbook/helpers';
+import { LogBookTypes } from '../../logbook/LogBookTypes';
+import NotificationConstants from '../../notifications/NotificationConstants';
+import Notifier from '../../notifications/Notifier';
+import { EvoData, beforeEvolve } from '../../pokemons/evolutions/Base';
+import * as PokemonHelper from '../../pokemons/PokemonHelper';
+
 class EvolutionHandler {
     static isSatisfied(data: EvoData): boolean {
         return data.restrictions.every(req => req.isCompleted());
@@ -15,14 +24,14 @@ class EvolutionHandler {
         if (PokemonHelper.calcNativeRegion(evolvedPokemon) > player.highestRegion()) {
             return false;
         }
-        const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_STONE);
+        const shiny = PokemonFactory.generateShiny(SHINY_CHANCE_STONE);
 
         const newPokemon = !App.game.party.alreadyCaughtPokemonByName(evolvedPokemon);
         if (newPokemon || shiny || notification) {
             // Notify the player if they haven't already caught the evolution, or notifications are forced
             Notifier.notify({
                 message: `Your ${PokemonHelper.displayName(data.basePokemon)()} evolved into ${shiny ? 'a shiny' : GameHelper.anOrA(evolvedPokemon)} ${PokemonHelper.displayName(evolvedPokemon)()}!`,
-                pokemonImage: PokemonHelper.getImage(PokemonHelper.getPokemonByName(evolvedPokemon).id, shiny, undefined, GameConstants.ShadowStatus.None),
+                pokemonImage: PokemonHelper.getImage(PokemonHelper.getPokemonByName(evolvedPokemon).id, shiny, undefined, ShadowStatus.None),
                 type: NotificationConstants.NotificationOption.success,
                 sound: NotificationConstants.NotificationSound.General.new_catch,
                 setting: NotificationConstants.NotificationSetting.General.new_catch,
@@ -34,8 +43,8 @@ class EvolutionHandler {
             App.game.logbook.newLog(
                 LogBookTypes.SHINY,
                 App.game.party.alreadyCaughtPokemonByName(evolvedPokemon, true)
-                    ? createLogContent.evolvedShinyDupe({ basePokemon: data.basePokemon, evolvedPokemon})
-                    : createLogContent.evolvedShiny({ basePokemon: data.basePokemon, evolvedPokemon })
+                    ? createLogContent.evolvedShinyDupe({ basePokemon: data.basePokemon, evolvedPokemon })
+                    : createLogContent.evolvedShiny({ basePokemon: data.basePokemon, evolvedPokemon }),
             );
         }
 
@@ -65,8 +74,10 @@ class EvolutionHandler {
 
         // EVs
         if (!newPokemon) {
-            evolvedPartyPokemon.effortPoints += App.game.party.calculateEffortPoints(evolvedPartyPokemon, shiny, GameConstants.ShadowStatus.None, GameConstants.STONE_EP_YIELD);
+            evolvedPartyPokemon.effortPoints += App.game.party.calculateEffortPoints(evolvedPartyPokemon, shiny, ShadowStatus.None, STONE_EP_YIELD);
         }
         return shiny;
     }
 }
+
+export default EvolutionHandler;

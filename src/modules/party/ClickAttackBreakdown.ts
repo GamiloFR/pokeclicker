@@ -8,3 +8,5 @@ type ClickAttackBreakdown = {
     rockyHelmetModifier: number,
     baseClickAttack: number,
 };
+
+export default ClickAttackBreakdown;

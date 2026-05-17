@@ -3,7 +3,7 @@
 /// <reference path="../../declarations/utilities/DisplayObservables.d.ts" />
 /// <reference path="../../declarations/GameHelper.d.ts" />
 /// <reference path="../../declarations/koExtenders.d.ts" />
-/// <reference path="../party/PartyController.ts" />
+/// <reference path="../../declarations/party/PartyController.d.ts" />
 
 class BreedingController {
     public static selectedEggItem: KnockoutObservable<GameConstants.EggItemType> = ko.observable(undefined);

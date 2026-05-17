@@ -1,6 +1,6 @@
 class MegaStone {
     saveKey = 'megastone';
-    defaults: Record<string, any>;
+    defaults: Record<string, any> = {};
 
     private attackRequired: number;
 
@@ -24,3 +24,5 @@ class MegaStone {
         return this.pokemonAttack() >= this.attackRequired;
     }
 }
+
+export default MegaStone;

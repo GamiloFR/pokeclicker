@@ -6,6 +6,7 @@ import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import PartyController from '../party/PartyController';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import PokerusIndicatingItem from './PokerusIndicatingItem';

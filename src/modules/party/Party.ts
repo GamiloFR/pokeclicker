@@ -1,56 +1,115 @@
-/// <reference path="../../declarations/GameHelper.d.ts" />
-/// <reference path="../../declarations/DataStore/common/Feature.d.ts" />
-///<reference path="../../declarations/enums/CaughtStatus.d.ts"/>
+import { Computed } from 'knockout';
+import { Feature } from '../DataStore/common/Feature';
+import EffectEngineRunner from '../effectEngine/effectEngineRunner';
+import OakItemType from '../enums/OakItemType';
+import PokemonType from '../enums/PokemonType';
+import { AlolaSubRegions, BASE_EP_YIELD, BattlePokemonGender, Currency, FLUTE_TYPE_ATTACK_MULTIPLIER, FluteItemType, PokemonStatisticsType, Pokerus, Region, SHADOW_EP_MODIFIER, ShadowStatus, SHINY_EP_MODIFIER, SubRegions } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
+import BattleItem from '../items/BattleItem';
+import Item from '../items/Item';
+import { ItemList } from '../items/ItemList';
+import { ShopOptions } from '../items/types';
+import { createLogContent } from '../logbook/helpers';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import Multiplier from '../multiplier/Multiplier';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { pokemonMap } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import { TmpHeldItemType } from '../TemporaryScriptTypes';
+import TypeHelper from '../types/TypeHelper';
+import Weather from '../weather/Weather';
+import WeatherType from '../weather/WeatherType';
+import ClickAttackBreakdown from './ClickAttackBreakdown';
+import PartyPokemon from './PartyPokemon';
 
-class Party implements Feature, TmpPartyType {
+declare class EVsGainedBonusHeldItem extends Item implements TmpHeldItemType {
+    gainedBonus: number;
+
+    regionUnlocked: Region;
+    canUse: (pokemon: PartyPokemon) => boolean;
+
+    constructor(
+        name: string,
+        basePrice: number,
+        currency: Currency,
+        shopOptions : ShopOptions,
+        displayName: string,
+        gainedBonus: number,
+        regionUnlocked: Region
+    );
+}
+
+class Party implements Feature {
     name = 'Pokemon Party';
     saveKey = 'party';
 
-    private _caughtPokemon: KnockoutObservableArray<PartyPokemon>;
+    private _caughtPokemon = ko.observableArray<PartyPokemon>([]);
 
     defaults = {
         caughtPokemon: [],
     };
 
-    hasMaxLevelPokemon: KnockoutComputed<boolean>;
+    hasMaxLevelPokemon = ko.pureComputed(() => {
+        return this.caughtPokemon.some(p => p.level === 100);
+    }).extend({ rateLimit: 1000 });
 
-    hasShadowPokemon: KnockoutComputed<boolean>;
+    hasShadowPokemon = ko.computed(() => {
+        return this.caughtPokemon.some(p => p.shadow === ShadowStatus.Shadow);
+    }).extend({ rateLimit: 1000 });
 
-    private _caughtPokemonLookup: KnockoutComputed<Map<number, PartyPokemon>>;
+    // This will be completely rebuilt each time a pokemon is caught.
+    // Not ideal but still better than mutliple locations scanning through the list to find what they want
+    private _caughtPokemonLookup = ko.computed(() => {
+        return this.caughtPokemon.reduce((map, p) => {
+            map.set(p.id, p);
+            return map;
+        }, new Map());
+    });
 
-    calculateBaseClickAttack: KnockoutComputed<number>;
+    calculateBaseClickAttack = ko.computed(() => {
+        // Base power
+        // Shiny pokemon help with a 100% boost
+        // Resistant pokemon give a 100% boost
+        const partyClickBonus = this.activePartyPokemon.reduce((total, p) => total + p.clickAttackBonus(), 1);
+        return Math.pow(partyClickBonus, 1.4);
+    });
 
-    constructor(private multiplier: Multiplier) {
-        this._caughtPokemon = ko.observableArray([]);
-
-        this.hasMaxLevelPokemon = ko.pureComputed(() => {
-            return this.caughtPokemon.some(p => p.level === 100);
-        }).extend({rateLimit: 1000});
-
-        this.hasShadowPokemon = ko.computed(() => {
-            return this.caughtPokemon.some(p => p.shadow === GameConstants.ShadowStatus.Shadow);
-        }).extend({rateLimit: 1000});
-
-        // This will be completely rebuilt each time a pokemon is caught.
-        // Not ideal but still better than mutliple locations scanning through the list to find what they want
-        this._caughtPokemonLookup = ko.computed(() => {
-            return this.caughtPokemon.reduce((map, p) => {
-                map.set(p.id, p);
-                return map;
-            }, new Map());
+    public clickAttackBreakdown = ko.pureComputed((): ClickAttackBreakdown => {
+        let numShiny = 0, numResistant = 0, numPurified = 0;
+        this.activePartyPokemon.forEach((p) => {
+            if (p.shiny) {
+                numShiny += 1;
+            }
+            if (p.pokerus >= Pokerus.Resistant) {
+                numResistant += 1;
+            }
+            if (p.shadow >= ShadowStatus.Purified) {
+                numPurified += 1;
+            }
         });
 
-        this.calculateBaseClickAttack = ko.computed(() => {
-            // Base power
-            // Shiny pokemon help with a 100% boost
-            // Resistant pokemon give a 100% boost
-            const partyClickBonus = this.activePartyPokemon.reduce((total, p) => total + p.clickAttackBonus(), 1);
-            return Math.pow(partyClickBonus, 1.4);
-        });
+        return {
+            caughtPokemon: this.activePartyPokemon.length,
+            shinyPokemon: numShiny,
+            resistantPokemon: numResistant,
+            purifiedPokemon: numPurified,
+            xClickModifier: EffectEngineRunner.isActive(ItemList.xClick.name)() ? (ItemList.xClick as BattleItem).multiplyBy : 1,
+            blackFluteModifier: FluteEffectRunner.getFluteMultiplier(FluteItemType.Black_Flute),
+            rockyHelmetModifier: App.game.oakItems.calculateBonus(OakItemType.Rocky_Helmet),
+            baseClickAttack: Number(App.game.party.calculateBaseClickAttack().toFixed(4)),
+        };
+    });
 
-    }
+    public pokemonAttackObservable: Computed<number> = ko.pureComputed(() => {
+        return App.game.party.calculatePokemonAttack();
+    }).extend({ rateLimit: 1000 });
 
-    gainPokemonByName(name: PokemonNameType, shiny?: boolean, suppressNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) {
+    constructor(private multiplier: Multiplier) {}
+
+    gainPokemonByName(name: PokemonNameType, shiny?: boolean, suppressNotification?: boolean, gender?: BattlePokemonGender, shadow?: ShadowStatus) {
         const pokemon = pokemonMap[name];
         this.gainPokemonById(pokemon.id, shiny, suppressNotification, gender, shadow);
     }
@@ -58,11 +117,11 @@ class Party implements Feature, TmpPartyType {
     gainPokemonById(id: number,
         shiny = false,
         suppressNewCatchNotification = false,
-        gender: GameConstants.BattlePokemonGender = PokemonFactory.generateGenderById(id),
-        shadow: GameConstants.ShadowStatus = GameConstants.ShadowStatus.None
+        gender: BattlePokemonGender = PokemonFactory.generateGenderById(id),
+        shadow: ShadowStatus = ShadowStatus.None,
     ) {
-        const isShadow = shadow === GameConstants.ShadowStatus.Shadow;
-        PokemonHelper.incrementPokemonStatistics(id, GameConstants.PokemonStatisticsType.Captured, shiny, gender, shadow);
+        const isShadow = shadow === ShadowStatus.Shadow;
+        PokemonHelper.incrementPokemonStatistics(id, PokemonStatisticsType.Captured, shiny, gender, shadow);
 
         const newCatch = !this.alreadyCaughtPokemon(id);
         const newShiny = shiny && !this.alreadyCaughtPokemon(id, true);
@@ -82,7 +141,7 @@ class Party implements Feature, TmpPartyType {
             partyPokemon.shiny = true;
         }
         if (newShadow) {
-            partyPokemon.shadow = GameConstants.ShadowStatus.Shadow;
+            partyPokemon.shadow = ShadowStatus.Shadow;
         }
 
         // Properties of the PartyPokemon used for notifications -- shininess, shadow status, etc. comes from this catch
@@ -143,7 +202,7 @@ class Party implements Feature, TmpPartyType {
 
         for (const pokemon of this.caughtPokemon) {
             const exp = pokemon.gainExp(expTotal);
-            if (pokemon.shadow >= GameConstants.ShadowStatus.Shadow) {
+            if (pokemon.shadow >= ShadowStatus.Shadow) {
                 shadowExpGained += exp;
             }
         }
@@ -161,17 +220,17 @@ class Party implements Feature, TmpPartyType {
         type1: PokemonType = PokemonType.None,
         type2: PokemonType = PokemonType.None,
         ignoreRegionMultiplier = false,
-        region: GameConstants.Region = player.region,
+        region: Region = player.region,
         includeBreeding = false,
         useBaseAttack = false,
         overrideWeather?: WeatherType,
         ignoreLevel = false,
         includeTempBonuses = true,
-        subregion: GameConstants.SubRegions = player.subregion
+        subregion: SubRegions = player.subregion,
     ): number {
         let attack = 0;
         const pokemon = this.partyPokemonActiveInSubRegion(region, subregion);
-        const ignoreRegionMultiplierOrMKJ = ignoreRegionMultiplier || region == GameConstants.Region.alola && subregion == GameConstants.AlolaSubRegions.MagikarpJump;
+        const ignoreRegionMultiplierOrMKJ = ignoreRegionMultiplier || region == Region.alola && subregion == AlolaSubRegions.MagikarpJump;
 
         for (const p of pokemon) {
             attack += this.calculateOnePokemonAttack(p, type1, type2, region, ignoreRegionMultiplierOrMKJ, includeBreeding, useBaseAttack, overrideWeather, ignoreLevel, includeTempBonuses);
@@ -185,13 +244,13 @@ class Party implements Feature, TmpPartyType {
         pokemon: PartyPokemon,
         type1: PokemonType = PokemonType.None,
         type2: PokemonType = PokemonType.None,
-        region: GameConstants.Region = player.region,
+        region: Region = player.region,
         ignoreRegionMultiplier = false,
         includeBreeding = false,
         useBaseAttack = false,
         overrideWeather?: WeatherType,
         ignoreLevel = false,
-        includeTempBonuses = true
+        includeTempBonuses = true,
     ): number {
         let multiplier = 1, attack = 0;
         const pAttack = useBaseAttack ? pokemon.baseAttack : (ignoreLevel ? pokemon.calculateAttack(ignoreLevel) : pokemon.attack);
@@ -199,7 +258,7 @@ class Party implements Feature, TmpPartyType {
         const dataPokemon = PokemonHelper.getPokemonByName(pokemon.name);
 
         // Check if the pokemon is in their native region
-        if (!ignoreRegionMultiplier && nativeRegion != region && nativeRegion != GameConstants.Region.none) {
+        if (!ignoreRegionMultiplier && nativeRegion != region && nativeRegion != Region.none) {
             // Check if the challenge mode is active
             if (App.game.challenges.list.regionalAttackDebuff.active()) {
                 // Pokemon only retain a % of their total damage in other regions based on highest region.
@@ -229,12 +288,12 @@ class Party implements Feature, TmpPartyType {
 
         // Should we take flute boost into account
         if (includeTempBonuses) {
-            FluteEffectRunner.activeGemTypes().forEach(value => {
+            FluteEffectRunner.activeGemTypes().forEach((value: number) => {
                 if (value == dataPokemon.type1) {
-                    attack *= GameConstants.FLUTE_TYPE_ATTACK_MULTIPLIER;
+                    attack *= FLUTE_TYPE_ATTACK_MULTIPLIER;
                 }
                 if (value == dataPokemon.type2) {
-                    attack *= GameConstants.FLUTE_TYPE_ATTACK_MULTIPLIER;
+                    attack *= FLUTE_TYPE_ATTACK_MULTIPLIER;
                 }
             });
             attack *= App.game.zMoves.getMultiplier(dataPokemon.type1, dataPokemon.type2);
@@ -248,8 +307,8 @@ class Party implements Feature, TmpPartyType {
         return Math.min(1, Math.max(0.2, 0.1 + (highestRegion / 10)));
     }
 
-    public calculateEffortPoints(pokemon: PartyPokemon, shiny: boolean, shadow: GameConstants.ShadowStatus, number = GameConstants.BASE_EP_YIELD, ignore = false): number {
-        if (pokemon.pokerus < GameConstants.Pokerus.Contagious) {
+    public calculateEffortPoints(pokemon: PartyPokemon, shiny: boolean, shadow: ShadowStatus, number = BASE_EP_YIELD, ignore = false): number {
+        if (pokemon.pokerus < Pokerus.Contagious) {
             return 0;
         }
 
@@ -264,19 +323,15 @@ class Party implements Feature, TmpPartyType {
         }
 
         if (shiny) {
-            EPNum *= GameConstants.SHINY_EP_MODIFIER;
+            EPNum *= SHINY_EP_MODIFIER;
         }
 
-        if (shadow == GameConstants.ShadowStatus.Shadow) {
-            EPNum *= GameConstants.SHADOW_EP_MODIFIER;
+        if (shadow == ShadowStatus.Shadow) {
+            EPNum *= SHADOW_EP_MODIFIER;
         }
 
         return Math.floor(EPNum);
     }
-
-    public pokemonAttackObservable: KnockoutComputed<number> = ko.pureComputed(() => {
-        return App.game.party.calculatePokemonAttack();
-    }).extend({rateLimit: 1000});
 
     public getPokemon(id: number): PartyPokemon | undefined {
         return this._caughtPokemonLookup().get(id);
@@ -286,9 +341,9 @@ class Party implements Feature, TmpPartyType {
         return this._caughtPokemonLookup().get(pokemonMap[name].id);
     }
 
-    public partyPokemonActiveInSubRegion(region: GameConstants.Region, subregion: GameConstants.SubRegions): Array<PartyPokemon> {
+    public partyPokemonActiveInSubRegion(region: Region, subregion: SubRegions): Array<PartyPokemon> {
         let caughtPokemon = this.caughtPokemon as Array<PartyPokemon>;
-        if (region == GameConstants.Region.alola && subregion == GameConstants.AlolaSubRegions.MagikarpJump) {
+        if (region == Region.alola && subregion == AlolaSubRegions.MagikarpJump) {
             // Only magikarps can attack in magikarp jump subregion
             caughtPokemon = caughtPokemon.filter((p) => Math.floor(p.id) == 129);
         }
@@ -304,8 +359,8 @@ class Party implements Feature, TmpPartyType {
 
         if (pokemon) {
             const shinyOkay = (!shiny || pokemon.shiny);
-            const shadowOkay = (!shadow || (pokemon.shadow > GameConstants.ShadowStatus.None));
-            const purifiedOkay = (!purified || (pokemon.shadow == GameConstants.ShadowStatus.Purified));
+            const shadowOkay = (!shadow || (pokemon.shadow > ShadowStatus.None));
+            const purifiedOkay = (!purified || (pokemon.shadow == ShadowStatus.Purified));
             return shinyOkay && shadowOkay && purifiedOkay;
         }
         return false;
@@ -316,32 +371,6 @@ class Party implements Feature, TmpPartyType {
         const bonus = this.multiplier.getBonus('clickAttack', useItem);
         return Math.floor(clickAttack * bonus);
     }
-
-    public clickAttackBreakdown = ko.pureComputed((): ClickAttackBreakdown => {
-        let numShiny = 0, numResistant = 0, numPurified = 0;
-        this.activePartyPokemon.forEach((p) => {
-            if (p.shiny) {
-                numShiny += 1;
-            }
-            if (p.pokerus >= GameConstants.Pokerus.Resistant) {
-                numResistant += 1;
-            }
-            if (p.shadow >= GameConstants.ShadowStatus.Purified) {
-                numPurified += 1;
-            }
-        });
-
-        return {
-            caughtPokemon: this.activePartyPokemon.length,
-            shinyPokemon: numShiny,
-            resistantPokemon: numResistant,
-            purifiedPokemon: numPurified,
-            xClickModifier: EffectEngineRunner.isActive(ItemList.xClick.name)() ? (ItemList.xClick as BattleItem).multiplyBy : 1,
-            blackFluteModifier: FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Black_Flute),
-            rockyHelmetModifier: App.game.oakItems.calculateBonus(OakItemType.Rocky_Helmet),
-            baseClickAttack: Number(App.game.party.calculateBaseClickAttack().toFixed(4)),
-        };
-    });
 
     canAccess(): boolean {
         return true;
@@ -383,3 +412,5 @@ class Party implements Feature, TmpPartyType {
     }
 
 }
+
+export default Party;

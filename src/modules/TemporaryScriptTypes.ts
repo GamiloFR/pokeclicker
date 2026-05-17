@@ -8,20 +8,22 @@ import type Achievement from './achievements/Achievement';
 import type AchievementCategory from './achievements/AchievementCategory';
 import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
 import type BattlePokemon from './battles/BattlePokemon';
+import type EggType from './breeding/EggType';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
-import DungeonBossPokemon from './dungeons/DungeonBossPokemon';
-import areaStatus from './enums/AreaStatus';
+import type DungeonBossPokemon from './dungeons/DungeonBossPokemon';
+import type areaStatus from './enums/AreaStatus';
 import type CaughtStatus from './enums/CaughtStatus';
 import type PokemonType from './enums/PokemonType';
-import Farming from './farming/Farming';
-import Plot from './farming/Plot';
-import WandererPokemon from './farming/WandererPokemon';
+import type Farming from './farming/Farming';
+import type Plot from './farming/Plot';
+import type WandererPokemon from './farming/WandererPokemon';
 import type * as GameConstants from './GameConstants';
-import Gym from './gym/Gym';
-import GymPokemon from './gym/GymPokemon';
+import type Gym from './gym/Gym';
+import type GymPokemon from './gym/GymPokemon';
 import type BagItem from './interfaces/BagItem';
+import type Item from './items/Item';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -29,21 +31,24 @@ import type Multiplier from './multiplier/Multiplier';
 import type OakItemLoadouts from './oakItems/OakItemLoadouts';
 import type OakItems from './oakItems/OakItems';
 import type PokemonCategories from './party/Category';
+import type Party from './party/Party';
+import type PartyPokemon from './party/PartyPokemon';
 import type PokeballFilters from './pokeballs/PokeballFilters';
 import type { EvoData } from './pokemons/evolutions/Base';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
-import Quests from './quests/Quests';
+import type Quests from './quests/Quests';
+import type HatchRequirement from './requirements/HatchRequirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
+import type { SortOptions } from './settings/SortOptions';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
-import Town from './towns/Town';
-import TownContent from './towns/townContent/TownContent';
+import type Town from './towns/Town';
+import type TownContent from './towns/townContent/TownContent';
 import type Translate from './translation/Translation';
 import type { Underground } from './underground/Underground';
 import type Wallet from './wallet/Wallet';
-import type WeatherType from './weather/WeatherType';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -96,7 +101,6 @@ import type WeatherType from './weather/WeatherType';
 
 // TODO types for classes not yet described
 export type TmpUpdateType = any;
-export type TmpBreedingType = any;
 export type TmpPokeballsType = any;
 export type TmpGemsType = any;
 export type TmpRedeemableCodesType = any;
@@ -108,7 +112,6 @@ export type TmpDreamOrbControllerType = any;
 export type TmpPurifyChamberType = any;
 export type TmpWeatherAppType = any;
 export type TmpZMovesType = any;
-export type TmpHeldItemType = any;
 
 export type TmpGameType = {
     gameState: GameConstants.GameState;
@@ -125,7 +128,7 @@ export type TmpGameType = {
     oakItems: OakItems;
     oakItemLoadouts: OakItemLoadouts;
     categories: PokemonCategories;
-    party: TmpPartyType;
+    party: Party;
     gems: TmpGemsType;
     underground: Underground;
     farming: Farming;
@@ -276,86 +279,7 @@ export type TmpPokemonFactoryType = {
     generateDungeonBoss(bossPokemon: DungeonBossPokemon, chestsOpened: number): BattlePokemon;
     routeLevel(route: number, region: GameConstants.Region): number
     generateGymPokemon(gym: Gym, index: number): BattlePokemon
-};
-
-export type TmpPartyPokemonType = {
-    id: number;
-    name: PokemonNameType;
-    evolutions: EvoData[],
-    baseAttack: number,
-    eggCycles: number,
-    level: number,
-    attack: number,
-    attackBonusAmount: number,
-    attackBonusPercent: number,
-    breeding: boolean,
-    pokerus: GameConstants.Pokerus,
-    effortPoints: number,
-    shiny: boolean,
-    category: Array<number>,
-    nickname: string,
-    displayName: string,
-    shadow: GameConstants.ShadowStatus,
-    showShadowImage: boolean,
-    vitaminsUsed: Record<GameConstants.VitaminType, KnockoutObservable<number>>;
-    heldItem: KnockoutObservable<TmpHeldItemType>;
-    defaultFemaleSprite: KnockoutObservable<boolean>;
-    hideShinyImage: KnockoutObservable<boolean>;
-    evs: KnockoutComputed<number>;
-    canUseStone(stoneType: GameConstants.StoneType): boolean;
-    addCategory(id: number): void;
-    removeCategory(id: number): void;
-    resetCategory(): void;
-    calculateEVAttackBonus(): number;
-};
-
-export type TmpPartyType = {
-    caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
-    activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
-    pokemonAttackObservable: KnockoutComputed<number>;
-    hasShadowPokemon: KnockoutComputed<boolean>;
-
-    gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
-    gainPokemonById: (id: number, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
-    gainExp: (exp: number, level?: number, trainer?: boolean) => void;
-    calculatePokemonAttack: (
-        type1: PokemonType,
-        type2: PokemonType,
-        ignoreRegionMultiplier?: boolean,
-        region?: GameConstants.Region,
-        includeBreeding?: boolean,
-        useBaseAttack?: boolean,
-        overrideWeather?: WeatherType,
-        ignoreLevel?: boolean,
-        includeTempBonuses?: boolean,
-        subregion?: GameConstants.SubRegions
-    ) => number;
-    calculateOnePokemonAttack: (
-        pokemon: TmpPartyPokemonType,
-        type1: PokemonType,
-        type2: PokemonType,
-        region?: GameConstants.Region,
-        ignoreRegionMultiplier?: boolean,
-        includeBreeding?: boolean,
-        useBaseAttack?: boolean,
-        overrideWeather?: WeatherType,
-        ignoreLevel?: boolean,
-        includeTempBonuses?: boolean,
-    ) => number;
-    getRegionAttackMultiplier: (highestRegion?: GameConstants.Region) => number
-    calculateEffortPoints: (pokemon: TmpPartyPokemonType, shiny: boolean, shadow: GameConstants.ShadowStatus, number: number, ignore?: boolean) => number;
-    getPokemon: (id: number) => TmpPartyPokemonType | undefined;
-    getPokemonByName: (name: PokemonNameType) => TmpPartyPokemonType | undefined;
-    partyPokemonActiveInSubRegion: (region: GameConstants.Region, subregion: GameConstants.SubRegions) => Array<TmpPartyPokemonType>;
-    alreadyCaughtPokemonByName: (name: PokemonNameType, shiny?: boolean) => boolean;
-    alreadyCaughtPokemon: (id: number, shiny?: boolean, shadow?: boolean, purified?: boolean) => boolean;
-    calculateClickAttack: (useItem?: boolean) => number;
-};
-
-export type TmpPartyControllerType = {
-    getCaughtStatusByName: (name: PokemonNameType) => CaughtStatus;
-    getPokerusStatusByName: (name: PokemonNameType) => GameConstants.Pokerus;
-    getEvsByName: (name: PokemonNameType) => number;
+    generatePartyPokemon(id: number, shiny?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus): PartyPokemon
 };
 
 export type TmpBagHandlerType = {
@@ -389,4 +313,75 @@ export type TmpBattleFrontierMilestoneType = {
 
 export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneType & {
     pokemonName: string
+};
+
+export type TmpHeldItemType = Item & {
+    regionUnlocked: GameConstants.Region;
+    canUse: (pokemon: PartyPokemon) => boolean
+};
+
+export type TmpHeldItemStaticType = {
+    heldItemSelected: KnockoutObservable<TmpHeldItemType>
+};
+
+export type TmpBreedingControllerType = {
+    isPureType(pokemon: PartyPokemon, type: (PokemonType | null)): boolean;
+};
+
+export type TmpHatcheryHelperType = {
+    trainerSprite: number;
+    hired: KnockoutObservable<boolean>;
+    tooltip: KnockoutComputed<string>;
+    fireAllButtonTooltip: KnockoutComputed<string>;
+    sortOption: KnockoutObservable<SortOptions>;
+    sortDirection: KnockoutObservable<boolean>;
+    hatched: KnockoutObservable<number>;
+    hatchBonus: KnockoutObservable<number>;
+    stepEfficiency: KnockoutObservable<number>;
+    attackEfficiency: KnockoutObservable<number>;
+    prevBonus: KnockoutObservable<number>;
+    nextBonus: KnockoutObservable<number>;
+    categories: KnockoutObservableArray<number>;
+    useHatcheryFilters: KnockoutObservable<boolean>;
+};
+
+export type TmpHatcheryHelpersType = {
+    MAX_HIRES: number;
+    available: KnockoutComputed<TmpHatcheryHelperType[]>;
+    hired: KnockoutComputed<TmpHatcheryHelperType[]>;
+    canHire: KnockoutComputed<boolean>;
+    requirement: HatchRequirement;
+};
+
+export type TmpEggType = {
+    steps: KnockoutObservable<number>;
+    pokemonType1: PokemonType;
+    pokemonType2: PokemonType;
+    progress: KnockoutComputed<number>;
+    progressText: KnockoutComputed<string>;
+    stepsRemaining: KnockoutComputed<number>;
+    partyPokemon: KnockoutObservable<PartyPokemon>;
+    stepsRequired: number;
+    type: EggType;
+    totalSteps: number;
+    pokemon: number;
+    shinyChance: number;
+    notified: boolean;
+
+    isNone(): boolean;
+    canHatch(): boolean
+};
+
+export type TmpBreedingType = {
+    hatcheryHelpers: TmpHatcheryHelpersType;
+
+    get eggList(): Array<KnockoutObservable<TmpEggType>>;
+    set eggList(value: Array<KnockoutObservable<TmpEggType>>);
+
+    canAccess(): boolean
+    getSteps(eggCycles: number): number;
+    addEggItemToHatchery(eggItem: GameConstants.EggItemType): boolean;
+    getAllCaughtStatus(): CaughtStatus;
+    getTypeCaughtStatus(type: GameConstants.EggItemType): CaughtStatus;
+    progressEggsBattle(route: number, region: GameConstants.Region): void;
 };
