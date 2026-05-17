@@ -29,7 +29,10 @@ import QuestLineState from './quests/QuestLineState';
 // end enums
 import Achievement from './achievements/Achievement';
 import AchievementCategory from './achievements/AchievementCategory';
+import AchievementHandler from './achievements/AchievementHandler';
 import { AchievementSortOptionConfigs, AchievementSortOptions } from './achievements/AchievementSortOptions';
+import AchievementTracker from './achievements/AchievementTracker';
+import CaughtUniqueShinyPokemonsByRegionRequirement from './achievements/CaughtShinyPokemonByRegionRequirement';
 import SafariLevelRequirement from './achievements/SafariLevelRequirement';
 import SecretAchievement from './achievements/SecretAchievement';
 import BadgeCaseController from './badgeCase/BadgeCaseController';
@@ -621,4 +624,7 @@ Object.assign(<any>window, {
     SafariLevelRequirement,
     BaitType,
     BaitList,
+    AchievementHandler,
+    CaughtUniqueShinyPokemonsByRegionRequirement,
+    AchievementTracker,
 });

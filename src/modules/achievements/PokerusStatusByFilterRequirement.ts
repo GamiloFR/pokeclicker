@@ -1,12 +1,14 @@
-///<reference path="../../declarations/requirements/AchievementRequirement.d.ts"/>
+import { AchievementOption, AchievementType, Pokerus } from '../GameConstants';
+import PartyPokemon from '../party/PartyPokemon';
+import AchievementRequirement from '../requirements/AchievementRequirement';
 
 class PokerusStatusByFilterRequirement extends AchievementRequirement {
     constructor(
         public filter: (pokemon: PartyPokemon) => boolean,
         amount: number,
-        public statusRequired: GameConstants.Pokerus
+        public statusRequired: Pokerus,
     ) {
-        super(amount, GameConstants.AchievementOption.more, GameConstants.AchievementType.Pokerus);
+        super(amount, AchievementOption.more, AchievementType.Pokerus);
     }
 
     public getProgress() {
@@ -17,3 +19,5 @@ class PokerusStatusByFilterRequirement extends AchievementRequirement {
         return `${this.requiredValue} Pokémon needs to be infected.`;
     }
 }
+
+export default PokerusStatusByFilterRequirement;

@@ -22,7 +22,6 @@ module.exports = {
         player: 'readonly',
         Save: 'readonly',
         MapHelper: 'readonly',
-        AchievementHandler: 'readonly',
         TownList: 'readonly',
         BattleFrontierMilestones: 'readonly',
         GameController: 'readonly',

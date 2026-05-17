@@ -1,3 +1,4 @@
+import AchievementHandler from '../achievements/AchievementHandler';
 import Dungeon from '../dungeons/Dungeon';
 import KeyItemType from '../enums/KeyItemType';
 import { Pokerus, Region } from '../GameConstants';

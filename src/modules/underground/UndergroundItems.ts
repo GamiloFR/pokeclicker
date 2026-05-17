@@ -1,3 +1,4 @@
+import StoneUnlockedRequirement from '../achievements/StoneUnlockedRequirement';
 import PokemonType from '../enums/PokemonType';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
 import { MegaStoneType, Region, StoneType } from '../GameConstants';
@@ -112,19 +113,13 @@ UndergroundItems.addItem(new UndergroundEvolutionItem(301, 'Water_stone', [[1, 1
 UndergroundItems.addItem(new UndergroundEvolutionItem(302, 'Thunder_stone', [[0, 1, 1], [1, 1, 1], [1, 1, 0]], StoneType.Thunder_stone));
 UndergroundItems.addItem(new UndergroundEvolutionItem(303, 'Leaf_stone', [[0, 1, 0], [1, 1, 1], [1, 1, 1], [0, 1, 0]], StoneType.Leaf_stone));
 UndergroundItems.addItem(new UndergroundEvolutionItem(304, 'Moon_stone', [[0, 1, 1, 1], [1, 1, 1, 0]], StoneType.Moon_stone));
-// TODO: Replace these requirements with StoneUnlockedRequirement once moved to modules
-UndergroundItems.addItem(new UndergroundEvolutionItem(305, 'Sun_stone', [[0, 1, 0], [1, 1, 1], [1, 1, 1]], StoneType.Sun_stone, 1, new MaxRegionRequirement(Region.johto)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(306, 'Shiny_stone', [[0, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Shiny_stone, 1, new MaxRegionRequirement(Region.sinnoh)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(307, 'Dusk_stone', [[1, 1, 1], [1, 1, 1], [1, 1, 0]], StoneType.Dusk_stone, 1, new MaxRegionRequirement(Region.sinnoh)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(308, 'Dawn_stone', [[1, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Dawn_stone, 1, new MaxRegionRequirement(Region.sinnoh)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(309, 'Ice_stone', [[1, 1, 1], [1, 1, 1]], StoneType.Ice_stone, 1, new MaxRegionRequirement(Region.alola)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(310, 'Black_augurite', [[1, 0, 1], [1, 1, 1], [1, 1, 1]], StoneType.Black_augurite, 1, new MaxRegionRequirement(Region.hisui)));
-UndergroundItems.addItem(new UndergroundEvolutionItem(311, 'Peat_block', [[1, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Peat_block, 1, new MaxRegionRequirement(Region.hisui)));
-// UndergroundItems.addItem(new UndergroundEvolutionItem(305, [[0, 1, 0], [1, 1, 1], [1, 1, 1]], StoneType.Sun_stone, 1, new StoneUnlockedRequirement(StoneType.Sun_stone)));
-// UndergroundItems.addItem(new UndergroundEvolutionItem(306, [[0, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Shiny_stone, 1, new StoneUnlockedRequirement(StoneType.Shiny_stone)));
-// UndergroundItems.addItem(new UndergroundEvolutionItem(307, [[1, 1, 1], [1, 1, 1], [1, 1, 0]], StoneType.Dusk_stone, 1, new StoneUnlockedRequirement(StoneType.Dusk_stone)));
-// UndergroundItems.addItem(new UndergroundEvolutionItem(308, [[1, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Dawn_stone, 1, new StoneUnlockedRequirement(StoneType.Dawn_stone)));
-// UndergroundItems.addItem(new UndergroundEvolutionItem(309, [[1, 1, 1], [1, 1, 1]], StoneType.Ice_stone, 1, new StoneUnlockedRequirement(StoneType.Ice_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(305, 'Sun_stone', [[0, 1, 0], [1, 1, 1], [1, 1, 1]], StoneType.Sun_stone, 1, new StoneUnlockedRequirement(StoneType.Sun_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(306, 'Shiny_stone', [[0, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Shiny_stone, 1, new StoneUnlockedRequirement(StoneType.Shiny_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(307, 'Dusk_stone', [[1, 1, 1], [1, 1, 1], [1, 1, 0]], StoneType.Dusk_stone, 1, new StoneUnlockedRequirement(StoneType.Dusk_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(308, 'Dawn_stone', [[1, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Dawn_stone, 1, new StoneUnlockedRequirement(StoneType.Dawn_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(309, 'Ice_stone', [[1, 1, 1], [1, 1, 1]], StoneType.Ice_stone, 1, new StoneUnlockedRequirement(StoneType.Ice_stone)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(310, 'Black_augurite', [[1, 0, 1], [1, 1, 1], [1, 1, 1]], StoneType.Black_augurite, 1, new StoneUnlockedRequirement(StoneType.Black_augurite)));
+UndergroundItems.addItem(new UndergroundEvolutionItem(311, 'Peat_block', [[1, 1, 1], [1, 1, 1], [1, 1, 1]], StoneType.Peat_block, 1, new StoneUnlockedRequirement(StoneType.Peat_block)));
 
 // Shards
 UndergroundItems.addItem(new UndergroundShardItem(400, 'Red_shard', [[1, 1, 1], [1, 1, 0], [1, 1, 1]]));

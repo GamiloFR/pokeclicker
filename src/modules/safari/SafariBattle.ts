@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import AchievementHandler from '../achievements/AchievementHandler';
 import { BUG_SAFARI_SHINY_MODIFIER, camelCaseToString, Region, SAFARI_EP_YIELD, SAFARI_OUT_OF_BALLS, ShadowStatus } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { createLogContent } from '../logbook/helpers';

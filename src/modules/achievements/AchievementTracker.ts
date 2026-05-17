@@ -1,15 +1,18 @@
+import { Feature } from '../DataStore/common/Feature';
+import KeyItemType from '../enums/KeyItemType';
+import Achievement from './Achievement';
+import AchievementHandler from './AchievementHandler';
+import SecretAchievement from './SecretAchievement';
+
 class AchievementTracker implements Feature {
     name = 'AchievementTracker';
     saveKey = 'achievementTracker';
-    trackedAchievement: KnockoutObservable<Achievement>;
 
     defaults = {
         'trackedAchievement': null,
     };
 
-    constructor() {
-        this.trackedAchievement = ko.observable(this.defaults.trackedAchievement);
-    }
+    trackedAchievement = ko.observable<Achievement>(this.defaults.trackedAchievement);
 
     initialize(): void {
 
@@ -19,7 +22,7 @@ class AchievementTracker implements Feature {
         return App.game.keyItems.hasKeyItem(KeyItemType.Holo_caster);
     }
 
-    update(delta: number): void {
+    update(): void {
     }
 
     nextAchievement(): void {
@@ -72,3 +75,5 @@ class AchievementTracker implements Feature {
         return this.trackedAchievement() !== null;
     }
 }
+
+export default AchievementTracker;

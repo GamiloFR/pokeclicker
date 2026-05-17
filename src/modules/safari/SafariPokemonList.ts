@@ -1,14 +1,14 @@
 import { ObservableArray } from 'knockout';
+import CaughtUniquePokemonByFilterRequirement from '../achievements/CaughtPokemonByFilterRequirement';
 import BadgeEnums from '../enums/Badges';
 import PokemonType from '../enums/PokemonType';
 import SafariEnvironments from '../enums/SafariEnvironments';
-import { AchievementOption, FRIEND_SAFARI_POKEMON, MAX_AVAILABLE_REGION, Pokerus, Region, ShadowStatus } from '../GameConstants';
+import { FRIEND_SAFARI_POKEMON, MAX_AVAILABLE_REGION, Pokerus, Region, ShadowStatus } from '../GameConstants';
 import PartyPokemon from '../party/PartyPokemon';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonList, pokemonMap } from '../pokemons/PokemonList';
 import PokemonLocations from '../pokemons/PokemonLocations';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import AchievementRequirement from '../requirements/AchievementRequirement';
 import GymBadgeRequirement from '../requirements/GymBadgeRequirement';
 import QuestLineCompletedRequirement from '../requirements/QuestLineCompletedRequirement';
 import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
@@ -28,12 +28,6 @@ type EncounterInfo = {
     lock: boolean;
     lockMessage: string;
 };
-
-declare class CaughtUniquePokemonByFilterRequirement extends AchievementRequirement {
-    constructor(filter: (pokemon: PartyPokemon) => boolean, hintText: string, amount: number, shiny?: boolean, option?: AchievementOption);
-    getProgress(): number;
-    hint(): string;
-}
 
 class SafariPokemonList {
     public static list: Record<SafariRegion, ObservableArray<SafariEncounter>> = {

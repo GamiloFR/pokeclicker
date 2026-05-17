@@ -1,12 +1,7 @@
 // importing only types, as we are "allowed" to have circular type dependencies
 import type {
-    Computed as KnockoutComputed,
-    Observable as KnockoutObservable,
-    ObservableArray as KnockoutObservableArray,
+    Observable as KnockoutObservable
 } from 'knockout';
-import type Achievement from './achievements/Achievement';
-import type AchievementCategory from './achievements/AchievementCategory';
-import type { AchievementSortOptions } from './achievements/AchievementSortOptions';
 import Breeding from './breeding/Breeding';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
@@ -217,38 +212,6 @@ export type TmpMapHelperType = {
     ableToTravel: () => boolean;
     travelToNextRegion: () => void;
     getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
-};
-
-export type TmpAchievementHandlerType = {
-    achievementList: Achievement[];
-    navigateIndex: KnockoutObservable<number>;
-    achievementListFiltered: KnockoutObservableArray<Achievement>;
-    numberOfTabs: KnockoutObservable<number>;
-    setNavigateIndex: (index: number) => void;
-    navigateRight: () => void;
-    navigateLeft: () => void;
-    isNavigateDirectionDisabled: (navigateBackward: boolean) => boolean;
-    calculateNumberOfTabs: () => void;
-    filter: Record<string, any>;
-    getAchievementListWithIndex: () => void;
-    cachedSortedList: Achievement[];
-    achievementSortedList: KnockoutComputed<any[]>;
-    filterAchievementList: (retainPage: boolean) => void;
-    compareBy: (option: AchievementSortOptions, direction: boolean) => (a: Achievement, b: Achievement) => number;
-    preCheckAchievements: () => void;
-    checkAchievements: () => void;
-    addAchievement: (...rest) => void;
-    calculateBonus: () => void;
-    calculateMaxBonus: () => void;
-    achievementBonus: () => number;
-    achievementBonusPercent: () => string;
-    findByName: (name: string) => Achievement;
-    getAchievementCategories: () => AchievementCategory[];
-    getAchievementCategoryByRegion: (region: GameConstants.Region) => AchievementCategory;
-    getAchievementCategoryByExtraCategory: (category: GameConstants.ExtraAchievementCategories) => AchievementCategory;
-    initialize: (multiplier: Multiplier, challenges: Challenges) => void;
-    load: () => void;
-    unlockAchievement (achievementName: string): void
 };
 
 export type TmpTemporaryBattleListType = {

@@ -1,10 +1,11 @@
-import Item from './Item';
-import FluteEffectRunner from '../gems/FluteEffectRunner';
 import { FluteItemType } from '../GameConstants';
+import AchievementHandler from '../achievements/AchievementHandler';
 import type PokemonType from '../enums/PokemonType';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
 import type MultiplierType from '../multiplier/MultiplierType';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import Item from './Item';
 
 export default class FluteItem extends Item {
     name: FluteItemType;

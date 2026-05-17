@@ -1,9 +1,12 @@
-///<reference path="../../declarations/requirements/AchievementRequirement.d.ts"/>
+import { AchievementOption, AchievementType, Region } from '../GameConstants';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import AchievementRequirement from '../requirements/AchievementRequirement';
 
 class CaughtUniquePokemonsByRegionRequirement extends AchievementRequirement {
-    public region: GameConstants.Region;
-    constructor(region: GameConstants.Region, amount = 0, option: GameConstants.AchievementOption = GameConstants.AchievementOption.more) {
-        super(amount || PokemonHelper.calcUniquePokemonsByRegion(region), option, GameConstants.AchievementType['Caught Pokemon']);
+    public region: Region;
+
+    constructor(region: Region, amount = 0, option: AchievementOption = AchievementOption.more) {
+        super(amount || PokemonHelper.calcUniquePokemonsByRegion(region), option, AchievementType['Caught Pokemon']);
         this.region = region;
     }
 
@@ -19,3 +22,5 @@ class CaughtUniquePokemonsByRegionRequirement extends AchievementRequirement {
         return `${super.toString()} ${this.region}`;
     }
 }
+
+export default CaughtUniquePokemonsByRegionRequirement;

@@ -1,4 +1,5 @@
 import { Computed, Observable, ObservableArray } from 'knockout';
+import AchievementHandler from '../achievements/AchievementHandler';
 import { Saveable } from '../DataStore/common/Saveable';
 import KeyItemType from '../enums/KeyItemType';
 import PokemonType from '../enums/PokemonType';

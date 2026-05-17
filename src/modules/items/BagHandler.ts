@@ -111,7 +111,8 @@ class BagHandler {
             case ItemType.item:
                 return this.getItem(item.id).isAvailable() && !this.getItem(item.id).isSoldOut();
             case ItemType.underground:
-                return  !this.getUndergroundItem(item.id).requirement || this.getUndergroundItem(item.id).requirement.isCompleted();
+                const requirement = this.getUndergroundItem(item.id).requirement;
+                return  !requirement || requirement.isCompleted();
             case ItemType.berry:
             case ItemType.gem:
             default:

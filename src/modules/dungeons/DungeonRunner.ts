@@ -1,4 +1,5 @@
 import type { Computed, Observable } from 'knockout';
+import AchievementHandler from '../achievements/AchievementHandler';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import BerryNameType from '../enums/BerryNameType';
 import BerryType from '../enums/BerryType';
