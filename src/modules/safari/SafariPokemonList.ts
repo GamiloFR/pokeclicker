@@ -1,30 +1,48 @@
-type OverworldSpriteType = 'base' | 'self' | PokemonNameType;
+import { ObservableArray } from 'knockout';
+import BadgeEnums from '../enums/Badges';
+import PokemonType from '../enums/PokemonType';
+import SafariEnvironments from '../enums/SafariEnvironments';
+import { AchievementOption, FRIEND_SAFARI_POKEMON, MAX_AVAILABLE_REGION, Pokerus, Region, ShadowStatus } from '../GameConstants';
+import PartyPokemon from '../party/PartyPokemon';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { pokemonList, pokemonMap } from '../pokemons/PokemonList';
+import PokemonLocations from '../pokemons/PokemonLocations';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import AchievementRequirement from '../requirements/AchievementRequirement';
+import GymBadgeRequirement from '../requirements/GymBadgeRequirement';
+import QuestLineCompletedRequirement from '../requirements/QuestLineCompletedRequirement';
+import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
+import SeededRand from '../utilities/SeededRand';
+import Safari, { SafariRegion } from './Safari';
+import SafariEncounter from './SafariEncounter';
 
-class SafariEncounter {
-    public requirement: Requirement;
-    constructor(
-        public name: PokemonNameType,
-        public weight: number,
-        public environments: SafariEnvironments[] = [SafariEnvironments.Grass],
-        requirement?: true | Requirement, // True is used to simplify Friend Safari Pokémon generation
-        public hide = true, // Hide from the list
-        public sprite : OverworldSpriteType = 'base'
-    ) {
-        this.requirement = requirement === true ? new ObtainedPokemonRequirement(this.name) : requirement;
-    }
+export type OverworldSpriteType = 'base' | 'self' | PokemonNameType;
 
-    public isAvailable(): boolean {
-        return this.requirement?.isCompleted() ?? true;
-    }
+type EncounterInfo = {
+    image: string;
+    pkrsImage: string;
+    EVs: string;
+    shiny: boolean;
+    hide: boolean; // We already filter out hidden Pokémon
+    uncaught: boolean;
+    lock: boolean;
+    lockMessage: string;
+};
+
+declare class CaughtUniquePokemonByFilterRequirement extends AchievementRequirement {
+    constructor(filter: (pokemon: PartyPokemon) => boolean, hintText: string, amount: number, shiny?: boolean, option?: AchievementOption);
+    getProgress(): number;
+    hint(): string;
 }
 
 class SafariPokemonList {
-    public static list: Partial<Record<GameConstants.Region, KnockoutObservable<Array<SafariEncounter>>>> = {
-        [GameConstants.Region.kanto]: ko.observableArray(),
-        [GameConstants.Region.johto]: ko.observableArray(),
-        [GameConstants.Region.sinnoh]: ko.observableArray(),
-        [GameConstants.Region.kalos]: ko.observableArray(),
-        [GameConstants.Region.alola]: ko.observableArray(),
+    public static list: Record<SafariRegion, ObservableArray<SafariEncounter>> = {
+        [Region.none]: ko.observableArray<SafariEncounter>(),
+        [Region.kanto]: ko.observableArray<SafariEncounter>(),
+        [Region.johto]: ko.observableArray<SafariEncounter>(),
+        [Region.sinnoh]: ko.observableArray<SafariEncounter>(),
+        [Region.kalos]: ko.observableArray<SafariEncounter>(),
+        [Region.alola]: ko.observableArray<SafariEncounter>(),
     };
 
     public static generateSafariLists() {
@@ -68,7 +86,7 @@ class SafariPokemonList {
             new SafariEncounter('Dragonair', 4, [SafariEnvironments.Water], true, false),
         ];
 
-        SafariPokemonList.list[GameConstants.Region.kanto](pokemon);
+        SafariPokemonList.list[Region.kanto](pokemon);
     }
 
     public static generateJohtoSafariList() {
@@ -131,7 +149,7 @@ class SafariPokemonList {
             new SafariEncounter('Golisopod', 1, [SafariEnvironments.Water], true),
         ];
 
-        SafariPokemonList.list[GameConstants.Region.johto](pokemon);
+        SafariPokemonList.list[Region.johto](pokemon);
     }
 
     private static generateSinnohSafariList() {
@@ -165,7 +183,7 @@ class SafariPokemonList {
             new SafariEncounter('Carvanha', 10, [SafariEnvironments.Water]),
         ];
 
-        SafariPokemonList.list[GameConstants.Region.sinnoh](pokemon);
+        SafariPokemonList.list[Region.sinnoh](pokemon);
     }
 
     public static generateKalosSafariList() {
@@ -173,18 +191,18 @@ class SafariPokemonList {
         // There may not be an evenly divisible number of pokemon so repeat list 5 times
         const friendSafariPokemon = pokemonList
             .filter((p) => PokemonLocations.isObtainableAndNotEvable(p.name)
-                && PokemonHelper.calcNativeRegion(p.name) <= GameConstants.MAX_AVAILABLE_REGION)
+                && PokemonHelper.calcNativeRegion(p.name) <= MAX_AVAILABLE_REGION)
             .map((p) => p.name);
 
         SeededRand.seed(+player.trainerId);
-        const shuffledPokemon = new Array(GameConstants.FRIEND_SAFARI_POKEMON)
+        const shuffledPokemon = new Array(FRIEND_SAFARI_POKEMON)
             .fill(SeededRand.shuffleArray(friendSafariPokemon)).flat();
 
         // Rotation is fixed, use the current date to determine where in the list to select the 5 pokemon
-        const batchCount = Math.ceil(shuffledPokemon.length / GameConstants.FRIEND_SAFARI_POKEMON);
+        const batchCount = Math.ceil(shuffledPokemon.length / FRIEND_SAFARI_POKEMON);
         const now = new Date();
-        const startIndex = (Math.floor((now.getTime() - now.getTimezoneOffset() * 60 * 1000) / (24 * 60 * 60 * 1000)) % batchCount) * GameConstants.FRIEND_SAFARI_POKEMON;
-        const endIndex = startIndex + GameConstants.FRIEND_SAFARI_POKEMON;
+        const startIndex = (Math.floor((now.getTime() - now.getTimezoneOffset() * 60 * 1000) / (24 * 60 * 60 * 1000)) % batchCount) * FRIEND_SAFARI_POKEMON;
+        const endIndex = startIndex + FRIEND_SAFARI_POKEMON;
 
         const pokemon: SafariEncounter[] = shuffledPokemon.slice(startIndex, endIndex).map((p) => {
             return new SafariEncounter(p, 10, SafariPokemonList.getEnvironmentByPokemonType(p), true, false);
@@ -202,7 +220,7 @@ class SafariPokemonList {
         // Water
         pokemon.push(new SafariEncounter('Lapras', 2, [SafariEnvironments.Water]));
 
-        SafariPokemonList.list[GameConstants.Region.kalos](pokemon);
+        SafariPokemonList.list[Region.kalos](pokemon);
     }
 
     private static generateAlolaSafariList() {
@@ -227,11 +245,11 @@ class SafariPokemonList {
             new SafariEncounter('Ditto (Magikarp)', 0.3, [SafariEnvironments.Water, SafariEnvironments.Grass],
                 new CaughtUniquePokemonByFilterRequirement((p: PartyPokemon) => Math.floor(p.id) === pokemonMap.Magikarp.id, 'Catch more Magikarp species.', 6),
                 false,
-                'Magikarp'
+                'Magikarp',
             ),
         ];
 
-        SafariPokemonList.list[GameConstants.Region.alola](pokemon);
+        SafariPokemonList.list[Region.alola](pokemon);
     }
 
     // Get SafariEnvironment according to the Pokemon types
@@ -253,23 +271,23 @@ class SafariPokemonList {
     }
 
     public static getDisplayList(region = player.region): EncounterInfo[] {
-        const encounters = [];
+        const encounters: EncounterInfo[] = [];
 
-        if (!SafariPokemonList.list[region]) {
+        if (!Safari.isSafariRegion(region)) {
             return encounters;
         }
 
         const list = SafariPokemonList.list[region]();
-        list.forEach(e => {
+        list.forEach((e: SafariEncounter) => {
             if (e.hide && !e.isAvailable()) {
                 return;
             }
             const pokemon = PokemonHelper.getPokemonByName(e.name);
             const partyPokemon = App.game.party.getPokemonByName(e.name);
             const eData = {
-                image: PokemonHelper.getImage(pokemon.id, undefined, undefined, GameConstants.ShadowStatus.None),
-                pkrsImage: partyPokemon?.pokerus > GameConstants.Pokerus.Uninfected ? `assets/images/breeding/pokerus/${GameConstants.Pokerus[partyPokemon.pokerus]}.png` : '',
-                EVs: partyPokemon?.pokerus >= GameConstants.Pokerus.Contagious ? `EVs: ${partyPokemon.evs().toLocaleString('en-US')}` : '',
+                image: PokemonHelper.getImage(pokemon.id, undefined, undefined, ShadowStatus.None),
+                pkrsImage: partyPokemon?.pokerus > Pokerus.Uninfected ? `assets/images/breeding/pokerus/${Pokerus[partyPokemon.pokerus]}.png` : '',
+                EVs: partyPokemon?.pokerus >= Pokerus.Contagious ? `EVs: ${partyPokemon.evs().toLocaleString('en-US')}` : '',
                 shiny:  partyPokemon?.shiny || false,
                 hide: false, // We already filter out hidden Pokémon
                 uncaught: !partyPokemon,
@@ -281,4 +299,10 @@ class SafariPokemonList {
 
         return encounters;
     }
+
+    public static isValidRegion(region: any): region is keyof typeof SafariPokemonList.list {
+        return region in SafariPokemonList.list;
+    }
 }
+
+export default SafariPokemonList;

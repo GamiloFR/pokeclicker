@@ -16,12 +16,16 @@ import PokemonItem from '../items/PokemonItem';
 import Requirement from '../requirements/Requirement';
 import Routes from '../routes/Routes';
 import SpecialRoutePokemon from '../routes/SpecialRoutePokemon';
+import SafariEncounter from '../safari/SafariEncounter';
+import SafariItemController from '../safari/SafariItemController';
+import SafariPokemon from '../safari/SafariPokemon';
+import SafariPokemonList from '../safari/SafariPokemonList';
 import BerryMasterShop from '../shop/BerryMasterShop';
 import GemMasterShop from '../shop/GemMasterShop';
 import GenericTraderShop from '../shop/GenericTraderShop';
 import ShardTraderShop from '../shop/ShardTraderShop';
 import Shop from '../shop/Shop';
-import { TmpBattleFrontierMilestoneType, TmpSafariEncounterType } from '../TemporaryScriptTypes';
+import { TmpBattleFrontierMilestoneType } from '../TemporaryScriptTypes';
 import BattleCafeController from '../towns/battleCafe/BattleCafeController';
 import PokemonGiftNPC from '../towns/PokemonGiftNPC';
 import { ShardDeal } from '../underground/ShardDeal';
@@ -352,12 +356,12 @@ class PokemonLocations {
             return cache[pokemonName];
         }
         const cacheLine = this.initCacheLine(cache, Object);
-        Object.entries(SafariPokemonList.list).forEach(([region]) => {
+        Object.keys(SafariPokemonList.list).forEach((region) => {
             if (region == Region.kalos.toString()) {
                 // Friendly safari might cause infinite recursion
                 return;
             }
-            const zoneList: TmpSafariEncounterType[] = SafariPokemonList.list[region]();
+            const zoneList: SafariEncounter[] = SafariPokemonList.list[region]();
             const safariWeight = zoneList.reduce((sum, p) => sum + p.weight, 0);
             zoneList.forEach(safariPokemon => {
                 cacheLine[safariPokemon.name][+region] = cacheLine[safariPokemon.name][+region] || {};

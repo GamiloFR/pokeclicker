@@ -25,9 +25,7 @@ module.exports = {
         AchievementHandler: 'readonly',
         TownList: 'readonly',
         BattleFrontierMilestones: 'readonly',
-        SafariPokemonList: 'readonly',
-        SafariPokemon: 'readonly',
-        SafariItemController: 'readonly',
+        GameController: 'readonly',
     },
     rules: {
         indent: 'off',

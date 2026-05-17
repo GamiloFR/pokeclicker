@@ -15,6 +15,7 @@ import initGyms from './gym/index';
 import initItems from './items/index';
 import initPokemons from './pokemons';
 import initRoutes from './routes/index';
+import initSafari from './safari';
 import initSettings from './settings/index';
 import initShop from './shop/index';
 
@@ -25,5 +26,6 @@ initRoutes();
 initSettings();
 initShop();
 
-// After initItems
-initGems();
+initGems(); // After initItems
+
+initSafari();

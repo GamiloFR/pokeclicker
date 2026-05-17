@@ -12,11 +12,9 @@ import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
 import type areaStatus from './enums/AreaStatus';
-import type SafariEnvironments from './enums/SafariEnvironments';
 import type Farming from './farming/Farming';
 import type * as GameConstants from './GameConstants';
 import type GymPokemon from './gym/GymPokemon';
-import type BagItem from './interfaces/BagItem';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -305,34 +303,6 @@ export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneTy
     pokemonName: string
 };
 
-export type TmpOverworldSpriteTypeType = 'base' | 'self' | PokemonNameType;
-
-export type TmpSafariEncounterType = {
-    requirement: Requirement;
-    name: PokemonNameType,
-    weight: number,
-    environments: SafariEnvironments[];
-    hide: boolean;
-    sprite: TmpOverworldSpriteTypeType;
-    isAvailable(): boolean
-};
-
-export type TmpSafariPokemonListType = {
-    list: Partial<Record<GameConstants.Region, KnockoutObservable<Array<TmpSafariEncounterType>>>>
-};
-
-export type TmpSafariPokemonStaticType = {
-    calcPokemonWeight(pokemon: TmpSafariEncounterType): number;
-};
-
-export type TmpSafariItemWeighedType = {
-    item: BagItem,
-    weight: number,
-    requirement?: Requirement
-};
-
-export type TmpSafariItemControllerType = {
-    list: Partial<Record<GameConstants.Region, Array<TmpSafariItemWeighedType>>>;
-    getRandomItem(): BagItem | undefined;
-    currentRegionHasItems(): boolean;
+export type TmpGameControllerType = {
+    simulateKey(code: string, type?: string, modifiers?: object): void;
 };

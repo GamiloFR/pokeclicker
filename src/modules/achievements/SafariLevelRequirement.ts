@@ -1,6 +1,10 @@
+import { AchievementOption, AchievementType } from '../GameConstants';
+import AchievementRequirement from '../requirements/AchievementRequirement';
+import Safari from '../safari/Safari';
+
 class SafariLevelRequirement extends AchievementRequirement {
     constructor(levelRequired: number) {
-        super(levelRequired, GameConstants.AchievementOption.more, GameConstants.AchievementType.Safari);
+        super(levelRequired, AchievementOption.more, AchievementType.Safari);
     }
 
     public getProgress() {
@@ -11,3 +15,5 @@ class SafariLevelRequirement extends AchievementRequirement {
         return `Needs Safari Level ${this.requiredValue}.`;
     }
 }
+
+export default SafariLevelRequirement;

@@ -67,7 +67,7 @@ type Enemy = PokemonNameType | DetailedPokemon | DungeonTrainer;
 
 type Boss = DungeonBossPokemon | DungeonTrainer;
 
-interface EncounterInfo {
+export interface EncounterInfo {
     image: string,
     shiny: boolean,
     shadow: boolean,

@@ -17,7 +17,5 @@ declare global {
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const TownList: TempTypes.TmpTownListType;
     const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
-    const SafariPokemonList: TempTypes.TmpSafariPokemonListType;
-    const SafariPokemon: TempTypes.TmpSafariPokemonStaticType;
-    const SafariItemController: TempTypes.TmpSafariItemControllerType;
+    const GameController: TempTypes.TmpGameControllerType;
 }

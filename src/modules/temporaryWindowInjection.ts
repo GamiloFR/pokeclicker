@@ -30,6 +30,7 @@ import QuestLineState from './quests/QuestLineState';
 import Achievement from './achievements/Achievement';
 import AchievementCategory from './achievements/AchievementCategory';
 import { AchievementSortOptionConfigs, AchievementSortOptions } from './achievements/AchievementSortOptions';
+import SafariLevelRequirement from './achievements/SafariLevelRequirement';
 import SecretAchievement from './achievements/SecretAchievement';
 import BadgeCaseController from './badgeCase/BadgeCaseController';
 import Battle from './battles/Battle';
@@ -221,6 +222,12 @@ import RegionRoute from './routes/RegionRoute';
 import RoutePokemon from './routes/RoutePokemon';
 import Routes from './routes/Routes';
 import SpecialRoutePokemon from './routes/SpecialRoutePokemon';
+import { BaitType } from './safari/Bait';
+import BaitList from './safari/BaitList';
+import Safari from './safari/Safari';
+import SafariBattle from './safari/SafariBattle';
+import SafariPokemonList from './safari/SafariPokemonList';
+import SafariTownContent from './safari/SafariTownContent';
 import SaveReminder from './saveReminder/SaveReminder';
 import BooleanSetting from './settings/BooleanSetting';
 import RangeSetting from './settings/RangeSetting';
@@ -607,4 +614,11 @@ Object.assign(<any>window, {
     BagHandler,
     ItemHelper,
     HeldItem,
+    Safari,
+    SafariBattle,
+    SafariPokemonList,
+    SafariTownContent,
+    SafariLevelRequirement,
+    BaitType,
+    BaitList,
 });

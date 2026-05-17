@@ -1,27 +1,58 @@
+import KeyItemType from '../enums/KeyItemType';
+import SafariEnvironments from '../enums/SafariEnvironments';
+import { camelCaseToString, Currency, DockTowns, GameState, Region, SAFARI_BASE_POKEBALL_COUNT, SAFARI_BATTLE_CHANCE, SAFARI_LEGAL_WALK_BLOCKS, SAFARI_MJ_BATTLE_CHANCE, SAFARI_WATER_BLOCKS, SafariTile } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import BagHandler from '../items/BagHandler';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import { modalState } from '../utilities/DisplayObservables';
+import Rand from '../utilities/Rand';
+import Amount from '../wallet/Amount';
+import FenceBody from './body/FenceBody';
+import GrassBody from './body/GrassBody';
+import LandBody from './body/LandBody';
+import SafariBody from './body/SafariBody';
+import SandBody from './body/SandBody';
+import ShapedLandBody from './body/ShapedLandBody';
+import TreeBody from './body/TreeBody';
+import WaterBody from './body/WaterBody';
+import SafariBattle from './SafariBattle';
+import SafariItem from './SafariItem';
+import SafariItemController from './SafariItemController';
+import SafariPokemon from './SafariPokemon';
+import SafariPokemonList from './SafariPokemonList';
+
+const safariRegions = [Region.none, Region.kanto, Region.johto, Region.sinnoh, Region.kalos, Region.alola] as const;
+
+export type SafariRegion = typeof safariRegions[number];
+
 class Safari {
     static grid: Array<Array<number>>;
     static accessibleTiles: Array<Array<boolean>>;
-    static pokemonGrid: KnockoutObservableArray<SafariPokemon> = ko.observableArray([]);
-    static itemGrid: KnockoutObservableArray<SafariItem> = ko.observableArray([]);
+    static pokemonGrid = ko.observableArray<SafariPokemon>([]);
+    static itemGrid = ko.observableArray<SafariItem>([]);
     static lastDirection = 'up';
     static nextDirection: string;
     static steps = 0;
     static walking = false;
     static isMoving = false;
     static queue: Array<string> = [];
-    private static playerXY = {'x': 0, 'y': 0};
-    private static origin;
-    static inProgress: KnockoutObservable<boolean> = ko.observable(false);
-    static inBattle: KnockoutObservable<boolean> = ko.observable(false);
-    static balls: KnockoutObservable<number> = ko.observable().extend({ numeric: 0 });
-    static activeRegion: KnockoutObservable<GameConstants.Region> = ko.observable(GameConstants.Region.none);
-    static activeEnvironment: KnockoutObservable<SafariEnvironments> = ko.observable(SafariEnvironments.Grass);
+    private static playerXY = { 'x': 0, 'y': 0 };
+    private static origin: {
+        top: number,
+        left: number,
+    };
+    static inProgress = ko.observable(false);
+    static inBattle = ko.observable(false);
+    static balls = ko.observable<number>().extend({ numeric: 0 });
+    static activeRegion = ko.observable<SafariRegion>(Region.none);
+    static activeEnvironment = ko.observable(SafariEnvironments.Grass);
     private static maxPlacementAttempts = 20;
     private static readonly moveSpeed = 250;
 
     // Safari level
     static maxSafariLevel = 40;
-    static safariExp: KnockoutComputed<number> = ko.pureComputed(() => {
+    static safariExp = ko.pureComputed(() => {
         return App.game.statistics.safariRocksThrown() * 10 +
             App.game.statistics.safariBaitThrown() * 5 +
             App.game.statistics.safariBallsThrown() * 10 +
@@ -29,7 +60,7 @@ class Safari {
             App.game.statistics.safariShinyPokemonCaptured() * 50 * 4 + // Shiny increments both, so this adds up to 5x
             App.game.statistics.safariItemsObtained() * 10;
     });
-    static safariLevel: KnockoutComputed<number> = ko.pureComputed(() => {
+    static safariLevel = ko.pureComputed(() => {
         const xp = Safari.safariExp();
         for (let i = 1; i <= Safari.maxSafariLevel; i++) {
             if (xp < Safari.expRequiredForLevel(i)) {
@@ -38,7 +69,7 @@ class Safari {
         }
         return Safari.maxSafariLevel;
     });
-    static percentToNextSafariLevel: KnockoutComputed<number> = ko.pureComputed(() => {
+    static percentToNextSafariLevel = ko.pureComputed(() => {
         const level = Safari.safariLevel();
         if (level === Safari.maxSafariLevel) {
             return 100;
@@ -57,7 +88,7 @@ class Safari {
     }
 
     public static load() {
-        Safari.activeRegion(player.region);
+        Safari.activeRegion(player.region as SafariRegion);
         Safari.grid = [];
         Safari.pokemonGrid([]);
         Safari.itemGrid([]);
@@ -70,10 +101,10 @@ class Safari {
         Safari.balls(Safari.calculateStartPokeballs());
 
         for (let i = 0; i < Safari.sizeY(); i++) {
-            Safari.grid.push(Array(Safari.sizeX()).fill(GameConstants.SafariTile.ground));
+            Safari.grid.push(Array(Safari.sizeX()).fill(SafariTile.ground));
         }
 
-        if (Safari.activeRegion() === GameConstants.Region.alola) {
+        if (Safari.activeRegion() === Region.alola) {
             const land = new LandBody(5, 3);
             land.grid.pop();
             const [spawnX, spawnY] = Safari.getPlayerStartCoords();
@@ -90,12 +121,12 @@ class Safari {
             // Transform every Ground into Water and Sand into Ground
             for (let i = 0; i < Safari.grid.length; i++) {
                 for (let j = 0; j < Safari.grid[i].length; j++) {
-                    if (Safari.grid[i][j] === GameConstants.SafariTile.ground) {
-                        Safari.grid[i][j] = GameConstants.SafariTile.waterC;
+                    if (Safari.grid[i][j] === SafariTile.ground) {
+                        Safari.grid[i][j] = SafariTile.waterC;
                     }
                     // Sand was temporary, because ground was used temporary for water...
-                    if (Safari.grid[i][j] === GameConstants.SafariTile.sandC) {
-                        Safari.grid[i][j] = GameConstants.SafariTile.ground;
+                    if (Safari.grid[i][j] === SafariTile.sandC) {
+                        Safari.grid[i][j] = SafariTile.ground;
                     }
                 }
             }
@@ -158,8 +189,8 @@ class Safari {
         for (let i = 0; i < body.grid.length; i++) {
             for (let j = 0; j < body.grid[i].length; j++) {
                 if ( (i + y) < Safari.sizeY() && (j + x) < Safari.sizeX()) {
-                    if (body.grid[i][j] !== GameConstants.SafariTile.ground) {
-                        if (Safari.grid[i + y][j + x] !== GameConstants.SafariTile.ground) {
+                    if (body.grid[i][j] !== SafariTile.ground) {
+                        if (Safari.grid[i + y][j + x] !== SafariTile.ground) {
                             return false;
                         }
                     }
@@ -187,12 +218,12 @@ class Safari {
 
     // Check if grid has water tiles
     private static hasWaterTiles() {
-        return Safari.grid.some((row) => row.some((tile) => GameConstants.SAFARI_WATER_BLOCKS.includes(tile)));
+        return Safari.grid.some((row) => row.some((tile) => SAFARI_WATER_BLOCKS.includes(tile)));
     }
 
     private static calculateAccessibleTiles() {
         // Reset accessible tile grid
-        Safari.accessibleTiles = Safari.grid.map(row => row.map(tile => false));
+        Safari.accessibleTiles = Safari.grid.map(row => row.map(() => false));
 
         // Start with the tile player spawns on
         const toProcess = [Safari.getPlayerStartCoords()];
@@ -227,7 +258,7 @@ class Safari {
     public static safariReset() {
         Notifier.confirm({
             title: 'Safari Zone',
-            message: `You have an active Safari in ${GameConstants.camelCaseToString(GameConstants.Region[Safari.activeRegion()])}.\nDo you want to quit that Safari and start a new one?`,
+            message: `You have an active Safari in ${camelCaseToString(Region[Safari.activeRegion()])}.\nDo you want to quit that Safari and start a new one?`,
             type: NotificationConstants.NotificationOption.warning,
             confirm: 'Quit',
         }).then(confirmed => {
@@ -243,14 +274,14 @@ class Safari {
     }
 
     public static openModal() {
-        if (DisplayObservables.modalState.safariModal !== 'hidden') {
+        if (modalState.safariModal !== 'hidden') {
             // Do nothing if the modal is already open or mid-animation
             return;
         } else if (Safari.inProgress() && Safari.activeRegion() !== player.region) {
             Safari.safariReset();
         } else {
-            App.game.gameState = GameConstants.GameState.safari;
-            $('#safariModal').modal({backdrop: 'static', keyboard: false});
+            App.game.gameState = GameState.safari;
+            $('#safariModal').modal({ backdrop: 'static', keyboard: false });
         }
     }
 
@@ -282,18 +313,18 @@ class Safari {
 
     private static cost() {
         switch (player.region) {
-            case GameConstants.Region.kanto:
-                return new Amount(100, GameConstants.Currency.questPoint);
-            case GameConstants.Region.johto:
-                return new Amount(500, GameConstants.Currency.questPoint);
-            case GameConstants.Region.sinnoh:
-                return new Amount(750, GameConstants.Currency.questPoint);
-            case GameConstants.Region.kalos:
-                return new Amount(1000, GameConstants.Currency.questPoint);
-            case GameConstants.Region.alola:
-                return new Amount(1250, GameConstants.Currency.questPoint);
+            case Region.kanto:
+                return new Amount(100, Currency.questPoint);
+            case Region.johto:
+                return new Amount(500, Currency.questPoint);
+            case Region.sinnoh:
+                return new Amount(750, Currency.questPoint);
+            case Region.kalos:
+                return new Amount(1000, Currency.questPoint);
+            case Region.alola:
+                return new Amount(1250, Currency.questPoint);
             default:
-                return new Amount(100, GameConstants.Currency.questPoint);
+                return new Amount(100, Currency.questPoint);
         }
     }
 
@@ -372,7 +403,6 @@ class Safari {
         let envClass = Safari.environmentCssClass();
 
         if (Safari.canMove(newPos.x, newPos.y)) {
-            const next = $(`#safari-${newPos.x}-${newPos.y}`).offset();
             Safari.steps++;
             GameHelper.incrementObservable(App.game.statistics.safariStepsTaken, 1);
             const offset = {
@@ -476,18 +506,18 @@ class Safari {
             y = Rand.floor(Safari.grid.length);
             result = Safari.canPlaceAtPosition(x, y, isItem);
             // Ignore ground requirement if needed, for Alola
-            if (attempts == Safari.maxPlacementAttempts && Safari.activeRegion() === GameConstants.Region.alola && isItem) {
+            if (attempts == Safari.maxPlacementAttempts && Safari.activeRegion() === Region.alola && isItem) {
                 isItem = false;
                 attempts = 0;
             }
         }
 
-        return result ? {x: x, y: y} : null;
+        return result ? { x: x, y: y } : null;
     }
 
     private static canPlaceAtPosition(x: number, y: number, isItem = false) {
         // Items don't spawn on water, except in MJ Safari
-        const canPlace = !(isItem && GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
+        const canPlace = !(isItem && SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
         return Safari.canMove(x, y) && canPlace &&
             Safari.isAccessible(x, y) &&
             !(x == Safari.playerXY.x && y == Safari.playerXY.y) &&
@@ -504,14 +534,14 @@ class Safari {
             case 'right': x = 1; break;
             case 'down': y = 1; break;
         }
-        return {x: x, y: y};
+        return { x: x, y: y };
     }
 
     private static canMove(x: number, y: number): boolean {
         if (!Safari.isInMap(x, y)) {
             return false;
         }
-        return GameConstants.SAFARI_LEGAL_WALK_BLOCKS.includes(Safari.grid[y][x]);
+        return SAFARI_LEGAL_WALK_BLOCKS.includes(Safari.grid[y][x]);
     }
 
     private static isInMap(x: number, y: number): boolean {
@@ -558,9 +588,9 @@ class Safari {
             return true;
         }
         const currentTile = Safari.grid[Safari.playerXY.y][Safari.playerXY.x];
-        if (currentTile === GameConstants.SafariTile.grass || GameConstants.SAFARI_WATER_BLOCKS.includes(currentTile)) {
+        if (currentTile === SafariTile.grass || SAFARI_WATER_BLOCKS.includes(currentTile)) {
             // Reduce encounter chances for Magikarp Jump Safari.
-            const chance = Safari.activeRegion() === GameConstants.Region.alola ? GameConstants.SAFARI_MJ_BATTLE_CHANCE : GameConstants.SAFARI_BATTLE_CHANCE;
+            const chance = Safari.activeRegion() === Region.alola ? SAFARI_MJ_BATTLE_CHANCE : SAFARI_BATTLE_CHANCE;
             if (Rand.chance(chance)) {
                 SafariBattle.load();
                 return true;
@@ -569,10 +599,10 @@ class Safari {
         return false;
     }
 
-    private static getEnvironmentTile(x, y) {
+    private static getEnvironmentTile(x: number, y: number) {
         if (!Safari.isInMap(x, y)) {
             return null;
-        } else if (GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x])) { // Water environment
+        } else if (SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x])) { // Water environment
             return SafariEnvironments.Water;
         } else { // Grass environment by default
             return SafariEnvironments.Grass;
@@ -600,7 +630,7 @@ class Safari {
     }
 
     private static calculateStartPokeballs() {
-        return GameConstants.SAFARI_BASE_POKEBALL_COUNT;
+        return SAFARI_BASE_POKEBALL_COUNT;
     }
 
     static completed(shiny = false) {
@@ -632,6 +662,10 @@ class Safari {
     public static environmentCssClass() {
         return GameHelper.enumStrings(SafariEnvironments)[Safari.activeEnvironment()].toLowerCase();
     }
+
+    public static isSafariRegion(region: any): region is SafariRegion {
+        return safariRegions.includes(region);
+    }
 }
 
 $(document).ready(() => {
@@ -640,36 +674,38 @@ $(document).ready(() => {
         const button = document.getElementById(`safari-dpad-${dir.toLowerCase()}`);
         const keyDown = () => GameController.simulateKey(`Arrow${dir}`);
         const keyUp = () => GameController.simulateKey(`Arrow${dir}`, 'up');
-        button.addEventListener('mousedown', keyDown, { passive: false });
-        button.addEventListener('mouseout', keyUp, { passive: false });
-        button.addEventListener('mouseup', keyUp, { passive: false });
-        button.addEventListener('touchstart', keyDown, { passive: false });
-        button.addEventListener('touchend', keyUp, { passive: false });
-        button.addEventListener('touchcancel', keyUp, { passive: false });
+        button?.addEventListener('mousedown', keyDown, { passive: false });
+        button?.addEventListener('mouseout', keyUp, { passive: false });
+        button?.addEventListener('mouseup', keyUp, { passive: false });
+        button?.addEventListener('touchstart', keyDown, { passive: false });
+        button?.addEventListener('touchend', keyUp, { passive: false });
+        button?.addEventListener('touchcancel', keyUp, { passive: false });
     });
 
     $('#safariModal').on('hide.bs.modal', () => {
         Safari.inBattle(false);
         SafariBattle.busy(false);
         switch (player.region) {
-            case GameConstants.Region.kanto:
+            case Region.kanto:
                 MapHelper.moveToTown('Safari Zone');
                 break;
-            case GameConstants.Region.johto:
+            case Region.johto:
                 MapHelper.moveToTown('National Park');
                 break;
-            case GameConstants.Region.sinnoh:
+            case Region.sinnoh:
                 MapHelper.moveToTown('Great Marsh');
                 break;
-            case GameConstants.Region.kalos:
+            case Region.kalos:
                 MapHelper.moveToTown('Friend Safari');
                 break;
-            case GameConstants.Region.alola:
+            case Region.alola:
                 MapHelper.moveToTown('Hoppy Town Fishing Pond');
                 break;
             default:
-                MapHelper.moveToTown(GameConstants.DockTowns[player.region]);
+                MapHelper.moveToTown(DockTowns[player.region]);
                 break;
         }
     });
 });
+
+export default Safari;
