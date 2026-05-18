@@ -4,7 +4,7 @@ import BadgeEnums from '../enums/Badges';
 import BerryType from '../enums/BerryType';
 import KeyItemType from '../enums/KeyItemType';
 import PokemonType from '../enums/PokemonType';
-import { BulletinBoards, getDungeonIndex, getTemporaryBattlesIndex, humanifyString, MegaStoneType, MINUTE, Pokeball, Region, SHINY_CHANCE_REWARD, zCrystalItemType } from '../GameConstants';
+import { BulletinBoards, getDungeonIndex, getTemporaryBattlesIndex, humanifyString, MegaStoneType, MINUTE, PokeballType, Region, SHINY_CHANCE_REWARD, zCrystalItemType } from '../GameConstants';
 import { ItemList } from '../items/ItemList';
 import { ItemNameType } from '../items/ItemNameType';
 import KeyItemController from '../keyItems/KeyItemController';
@@ -466,7 +466,7 @@ class QuestLineHelper {
         tutorial.addQuest(talkToMom);
 
         // Buy pokeballs
-        const buyPokeballs = new BuyPokeballsQuest(10, 20, Pokeball.Pokeball).withInitialValue(0); // Initial of 0 so it auto completes if bugged
+        const buyPokeballs = new BuyPokeballsQuest(10, 20, PokeballType.Pokeball).withInitialValue(0); // Initial of 0 so it auto completes if bugged
         tutorial.addQuest(buyPokeballs);
 
         // Learn about catching from the Old Man
@@ -678,7 +678,7 @@ class QuestLineHelper {
         rocketKantoQuestLine.addQuest(clearSilphCo2);
 
         const ViridianGymReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: rocketKantoQuestLine.name,
                 message: 'The President of Silph Co. has rewarded you with a Master Ball!',
@@ -814,7 +814,7 @@ class QuestLineHelper {
         rocketJohtoQuestLine.addQuest(clearTeamRocketHideout);
 
         const radioTowerReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: rocketJohtoQuestLine.name,
                 message: 'The grateful radio director gave you a Master Ball!',
@@ -920,7 +920,7 @@ class QuestLineHelper {
         lugiaJohtoQuestLine.addQuest(helpNaoko);
 
         const kimonoReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Ultraball, 50, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Ultraball, 50, false);
             Notifier.notify({
                 title: lugiaJohtoQuestLine.name,
                 message: 'Kimono Girl Miki has given you a package containing 50 Ultra Balls.',
@@ -1041,7 +1041,7 @@ class QuestLineHelper {
         aquaMagmaHoennQuestLine.addQuest(clearAquaHideout);
 
         const seafloorCavernReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: aquaMagmaHoennQuestLine.name,
                 message: 'You found a Master Ball!',
@@ -1558,7 +1558,7 @@ class QuestLineHelper {
         galacticSinnohQuestLine.addQuest(clearSpearPillar);
 
         const DistortionWorldReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             MapHelper.moveToTown('Mt. Coronet');
             Notifier.notify({
                 title: galacticSinnohQuestLine.name,
@@ -1832,7 +1832,7 @@ class QuestLineHelper {
         plasmaUnovaQuestLine.addQuest(clearGhetsis1);
 
         const ghetsisReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: plasmaUnovaQuestLine.name,
                 message: 'You found a Master Ball!',
@@ -2101,7 +2101,7 @@ class QuestLineHelper {
         orreXDQuestLine.addQuest(battleSmarton);
 
         const LuxuryReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Luxuryball, 100, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Luxuryball, 100, false);
             Notifier.notify({
                 title: orreXDQuestLine.name,
                 message: 'You find a crate of Luxury Balls in the wreckage.',
@@ -2131,7 +2131,7 @@ class QuestLineHelper {
         orreXDQuestLine.addQuest(clearCipherKeyLair);
 
         const KraneReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: orreXDQuestLine.name,
                 message: 'Professor Krane gives you a Master Ball.',
@@ -2237,7 +2237,7 @@ class QuestLineHelper {
 
         // Talk to Poké Ball Factory Director after talking with Team Flare Bryony
         const KalosMasterBallReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: flareKalosQuestLine.name,
                 message: 'The Poké Ball Factory Director has given you a Master Ball!',
@@ -3164,7 +3164,7 @@ class QuestLineHelper {
 
         // 13 - Talk to NPC: Lillie and Gladion
         const AlolaMasterballReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: ulaulaAlolaQuestLine.name,
                 message: 'Gladion gave you a Master Ball!',
@@ -3524,7 +3524,7 @@ class QuestLineHelper {
         UltraBeastQuestLine.addQuest(talkToLooker);
 
         const AnabelReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Beastball, 5, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Beastball, 5, false);
         };
 
         const AnabelBattle = new DefeatTemporaryBattleQuest('Anabel', 'Defeat Agent Anabel at the Roadside Motel.').withCustomReward(AnabelReward);
@@ -3604,7 +3604,7 @@ class QuestLineHelper {
 
         const GuzzlordReward = () => {
             Notifier.notify({ message: 'You caught all the Ultra Beasts!', type: NotificationConstants.NotificationOption.success });
-            App.game.pokeballs.gainPokeballs(Pokeball.Beastball, 50, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Beastball, 50, false);
         };
 
         const GuzzlordCatch = new CaptureSpecificPokemonQuest(
@@ -3675,7 +3675,7 @@ class QuestLineHelper {
 
         // Multi-step #5:
 
-        const meltanObtain10MB = new BuyPokeballsQuest(10, 0, Pokeball.Masterball);
+        const meltanObtain10MB = new BuyPokeballsQuest(10, 0, PokeballType.Masterball);
         meltanQuestLine.addQuest(new MultipleQuestsQuest([meltanObtain10MB], 'Step 6 of Let\'s Go, Meltan!'));
 
         // Multi-step #6:
@@ -3842,7 +3842,7 @@ class QuestLineHelper {
         const timber = new GainGemsQuest(5000, 0, PokemonType.Grass);
         const rockCruncher = new GainGemsQuest(5000, 0, PokemonType.Rock);
         const powerGenerator = new CaptureSpecificPokemonQuest('Voltorb', 10, true).withDescription('Catch or hatch 10 Voltorb.');
-        const pokeballSmash = new BuyPokeballsQuest(100000, 0, Pokeball.Pokeball);
+        const pokeballSmash = new BuyPokeballsQuest(100000, 0, PokeballType.Pokeball);
         const frostCruncher = new GainGemsQuest(5000, 0, PokemonType.Ice);
 
         drSplashQuestLine.addQuest(new MultipleQuestsQuest([
@@ -3982,7 +3982,7 @@ class QuestLineHelper {
         darkestDayQuestLine.addQuest(clearEternatus);
 
         const TheDarkestDayReward = () => {
-            App.game.pokeballs.gainPokeballs(Pokeball.Masterball, 1, false);
+            App.game.pokeballs.gainPokeballs(PokeballType.Masterball, 1, false);
             Notifier.notify({
                 title: darkestDayQuestLine.name,
                 message: 'You found a Master Ball!',

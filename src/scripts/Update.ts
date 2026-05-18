@@ -2137,27 +2137,27 @@ class Update implements Saveable {
                     {
                         name: 'Caught',
                         options: { caught: true },
-                        ball: saveData.pokeballs?.alreadyCaughtSelection ?? GameConstants.Pokeball.None,
+                        ball: saveData.pokeballs?.alreadyCaughtSelection ?? GameConstants.PokeballType.None,
                     },
                     {
                         name: 'Contagious',
                         options: { pokerus: GameConstants.Pokerus.Contagious },
-                        ball: saveData.pokeballs?.alreadyCaughtContagiousSelection ?? GameConstants.Pokeball.None,
+                        ball: saveData.pokeballs?.alreadyCaughtContagiousSelection ?? GameConstants.PokeballType.None,
                     },
                     {
                         name: 'Caught Shiny',
                         options: { shiny: true, caughtShiny: true },
-                        ball: saveData.pokeballs?.alreadyCaughtShinySelection ?? GameConstants.Pokeball.Pokeball,
+                        ball: saveData.pokeballs?.alreadyCaughtShinySelection ?? GameConstants.PokeballType.Pokeball,
                     },
                     {
                         name: 'New',
                         options: { caught: false },
-                        ball: saveData.pokeballs?.notCaughtSelection ?? GameConstants.Pokeball.Pokeball,
+                        ball: saveData.pokeballs?.notCaughtSelection ?? GameConstants.PokeballType.Pokeball,
                     },
                     {
                         name: 'New Shiny',
                         options: { shiny: true, caughtShiny: false },
-                        ball: saveData.pokeballs?.notCaughtShinySelection ?? GameConstants.Pokeball.Pokeball,
+                        ball: saveData.pokeballs?.notCaughtShinySelection ?? GameConstants.PokeballType.Pokeball,
                     },
                 ],
             };
@@ -3056,7 +3056,6 @@ class Update implements Saveable {
                 timeout: GameConstants.DAY,
             });
             throw new Error(`Save is newer than game version\nSave version: ${this.saveVersion}\nGame version: ${this.version}`);
-            return;
         }
 
         const [backupButton, backupSaveData] = this.getBackupButton();

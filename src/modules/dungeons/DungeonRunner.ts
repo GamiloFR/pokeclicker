@@ -4,7 +4,7 @@ import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import BerryNameType from '../enums/BerryNameType';
 import BerryType from '../enums/BerryType';
 import FarmController from '../farming/FarmController';
-import { BASE_DUNGEON_SIZE, BattleItemType, camelCaseToString, Currency, DUNGEON_LADDER_BONUS, DUNGEON_TICK, DUNGEON_TIME, DungeonInteractionSource, DungeonTileType, FluteItemType, GameState, getDungeonIndex, humanifyString, MIN_DUNGEON_SIZE, MINUTE, pluralizeString, Pokeball, StartingTowns } from '../GameConstants';
+import { BASE_DUNGEON_SIZE, BattleItemType, camelCaseToString, Currency, DUNGEON_LADDER_BONUS, DUNGEON_TICK, DUNGEON_TIME, DungeonInteractionSource, DungeonTileType, FluteItemType, GameState, getDungeonIndex, humanifyString, MIN_DUNGEON_SIZE, MINUTE, pluralizeString, PokeballType, StartingTowns } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import FluteEffectRunner from '../gems/FluteEffectRunner';
 import BattleItem from '../items/BattleItem';
@@ -247,7 +247,7 @@ class DungeonRunner {
             return App.game.farming.gainBerry(BerryType[humanifyString(input) as BerryNameType], amount, false);
         } else if (ItemList[input] instanceof PokeballItem) {
             DungeonRunner.lootNotification(input, amount, weight, ItemList[input].image);
-            return App.game.pokeballs.gainPokeballs(Pokeball[humanifyString(input)], amount, false);
+            return App.game.pokeballs.gainPokeballs(PokeballType[humanifyString(input)], amount, false);
         } else if (UndergroundItems.getByName(input) instanceof UndergroundItem) {
             DungeonRunner.lootNotification(input, amount, weight, UndergroundItems.getByName(input).image);
             return UndergroundController.gainMineItem(UndergroundItems.getByName(input).id, amount);

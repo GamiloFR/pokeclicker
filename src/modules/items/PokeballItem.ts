@@ -1,4 +1,4 @@
-import { Pokeball as PokeballType, Currency } from '../GameConstants';
+import { Currency, PokeballType } from '../GameConstants';
 import Item from './Item';
 import { ShopOptions } from './types';
 

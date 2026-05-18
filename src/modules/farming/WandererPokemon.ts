@@ -1,12 +1,12 @@
 import type { Observable } from 'knockout';
 import BerryType from '../enums/BerryType';
-import { MINUTE, Pokeball, WANDER_TICK } from '../GameConstants';
+import { MINUTE, PokeballType, WANDER_TICK } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 
 class WandererPokemon {
     public catching = ko.observable(false);
-    public pokeball = ko.observable(Pokeball.None);
+    public pokeball = ko.observable(PokeballType.None);
     public distractTime: Observable<number>;
     public fleeing = ko.observable(false);
 

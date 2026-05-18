@@ -5,7 +5,7 @@ import MulchType from '../enums/MulchType';
 import OakItemType from '../enums/OakItemType';
 import PokemonType from '../enums/PokemonType';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
-import { AchievementOption, BattleItemType, ConsumableType, Currency, EggItemType, EnergyRestoreSize, FluteItemType, GameState, MegaStoneType, Pokeball, PokeBlockColor, Region, ShadowStatus, StoneType, VitaminType, zCrystalItemType } from '../GameConstants';
+import { AchievementOption, BattleItemType, ConsumableType, Currency, EggItemType, EnergyRestoreSize, FluteItemType, GameState, MegaStoneType, PokeballType, PokeBlockColor, Region, ShadowStatus, StoneType, VitaminType, zCrystalItemType } from '../GameConstants';
 import { EvoTrigger } from '../pokemons/evolutions/Base';
 import { pokemonBabyPrevolutionMap, pokemonMap } from '../pokemons/PokemonList';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
@@ -85,22 +85,22 @@ function initItems() {
     ItemList.Freeze_Mulch = new MulchItem(MulchType.Freeze_Mulch, 350, 'Freeze Mulch', 'Stops Berry growth and auras. Mutations will still occur while berries are frozen.');
     ItemList.Gooey_Mulch = new MulchItem(MulchType.Gooey_Mulch, 100, 'Gooey Mulch', 'Helps attract rarer species. Gooed Pokémon are more likely to be caught.');
 
-    ItemList.Pokeball   = new PokeballItem(Pokeball.Pokeball, 100, undefined, { multiplier: 1 }, 'Poké Ball');
-    ItemList.Greatball  = new PokeballItem(Pokeball.Greatball, 500, undefined, undefined, 'Great Ball');
-    ItemList.Ultraball  = new PokeballItem(Pokeball.Ultraball, 2000, undefined, undefined, 'Ultra Ball');
-    ItemList.Masterball = new PokeballItem(Pokeball.Masterball, 2500, Currency.questPoint, undefined, 'Master Ball');
+    ItemList.Pokeball   = new PokeballItem(PokeballType.Pokeball, 100, undefined, { multiplier: 1 }, 'Poké Ball');
+    ItemList.Greatball  = new PokeballItem(PokeballType.Greatball, 500, undefined, undefined, 'Great Ball');
+    ItemList.Ultraball  = new PokeballItem(PokeballType.Ultraball, 2000, undefined, undefined, 'Ultra Ball');
+    ItemList.Masterball = new PokeballItem(PokeballType.Masterball, 2500, Currency.questPoint, undefined, 'Master Ball');
     // Not sold in shops
-    ItemList.Fastball = new PokeballItem(Pokeball.Fastball, Infinity, Currency.farmPoint, undefined, 'Fast Ball');
-    ItemList.Quickball = new PokeballItem(Pokeball.Quickball, Infinity, Currency.farmPoint, undefined, 'Quick Ball');
-    ItemList.Timerball = new PokeballItem(Pokeball.Timerball, Infinity, Currency.farmPoint, undefined, 'Timer Ball');
-    ItemList.Duskball = new PokeballItem(Pokeball.Duskball, Infinity, Currency.farmPoint, undefined, 'Dusk Ball');
-    ItemList.Luxuryball = new PokeballItem(Pokeball.Luxuryball, Infinity, Currency.farmPoint, undefined, 'Luxury Ball');
-    ItemList.Diveball = new PokeballItem(Pokeball.Diveball, Infinity, Currency.battlePoint, undefined, 'Dive Ball');
-    ItemList.Lureball = new PokeballItem(Pokeball.Lureball, Infinity, Currency.battlePoint, undefined, 'Lure Ball');
-    ItemList.Nestball = new PokeballItem(Pokeball.Nestball, Infinity, Currency.battlePoint, undefined, 'Nest Ball');
-    ItemList.Repeatball = new PokeballItem(Pokeball.Repeatball, Infinity, Currency.battlePoint, undefined, 'Repeat Ball');
-    ItemList.Beastball = new PokeballItem(Pokeball.Beastball, 500, Currency.questPoint, undefined, 'Beast Ball');
-    ItemList.Moonball = new PokeballItem(Pokeball.Moonball, Infinity, Currency.farmPoint, undefined, 'Moon Ball');
+    ItemList.Fastball = new PokeballItem(PokeballType.Fastball, Infinity, Currency.farmPoint, undefined, 'Fast Ball');
+    ItemList.Quickball = new PokeballItem(PokeballType.Quickball, Infinity, Currency.farmPoint, undefined, 'Quick Ball');
+    ItemList.Timerball = new PokeballItem(PokeballType.Timerball, Infinity, Currency.farmPoint, undefined, 'Timer Ball');
+    ItemList.Duskball = new PokeballItem(PokeballType.Duskball, Infinity, Currency.farmPoint, undefined, 'Dusk Ball');
+    ItemList.Luxuryball = new PokeballItem(PokeballType.Luxuryball, Infinity, Currency.farmPoint, undefined, 'Luxury Ball');
+    ItemList.Diveball = new PokeballItem(PokeballType.Diveball, Infinity, Currency.battlePoint, undefined, 'Dive Ball');
+    ItemList.Lureball = new PokeballItem(PokeballType.Lureball, Infinity, Currency.battlePoint, undefined, 'Lure Ball');
+    ItemList.Nestball = new PokeballItem(PokeballType.Nestball, Infinity, Currency.battlePoint, undefined, 'Nest Ball');
+    ItemList.Repeatball = new PokeballItem(PokeballType.Repeatball, Infinity, Currency.battlePoint, undefined, 'Repeat Ball');
+    ItemList.Beastball = new PokeballItem(PokeballType.Beastball, 500, Currency.questPoint, undefined, 'Beast Ball');
+    ItemList.Moonball = new PokeballItem(PokeballType.Moonball, Infinity, Currency.farmPoint, undefined, 'Moon Ball');
 
     ItemList.Berry_Shovel   = new ShovelItem(300, 'Berry Shovel', 'Removes Berry Plants in the Farm.');
     ItemList.Mulch_Shovel = new MulchShovelItem(300, 'Mulch Shovel', 'Removes Mulch from a plot in the Farm.');

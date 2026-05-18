@@ -1,6 +1,6 @@
 import Challenges from '../challenges/Challenges';
 import PokemonType from '../enums/PokemonType';
-import { ACHIEVEMENT_DEFEAT_DUNGEON_VALUES, ACHIEVEMENT_DEFEAT_GYM_VALUES, ACHIEVEMENT_DEFEAT_ROUTE_VALUES, AlolaSubRegions, camelCaseToString, DAY, ExtraAchievementCategories, getDungeonIndex, getGymIndex, getGymRegion, HoennSubRegions, KantoSubRegions, MAX_AVAILABLE_REGION, Pokeball, Pokerus, Region, RegionDungeons, RegionGyms, ShadowStatus } from '../GameConstants';
+import { ACHIEVEMENT_DEFEAT_DUNGEON_VALUES, ACHIEVEMENT_DEFEAT_GYM_VALUES, ACHIEVEMENT_DEFEAT_ROUTE_VALUES, AlolaSubRegions, camelCaseToString, DAY, ExtraAchievementCategories, getDungeonIndex, getGymIndex, getGymRegion, HoennSubRegions, KantoSubRegions, MAX_AVAILABLE_REGION, PokeballType, Pokerus, Region, RegionDungeons, RegionGyms, ShadowStatus } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import GymList from '../gym/GymList';
 import { ItemList } from '../items/ItemList';
@@ -411,30 +411,30 @@ class AchievementHandler {
         AchievementHandler.addAchievement('Ultra Clicker', 'Click Attack 1,000 times.', new ClickRequirement(1000, 1), 0.10, ExtraAchievementCategories.global, () => !challenges.list.disableClickAttack.active());
         AchievementHandler.addAchievement('Need a New Mouse Yet?', 'Click Attack 10,000 times.', new ClickRequirement(10000, 1), 0.25, ExtraAchievementCategories.global, () => !challenges.list.disableClickAttack.active());
 
-        AchievementHandler.addAchievement('Why Is My Voltorb Upside Down?', 'Purchase your first Poké Ball.', new PokeballRequirement(1, Pokeball.Pokeball), 0.01);
-        AchievementHandler.addAchievement('Starting a Collection', 'Purchase 10 Poké Balls.', new PokeballRequirement(10, Pokeball.Pokeball), 0.03);
-        AchievementHandler.addAchievement('Stocking Up', 'Purchase 100 Poké Balls.', new PokeballRequirement(100, Pokeball.Pokeball), 0.05);
-        AchievementHandler.addAchievement('Fully Stocked', 'Purchase 1,000 Poké Balls.', new PokeballRequirement(1000, Pokeball.Pokeball), 0.10);
-        AchievementHandler.addAchievement('Maybe Just a Few More for the Bunker', 'Purchase 10,000 Poké Balls.', new PokeballRequirement(10000, Pokeball.Pokeball), 0.15);
-        AchievementHandler.addAchievement('Doomsday Bunker Stocked With Poké Balls!', 'Purchase 100,000 Poké Balls.', new PokeballRequirement(100000, Pokeball.Pokeball), 0.20);
+        AchievementHandler.addAchievement('Why Is My Voltorb Upside Down?', 'Purchase your first Poké Ball.', new PokeballRequirement(1, PokeballType.Pokeball), 0.01);
+        AchievementHandler.addAchievement('Starting a Collection', 'Purchase 10 Poké Balls.', new PokeballRequirement(10, PokeballType.Pokeball), 0.03);
+        AchievementHandler.addAchievement('Stocking Up', 'Purchase 100 Poké Balls.', new PokeballRequirement(100, PokeballType.Pokeball), 0.05);
+        AchievementHandler.addAchievement('Fully Stocked', 'Purchase 1,000 Poké Balls.', new PokeballRequirement(1000, PokeballType.Pokeball), 0.10);
+        AchievementHandler.addAchievement('Maybe Just a Few More for the Bunker', 'Purchase 10,000 Poké Balls.', new PokeballRequirement(10000, PokeballType.Pokeball), 0.15);
+        AchievementHandler.addAchievement('Doomsday Bunker Stocked With Poké Balls!', 'Purchase 100,000 Poké Balls.', new PokeballRequirement(100000, PokeballType.Pokeball), 0.20);
 
-        AchievementHandler.addAchievement('Ooooo a Blue One!', 'Purchase your first Great Ball.', new PokeballRequirement(1, Pokeball.Greatball), 0.03);
-        AchievementHandler.addAchievement('I Got a Few Shiny Voltorb! Oh, Wait...', 'Obtain 10 Great Balls.', new PokeballRequirement(10, Pokeball.Greatball), 0.05);
-        AchievementHandler.addAchievement('Now Shinies Won\'t Run Away So Easily!', 'Obtain 100 Great Balls.', new PokeballRequirement(100, Pokeball.Greatball), 0.10);
-        AchievementHandler.addAchievement('Regular Poké Balls Just Aren\'t What They Used To Be', 'Obtain 1,000 Great Balls.', new PokeballRequirement(1000, Pokeball.Greatball), 0.15);
-        AchievementHandler.addAchievement('A Great Investment', 'Obtain 10,000 Great Balls.', new PokeballRequirement(10000, Pokeball.Greatball), 0.20);
-        AchievementHandler.addAchievement('The Greatest Collection of All Time', 'Obtain 100,000 Great Balls.', new PokeballRequirement(100000, Pokeball.Greatball), 0.30);
+        AchievementHandler.addAchievement('Ooooo a Blue One!', 'Purchase your first Great Ball.', new PokeballRequirement(1, PokeballType.Greatball), 0.03);
+        AchievementHandler.addAchievement('I Got a Few Shiny Voltorb! Oh, Wait...', 'Obtain 10 Great Balls.', new PokeballRequirement(10, PokeballType.Greatball), 0.05);
+        AchievementHandler.addAchievement('Now Shinies Won\'t Run Away So Easily!', 'Obtain 100 Great Balls.', new PokeballRequirement(100, PokeballType.Greatball), 0.10);
+        AchievementHandler.addAchievement('Regular Poké Balls Just Aren\'t What They Used To Be', 'Obtain 1,000 Great Balls.', new PokeballRequirement(1000, PokeballType.Greatball), 0.15);
+        AchievementHandler.addAchievement('A Great Investment', 'Obtain 10,000 Great Balls.', new PokeballRequirement(10000, PokeballType.Greatball), 0.20);
+        AchievementHandler.addAchievement('The Greatest Collection of All Time', 'Obtain 100,000 Great Balls.', new PokeballRequirement(100000, PokeballType.Greatball), 0.30);
 
-        AchievementHandler.addAchievement('They Made One Even Better?', 'Obtain your first Ultra Ball.', new PokeballRequirement(1, Pokeball.Ultraball), 0.05);
-        AchievementHandler.addAchievement('Let\'s See How High the Catch Rate Becomes', 'Obtain 10 Ultra Balls.', new PokeballRequirement(10, Pokeball.Ultraball), 0.10);
-        AchievementHandler.addAchievement('This Should Be Enough for Those Elusive Roamers...', 'Obtain 100 Ultra Balls.', new PokeballRequirement(100, Pokeball.Ultraball), 0.15);
-        AchievementHandler.addAchievement('They Don\'t Work on Ultra Beasts? That\'s False Advertising!', 'Obtain 1,000 Ultra Balls.', new PokeballRequirement(1000, Pokeball.Ultraball), 0.20);
-        AchievementHandler.addAchievement('I Don\'t Think I\'ll Ever Be Able To Go Back to the Commoner\'s Great Ball', 'Obtain 10,000 Ultra Balls.', new PokeballRequirement(10000, Pokeball.Ultraball), 0.30);
-        AchievementHandler.addAchievement('Just Making Sure No Rare Pokémon Flees', 'Obtain 100,000 Ultra Balls.', new PokeballRequirement(100000, Pokeball.Ultraball), 0.40);
+        AchievementHandler.addAchievement('They Made One Even Better?', 'Obtain your first Ultra Ball.', new PokeballRequirement(1, PokeballType.Ultraball), 0.05);
+        AchievementHandler.addAchievement('Let\'s See How High the Catch Rate Becomes', 'Obtain 10 Ultra Balls.', new PokeballRequirement(10, PokeballType.Ultraball), 0.10);
+        AchievementHandler.addAchievement('This Should Be Enough for Those Elusive Roamers...', 'Obtain 100 Ultra Balls.', new PokeballRequirement(100, PokeballType.Ultraball), 0.15);
+        AchievementHandler.addAchievement('They Don\'t Work on Ultra Beasts? That\'s False Advertising!', 'Obtain 1,000 Ultra Balls.', new PokeballRequirement(1000, PokeballType.Ultraball), 0.20);
+        AchievementHandler.addAchievement('I Don\'t Think I\'ll Ever Be Able To Go Back to the Commoner\'s Great Ball', 'Obtain 10,000 Ultra Balls.', new PokeballRequirement(10000, PokeballType.Ultraball), 0.30);
+        AchievementHandler.addAchievement('Just Making Sure No Rare Pokémon Flees', 'Obtain 100,000 Ultra Balls.', new PokeballRequirement(100000, PokeballType.Ultraball), 0.40);
 
-        AchievementHandler.addAchievement('The Ultimate Catching Device', 'Obtain your first Master Ball.', new PokeballRequirement(1, Pokeball.Masterball), 0.20);
-        AchievementHandler.addAchievement('Legendaries Hate That Guy', 'Obtain 10 Master Balls.', new PokeballRequirement(10, Pokeball.Masterball), 0.30);
-        AchievementHandler.addAchievement('No Pokémon in the World Can Run Away From Me Now!', 'Obtain 100 Master Balls.', new PokeballRequirement(100, Pokeball.Masterball), 0.40);
+        AchievementHandler.addAchievement('The Ultimate Catching Device', 'Obtain your first Master Ball.', new PokeballRequirement(1, PokeballType.Masterball), 0.20);
+        AchievementHandler.addAchievement('Legendaries Hate That Guy', 'Obtain 10 Master Balls.', new PokeballRequirement(10, PokeballType.Masterball), 0.30);
+        AchievementHandler.addAchievement('No Pokémon in the World Can Run Away From Me Now!', 'Obtain 100 Master Balls.', new PokeballRequirement(100, PokeballType.Masterball), 0.40);
 
         AchievementHandler.addAchievement('Can You Do This for Me?', 'Complete your first quest.', new QuestRequirement(1), 0.05);
         AchievementHandler.addAchievement('One More Favor', 'Complete 10 quests.', new QuestRequirement(10), 0.15);

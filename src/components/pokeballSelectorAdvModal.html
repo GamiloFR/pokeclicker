@@ -83,9 +83,9 @@
                                         </div>
                                         <img class="clickable pokeball-selected pokeball-small" data-bind="
                                         attr: {
-                                            src: 'assets/images/pokeball/' + GameConstants.Pokeball[$data.ball()] + '.svg'},
+                                            src: 'assets/images/pokeball/' + GameConstants.PokeballType[$data.ball()] + '.svg'},
                                             tooltip: {
-                                                title: $data.ball() === -1 ? 'None' : ItemList[GameConstants.Pokeball[$data.ball()]].displayName,
+                                                title: $data.ball() === -1 ? 'None' : ItemList[GameConstants.PokeballType[$data.ball()]].displayName,
                                                 trigger: 'hover',
                                                 animation: false,
                                                 placement: 'bottom'
@@ -185,9 +185,9 @@
                                 <!-- ko if: $data -->
                                 <img class="pokeball-selected pokeball-small" data-bind="
                                     attr: {
-                                        src: 'assets/images/pokeball/' + GameConstants.Pokeball[$data?.ball()] + '.svg'},
+                                        src: 'assets/images/pokeball/' + GameConstants.PokeballType[$data?.ball()] + '.svg'},
                                         tooltip: {
-                                            title: $data?.ball() === -1 ? 'None' : ItemList[GameConstants.Pokeball[$data?.ball()]].displayName,
+                                            title: $data?.ball() === -1 ? 'None' : ItemList[GameConstants.PokeballType[$data?.ball()]].displayName,
                                             trigger: 'hover',
                                             animation: false,
                                             placement: 'bottom'

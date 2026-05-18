@@ -2,7 +2,7 @@
 import { ObservableArray } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
 import PokemonType from '../enums/PokemonType';
-import { Pokeball, Pokerus } from '../GameConstants';
+import { PokeballType, Pokerus } from '../GameConstants';
 import NotificationOption from '../notifications/NotificationOption';
 import Notifier from '../notifications/Notifier';
 import Settings from '../settings/Settings';
@@ -16,9 +16,9 @@ export default class PokeballFilters implements Feature {
     defaults = {};
 
     public presets: PokeballFilterParams[] = [
-        { name: 'New Shiny', options: { shiny: true, caughtShiny: false }, ball: Pokeball.Pokeball },
-        { name: 'New', options: { caught: false }, ball: Pokeball.Pokeball },
-        { name: 'Caught Shiny', options: { shiny: true, caughtShiny: true }, ball: Pokeball.Pokeball },
+        { name: 'New Shiny', options: { shiny: true, caughtShiny: false }, ball: PokeballType.Pokeball },
+        { name: 'New', options: { caught: false }, ball: PokeballType.Pokeball },
+        { name: 'Caught Shiny', options: { shiny: true, caughtShiny: true }, ball: PokeballType.Pokeball },
         { name: 'Contagious', options: { pokerus: Pokerus.Contagious } },
         { name: 'New Shadow', options: { shadow: true, caughtShadow: false } },
         { name: 'Caught', options: { caught: true } },
@@ -115,7 +115,7 @@ export default class PokeballFilters implements Feature {
 
     createFilter() {
         const enabled = Settings.getSetting('catchFilters.initialEnabled').value;
-        this.list.unshift(new PokeballFilter('New Filter', {}, Pokeball.Pokeball, enabled));
+        this.list.unshift(new PokeballFilter('New Filter', {}, PokeballType.Pokeball, enabled));
     }
 
     addFilterOption(filter: PokeballFilter, option: keyof PokeballFilterOptions) {

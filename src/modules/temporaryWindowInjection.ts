@@ -131,6 +131,7 @@ import PartyPokemon from './party/PartyPokemon';
 import PokeballFilter from './pokeballs/PokeballFilter';
 import { pokeballFilterOptions } from './pokeballs/PokeballFilterOptions';
 import PokeballFilters from './pokeballs/PokeballFilters';
+import Pokeballs from './pokeballs/Pokeballs';
 import DataPokemon from './pokemons/DataPokemon';
 import {
     beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution,
@@ -643,4 +644,5 @@ Object.assign(<any>window, {
     DiscordRichPresence,
     RouteInfo,
     DungeonInfo,
+    Pokeballs,
 });

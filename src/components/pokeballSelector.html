@@ -40,10 +40,10 @@
                             <td>
                                 <img class="pokeball-small clickable"
                                     data-bind="
-                                        attr: {src: 'assets/images/pokeball/' + GameConstants.Pokeball[$data.ball()] + '.svg'},
+                                        attr: {src: 'assets/images/pokeball/' + GameConstants.PokeballType[$data.ball()] + '.svg'},
                                         css: { 'pokeball-selected': $data.enabled() },
                                         tooltip: {
-                                            title: $data.ball() === GameConstants.Pokeball.None ? 'None' : ItemList[GameConstants.Pokeball[$data.ball()]].displayName,
+                                            title: $data.ball() === GameConstants.PokeballType.None ? 'None' : ItemList[GameConstants.PokeballType[$data.ball()]].displayName,
                                             trigger: 'hover', animation: false,
                                             placement: 'right'
                                         },

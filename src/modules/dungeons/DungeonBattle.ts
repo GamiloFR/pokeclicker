@@ -1,6 +1,6 @@
 import Battle from '../battles/Battle';
 import BattlePokemon from '../battles/BattlePokemon';
-import { DungeonTileType, Pokeball, PokemonStatisticsType, ShadowStatus } from '../GameConstants';
+import { DungeonTileType, PokeballType, PokemonStatisticsType, ShadowStatus } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { MultiplierDecreaser } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
@@ -67,10 +67,10 @@ class DungeonBattle extends Battle {
         // Attempting to catch Pokemon
         const isShiny: boolean = enemyPokemon.shiny;
         const isShadow: boolean = enemyPokemon.shadow == ShadowStatus.Shadow;
-        const pokeBall: Pokeball = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
+        const pokeBall: PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
         const route = player.town?.dungeon?.difficultyRoute || 1;
         const region = player.region;
-        if (pokeBall !== Pokeball.None) {
+        if (pokeBall !== PokeballType.None) {
             this.prepareCatch(enemyPokemon, pokeBall);
             setTimeout(
                 () => {
@@ -101,10 +101,10 @@ class DungeonBattle extends Battle {
             // Attempting to catch Pokemon
             const isShiny: boolean = enemyPokemon.shiny;
             const isShadow: boolean = enemyPokemon.shadow == ShadowStatus.Shadow;
-            const pokeBall: Pokeball = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
+            const pokeBall: PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
             const route = player.town?.dungeon?.difficultyRoute || 1;
             const region = player.region;
-            if (pokeBall !== Pokeball.None) {
+            if (pokeBall !== PokeballType.None) {
                 this.prepareCatch(enemyPokemon, pokeBall);
                 setTimeout(
                     () => {

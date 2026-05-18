@@ -1,11 +1,13 @@
-import KeyItem from './KeyItem';
-import KeyItemType from '../enums/KeyItemType';
-import Information from '../utilities/Information';
-import KeyItemController from './KeyItemController';
 import { Feature } from '../DataStore/common/Feature';
+import KeyItemType from '../enums/KeyItemType';
 import {
-    getDungeonIndex, Region, RegionalStarters, ROUTE_KILLS_NEEDED, Pokerus,
+    getDungeonIndex,
+    Pokerus,
+    Region, RegionalStarters, ROUTE_KILLS_NEEDED,
 } from '../GameConstants';
+import Information from '../utilities/Information';
+import KeyItem from './KeyItem';
+import KeyItemController from './KeyItemController';
 
 export default class KeyItems implements Feature {
     name = 'Key Items';
@@ -13,7 +15,7 @@ export default class KeyItems implements Feature {
 
     itemList: KeyItem[];
 
-    defaults: Record<string, any>;
+    defaults = {};
 
     constructor() {
         this.itemList = [];
@@ -59,7 +61,6 @@ export default class KeyItems implements Feature {
                 () => App.game.statistics.dungeonsCleared[getDungeonIndex('Distortion World')]() > 0,
                 undefined,
                 () => {
-                    App.game.pokeballs.alreadyCaughtContagiousSelection = App.game.pokeballs.alreadyCaughtSelection;
                     Information.show({
                         steps: [
                             {

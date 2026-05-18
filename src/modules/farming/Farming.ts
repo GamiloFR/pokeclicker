@@ -12,7 +12,7 @@ import MulchType from '../enums/MulchType';
 import OakItemType from '../enums/OakItemType';
 import PlotStage from '../enums/PlotStage';
 import SizeUnits from '../enums/SizeUnits';
-import { BASE_EP_YIELD, BASE_WANDERER_EP_MODIFIER, BerryDistribution, clipNumber, Currency, FARM_PLOT_HEIGHT, FARM_PLOT_WIDTH, GOOEY_MULCH_CATCH_BONUS, MULCH_OAK_ITEM_TICK, MULCH_USE_TIME, MUTATION_TICK, Pokeball, ShadowStatus, TICK_TIME, WANDER_SHINY_FP_MODIFIER, WANDER_TICK, WANDERER_EP_MODIFIER } from '../GameConstants';
+import { BASE_EP_YIELD, BASE_WANDERER_EP_MODIFIER, BerryDistribution, clipNumber, Currency, FARM_PLOT_HEIGHT, FARM_PLOT_WIDTH, GOOEY_MULCH_CATCH_BONUS, MULCH_OAK_ITEM_TICK, MULCH_USE_TIME, MUTATION_TICK, PokeballType, ShadowStatus, TICK_TIME, WANDER_SHINY_FP_MODIFIER, WANDER_TICK, WANDERER_EP_MODIFIER } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { MultiplierDecreaser } from '../items/types';
 import { createLogContent } from '../logbook/helpers';
@@ -2348,7 +2348,7 @@ class Farming implements Feature {
         GameHelper.incrementObservable(App.game.statistics.farmWandererFarmPointsObtained, amount.amount);
 
         const pokeball = App.game.pokeballs.calculatePokeballToUse(pokemonData.id, wanderer.shiny, false, EncounterType.wanderer);
-        if (pokeball !== Pokeball.None) {
+        if (pokeball !== PokeballType.None) {
             wanderer?.pokeball(pokeball);
             wanderer?.catching(true);
             App.game.pokeballs.usePokeball(pokeball);

@@ -1,21 +1,21 @@
 import { Saveable } from '../DataStore/common/Saveable';
 import BerryType from '../enums/BerryType';
-import {
-    Currency, MegaStoneType, Pokeball, Region, VitaminType,
-} from '../GameConstants';
-import { ItemList } from '../items/ItemList';
 import KeyItemType from '../enums/KeyItemType';
+import {
+    Currency, MegaStoneType, PokeballType, Region, VitaminType,
+} from '../GameConstants';
+import GameHelper from '../GameHelper';
+import Item from '../items/Item';
+import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import { pokemonMap } from '../pokemons/PokemonList';
+import QuestLineState from '../quests/QuestLineState';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
-import RedeemableCode from './RedeemableCode';
-import GameHelper from '../GameHelper';
 import Amount from '../wallet/Amount';
-import Item from '../items/Item';
-import QuestLineState from '../quests/QuestLineState';
+import RedeemableCode from './RedeemableCode';
 
 export default class RedeemableCodes implements Saveable {
     defaults: Record<string, any>;
@@ -57,7 +57,7 @@ export default class RedeemableCodes implements Saveable {
             }),
             new RedeemableCode('great-balls', -1761161712, false, async () => {
                 // Give the player 10 Great Balls
-                App.game.pokeballs.gainPokeballs(Pokeball.Greatball, 10);
+                App.game.pokeballs.gainPokeballs(PokeballType.Greatball, 10);
                 // Notify that the code was activated successfully
                 Notifier.notify({
                     title: 'Code activated!',

@@ -19,6 +19,7 @@ import type OakItems from './oakItems/OakItems';
 import type PokemonCategories from './party/Category';
 import type Party from './party/Party';
 import type PokeballFilters from './pokeballs/PokeballFilters';
+import Pokeballs from './pokeballs/Pokeballs';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import type Quests from './quests/Quests';
@@ -84,7 +85,6 @@ import type Wallet from './wallet/Wallet';
 
 // TODO types for classes not yet described
 export type TmpUpdateType = any;
-export type TmpPokeballsType = any;
 export type TmpGemsType = any;
 export type TmpRedeemableCodesType = any;
 export type TmpDiscordType = any;
@@ -103,7 +103,7 @@ export type TmpGameType = {
     update: TmpUpdateType;
     profile: Profile;
     breeding: Breeding;
-    pokeballs: TmpPokeballsType;
+    pokeballs: Pokeballs;
     pokeballFilters: PokeballFilters;
     wallet: Wallet;
     keyItems: KeyItems;

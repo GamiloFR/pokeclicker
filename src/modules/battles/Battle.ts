@@ -23,7 +23,7 @@ export default class Battle {
     static counter = 0;
     static catching: KnockoutObservable<boolean> = ko.observable(false);
     static catchRateActual: KnockoutObservable<number | null> = ko.observable(0);
-    static pokeball: KnockoutObservable<GameConstants.Pokeball> = ko.observable(GameConstants.Pokeball.Pokeball);
+    static pokeball: KnockoutObservable<GameConstants.PokeballType> = ko.observable(GameConstants.PokeballType.Pokeball);
     static lastPokemonAttack = Date.now();
     static lastClickAttack = Date.now();
     static route;
@@ -89,9 +89,9 @@ export default class Battle {
         App.game.breeding.progressEggsBattle(Battle.route, player.region);
         const isShiny: boolean = enemyPokemon.shiny;
         const isShadow: boolean = enemyPokemon.shadow == GameConstants.ShadowStatus.Shadow;
-        const pokeBall: GameConstants.Pokeball = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
+        const pokeBall: GameConstants.PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
 
-        if (pokeBall !== GameConstants.Pokeball.None) {
+        if (pokeBall !== GameConstants.PokeballType.None) {
             this.prepareCatch(enemyPokemon, pokeBall);
             setTimeout(
                 () => {
@@ -145,14 +145,14 @@ export default class Battle {
         }
     }
 
-    protected static calculateActualCatchRate(enemyPokemon: BattlePokemon, pokeBall: GameConstants.Pokeball) {
+    protected static calculateActualCatchRate(enemyPokemon: BattlePokemon, pokeBall: GameConstants.PokeballType) {
         const pokeballBonus = App.game.pokeballs.getCatchBonus(pokeBall);
         const oakBonus = App.game.oakItems.calculateBonus(OakItemType.Magic_Ball);
         const totalChance = GameConstants.clipNumber(enemyPokemon.catchRate + pokeballBonus + oakBonus, 0, 100);
         return totalChance;
     }
 
-    protected static prepareCatch(enemyPokemon: BattlePokemon, pokeBall: GameConstants.Pokeball) {
+    protected static prepareCatch(enemyPokemon: BattlePokemon, pokeBall: GameConstants.PokeballType) {
         this.pokeball(pokeBall);
         this.catching(true);
         this.catchRateActual(this.calculateActualCatchRate(enemyPokemon, pokeBall));
@@ -194,7 +194,7 @@ export default class Battle {
 
     public static gainTokens(route: number, region: GameConstants.Region, pokeball = this.pokeball()): Amount {
         let currencyKinds = [GameConstants.Currency.dungeonToken];
-        if (pokeball === GameConstants.Pokeball.Luxuryball) {
+        if (pokeball === GameConstants.PokeballType.Luxuryball) {
             //currencyKinds = [
             //  GameConstants.Currency.dungeonToken,
             //  GameConstants.Currency.money,
