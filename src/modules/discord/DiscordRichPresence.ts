@@ -1,3 +1,11 @@
+import AchievementHandler from '../achievements/AchievementHandler';
+import PokemonType from '../enums/PokemonType';
+import { camelCaseToString, Currency, formatSecondsToTime, getDungeonIndex, getGymIndex, Region } from '../GameConstants';
+import Routes from '../routes/Routes';
+import Settings from '../settings/Settings';
+import SubRegions from '../subRegion/SubRegions';
+import WeatherType from '../weather/WeatherType';
+
 class DiscordRichPresence {
     static focusedElement = document.createElement('input');
     static clientVersion = '';
@@ -69,7 +77,7 @@ class DiscordRichPresence {
         },
         {
             key: 'current_region',
-            value: () => GameConstants.camelCaseToString(GameConstants.Region[player.region]),
+            value: () => camelCaseToString(Region[player.region]),
             default: 'Unknown Region',
         },
         {
@@ -89,42 +97,60 @@ class DiscordRichPresence {
         },
         {
             key: 'current_route_stats',
-            value: () => player.route ? App.game.statistics.routeKills[player.region][player.route]() : player.town.dungeon ? App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(player.town.name)]() : player.town.gym ? App.game.statistics.gymsDefeated[GameConstants.getGymIndex(player.town.name)]() : 0,
+            value: () => {
+                if (player.route) {
+                    return App.game.statistics.routeKills[player.region][player.route]();
+                } else if (player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(player.town.name)]();
+                } else if (player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(player.town.name)]();
+                }
+                return 0;
+            },
             default: 0,
         },
         {
             key: 'current_area_stats',
-            value: () => player.route ? App.game.statistics.routeKills[player.region][player.route]() : player.town.dungeon ? App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(player.town.name)]() : player.town.gym ? App.game.statistics.gymsDefeated[GameConstants.getGymIndex(player.town.name)]() : 0,
+            value: () => {
+                if (player.route) {
+                    return App.game.statistics.routeKills[player.region][player.route]();
+                } else if (player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(player.town.name)]();
+                } else if (player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(player.town.name)]();
+                }
+                return 0;
+            },
             default: 0,
         },
         {
             key: 'money',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.money](),
+            value: () => App.game.wallet.currencies[Currency.money](),
             default: 0,
         },
         {
             key: 'dungeon_tokens',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.dungeonToken](),
+            value: () => App.game.wallet.currencies[Currency.dungeonToken](),
             default: 0,
         },
         {
             key: 'diamonds',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.diamond](),
+            value: () => App.game.wallet.currencies[Currency.diamond](),
             default: 0,
         },
         {
             key: 'farm_points',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.farmPoint](),
+            value: () => App.game.wallet.currencies[Currency.farmPoint](),
             default: 0,
         },
         {
             key: 'quest_points',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.questPoint](),
+            value: () => App.game.wallet.currencies[Currency.questPoint](),
             default: 0,
         },
         {
             key: 'battle_points',
-            value: () => App.game.wallet.currencies[GameConstants.Currency.battlePoint](),
+            value: () => App.game.wallet.currencies[Currency.battlePoint](),
             default: 0,
         },
         {
@@ -139,7 +165,7 @@ class DiscordRichPresence {
         },
         {
             key: 'time_played',
-            value: () => GameConstants.formatSecondsToTime(App.game.statistics.secondsPlayed()),
+            value: () => formatSecondsToTime(App.game.statistics.secondsPlayed()),
             default: '0 Seconds',
         },
         {
@@ -212,19 +238,16 @@ class DiscordRichPresence {
             value: () => App.game.statistics.berryDailyDealTrades(),
             default: 0,
         },
-    ]
+    ];
 
-    static replaceDiscordText(input) {
+    static replaceDiscordText(input: string) {
+        const toString = (v: number | string) => typeof v === 'number' ? v.toLocaleString('en-US') : v;
         let output = input;
         this.outputOptions.forEach((option) => {
             try {
-                let value = option.value();
-                if (typeof value == 'number') {
-                    value = value.toLocaleString('en-US');
-                }
-                output = output.replace(new RegExp(`{${option.key}}`, 'g'), value);
+                output = output.replace(new RegExp(`{${option.key}}`, 'g'), toString(option.value()));
             } catch (e) {
-                output = output.replace(new RegExp(`{${option.key}}`, 'g'), option.default);
+                output = output.replace(new RegExp(`{${option.key}}`, 'g'), toString(option.default));
             }
         });
         return output.replace(/<\/?br>/g, ' ');
@@ -289,7 +312,7 @@ class DiscordRichPresence {
                     break;
                 default:
                     discordRPCValues.smallImageKey = smallImage.toLowerCase();
-                    discordRPCValues.smallImageText = `${GameConstants.camelCaseToString(smallImage)}: ${App.game.wallet.currencies[GameConstants.Currency[smallImage]]?.().toLocaleString('en-US') ?? '0'}`;
+                    discordRPCValues.smallImageText = `${camelCaseToString(smallImage)}: ${App.game.wallet.currencies[Currency[smallImage]]?.().toLocaleString('en-US') ?? '0'}`;
             }
         } else {
             discordRPCValues.smallImageKey = smallImage;
@@ -299,3 +322,5 @@ class DiscordRichPresence {
         return discordRPCValues;
     }
 }
+
+export default DiscordRichPresence;

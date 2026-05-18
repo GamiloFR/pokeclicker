@@ -1,3 +1,14 @@
+import { Saveable } from '../DataStore/common/Saveable';
+import { MINUTE } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import { pokemonMap } from '../pokemons/PokemonList';
+import SeededRand from '../utilities/SeededRand';
+import DiscordCode from './DiscordCode';
+import DiscordItemCode from './DiscordItemCode';
+import DiscordPokemonCode from './DiscordPokemonCode';
+
 class Discord implements Saveable {
     saveKey = 'discord';
 
@@ -6,7 +17,7 @@ class Discord implements Saveable {
     };
 
 
-    ID: KnockoutObservable<string> = ko.observable(null);
+    ID = ko.observable<string>(null);
     codes: Array<DiscordCode> = [
         new DiscordPokemonCode(pokemonMap['Unown (D)'], 700, 'An alternate form of Unown.'),
         new DiscordPokemonCode(pokemonMap['Unown (I)'], 700, 'An alternate form of Unown.'),
@@ -31,13 +42,13 @@ class Discord implements Saveable {
     constructor() {
         // Check if code provided by Discord, which means the user has logged in, and we need to get their details
         const search = new URLSearchParams(location.search);
-        const discordID: string = search.get('discordID');
+        const discordID = search.get('discordID');
         if (discordID) {
             this.ID(discordID);
             Notifier.notify({
                 message: 'Successfully logged in to Discord!',
                 type: NotificationConstants.NotificationOption.success,
-                timeout: GameConstants.MINUTE,
+                timeout: MINUTE,
             });
             window.history.replaceState('', '', `${location.origin + location.pathname}`);
         }
@@ -76,7 +87,7 @@ class Discord implements Saveable {
             // map to the character code
             .map(l => l.charCodeAt(0))
             // multiply the numbers (should be random enough)
-            .reduce((s,b) => s * (b / 10), 1);
+            .reduce((s, b) => s * (b / 10), 1);
 
         SeededRand.seed(discordID + codeSeed);
 
@@ -96,7 +107,7 @@ class Discord implements Saveable {
     }
 
     findCodeMatch(enteredCode: string): DiscordCode {
-        return this.codes.find(code => enteredCode.toUpperCase() == this.calcCode(code));
+        return this.codes.find(code => enteredCode.toUpperCase() == this.calcCode(code))!;
     }
 
     enterCode(enteredCode: string): boolean {
@@ -144,7 +155,7 @@ class Discord implements Saveable {
         });
     }
 
-    fromJSON(json): void {
+    fromJSON(json: Record<string, any>): void {
         if (!json || !json.ID) {
             return;
         }
@@ -161,3 +172,5 @@ class Discord implements Saveable {
     }
 
 }
+
+export default Discord;

@@ -56,6 +56,8 @@ import { CodeCredits, SpriteCredits } from './Credits';
 import DayCycle from './dayCycle/DayCycle';
 import DayCyclePart from './dayCycle/DayCyclePart';
 import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
+import Discord from './discord/Discord';
+import DiscordRichPresence from './discord/DiscordRichPresence';
 import DungeonBattle from './dungeons/DungeonBattle';
 import DungeonGuides from './dungeons/DungeonGuides';
 import DungeonList from './dungeons/DungeonList';
@@ -635,4 +637,6 @@ Object.assign(<any>window, {
     BattleFrontierBattle,
     BattleFrontierMilestones,
     BattleFrontierRunner,
+    Discord,
+    DiscordRichPresence,
 });

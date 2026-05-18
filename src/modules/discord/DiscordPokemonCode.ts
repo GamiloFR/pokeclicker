@@ -1,5 +1,12 @@
+import { SHINY_CHANCE_SHOP } from '../GameConstants';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import PokemonFactory from '../pokemons/PokemonFactory';
+import { PokemonListData } from '../pokemons/PokemonList';
+import DiscordCode from './DiscordCode';
+
 class DiscordPokemonCode extends DiscordCode {
-    constructor(pokemon: PokemonListData, price, description) {
+    constructor(pokemon: PokemonListData, price: number, description: string) {
         const image = `assets/images/pokemon/${pokemon.id}.png`;
         const claimFunction = () => {
             if (pokemon.nativeRegion > player.highestRegion()) {
@@ -10,7 +17,7 @@ class DiscordPokemonCode extends DiscordCode {
                 return false;
             }
 
-            const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_SHOP);
+            const shiny = PokemonFactory.generateShiny(SHINY_CHANCE_SHOP);
             App.game.party.gainPokemonById(pokemon.id, shiny, true);
             // Notify that the code was activated successfully
             Notifier.notify({
@@ -23,3 +30,5 @@ class DiscordPokemonCode extends DiscordCode {
         super(pokemon.name, image, price, description, claimFunction);
     }
 }
+
+export default DiscordPokemonCode;

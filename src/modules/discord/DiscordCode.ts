@@ -1,3 +1,6 @@
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+
 class DiscordCode {
     public claimed = false;
 
@@ -8,7 +11,7 @@ class DiscordCode {
         public image: string,
         public price: number,
         public description: string,
-        private claimFunction = () => true
+        private claimFunction = () => true,
     ) {}
 
     claim() {
@@ -41,3 +44,5 @@ class DiscordCode {
         };
     }
 }
+
+export default DiscordCode;

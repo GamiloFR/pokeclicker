@@ -1,5 +1,6 @@
 import Dungeon from '../dungeons/Dungeon';
 import { DockTowns, Region, StartingTowns, SubRegions } from '../GameConstants';
+import Gym from '../gym/Gym';
 import GymList from '../gym/GymList';
 import Requirement from '../requirements/Requirement';
 import NPC from './NPC';
@@ -63,6 +64,10 @@ class Town {
 
     public isUnlocked() {
         return this.requirements.every(requirement => requirement.isCompleted());
+    }
+
+    public get gym(): Gym | undefined {
+        return GymList[this.name];
     }
 }
 
