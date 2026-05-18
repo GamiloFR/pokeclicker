@@ -2,6 +2,7 @@ import DungeonList from '../../dungeons/DungeonList';
 import { ACTIVE_QUEST_MULTIPLIER, DEFEAT_POKEMONS_BASE_REWARD, getDungeonIndex, getDungeonRegion, QUEST_CLICKS_PER_SECOND, Region, RegionDungeons } from '../../GameConstants';
 import PokemonFactory from '../../pokemons/PokemonFactory';
 import SubRegions from '../../subRegion/SubRegions';
+import TownList from '../../towns/TownList';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
 import QuestHelper from '../QuestHelper';

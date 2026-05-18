@@ -12,6 +12,7 @@ import DefeatDungeonQuest from '../quests/questTypes/DefeatDungeonQuest';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
+import TownList from '../towns/TownList';
 import UndergroundItemNameType from '../underground/UndergroundItemNameType';
 import Rand from '../utilities/Rand';
 import DungeonBossPokemon from './DungeonBossPokemon';

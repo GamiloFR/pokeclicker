@@ -23,7 +23,7 @@ import PartyPokemon from '../party/PartyPokemon';
 import RegionRoute from '../routes/RegionRoute';
 import Routes from '../routes/Routes';
 import SubRegion from '../subRegion/SubRegion';
-import { TmpTemporaryBattleType } from '../TemporaryScriptTypes';
+import TemporaryBattle from '../temporaryBattle/TemporaryBattle';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import RouteHelper from '../wildBattle/RouteHelper';
@@ -324,7 +324,7 @@ class PokemonFactory {
         );
     }
 
-    public static generateTemporaryBattlePokemon(battle: TmpTemporaryBattleType, index: number): BattlePokemon {
+    public static generateTemporaryBattlePokemon(battle: TemporaryBattle, index: number): BattlePokemon {
         const pokemon = battle.getPokemonList()[index];
         const basePokemon = PokemonHelper.getPokemonByName(pokemon.name);
         const catchRate: number = this.catchRateHelper(basePokemon.catchRate);

@@ -19,6 +19,8 @@ import initRoutes from './routes/index';
 import initSafari from './safari';
 import initSettings from './settings/index';
 import initShop from './shop/index';
+import initTemporaryBattle from './temporaryBattle';
+import initTowns from './towns';
 
 initPokemons();
 initGyms();
@@ -31,3 +33,6 @@ initGems(); // After initItems
 initBattleFrontier(); // After initItems
 
 initSafari();
+
+initTemporaryBattle();
+initTowns(); // After initTemporaryBattle

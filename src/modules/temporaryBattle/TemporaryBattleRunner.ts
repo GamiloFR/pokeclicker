@@ -1,22 +1,35 @@
-/// <reference path="../../declarations/GameHelper.d.ts" />
-/// <reference path="../../declarations/enums/Badges.d.ts" />
+import Battle from '../battles/Battle';
+import DungeonRunner from '../dungeons/DungeonRunner';
+import { FluteItemType, GYM_COUNTDOWN, GameState, StartingTowns, TEMP_BATTLE_TICK, TEMP_BATTLE_TIME, getTemporaryBattlesIndex } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Settings from '../settings/Settings';
+import TownList from '../towns/TownList';
+import TemporaryBattle from './TemporaryBattle';
+import TemporaryBattleBattle from './TemporaryBattleBattle';
 
 class TemporaryBattleRunner {
-    public static timeLeft: KnockoutObservable<number> = ko.observable(GameConstants.TEMP_BATTLE_TIME);
-    public static timeLeftPercentage: KnockoutObservable<number> = ko.observable(100);
-    public static timeBonus: KnockoutObservable<number> = ko.observable(1);
+    public static timeLeft = ko.observable(TEMP_BATTLE_TIME);
+    public static timeLeftPercentage = ko.observable(100);
+    public static timeBonus = ko.observable(1);
 
-    public static battleObservable: KnockoutObservable<TemporaryBattle> = ko.observable();
-    public static running: KnockoutObservable<boolean> = ko.observable(false);
+    public static battleObservable = ko.observable<TemporaryBattle>();
+    public static running = ko.observable(false);
+
+    public static timeLeftSeconds = ko.pureComputed(() => {
+        return (Math.ceil(TemporaryBattleRunner.timeLeft() / 100) / 10).toFixed(1);
+    });
 
     public static startBattle(
-        battle: TemporaryBattle
+        battle: TemporaryBattle,
     ) {
         this.running(false);
         this.battleObservable(battle);
-        App.game.gameState = GameConstants.GameState.idle;
-        DungeonRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute));
-        this.timeLeft(GameConstants.TEMP_BATTLE_TIME * this.timeBonus());
+        App.game.gameState = GameState.idle;
+        DungeonRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute));
+        this.timeLeft(TEMP_BATTLE_TIME * this.timeBonus());
         this.timeLeftPercentage(100);
 
         player.route = 0;
@@ -25,13 +38,13 @@ class TemporaryBattleRunner {
         TemporaryBattleBattle.totalPokemons(battle.getPokemonList().length);
         TemporaryBattleBattle.index(0);
         TemporaryBattleBattle.generateNewEnemy();
-        App.game.gameState = GameConstants.GameState.temporaryBattle;
+        App.game.gameState = GameState.temporaryBattle;
         this.running(true);
         this.resetGif();
 
         setTimeout(() => {
             this.hideGif();
-        }, GameConstants.GYM_COUNTDOWN);
+        }, GYM_COUNTDOWN);
     }
 
     private static hideGif() {
@@ -55,10 +68,10 @@ class TemporaryBattleRunner {
         if (this.timeLeft() < 0) {
             this.battleLost();
         }
-        this.timeLeft(this.timeLeft() - GameConstants.TEMP_BATTLE_TICK);
-        this.timeLeftPercentage(Math.floor(this.timeLeft() / (GameConstants.TEMP_BATTLE_TIME * FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute)) * 100));
+        this.timeLeft(this.timeLeft() - TEMP_BATTLE_TICK);
+        this.timeLeftPercentage(Math.floor(this.timeLeft() / (TEMP_BATTLE_TIME * FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute)) * 100));
 
-        const currentFluteBonus = FluteEffectRunner.getFluteMultiplier(GameConstants.FluteItemType.Time_Flute);
+        const currentFluteBonus = FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute);
         if (currentFluteBonus != this.timeBonus()) {
             if (currentFluteBonus > this.timeBonus()) {
                 if (this.timeBonus() === 1) {
@@ -83,30 +96,26 @@ class TemporaryBattleRunner {
                 message: `It appears you are not strong enough to defeat ${TemporaryBattleBattle.battle.getDisplayName()}.`,
                 type: NotificationConstants.NotificationOption.danger,
             });
-            player.town = TemporaryBattleBattle.battle.getTown() ?? TownList[GameConstants.StartingTowns[player.region]];
-            App.game.gameState = GameConstants.GameState.town;
+            player.town = TemporaryBattleBattle.battle.getTown() ?? TownList[StartingTowns[player.region]];
+            App.game.gameState = GameState.town;
         }
     }
 
     public static battleWon(battle: TemporaryBattle) {
         if (this.running()) {
             this.running(false);
-            if (App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(battle.name)]() == 0) {
+            if (App.game.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex(battle.name)]() == 0) {
                 battle.optionalArgs.firstTimeRewardFunction?.();
                 if (battle.defeatMessage) {
                     $('#temporaryBattleWonModal').modal('show');
                 }
             }
             battle.optionalArgs.rewardFunction?.();
-            GameHelper.incrementObservable(App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(battle.name)]);
-            player.town = battle.getTown() ?? TownList[GameConstants.StartingTowns[player.region]];
-            App.game.gameState = GameConstants.GameState.town;
+            GameHelper.incrementObservable(App.game.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex(battle.name)]);
+            player.town = battle.getTown() ?? TownList[StartingTowns[player.region]];
+            App.game.gameState = GameState.town;
         }
     }
-
-    public static timeLeftSeconds = ko.pureComputed(() => {
-        return (Math.ceil(TemporaryBattleRunner.timeLeft() / 100) / 10).toFixed(1);
-    })
 
     public static finalPokemon() : boolean {
         return TemporaryBattleBattle.pokemonsUndefeatedComputable() === 1;
@@ -133,3 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });*/
+
+export default TemporaryBattleRunner;

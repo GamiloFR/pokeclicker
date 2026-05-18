@@ -259,6 +259,9 @@ import SpecialEvent from './specialEvents/SpecialEvent';
 import SpecialEvents from './specialEvents/SpecialEvents';
 import SubRegion from './subRegion/SubRegion';
 import SubRegions from './subRegion/SubRegions';
+import TemporaryBattleBattle from './temporaryBattle/TemporaryBattleBattle';
+import TemporaryBattleList from './temporaryBattle/TemporaryBattleList';
+import TemporaryBattleRunner from './temporaryBattle/TemporaryBattleRunner';
 import AssistantNPC from './towns/AssistantNPC';
 import BattleCafe from './towns/battleCafe/BattleCafe';
 import BattleCafeController from './towns/battleCafe/BattleCafeController';
@@ -282,6 +285,7 @@ import MoveToDungeon from './towns/townContent/MoveToDungeon';
 import MoveToTown from './towns/townContent/MoveToTown';
 import TownContent from './towns/townContent/TownContent';
 import WeatherAppTownContent from './towns/townContent/WeatherAppTownContent';
+import TownList from './towns/TownList';
 import Translate from './translation/Translation';
 import TranslationHelper from './translation/TranslationHelper';
 import DamageCalculator from './types/DamageCalculator';
@@ -647,4 +651,8 @@ Object.assign(<any>window, {
     DungeonInfo,
     Pokeballs,
     PokedexHelper,
+    TownList,
+    TemporaryBattleBattle,
+    TemporaryBattleList,
+    TemporaryBattleRunner,
 });

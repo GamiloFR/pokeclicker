@@ -9,7 +9,6 @@ import type Statistics from './DataStore/StatisticStore';
 import type areaStatus from './enums/AreaStatus';
 import type Farming from './farming/Farming';
 import type * as GameConstants from './GameConstants';
-import type GymPokemon from './gym/GymPokemon';
 import type { MultiplierDecreaser } from './items/types';
 import type KeyItems from './keyItems/KeyItems';
 import type LogBook from './logbook/LogBook';
@@ -23,13 +22,11 @@ import Pokeballs from './pokeballs/Pokeballs';
 import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import type Quests from './quests/Quests';
-import type Requirement from './requirements/Requirement';
 import type SaveReminder from './saveReminder/SaveReminder';
 import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
 import type Town from './towns/Town';
-import type TownContent from './towns/townContent/TownContent';
 import type Translate from './translation/Translation';
 import type { Underground } from './underground/Underground';
 import type Wallet from './wallet/Wallet';
@@ -213,38 +210,6 @@ export type TmpMapHelperType = {
     ableToTravel: () => boolean;
     travelToNextRegion: () => void;
     getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
-};
-
-export type TmpTemporaryBattleListType = {
-    [battleName: string]: TmpTemporaryBattleType;
-};
-
-export type TmpTemporaryBattleOptionalArgumentType = {
-    rewardFunction?: () => void,
-    firstTimeRewardFunction?: () => void,
-    isTrainerBattle?: boolean,
-    displayName?: string,
-    returnTown?: string, // If in town, that town will be used. If not in town, this will be used, with the Dock town as default
-    imageName?: string,
-    visibleRequirement?: Requirement,
-    hideTrainer?: boolean,
-    environment?: GameConstants.Environment[],
-    battleBackground?: GameConstants.BattleBackground,
-    resetDaily?: boolean,
-    finalPokemonImage?: string // trainer image when on final pokemon
-};
-
-export type TmpTemporaryBattleType = TownContent & {
-    name: string;
-    parent?: Town;
-    optionalArgs: TmpTemporaryBattleOptionalArgumentType;
-    getTown: () => Town | undefined;
-    getDisplayName: () => string;
-    getPokemonList(): GymPokemon[];
-};
-
-export type TmpTownListType = {
-    [name: string]: Town;
 };
 
 export type TmpGameControllerType = {

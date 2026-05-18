@@ -1,5 +1,6 @@
 import areaStatus from '../../enums/AreaStatus';
 import Requirement from '../../requirements/Requirement';
+import TownList from '../TownList';
 import TownContent from './TownContent';
 
 class MoveToTown extends TownContent {

@@ -6,7 +6,7 @@ export default class CustomRequirement<T> extends AchievementRequirement {
     constructor(
         private focus: Observable<T> | Computed<T>,
         private required: T,
-        private hintText: string,
+        private hintText?: string,
         option = AchievementOption.more,
     ) {
         super(1, option);
@@ -17,6 +17,6 @@ export default class CustomRequirement<T> extends AchievementRequirement {
     }
 
     public hint(): string {
-        return this.hintText;
+        return this.hintText ?? '';
     }
 }

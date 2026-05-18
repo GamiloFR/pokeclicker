@@ -69,6 +69,7 @@ import VitaminObtainRequirement from '../requirements/VitaminObtainRequirement';
 import Routes from '../routes/Routes';
 import Settings from '../settings/Settings';
 import SubRegions from '../subRegion/SubRegions';
+import TownList from '../towns/TownList';
 import UndergroundToolType from '../underground/tools/UndergroundToolType';
 import { modalState } from '../utilities/DisplayObservables';
 import Achievement from './Achievement';

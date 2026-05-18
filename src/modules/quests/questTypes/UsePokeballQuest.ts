@@ -1,5 +1,6 @@
 import { DEFEAT_POKEMONS_BASE_REWARD, PokeballType } from '../../GameConstants';
 import { ItemList } from '../../items/ItemList';
+import TownList from '../../towns/TownList';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';

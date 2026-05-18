@@ -22,7 +22,6 @@ module.exports = {
         player: 'readonly',
         Save: 'readonly',
         MapHelper: 'readonly',
-        TownList: 'readonly',
         GameController: 'readonly',
     },
     rules: {

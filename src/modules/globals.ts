@@ -13,7 +13,5 @@ declare global {
     const player: TempTypes.TmpPlayerType;
     const Save: TempTypes.TmpSaveType;
     const MapHelper: TempTypes.TmpMapHelperType;
-    const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
-    const TownList: TempTypes.TmpTownListType;
     const GameController: TempTypes.TmpGameControllerType;
 }

@@ -4,6 +4,7 @@ import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
 import NPC from './NPC';
+import TownList from './TownList';
 
 class ProfNPC extends NPC {
 
