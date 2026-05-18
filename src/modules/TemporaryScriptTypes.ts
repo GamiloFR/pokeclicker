@@ -191,6 +191,7 @@ export type TmpPlayerType = {
     hasMegaStone: (megaStone: GameConstants.MegaStoneType) => boolean;
     gainMegaStone: (megaStone: GameConstants.MegaStoneType, notify?: boolean) => void;
     toJSON: () => Record<string, any>;
+    hasBeatenChampOfRegion(region?: GameConstants.Region): boolean;
 };
 
 export type TmpMapHelperType = {

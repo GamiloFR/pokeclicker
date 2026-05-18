@@ -132,6 +132,7 @@ import PokeballFilter from './pokeballs/PokeballFilter';
 import { pokeballFilterOptions } from './pokeballs/PokeballFilterOptions';
 import PokeballFilters from './pokeballs/PokeballFilters';
 import Pokeballs from './pokeballs/Pokeballs';
+import PokedexHelper from './pokedex/PokedexHelper';
 import DataPokemon from './pokemons/DataPokemon';
 import {
     beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution,
@@ -645,4 +646,5 @@ Object.assign(<any>window, {
     RouteInfo,
     DungeonInfo,
     Pokeballs,
+    PokedexHelper,
 });

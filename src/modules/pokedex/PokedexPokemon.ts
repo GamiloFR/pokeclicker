@@ -1,3 +1,6 @@
+import PokemonType from '../enums/PokemonType';
+import PokemonInterface from '../interfaces/Pokemon';
+
 class PokedexPokemon implements PokemonInterface {
     name: string;
     id: number;
@@ -17,3 +20,5 @@ class PokedexPokemon implements PokemonInterface {
         this.shiny = shiny;
     }
 }
+
+export default PokedexPokemon;

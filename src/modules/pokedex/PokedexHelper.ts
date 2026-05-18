@@ -1,8 +1,33 @@
+import { Computed, Observable } from 'knockout';
+import DungeonList from '../dungeons/DungeonList';
+import PokemonType from '../enums/PokemonType';
+import { MaxIDPerRegion, Region, TypeColor } from '../GameConstants';
+import BagHandler from '../items/BagHandler';
+import PartyPokemon from '../party/PartyPokemon';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { pokemonList, PokemonListData } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import SearchSetting from '../settings/SearchSetting';
+import Settings, { pokedexFilterSettingKeys } from '../settings/Settings';
+import { BootstrapState, modalState } from '../utilities/DisplayObservables';
+
 const getAllShadowPokemon = ko.pureComputed((): Set<PokemonNameType> => {
     return new Set(Object.values(DungeonList).flatMap(d => d.allShadowPokemon()));
 });
 
 class PokedexHelper {
+    private static cachedFilteredList: typeof pokemonList;
+    public static filteredList = ko.pureComputed<typeof pokemonList>(() => {
+        if (PokedexHelper.cachedFilteredList && modalState.pokedexModal !== 'show') {
+            return PokedexHelper.cachedFilteredList;
+        }
+
+        PokedexHelper.cachedFilteredList = PokedexHelper.getList();
+        return PokedexHelper.cachedFilteredList;
+    });
+
+    // Flag for the LazyLoader
+    public static resetPokedexFlag = ko.computed(() => modalState.pokedexModal === 'hidden');
 
     public static initialize() {
         pokedexFilterSettingKeys.forEach((filter) => {
@@ -12,9 +37,9 @@ class PokedexHelper {
             });
         });
 
-        DisplayObservables.modalState.pokedexModalObservable.subscribe((modalState) => {
+        (<Observable<BootstrapState>>modalState.pokedexModalObservable).subscribe((state: BootstrapState) => {
             // Resetting scrolling only works before modal is fully hidden
-            if (modalState === 'hide') {
+            if (state === 'hide') {
                 PokedexHelper.scrollToTop();
             }
         });
@@ -27,9 +52,9 @@ class PokedexHelper {
             return 'grey';
         }
         if (pokemon.type2 == PokemonType.None) {
-            return GameConstants.TypeColor[pokemon.type1];
+            return TypeColor[pokemon.type1];
         }
-        return `linear-gradient(90deg,${GameConstants.TypeColor[pokemon.type1]} 50%, ${GameConstants.TypeColor[pokemon.type2]} 50%)`;
+        return `linear-gradient(90deg,${TypeColor[pokemon.type1]} 50%, ${TypeColor[pokemon.type2]} 50%)`;
     }
 
     /**
@@ -37,26 +62,19 @@ class PokedexHelper {
      * @param {number} id
      * @returns {boolean}
      */
-    public static pokemonSeen(id: number): KnockoutComputed<boolean> {
+    public static pokemonSeen(id: number): Computed<boolean> {
         return ko.pureComputed(() => {
             try {
-                return App.game.statistics.pokemonEncountered[id]() > 0 || App.game.statistics.pokemonDefeated[id]() > 0 || App.game.statistics.pokemonCaptured[id]() > 0 || App.game.party.alreadyCaughtPokemon(id) || App.game.statistics.pokemonSeen[id]() > 0;
+                return App.game.statistics.pokemonEncountered[id]() > 0
+                    || App.game.statistics.pokemonDefeated[id]() > 0
+                    || App.game.statistics.pokemonCaptured[id]() > 0
+                    || App.game.party.alreadyCaughtPokemon(id)
+                    || App.game.statistics.pokemonSeen[id]() > 0;
             } catch (error) {
                 return false;
             }
         });
     }
-
-    private static cachedFilteredList: typeof pokemonList;
-    public static filteredList = ko.pureComputed<typeof pokemonList>(() => {
-        if (PokedexHelper.cachedFilteredList && DisplayObservables.modalState.pokedexModal !== 'show') {
-            return PokedexHelper.cachedFilteredList;
-        }
-
-        PokedexHelper.cachedFilteredList = PokedexHelper.getList();
-        return PokedexHelper.cachedFilteredList;
-    })
-
 
     public static formatSearch(value: string) {
         if (/[^\d]/.test(value)) {
@@ -83,7 +101,7 @@ class PokedexHelper {
             const highestEncountered = App.game.statistics.pokemonEncountered.highestID;
             const highestDefeated = App.game.statistics.pokemonDefeated.highestID;
             const highestCaught = App.game.statistics.pokemonCaptured.highestID;
-            const highestRegionID = player.hasBeatenChampOfRegion() ? GameConstants.MaxIDPerRegion[player.highestRegion()] : -1;
+            const highestRegionID = player.hasBeatenChampOfRegion() ? MaxIDPerRegion[player.highestRegion()] : -1;
             return Math.max(highestSeen, highestEncountered, highestDefeated, highestCaught, highestRegionID);
         }).peek();
 
@@ -98,12 +116,12 @@ class PokedexHelper {
 
             // If the Pokemon shouldn't be unlocked yet
             const nativeRegion = PokemonHelper.calcNativeRegion(pokemon.name);
-            if (nativeRegion > player.highestRegion() || nativeRegion == GameConstants.Region.none && !alreadyCaught) {
+            if (nativeRegion > player.highestRegion() || nativeRegion == Region.none && !alreadyCaught) {
                 return false;
             }
 
             // If not showing this region
-            const region: (GameConstants.Region | null) = Settings.getSetting('pokedexRegionFilter').observableValue();
+            const region: (Region | null) = Settings.getSetting('pokedexRegionFilter').observableValue();
             if (region != null && region != nativeRegion) {
                 return false;
             }
@@ -246,10 +264,9 @@ class PokedexHelper {
     }
 
     // Gender ratio
-    public static getGenderRatioData(pokemon) {
-        const genderType = pokemon.gender.type;
+    public static getGenderRatioData(pokemon: PokemonListData) {
         const genderRatio = pokemon.gender.femaleRatio;
-        const genderObject = {'male': 0, 'female': 0};
+        const genderObject = { 'male': 0, 'female': 0 };
         // console.log(pokemon);
         genderObject.male = 100 - (100 * genderRatio);
         genderObject.female = 100 * genderRatio;
@@ -260,9 +277,6 @@ class PokedexHelper {
         return (pokemon.type.length === 1 && (type == null || pokemon.type[0] === type));
     }
 
-    // Flag for the LazyLoader
-    public static resetPokedexFlag = ko.computed(() => DisplayObservables.modalState.pokedexModal === 'hidden');
-
     private static scrollToTop() {
         document.querySelector('#pokedex-pokemon-list-container .scrolling-div-pokedex').scrollTop = 0;
     }
@@ -271,3 +285,5 @@ class PokedexHelper {
         return PokedexHelper.filteredList().map((p) => App.game.party.getPokemon(p.id)).filter((p) => p !== undefined);
     }
 }
+
+export default PokedexHelper;
