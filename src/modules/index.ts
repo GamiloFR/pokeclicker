@@ -10,6 +10,7 @@ import './koBindingHandlers';
 // Load everything else
 import './temporaryWindowInjection';
 
+import initBattleFrontier from './battleFrontier';
 import initGems from './gems';
 import initGyms from './gym/index';
 import initItems from './items/index';
@@ -27,5 +28,6 @@ initSettings();
 initShop();
 
 initGems(); // After initItems
+initBattleFrontier(); // After initItems
 
 initSafari();

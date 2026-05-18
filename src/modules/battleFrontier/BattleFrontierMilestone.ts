@@ -1,19 +1,21 @@
+import Requirement from '../requirements/Requirement';
+
 class BattleFrontierMilestone {
     public obtained = ko.observable(false);
 
-    constructor (
+    constructor(
         public stage: number,
         public rewardFunction: () => void,
+        public _image: string,
+        private _description: string,
         public requirement?: Requirement,
-        public _image?: string,
-        private _description?: string
     ) { }
 
     public isUnlocked(): boolean {
         return this.requirement ? this.requirement.isCompleted() : true;
     }
 
-    gain () {
+    gain() {
         if (!this.obtained()) {
             this.rewardFunction();
             this.obtained(true);
@@ -32,3 +34,5 @@ class BattleFrontierMilestone {
         return this.description;
     }
 }
+
+export default BattleFrontierMilestone;

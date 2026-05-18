@@ -36,6 +36,10 @@ import CaughtUniqueShinyPokemonsByRegionRequirement from './achievements/CaughtS
 import SafariLevelRequirement from './achievements/SafariLevelRequirement';
 import SecretAchievement from './achievements/SecretAchievement';
 import BadgeCaseController from './badgeCase/BadgeCaseController';
+import BattleFrontier from './battleFrontier/BattleFrontier';
+import BattleFrontierBattle from './battleFrontier/BattleFrontierBattle';
+import BattleFrontierMilestones from './battleFrontier/BattleFrontierMilestones';
+import BattleFrontierRunner from './battleFrontier/BattleFrontierRunner';
 import Battle from './battles/Battle';
 import BattlePokemon from './battles/BattlePokemon';
 import Trainer from './battles/Trainer';
@@ -627,4 +631,8 @@ Object.assign(<any>window, {
     AchievementHandler,
     CaughtUniqueShinyPokemonsByRegionRequirement,
     AchievementTracker,
+    BattleFrontier,
+    BattleFrontierBattle,
+    BattleFrontierMilestones,
+    BattleFrontierRunner,
 });

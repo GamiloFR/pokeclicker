@@ -23,7 +23,6 @@ module.exports = {
         Save: 'readonly',
         MapHelper: 'readonly',
         TownList: 'readonly',
-        BattleFrontierMilestones: 'readonly',
         GameController: 'readonly',
     },
     rules: {

@@ -1,4 +1,5 @@
-import { Observable } from 'knockout';
+import BattleFrontierMilestonePokemon from '../battleFrontier/BattleFrontierMilestonePokemon';
+import BattleFrontierMilestones from '../battleFrontier/BattleFrontierMilestones';
 import GenericDeal, { DealCostOrProfitType } from '../deal/GenericDeal';
 import { DetailedPokemon } from '../dungeons/Dungeon';
 import DungeonList from '../dungeons/DungeonList';
@@ -13,7 +14,6 @@ import GemDeals from '../gems/GemDeals';
 import GymList from '../gym/GymList';
 import { ItemList } from '../items/ItemList';
 import PokemonItem from '../items/PokemonItem';
-import Requirement from '../requirements/Requirement';
 import Routes from '../routes/Routes';
 import SpecialRoutePokemon from '../routes/SpecialRoutePokemon';
 import SafariEncounter from '../safari/SafariEncounter';
@@ -25,7 +25,6 @@ import GemMasterShop from '../shop/GemMasterShop';
 import GenericTraderShop from '../shop/GenericTraderShop';
 import ShardTraderShop from '../shop/ShardTraderShop';
 import Shop from '../shop/Shop';
-import { TmpBattleFrontierMilestoneType } from '../TemporaryScriptTypes';
 import BattleCafeController from '../towns/battleCafe/BattleCafeController';
 import PokemonGiftNPC from '../towns/PokemonGiftNPC';
 import { ShardDeal } from '../underground/ShardDeal';
@@ -66,17 +65,6 @@ type PokemonRegionRoutes = {
 };
 
 type PokemonEncounterTypes = Partial<Record<PokemonLocationType, any>>;
-
-declare class BattleFrontierMilestonePokemon implements TmpBattleFrontierMilestoneType {
-    obtained: Observable<boolean>;
-    stage: number;
-    rewardFunction: () => void;
-    requirement?: Requirement | undefined;
-    _image?: string | undefined;
-    get image(): string | undefined;
-    get description(): string | undefined;
-    get displayName(): any;
-}
 
 class PokemonLocations {
     /*

@@ -1,10 +1,21 @@
+import Battle from '../battles/Battle';
+import BattlePokemon from '../battles/BattlePokemon';
+import EncounterType from '../enums/EncounterType';
+import { Currency, Region, ShadowStatus, SHINY_CHANCE_BATTLE } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import PokemonFactory from '../pokemons/PokemonFactory';
+import { pokemonMap } from '../pokemons/PokemonList';
+import Amount from '../wallet/Amount';
+import WeatherType from '../weather/WeatherType';
+import BattleFrontierRunner from './BattleFrontierRunner';
+
 class BattleFrontierBattle extends Battle {
     static alternateAttack = false;
-    static pokemonIndex: KnockoutObservable<number> = ko.observable(0);
-    static totalPokemons: KnockoutObservable<number> = ko.observable(3);
+    static pokemonIndex = ko.observable(0);
+    static totalPokemons = ko.observable(3);
 
     // Looks like we don't need this, unless we want to put a random trainer name or similar
-    static trainer: KnockoutObservable<number> = ko.observable(0);
+    static trainer = ko.observable(0);
 
     static counter = 0;
 
@@ -24,7 +35,7 @@ class BattleFrontierBattle extends Battle {
         if (!this.enemyPokemon()?.isAlive()) {
             return;
         }
-        this.enemyPokemon().damage(App.game.party.calculatePokemonAttack(this.enemyPokemon().type1, this.enemyPokemon().type2, true, GameConstants.Region.none, false, false, WeatherType.Clear));
+        this.enemyPokemon().damage(App.game.party.calculatePokemonAttack(this.enemyPokemon().type1, this.enemyPokemon().type2, true, Region.none, false, false, WeatherType.Clear));
         if (!this.enemyPokemon().isAlive()) {
             this.defeatPokemon();
         }
@@ -36,7 +47,7 @@ class BattleFrontierBattle extends Battle {
     public static defeatPokemon() {
         this.enemyPokemon().defeat(true);
         // This needs to stay as none so the stage number isn't adjusted
-        App.game.breeding.progressEggsBattle(BattleFrontierRunner.stage(), GameConstants.Region.none);
+        App.game.breeding.progressEggsBattle(BattleFrontierRunner.stage(), Region.none);
         // Next pokemon
         GameHelper.incrementObservable(this.pokemonIndex);
 
@@ -58,11 +69,11 @@ class BattleFrontierBattle extends Battle {
     public static generateNewEnemy() {
         const enemy = pokemonMap.randomRegion(player.highestRegion());
         // This needs to stay as none so the stage number isn't adjusted
-        const health = PokemonFactory.routeHealth(BattleFrontierRunner.stage() + 10, GameConstants.Region.none);
+        const health = PokemonFactory.routeHealth(BattleFrontierRunner.stage() + 10, Region.none);
         const level = Math.min(100, BattleFrontierRunner.stage());
         // Don't award money per pokemon defeated, award money at the end
         const money = 0;
-        const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_BATTLE);
+        const shiny = PokemonFactory.generateShiny(SHINY_CHANCE_BATTLE);
         // Give 1 extra gem per pokemon defeated after every 80 stages
         const gems = Math.ceil(BattleFrontierRunner.stage() / 80);
         const gender = PokemonFactory.generateGender(enemy.gender.femaleRatio, enemy.gender.type);
@@ -71,7 +82,23 @@ class BattleFrontierBattle extends Battle {
             GameHelper.incrementObservable(App.game.statistics.totalShinyTrainerPokemonSeen);
         }
 
-        const enemyPokemon = new BattlePokemon(enemy.name, enemy.id, enemy.type[0], enemy.type[1], health, level, 0, enemy.exp, new Amount(money, GameConstants.Currency.money), shiny, gems, gender, GameConstants.ShadowStatus.None, EncounterType.trainer);
+        const enemyPokemon = new BattlePokemon(enemy.name,
+            enemy.id,
+            enemy.type[0],
+            enemy.type[1],
+            health,
+            level,
+            0,
+            enemy.exp,
+            new Amount(money, Currency.money),
+            shiny,
+            gems,
+            gender,
+            ShadowStatus.None,
+            EncounterType.trainer,
+        );
         this.enemyPokemon(enemyPokemon);
     }
 }
+
+export default BattleFrontierBattle;

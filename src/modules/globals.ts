@@ -15,6 +15,5 @@ declare global {
     const MapHelper: TempTypes.TmpMapHelperType;
     const TemporaryBattleList: TempTypes.TmpTemporaryBattleListType;
     const TownList: TempTypes.TmpTownListType;
-    const BattleFrontierMilestones: TempTypes.TmpBattleFrontierMilestonesType;
     const GameController: TempTypes.TmpGameControllerType;
 }

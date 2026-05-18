@@ -1,18 +1,40 @@
-/// <reference path="../../declarations/GameHelper.d.ts" />
+import { BattleBackground, BattleBackgrounds, GYM_TICK, GYM_TIME, GameState, MINUTE } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import { createLogContent } from '../logbook/helpers';
+import { LogBookTypes } from '../logbook/LogBookTypes';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import Rand from '../utilities/Rand';
+import BattleFrontierBattle from './BattleFrontierBattle';
+import BattleFrontierMilestones from './BattleFrontierMilestones';
 
 class BattleFrontierRunner {
-    public static timeLeft: KnockoutObservable<number> = ko.observable(GameConstants.GYM_TIME);
-    public static timeLeftPercentage: KnockoutObservable<number> = ko.observable(100);
-    static stage: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
-    public static checkpoint: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
-    public static highest: KnockoutObservable<number> = ko.observable(1);
-    public static battleBackground: KnockoutObservable<GameConstants.BattleBackground> = ko.observable('Default');
+    public static timeLeft = ko.observable(GYM_TIME);
+    public static timeLeftPercentage = ko.observable(100);
+    static stage = ko.observable(1); // Start at stage 1
+    public static checkpoint = ko.observable(1); // Start at stage 1
+    public static highest = ko.observable(1);
+    public static battleBackground = ko.observable<BattleBackground>('Default');
 
     public static counter = 0;
 
     public static started = ko.observable(false);
 
-    constructor() {}
+    public static timeLeftSeconds = ko.pureComputed(() => {
+        return (Math.ceil(BattleFrontierRunner.timeLeft() / 100) / 10).toFixed(1);
+    });
+
+    public static pokemonLeftImages = ko.pureComputed(() => {
+        let str = '';
+        for (let i = 0; i < 3; i++) {
+            str += `<img class="pokeball-smallest" src="assets/images/pokeball/Pokeball.svg"${BattleFrontierBattle.pokemonIndex() > i ? ' style="filter: saturate(0);"' : ''}>`;
+        }
+        return str;
+    });
+
+    public static hasCheckpoint = ko.computed(() => {
+        return BattleFrontierRunner.checkpoint() > 1;
+    });
 
     public static tick() {
         if (!this.started()) {
@@ -21,8 +43,8 @@ class BattleFrontierRunner {
         if (this.timeLeft() < 0) {
             this.battleLost();
         }
-        this.timeLeft(this.timeLeft() - GameConstants.GYM_TICK);
-        this.timeLeftPercentage(Math.floor(this.timeLeft() / GameConstants.GYM_TIME * 100));
+        this.timeLeft(this.timeLeft() - GYM_TICK);
+        this.timeLeftPercentage(Math.floor(this.timeLeft() / GYM_TIME * 100));
     }
 
     public static async start(useCheckpoint: boolean) {
@@ -46,9 +68,9 @@ class BattleFrontierRunner {
         this.highest(App.game.statistics.battleFrontierHighestStageCompleted());
         BattleFrontierBattle.pokemonIndex(0);
         BattleFrontierBattle.generateNewEnemy();
-        BattleFrontierRunner.timeLeft(GameConstants.GYM_TIME);
+        BattleFrontierRunner.timeLeft(GYM_TIME);
         BattleFrontierRunner.timeLeftPercentage(100);
-        App.game.gameState = GameConstants.GameState.battleFrontier;
+        App.game.gameState = GameState.battleFrontier;
     }
 
     public static nextStage() {
@@ -61,15 +83,15 @@ class BattleFrontierRunner {
         // Move on to the next stage
         GameHelper.incrementObservable(this.stage);
         GameHelper.incrementObservable(App.game.statistics.battleFrontierTotalStagesCompleted);
-        BattleFrontierRunner.timeLeft(GameConstants.GYM_TIME);
+        BattleFrontierRunner.timeLeft(GYM_TIME);
         BattleFrontierRunner.timeLeftPercentage(100);
 
         this.checkpoint(this.stage());
 
         if (this.stage() % 25 == 0) {
             const currentBackground = BattleFrontierRunner.battleBackground();
-            const backgrounds = Object.keys(GameConstants.BattleBackgrounds).filter((key) => key !== currentBackground);
-            BattleFrontierRunner.battleBackground(Rand.fromArray(backgrounds) as GameConstants.BattleBackground);
+            const backgrounds = Object.keys(BattleBackgrounds).filter((key) => key !== currentBackground);
+            BattleFrontierRunner.battleBackground(Rand.fromArray(backgrounds) as BattleBackground);
         }
     }
 
@@ -98,14 +120,14 @@ class BattleFrontierRunner {
             type: NotificationConstants.NotificationOption.success,
             setting: NotificationConstants.NotificationSetting.General.battle_frontier,
             sound: NotificationConstants.NotificationSound.General.battle_frontier,
-            timeout: 30 * GameConstants.MINUTE,
+            timeout: 30 * MINUTE,
         });
         App.game.logbook.newLog(
             LogBookTypes.FRONTIER,
             createLogContent.gainBattleFrontierPoints({
                 stage: stageBeaten.toLocaleString('en-US'),
                 points: battlePointsEarned.toLocaleString('en-US'),
-            })
+            }),
         );
 
         this.checkpoint(1);
@@ -125,27 +147,13 @@ class BattleFrontierRunner {
                     title: 'Battle Frontier',
                     message: `Checkpoint set for stage ${this.stage()}.`,
                     type: NotificationConstants.NotificationOption.info,
-                    timeout: 1 * GameConstants.MINUTE,
+                    timeout: 1 * MINUTE,
                 });
 
                 this.end();
             }
         });
     }
-
-    public static timeLeftSeconds = ko.pureComputed(() => {
-        return (Math.ceil(BattleFrontierRunner.timeLeft() / 100) / 10).toFixed(1);
-    })
-
-    public static pokemonLeftImages = ko.pureComputed(() => {
-        let str = '';
-        for (let i = 0; i < 3; i++) {
-            str += `<img class="pokeball-smallest" src="assets/images/pokeball/Pokeball.svg"${BattleFrontierBattle.pokemonIndex() > i ? ' style="filter: saturate(0);"' : ''}>`;
-        }
-        return str;
-    })
-
-    public static hasCheckpoint = ko.computed(() => {
-        return BattleFrontierRunner.checkpoint() > 1;
-    })
 }
+
+export default BattleFrontierRunner;

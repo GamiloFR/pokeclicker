@@ -1,6 +1,6 @@
 // importing only types, as we are "allowed" to have circular type dependencies
 import type {
-    Observable as KnockoutObservable
+    Observable as KnockoutObservable,
 } from 'knockout';
 import Breeding from './breeding/Breeding';
 import type Challenges from './challenges/Challenges';
@@ -244,26 +244,6 @@ export type TmpTemporaryBattleType = TownContent & {
 
 export type TmpTownListType = {
     [name: string]: Town;
-};
-
-export type TmpBattleFrontierMilestonesType = {
-    milestoneRewards: TmpBattleFrontierMilestoneType[]
-};
-
-export type TmpBattleFrontierMilestoneType = {
-    obtained: KnockoutObservable<boolean>
-    stage: number,
-    rewardFunction: () => void,
-    requirement?: Requirement,
-    _image?: string;
-
-    get image(): string | undefined;
-    get description(): string | undefined;
-    get displayName(): string | KnockoutObservable<string>
-};
-
-export type TmpBattleFrontierMilestonePokemonType = TmpBattleFrontierMilestoneType & {
-    pokemonName: string
 };
 
 export type TmpGameControllerType = {

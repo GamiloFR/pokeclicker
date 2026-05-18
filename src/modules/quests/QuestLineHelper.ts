@@ -1,3 +1,5 @@
+import BattleFrontierMilestonePokemon from '../battleFrontier/BattleFrontierMilestonePokemon';
+import BattleFrontierMilestones from '../battleFrontier/BattleFrontierMilestones';
 import BadgeEnums from '../enums/Badges';
 import BerryType from '../enums/BerryType';
 import KeyItemType from '../enums/KeyItemType';
@@ -22,7 +24,6 @@ import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepComp
 import RouteKillRequirement from '../requirements/RouteKillRequirement';
 import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
 import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
-import { TmpBattleFrontierMilestonePokemonType } from '../TemporaryScriptTypes';
 import NPC from '../towns/NPC';
 import Information from '../utilities/Information';
 import Rand from '../utilities/Rand';
@@ -1137,7 +1138,7 @@ class QuestLineHelper {
                 timeout: 3e4,
             });
         };
-        const deoxysMilestone = BattleFrontierMilestones.milestoneRewards.find(m => (m as TmpBattleFrontierMilestonePokemonType).pokemonName === 'Deoxys');
+        const deoxysMilestone = BattleFrontierMilestones.milestoneRewards.find(m => (m as BattleFrontierMilestonePokemon).pokemonName === 'Deoxys');
         // Initial value of 0. Should not be required unless the save is corrupt.
         const reachStage100 = new CustomQuest(1, 0, 'Enter the Battle Frontier and defeat stage 100.', () => +deoxysMilestone.obtained()).withInitialValue(0).withCustomReward(reachStage100Reward);
         deoxysQuestLine.addQuest(reachStage100);

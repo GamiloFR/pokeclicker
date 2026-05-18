@@ -1,3 +1,9 @@
+import { Feature } from '../DataStore/common/Feature';
+import { GameState } from '../GameConstants';
+import BattleFrontierBattle from './BattleFrontierBattle';
+import BattleFrontierMilestones from './BattleFrontierMilestones';
+import BattleFrontierRunner from './BattleFrontierRunner';
+
 class BattleFrontier implements Feature {
     name = 'BattleFrontier';
     saveKey = 'battleFrontier';
@@ -6,11 +12,9 @@ class BattleFrontier implements Feature {
 
     defaults = {};
 
-    constructor() {}
-
     initialize(): void {}
 
-    update(delta: number): void {}
+    update(): void {}
 
     canAccess(): boolean {
         return true;
@@ -18,7 +22,7 @@ class BattleFrontier implements Feature {
 
     public enter(): void {
         BattleFrontierBattle.enemyPokemon(null);
-        App.game.gameState = GameConstants.GameState.battleFrontier;
+        App.game.gameState = GameState.battleFrontier;
     }
 
     public start(useCheckpoint: boolean): void {
@@ -27,7 +31,7 @@ class BattleFrontier implements Feature {
 
     public leave(): void {
         // Put the user back in the town
-        App.game.gameState = GameConstants.GameState.town;
+        App.game.gameState = GameState.town;
     }
 
     toJSON(): Record<string, any> {
@@ -42,10 +46,12 @@ class BattleFrontier implements Feature {
             return;
         }
 
-        json.milestones?.forEach(([stage, description]) => {
+        json.milestones?.forEach(([stage, description]: [number, string]) => {
             this.milestones.milestoneRewards.find(m => m.stage == stage && m.description == description)?.obtained(true);
         });
 
         BattleFrontierRunner.checkpoint(json.checkpoint);
     }
 }
+
+export default BattleFrontier;
