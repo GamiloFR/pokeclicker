@@ -1,3 +1,12 @@
+import { Loot } from '../dungeons/Dungeon';
+import BerryType from '../enums/BerryType';
+import FarmController from '../farming/FarmController';
+import { camelCaseToString, humanifyString, Region } from '../GameConstants';
+import { ItemList } from '../items/ItemList';
+import { pokemonMap } from '../pokemons/PokemonList';
+import UndergroundItem from '../underground/UndergroundItem';
+import UndergroundItems from '../underground/UndergroundItems';
+
 class DungeonInfo {
     public static lootList = ko.pureComputed(() => {
         return DungeonInfo.getLootList();
@@ -24,17 +33,17 @@ class DungeonInfo {
     }
 
     private static getRegionName() {
-        return GameConstants.camelCaseToString(GameConstants.Region[player.region]);
+        return camelCaseToString(Region[player.region]);
     }
 
     private static getSubregionName() {
         return player.subregionObject()?.name;
     }
 
-    public static getLootImage(input) {
+    public static getLootImage(input: string) {
         switch (true) {
             case typeof BerryType[input] == 'number':
-                return FarmController.getBerryImage(BerryType[GameConstants.humanifyString(input)]);
+                return FarmController.getBerryImage(BerryType[humanifyString(input)]);
             case UndergroundItems.getByName(input) instanceof UndergroundItem:
                 return UndergroundItems.getByName(input).image;
             default:
@@ -42,14 +51,16 @@ class DungeonInfo {
         }
     }
 
-    public static getLootName(input) {
+    public static getLootName(input: string) {
         switch (true) {
             case input in ItemList:
                 return ItemList[input]?.displayName;
             case typeof BerryType[input] == 'number':
                 return `${input} Berry`;
             default:
-                return GameConstants.camelCaseToString(GameConstants.humanifyString(input.toLowerCase()));
+                return camelCaseToString(humanifyString(input.toLowerCase()));
         }
     }
 }
+
+export default DungeonInfo;

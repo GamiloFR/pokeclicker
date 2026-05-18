@@ -64,6 +64,8 @@ import DungeonList from './dungeons/DungeonList';
 import DungeonRunner from './dungeons/DungeonRunner';
 import DungeonTrainer from './dungeons/DungeonTrainer';
 import EffectEngineRunner from './effectEngine/effectEngineRunner';
+import DungeonInfo from './encountersInfo/DungeonInfo';
+import RouteInfo from './encountersInfo/RouteInfo';
 import areaStatus from './enums/AreaStatus';
 import EncounterType from './enums/EncounterType';
 import OakItemType from './enums/OakItemType';
@@ -639,4 +641,6 @@ Object.assign(<any>window, {
     BattleFrontierRunner,
     Discord,
     DiscordRichPresence,
+    RouteInfo,
+    DungeonInfo,
 });
