@@ -309,6 +309,7 @@ import GameLoadState from './utilities/GameLoadState';
 import GenericProxy from './utilities/GenericProxy';
 import Information from './utilities/Information';
 import { lazyLoad, lazyLoadCallback } from './utilities/LazyLoader';
+import Preload from './utilities/Preload';
 import Rand from './utilities/Rand';
 import SeededDateRand from './utilities/SeededDateRand';
 import SeededRand from './utilities/SeededRand';
@@ -655,4 +656,5 @@ Object.assign(<any>window, {
     TemporaryBattleBattle,
     TemporaryBattleList,
     TemporaryBattleRunner,
+    Preload,
 });
