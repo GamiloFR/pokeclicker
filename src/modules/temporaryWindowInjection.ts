@@ -322,6 +322,7 @@ import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
 import MapHelper from './worldmap/MapHelper';
+import ZMoves from './zMoves/zMoves';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -658,5 +659,6 @@ Object.assign(<any>window, {
     TemporaryBattleList,
     TemporaryBattleRunner,
     Preload,
-    MapHelper
+    MapHelper,
+    ZMoves
 });
