@@ -1,5 +1,5 @@
 import type { Computed, Observable } from 'knockout';
-import Battle from '../battles/Battle';
+import BattleHelper from '../battles/BattleHelper';
 import { Feature } from '../DataStore/common/Feature';
 import AuraType from '../enums/AuraType';
 import BerryColor from '../enums/BerryColor';
@@ -2381,7 +2381,7 @@ class Farming implements Feature {
 
             // DT
             const fakedRoute = FarmController.wandererToRoute(wanderer.name);
-            const amount = Battle.gainTokens(fakedRoute.number, fakedRoute.region, wanderer.pokeball());
+            const amount = BattleHelper.gainTokens(fakedRoute.number, fakedRoute.region, wanderer.pokeball());
             GameHelper.incrementObservable(App.game.statistics.farmWandererDungeonTokensObtained, amount.amount);
 
             // Check for Starf berry generation

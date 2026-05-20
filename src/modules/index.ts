@@ -7,9 +7,6 @@ import './koExtenders';
 // Inject the Knockout bindingHandlers (may load other local modules due to imports)
 import './koBindingHandlers';
 
-// Load everything else
-import './temporaryWindowInjection';
-
 import initBattleFrontier from './battleFrontier';
 import initGems from './gems';
 import initGyms from './gym/index';
@@ -21,6 +18,9 @@ import initSettings from './settings/index';
 import initShop from './shop/index';
 import initTemporaryBattle from './temporaryBattle';
 import initTowns from './towns';
+
+// Load everything else
+import './temporaryWindowInjection';
 
 initPokemons();
 initGyms();

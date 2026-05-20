@@ -8,6 +8,7 @@ import Notifier from '../notifications/Notifier';
 import { modalState } from '../utilities/DisplayObservables';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
+import MapHelper from '../worldmap/MapHelper';
 import FenceBody from './body/FenceBody';
 import GrassBody from './body/GrassBody';
 import LandBody from './body/LandBody';

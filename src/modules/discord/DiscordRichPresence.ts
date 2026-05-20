@@ -5,6 +5,7 @@ import Routes from '../routes/Routes';
 import Settings from '../settings/Settings';
 import SubRegions from '../subRegion/SubRegions';
 import WeatherType from '../weather/WeatherType';
+import MapHelper from '../worldmap/MapHelper';
 
 class DiscordRichPresence {
     static focusedElement = document.createElement('input');

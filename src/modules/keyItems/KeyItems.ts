@@ -6,6 +6,7 @@ import {
     Region, RegionalStarters, ROUTE_KILLS_NEEDED,
 } from '../GameConstants';
 import Information from '../utilities/Information';
+import MapHelper from '../worldmap/MapHelper';
 import KeyItem from './KeyItem';
 import KeyItemController from './KeyItemController';
 

@@ -4,6 +4,7 @@ import PokemonItem from '../items/PokemonItem';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
+import MapHelper from '../worldmap/MapHelper';
 import Shop from './Shop';
 import ShopHandler from './ShopHandler';
 

@@ -17,6 +17,7 @@ import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Settings from '../settings/Settings';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
+import MapHelper from '../worldmap/MapHelper';
 import BreedingController from './BreedingController';
 import Egg from './Egg';
 import EggType from './EggType';

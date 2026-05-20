@@ -2,6 +2,7 @@ import { DEFEAT_POKEMONS_BASE_REWARD, Region, StartingRoutes } from '../../GameC
 import PokemonFactory from '../../pokemons/PokemonFactory';
 import Routes from '../../routes/Routes';
 import SeededRand from '../../utilities/SeededRand';
+import MapHelper from '../../worldmap/MapHelper';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';
 

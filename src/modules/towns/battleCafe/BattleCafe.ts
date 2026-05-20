@@ -1,5 +1,6 @@
 import areaStatus from '../../enums/AreaStatus';
 import ObtainedPokemonRequirement from '../../requirements/ObtainedPokemonRequirement';
+import MapHelper from '../../worldmap/MapHelper';
 import TownContent from '../townContent/TownContent';
 import BattleCafeController from './BattleCafeController';
 

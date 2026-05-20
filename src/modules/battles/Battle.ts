@@ -11,7 +11,8 @@ import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { pokemonMap } from '../pokemons/PokemonList';
 import Routes from '../routes/Routes';
 import Rand from '../utilities/Rand';
-import Amount from '../wallet/Amount';
+import MapHelper from '../worldmap/MapHelper';
+import BattleHelper from './BattleHelper';
 import type BattlePokemon from './BattlePokemon';
 
 /**
@@ -184,39 +185,12 @@ export default class Battle {
     }
 
     public static catchPokemon(enemyPokemon: BattlePokemon, route: number, region: GameConstants.Region) {
-        this.gainTokens(route, region);
+        BattleHelper.gainTokens(route, region, this.pokeball());
         App.game.oakItems.use(OakItemType.Magic_Ball);
         App.game.party.gainPokemonById(enemyPokemon.id, enemyPokemon.shiny, undefined, enemyPokemon.gender, enemyPokemon.shadow);
         const partyPokemon = App.game.party.getPokemon(enemyPokemon.id);
         const epBonus = App.game.pokeballs.getEPBonus(this.pokeball());
         partyPokemon.effortPoints += App.game.party.calculateEffortPoints(partyPokemon, enemyPokemon.shiny, enemyPokemon.shadow, enemyPokemon.ep * epBonus);
-    }
-
-    public static gainTokens(route: number, region: GameConstants.Region, pokeball = this.pokeball()): Amount {
-        let currencyKinds = [GameConstants.Currency.dungeonToken];
-        if (pokeball === GameConstants.PokeballType.Luxuryball) {
-            //currencyKinds = [
-            //  GameConstants.Currency.dungeonToken,
-            //  GameConstants.Currency.money,
-            //  GameConstants.Currency.questPoint,
-            //  GameConstants.Currency.diamond,
-            //  GameConstants.Currency.farmPoint,
-            //  GameConstants.Currency.battlePoint,
-            //  GameConstants.Currency.contestToken,
-            //];
-            currencyKinds = [
-                GameConstants.Currency.dungeonToken,
-                GameConstants.Currency.money,
-                GameConstants.Currency.questPoint,
-                GameConstants.Currency.diamond,
-                GameConstants.Currency.farmPoint,
-                GameConstants.Currency.battlePoint,
-            ];
-        }
-        const currencyUnits = PokemonFactory.routeDungeonTokens(route, region)
-                                / GameConstants.LuxuryBallCurrencyRate[GameConstants.Currency.dungeonToken];
-        const chosenCurrency = currencyKinds[Math.floor(Math.random() * currencyKinds.length)];
-        return App.game.wallet.addAmount(new Amount(Math.ceil(currencyUnits * GameConstants.LuxuryBallCurrencyRate[chosenCurrency]), chosenCurrency), false);
     }
 
     static gainItem() {

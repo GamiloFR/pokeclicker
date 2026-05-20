@@ -12,6 +12,5 @@ declare global {
     const App: TempTypes.TmpAppType;
     const player: TempTypes.TmpPlayerType;
     const Save: TempTypes.TmpSaveType;
-    const MapHelper: TempTypes.TmpMapHelperType;
     const GameController: TempTypes.TmpGameControllerType;
 }

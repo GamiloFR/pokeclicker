@@ -1,3 +1,4 @@
+import MapHelper from '../../worldmap/MapHelper';
 import TownContent from './TownContent';
 
 class DockTownContent extends TownContent {

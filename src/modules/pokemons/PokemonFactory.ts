@@ -27,6 +27,7 @@ import TemporaryBattle from '../temporaryBattle/TemporaryBattle';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import RouteHelper from '../wildBattle/RouteHelper';
+import MapHelper from '../worldmap/MapHelper';
 import * as PokemonHelper from './PokemonHelper';
 import { pokemonMap } from './PokemonList';
 import { PokemonNameType } from './PokemonNameType';

@@ -321,6 +321,7 @@ import WeatherApp from './weather/WeatherApp';
 import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
+import MapHelper from './worldmap/MapHelper';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -657,4 +658,5 @@ Object.assign(<any>window, {
     TemporaryBattleList,
     TemporaryBattleRunner,
     Preload,
+    MapHelper
 });

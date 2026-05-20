@@ -3,6 +3,7 @@ import areaStatus from '../../enums/AreaStatus';
 import { getDungeonIndex } from '../../GameConstants';
 import QuestLineHelper from '../../quests/QuestLineHelper';
 import Requirement from '../../requirements/Requirement';
+import MapHelper from '../../worldmap/MapHelper';
 import TownList from '../TownList';
 import TownContent from './TownContent';
 

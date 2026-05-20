@@ -6,7 +6,6 @@ import Breeding from './breeding/Breeding';
 import type Challenges from './challenges/Challenges';
 import type BadgeCase from './DataStore/BadgeCase';
 import type Statistics from './DataStore/StatisticStore';
-import type areaStatus from './enums/AreaStatus';
 import type Farming from './farming/Farming';
 import type * as GameConstants from './GameConstants';
 import type { MultiplierDecreaser } from './items/types';
@@ -19,11 +18,9 @@ import type PokemonCategories from './party/Category';
 import type Party from './party/Party';
 import type PokeballFilters from './pokeballs/PokeballFilters';
 import Pokeballs from './pokeballs/Pokeballs';
-import type { PokemonNameType } from './pokemons/PokemonNameType';
 import type Profile from './profile/Profile';
 import type Quests from './quests/Quests';
 import type SaveReminder from './saveReminder/SaveReminder';
-import type CssVariableSetting from './settings/CssVariableSetting';
 import type SpecialEvents from './specialEvents/SpecialEvents';
 import type SubRegion from './subRegion/SubRegion';
 import type Town from './towns/Town';
@@ -189,27 +186,6 @@ export type TmpPlayerType = {
     gainMegaStone: (megaStone: GameConstants.MegaStoneType, notify?: boolean) => void;
     toJSON: () => Record<string, any>;
     hasBeatenChampOfRegion(region?: GameConstants.Region): boolean;
-};
-
-export type TmpMapHelperType = {
-    getUsableFilters: () => CssVariableSetting[];
-    moveToRoute: (route: number, region: GameConstants.Region) => void;
-    routeExist: (route: number, region: GameConstants.Region) => boolean;
-    normalizeRoute: (route: number, region: GameConstants.Region) => number;
-    accessToRoute: (route: number, region: GameConstants.Region) => boolean;
-    getCurrentEnvironments: () => Array<GameConstants.Environment>;
-    calculateBattleCssClass: () => string;
-    calculateRouteCssClass: (route: number, region: GameConstants.Region) => string;
-    isRouteCurrentLocation: (route: number, region: GameConstants.Region) => boolean;
-    isTownCurrentLocation: (townName: string) => boolean;
-    calculateTownCssClass: (townName: string) => string;
-    accessToTown: (townName: string) => boolean;
-    moveToTown: (townName: string) => void;
-    validRoute: (route: number, region: GameConstants.Region) => boolean;
-    openShipModal: () => void;
-    ableToTravel: () => boolean;
-    travelToNextRegion: () => void;
-    getPokemonAreaStatus(pokemon: PokemonNameType[]): areaStatus[]
 };
 
 export type TmpGameControllerType = {

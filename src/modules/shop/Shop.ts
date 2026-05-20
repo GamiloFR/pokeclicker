@@ -4,6 +4,7 @@ import PokemonItem from '../items/PokemonItem';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';
 import Requirement from '../requirements/Requirement';
 import TownContent from '../towns/townContent/TownContent';
+import MapHelper from '../worldmap/MapHelper';
 import ShopHandler from './ShopHandler';
 
 class Shop extends TownContent {

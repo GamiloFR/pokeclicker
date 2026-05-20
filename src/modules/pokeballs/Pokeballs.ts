@@ -15,6 +15,7 @@ import { pokemonMap } from '../pokemons/PokemonList';
 import RouteKillRequirement from '../requirements/RouteKillRequirement';
 import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequirement';
 import Routes from '../routes/Routes';
+import MapHelper from '../worldmap/MapHelper';
 import { CatchOptions } from './CatchOptions';
 import Pokeball from './Pokeball';
 

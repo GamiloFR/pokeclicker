@@ -28,6 +28,7 @@ import UndergroundItems from '../underground/UndergroundItems';
 import Rand from '../utilities/Rand';
 import Amount from '../wallet/Amount';
 import RouteHelper from '../wildBattle/RouteHelper';
+import MapHelper from '../worldmap/MapHelper';
 import Dungeon, { Loot } from './Dungeon';
 import DungeonBattle from './DungeonBattle';
 import DungeonFlash from './DungeonFlash';

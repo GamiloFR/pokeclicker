@@ -1,5 +1,6 @@
 import areaStatus from '../enums/AreaStatus';
 import TownContent from '../towns/townContent/TownContent';
+import MapHelper from '../worldmap/MapHelper';
 import Safari from './Safari';
 import SafariEncounter from './SafariEncounter';
 import SafariPokemonList from './SafariPokemonList';

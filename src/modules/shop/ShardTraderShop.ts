@@ -3,6 +3,7 @@ import { ShardTraderLocations } from '../GameConstants';
 import PokemonItem from '../items/PokemonItem';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import { ShardDeal } from '../underground/ShardDeal';
+import MapHelper from '../worldmap/MapHelper';
 import Shop from './Shop';
 import ShopHandler from './ShopHandler';
 

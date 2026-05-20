@@ -27,6 +27,7 @@ import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequireme
 import NPCList from '../towns/NPCList';
 import Information from '../utilities/Information';
 import Rand from '../utilities/Rand';
+import MapHelper from '../worldmap/MapHelper';
 import QuestLine from './QuestLine';
 import { QuestLineNameType } from './QuestLineNameType';
 import QuestLineState from './QuestLineState';
