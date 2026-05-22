@@ -1,4 +1,5 @@
 import type { Computed } from 'knockout';
+import App from '../App';
 import BerryType from '../enums/BerryType';
 import PlotStage from '../enums/PlotStage';
 import { Currency, FARM_PLOT_HEIGHT, FARM_PLOT_WIDTH, formatTimeFullLetters, HOUR, MINUTE, SECOND, TICK_TIME } from '../GameConstants';

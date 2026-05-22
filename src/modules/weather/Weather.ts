@@ -1,17 +1,18 @@
 /* eslint-disable arrow-body-style */
-import { Observable, Computed } from 'knockout';
-import WeatherType from './WeatherType';
-import WeatherCondition from './WeatherCondition';
-import GameHelper from '../GameHelper';
+import { Computed, Observable } from 'knockout';
+import App from '../App';
 import { Region } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import PokemonType from '../enums/PokemonType';
 import SeededRand from '../utilities/SeededRand';
+import WeatherCondition from './WeatherCondition';
+import WeatherType from './WeatherType';
 
 export default class Weather {
     public static regionalWeather: Observable<WeatherType>[] = Array<WeatherType>(GameHelper.enumLength(Region)).fill(WeatherType.Clear).map((v) => ko.observable<WeatherType>(v));
 
     public static currentWeather: Computed<WeatherType> = ko.pureComputed(() => {
-        const weather = Weather.regionalWeather[player.region]();
+        const weather = Weather.regionalWeather[App.player.region]();
 
         // TODO: Add weather overrides
 

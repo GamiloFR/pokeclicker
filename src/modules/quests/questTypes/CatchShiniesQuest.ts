@@ -1,3 +1,4 @@
+import App from '../../App';
 import { SHINY_BASE_REWARD } from '../../GameConstants';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';

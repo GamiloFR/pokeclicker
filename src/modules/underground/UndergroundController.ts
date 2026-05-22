@@ -1,4 +1,5 @@
 import { PureComputed } from 'knockout';
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
 import {
@@ -169,12 +170,12 @@ export class UndergroundController {
         if (amount <= 0) {
             return;
         }
-        const curAmt = player.itemList[item.itemName]();
+        const curAmt = App.player.itemList[item.itemName]();
         if (curAmt > 0) {
             const sellAmt = Math.min(curAmt, amount);
             const success = UndergroundController.gainProfit(item, sellAmt);
             if (success) {
-                player.loseItem(item.itemName, sellAmt);
+                App.player.loseItem(item.itemName, sellAmt);
             }
             return;
         }

@@ -1,12 +1,28 @@
+import App from './App';
+import { Saveable } from './DataStore/common/Saveable';
+import OakItemType from './enums/OakItemType';
+import { Currency, DAY, Genders, getTemporaryBattlesIndex, HOUR, PokeballType, Pokerus, SECOND, SHINY_CHANCE_BREEDING } from './GameConstants';
+import GameHelper from './GameHelper';
+import { createLogContent } from './logbook/helpers';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
+import PartyPokemon from './party/PartyPokemon';
+import * as PokemonHelper from './pokemons/PokemonHelper';
+import { pokemonMap } from './pokemons/PokemonList';
+import { PokemonNameType } from './pokemons/PokemonNameType';
+import Save from './Save';
+import SaveSelector from './SaveSelector';
+import Settings from './settings/Settings';
+
 class Update implements Saveable {
-    defaults: Record<string, any>;
+    defaults = {};
     saveKey = 'update';
 
     // Loaded from package.json
     version = '$VERSION';
     saveVersion = '0.0.0';
 
-    updateSteps = {
+    updateSteps: Record<string, (data: { playerData: any, saveData: any, settingsData: any }) => void> = {
         '0.4.0': ({ playerData, saveData }) => {
             saveData.update = { version: '0.0.0' };
             // Update the save data as it is no longer a part of player data
@@ -34,7 +50,7 @@ class Update implements Saveable {
             };
         },
 
-        '0.4.15': ({ playerData, saveData }) => {
+        '0.4.15': ({ playerData }) => {
             playerData._itemList.Lucky_egg = playerData._itemList.xExp;
             delete playerData._itemList.xExp;
             delete localStorage.mine;
@@ -57,7 +73,7 @@ class Update implements Saveable {
                 xp: Math.floor(playerData._questXP || 0),
                 refreshes: playerData.questRefreshes || 0,
                 lastRefresh: playerData._lastSeen,
-                questList: new Array(10).fill({}).map((q,index) => ({ index, initial: null })),
+                questList: new Array(10).fill({}).map((q, index) => ({ index, initial: null })),
                 questLines: [
                     {
                         state: playerData.tutorialComplete ? 2 : 1,
@@ -90,7 +106,9 @@ class Update implements Saveable {
         '0.5.2': ({ saveData }) => {
             // Calculate hatched amount (we can't calculate the shiny hatches though)
             const pokemonHatched = {};
-            saveData.party.caughtPokemon.forEach(p => pokemonHatched[p.id] = p.attackBonus / 25);
+            saveData.party.caughtPokemon.forEach(p => {
+                pokemonHatched[p.id] = p.attackBonus / 25;
+            });
             // Rename from the old statistic name, add our new statistics
             saveData.statistics = {
                 ...saveData.statistics,
@@ -254,7 +272,7 @@ class Update implements Saveable {
 
         '0.7.1': ({ playerData, saveData }) => {
             saveData.breeding.eggList.map((egg) => {
-                egg.shinyChance = GameConstants.SHINY_CHANCE_BREEDING - (0.5 * GameConstants.SHINY_CHANCE_BREEDING * Math.min(1, egg.shinySteps / egg.steps));
+                egg.shinyChance = SHINY_CHANCE_BREEDING - (0.5 * SHINY_CHANCE_BREEDING * Math.min(1, egg.shinySteps / egg.steps));
                 return egg;
             });
 
@@ -301,7 +319,7 @@ class Update implements Saveable {
                     message: `Do you want to activate No Click Attack challenge mode?
 
                     <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableClickAttack.activate();" data-dismiss="toast">Activate</button>`,
-                    timeout: GameConstants.HOUR,
+                    timeout: HOUR,
                 });
             }
             // Disable Battle Items
@@ -309,8 +327,8 @@ class Update implements Saveable {
                 title: 'Active Challenge Mode?',
                 message: `Do you want to activate No Battle Item challenge mode?
 
-                <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableBattleItems.activate(); Object.values(player.effectList).forEach(e => e(0));" data-dismiss="toast">Activate</button>`,
-                timeout: GameConstants.HOUR,
+                <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableBattleItems.activate(); Object.values(App.player.effectList).forEach(e => e(0));" data-dismiss="toast">Activate</button>`,
+                timeout: HOUR,
             });
             // Disable Master Balls
             if (!saveData.statistics.pokeballsUsed[3]) {
@@ -319,7 +337,7 @@ class Update implements Saveable {
                     message: `Do you want to activate No Masterball challenge mode?
 
                     <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableMasterballs.activate();" data-dismiss="toast">Activate</button>`,
-                    timeout: GameConstants.HOUR,
+                    timeout: HOUR,
                 });
             }
             // Disable Oak Items
@@ -329,7 +347,7 @@ class Update implements Saveable {
                     message: `Do you want to activate No Oak Item challenge mode?
 
                     <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableOakItems.activate();" data-dismiss="toast">Activate</button>`,
-                    timeout: GameConstants.HOUR,
+                    timeout: HOUR,
                 });
             }
             // Disable Shards
@@ -339,7 +357,7 @@ class Update implements Saveable {
                     message: `Do you want to activate No Shard challenge mode?
 
                     <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableShards.activate();" data-dismiss="toast">Activate</button>`,
-                    timeout: GameConstants.HOUR,
+                    timeout: HOUR,
                 });
             }
             // Disable Proteins
@@ -349,7 +367,7 @@ class Update implements Saveable {
                     message: `Do you want to activate No Protein challenge mode?
 
                     <button class="btn btn-block btn-danger" onclick="App.game.challenges.list.disableVitamins.activate();" data-dismiss="toast">Activate</button>`,
-                    timeout: GameConstants.HOUR,
+                    timeout: HOUR,
                 });
             }
 
@@ -365,7 +383,7 @@ class Update implements Saveable {
             };
         },
 
-        '0.7.6': ({ playerData, saveData }) => {
+        '0.7.6': ({ saveData }) => {
             Update.changeHatcheryKey(saveData, 'Lets go Pikachu', 'Let\'s Go Pikachu');
             Update.changeHatcheryKey(saveData, 'Lets go Eevee', 'Let\'s Go Eevee');
 
@@ -383,7 +401,7 @@ class Update implements Saveable {
             }
         },
 
-        '0.8.1': ({ playerData, saveData }) => {
+        '0.8.1': ({ saveData }) => {
             // Add Weather Institute
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 29);
             // Add Magma Hideout
@@ -396,7 +414,7 @@ class Update implements Saveable {
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 74);
         },
 
-        '0.8.3': ({ playerData, saveData }) => {
+        '0.8.3': ({ saveData }) => {
             // If player has defeated the 8th Kalos gym, start the vivillon quest line
             saveData.badgeCase = saveData.badgeCase || [];
             // Not using game constants incase the value isn't 73 in the future
@@ -417,7 +435,7 @@ class Update implements Saveable {
             });
         },
 
-        '0.8.4': ({ playerData, saveData }) => {
+        '0.8.4': ({ saveData }) => {
             // Update Pokemon names
             Update.changeHatcheryKey(saveData, 'Vivillon', 'Vivillon (Meadow)');
 
@@ -484,14 +502,14 @@ class Update implements Saveable {
                         title: 'Importing this save will cause errors!',
                         message: 'Please only use saves from the main website https://pokeclicker.com/',
                         type: NotificationConstants.NotificationOption.danger,
-                        timeout: GameConstants.DAY,
+                        timeout: DAY,
                     });
                     throw new Error('Importing this save will cause errors');
                 }
             }
         },
 
-        '0.8.12': ({ playerData, saveData }) => {
+        '0.8.12': ({ saveData }) => {
             // Add Team Rockets Hideout
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 19);
             // Add Radio Tower
@@ -508,17 +526,17 @@ class Update implements Saveable {
             setTimeout(async () => {
                 // Check if player wants to activate the new challenge modes
                 const debuffChallengeState = Notifier.confirm({ title: 'Regional Attack Debuff (recommended)', message: 'New challenge mode added: Regional Attack Debuff.\n\nLowers Pokémon attack based on native region and highest reached region.\n\nThis is the default and recommended way to play, but is now an optional challenge.\n\nPlease choose if you would like this challenge mode to be enabled or disabled (cannot be re-enabled later)', confirm: 'Disable', cancel: 'Enable' });
-                const pokedexChallengeState = Notifier.confirm({ title: 'Require Complete Pokédex (recommended)', message: 'New challenge mode added: Require Complete Pokédex.\n\nRequires a complete regional pokédex before moving on to the next region.\n\nThis is the default and recommended way to play, but is now an optional challenge.\n\nPlease choose if you would like this challenge mode to be enabled or disabled (cannot be re-enabled later)', confirm: 'Disable' , cancel: 'Enable' });
+                const pokedexChallengeState = Notifier.confirm({ title: 'Require Complete Pokédex (recommended)', message: 'New challenge mode added: Require Complete Pokédex.\n\nRequires a complete regional pokédex before moving on to the next region.\n\nThis is the default and recommended way to play, but is now an optional challenge.\n\nPlease choose if you would like this challenge mode to be enabled or disabled (cannot be re-enabled later)', confirm: 'Disable', cancel: 'Enable' });
                 if (await debuffChallengeState) {
                     App.game.challenges.list.regionalAttackDebuff.disable(false);
                 }
                 if (await pokedexChallengeState) {
                     App.game.challenges.list.requireCompletePokedex.disable(false);
                 }
-            }, GameConstants.SECOND);
+            }, SECOND);
         },
 
-        '0.8.14': ({ playerData, saveData }) => {
+        '0.8.14': ({ saveData }) => {
             // Start Aqua Magma questline if player has Dynamo Badge already
             if (saveData.badgeCase[29]) {
                 Update.startQuestLine(saveData, 'Land vs. Water');
@@ -537,7 +555,7 @@ class Update implements Saveable {
             };
         },
 
-        '0.8.15': ({ playerData, saveData }) => {
+        '0.8.15': ({ saveData }) => {
             // Start Plasma questline if player has Jet Badge already
             if (saveData.badgeCase[58]) {
                 Update.startQuestLine(saveData, 'Quest for the DNA Splicers');
@@ -671,7 +689,7 @@ class Update implements Saveable {
             // Add Sendoff Spring
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 60);
         },
-        '0.9.4': ({ playerData, saveData }) => {
+        '0.9.4': ({ saveData }) => {
             // Modifications relating to smaller save file sizes
             const PartyKeyMap = {
                 'attackBonusPercent': 0,
@@ -752,7 +770,7 @@ class Update implements Saveable {
                 if (!await Notifier.confirm({ title: 'Slow EVs', message: 'New challenge mode added: Slow EVs.\n\nDiminishes the rate at which EVs are gained.\n\nThis is an optional challenge and is NOT the recommended way to play.\n\nPlease choose if you would like this challenge mode to be disabled or enabled.\n\nCan be disabled later. Can NOT be enabled later!', confirm: 'Disable', cancel: 'Enable' })) {
                     App.game.challenges.list.slowEVs.activate();
                 }
-            }, GameConstants.SECOND);
+            }, SECOND);
         },
 
         '0.9.7': ({ playerData, saveData }) => {
@@ -862,7 +880,7 @@ class Update implements Saveable {
             }
         },
 
-        '0.9.9': ({ playerData, saveData }) => {
+        '0.9.9': ({ saveData }) => {
             // Fix pokemon having Pokérus early (key item not unlocked)
             if (!saveData.keyItems.Pokerus_virus) {
                 saveData.party.caughtPokemon.forEach(p => {
@@ -1013,7 +1031,7 @@ class Update implements Saveable {
             });
         },
 
-        '0.9.11': ({ playerData, saveData }) => {
+        '0.9.11': ({ saveData }) => {
             // Add Tohjo Falls
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 27);
             // Add Celebi Temporary Battles
@@ -1021,7 +1039,7 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 6);
         },
 
-        '0.9.12': ({ playerData, saveData }) => {
+        '0.9.12': ({ playerData }) => {
             // Revert player back to Alola if in Galar
             if (playerData._region >= 7) {
                 playerData._region = 6;
@@ -1109,13 +1127,13 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 41);
         },
 
-        '0.9.14': ({ playerData, saveData }) => {
+        '0.9.14': ({ saveData }) => {
             if (saveData.party.caughtPokemon.filter(p => p.id === 103.02).length) {
                 saveData.wallet.currencies[1] += 50000;
             }
         },
 
-        '0.9.15': ({ playerData, saveData, settingsData }) => {
+        '0.9.15': ({ saveData }) => {
             // Aegislash and Pumpkaboo line renames
             const renamePokemon = Update.changeHatcheryKey;
             renamePokemon(saveData, 'Aegislash', 'Aegislash (Shield)');
@@ -1166,7 +1184,7 @@ class Update implements Saveable {
             saveData.statistics.gymsDefeated = Update.moveIndex(saveData.statistics.gymsDefeated, 113);
         },
 
-        '0.9.16': ({ playerData, saveData }) => {
+        '0.9.16': ({ saveData }) => {
             // Pinkan Berry
             saveData.statistics.berriesHarvested = Update.moveIndex(saveData.statistics.berriesHarvested, 35);
 
@@ -1183,7 +1201,7 @@ class Update implements Saveable {
             });
         },
 
-        '0.9.17': ({ playerData, saveData, settingsData }) => {
+        '0.9.17': ({ saveData }) => {
             // Add Sudowoodo Temporary Battle
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 7);
 
@@ -1297,7 +1315,7 @@ class Update implements Saveable {
                 const shinyEncounteredStatistic = saveData.statistics.shinyPokemonEncountered[pokemon.id] || 0;
                 const shinyHatchedStatistic = saveData.statistics.shinyPokemonHatched[pokemon.id] || 0;
 
-                if (pokemonMap[pokemon.id].gender.type == GameConstants.Genders.MaleFemale) { // No genderless
+                if (pokemonMap[pokemon.id].gender.type == Genders.MaleFemale) { // No genderless
                     if (pokemonMap[pokemon.id].gender.femaleRatio != 1) { // Anything but female-only
                         saveData.statistics.malePokemonCaptured[pokemon.id] = capturedStatistic;
                         saveData.statistics.malePokemonDefeated[pokemon.id] = defeatedStatistic;
@@ -1380,11 +1398,11 @@ class Update implements Saveable {
 
                 // Find Pokémon rewards that are not in our party
                 pokemonRewards
-                    .filter(([name, id]) => {
+                    .filter(([, id]) => {
                         return saveData.party.caughtPokemon.filter(p => p.id === id).length < 1;
                     })
                     // And remove any cleared milestones corresponding to missing Pokémon
-                    .forEach(([name, id]) => {
+                    .forEach(([name]) => {
                         saveData.battleFrontier.milestones = saveData.battleFrontier.milestones.filter(milestone => milestone[1] !== name);
                     });
             }
@@ -1405,7 +1423,9 @@ class Update implements Saveable {
 
             // Translations
             saveData.logbook.logs.forEach(
-                log => log.content = createLogContent.notTranslated({ text: log.description })
+                log => {
+                    log.content = createLogContent.notTranslated({ text: log.description });
+                },
             );
 
             // Rotate form IDs
@@ -1507,7 +1527,7 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 136);
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 145);
         },
-        '0.10.3': ({ playerData, saveData }) => {
+        '0.10.3': ({ saveData }) => {
             const johtoBeastQL = saveData.quests.questLines.find((q) => q.name == 'The Legendary Beasts');
             if (johtoBeastQL && johtoBeastQL.state == 1 && johtoBeastQL.quest == 3 && johtoBeastQL.initial instanceof Array) {
                 johtoBeastQL.quest = 4;
@@ -1554,7 +1574,7 @@ class Update implements Saveable {
 
         },
 
-        '0.10.5': ({ playerData, saveData, settingsData }) => {
+        '0.10.5': ({ saveData, settingsData }) => {
             // Red temporary battle
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 28);
             // Magikarp Jump Temp Battles
@@ -1854,19 +1874,19 @@ class Update implements Saveable {
             if (darkestDayQL?.state < 2) {
                 // Fix temp battle indicies based on quest step.
                 if (darkestDayQL.quest <= 1) {
-                    saveData.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Bede 3')] = 0;
+                    saveData.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex('Bede 3')] = 0;
                 }
                 if (darkestDayQL.quest <= 3) {
-                    saveData.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Hop 6')] = 0;
+                    saveData.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex('Hop 6')] = 0;
                 }
                 if (darkestDayQL.quest <= 4) {
-                    saveData.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Hop 7')] = 0;
+                    saveData.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex('Hop 7')] = 0;
                 }
                 if (darkestDayQL.quest <= 17) {
-                    saveData.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Eternatus')] = 0;
+                    saveData.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex('Eternatus')] = 0;
                 }
                 if (darkestDayQL.quest <= 18) {
-                    saveData.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('The Darkest Day')] = 0;
+                    saveData.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex('The Darkest Day')] = 0;
                 }
             }
             // Suicune Quest autostart for players too far in Legendary Beasts quest
@@ -1889,7 +1909,7 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 22);
         },
 
-        '0.10.6': ({ playerData, saveData }) => {
+        '0.10.6': ({ saveData }) => {
             // Give the player any missing questline or temporary battle rewards
             Update.giveMissingQuestLineProgressRewardPokemon(saveData, 'Unfinished Business', 8, 172.01);
             Update.giveMissingQuestLineProgressRewardPokemon(saveData, 'Princess Diancie', 6, 681.01);
@@ -1906,7 +1926,7 @@ class Update implements Saveable {
             Update.fixTempBattleState(saveData, 57, 1, 'A New World', 3);
         },
 
-        '0.10.7': ({ playerData, saveData }) => {
+        '0.10.7': ({ saveData }) => {
             //JirachiQuest
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 40);
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 41);
@@ -1914,12 +1934,12 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 43);
         },
 
-        '0.10.8': ({ playerData, saveData }) => {
+        '0.10.8': ({ saveData }) => {
             //Grand Duchess Diantha
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 129);
         },
 
-        '0.10.9': ({ playerData, saveData }) => {
+        '0.10.9': ({ saveData }) => {
 
             saveData.pokeballs.alreadyCaughtContagiousSelection = saveData.pokeballs.alreadyCaughtSelection;
 
@@ -1945,7 +1965,7 @@ class Update implements Saveable {
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 45);
         },
 
-        '0.10.10': ({ playerData, saveData, settingsData }) => {
+        '0.10.10': ({ playerData, saveData }) => {
             // Bill's Grandpa
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 12);
 
@@ -2137,27 +2157,27 @@ class Update implements Saveable {
                     {
                         name: 'Caught',
                         options: { caught: true },
-                        ball: saveData.pokeballs?.alreadyCaughtSelection ?? GameConstants.PokeballType.None,
+                        ball: saveData.pokeballs?.alreadyCaughtSelection ?? PokeballType.None,
                     },
                     {
                         name: 'Contagious',
-                        options: { pokerus: GameConstants.Pokerus.Contagious },
-                        ball: saveData.pokeballs?.alreadyCaughtContagiousSelection ?? GameConstants.PokeballType.None,
+                        options: { pokerus: Pokerus.Contagious },
+                        ball: saveData.pokeballs?.alreadyCaughtContagiousSelection ?? PokeballType.None,
                     },
                     {
                         name: 'Caught Shiny',
                         options: { shiny: true, caughtShiny: true },
-                        ball: saveData.pokeballs?.alreadyCaughtShinySelection ?? GameConstants.PokeballType.Pokeball,
+                        ball: saveData.pokeballs?.alreadyCaughtShinySelection ?? PokeballType.Pokeball,
                     },
                     {
                         name: 'New',
                         options: { caught: false },
-                        ball: saveData.pokeballs?.notCaughtSelection ?? GameConstants.PokeballType.Pokeball,
+                        ball: saveData.pokeballs?.notCaughtSelection ?? PokeballType.Pokeball,
                     },
                     {
                         name: 'New Shiny',
                         options: { shiny: true, caughtShiny: false },
-                        ball: saveData.pokeballs?.notCaughtShinySelection ?? GameConstants.PokeballType.Pokeball,
+                        ball: saveData.pokeballs?.notCaughtShinySelection ?? PokeballType.Pokeball,
                     },
                 ],
             };
@@ -2230,7 +2250,7 @@ class Update implements Saveable {
             saveData.farming.mutations = Update.moveIndex(saveData.farming.mutations, 70);
         },
 
-        '0.10.12': ({ playerData, saveData, settingsData }) => {
+        '0.10.12': ({ saveData, settingsData }) => {
             // Rename Unova's Quest for the DNA Splicers questline
             saveData.quests.questLines.forEach(v => {
                 if (v.name === 'Quest for the DNA Splicers') {
@@ -2323,7 +2343,7 @@ class Update implements Saveable {
             }
         },
 
-        '0.10.14': ({ playerData, saveData, settingsData }) => {
+        '0.10.14': ({ playerData, saveData }) => {
 
             // Hoopa battles
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 167);
@@ -2600,8 +2620,8 @@ class Update implements Saveable {
             // Fix pokerus status for party members infected via shop eggs
             saveData.party.caughtPokemon.forEach(pokemon => {
                 // PartyPokemonSaveKeys.pokerus and .breeding
-                if (pokemon[8] === GameConstants.Pokerus.Infected && !pokemon[4]) {
-                    pokemon[8] = GameConstants.Pokerus.Contagious;
+                if (pokemon[8] === Pokerus.Infected && !pokemon[4]) {
+                    pokemon[8] = Pokerus.Contagious;
                 }
             });
 
@@ -2609,7 +2629,7 @@ class Update implements Saveable {
             settingsData['catchFilters.invertPriorityOrder'] = true;
         },
 
-        '0.10.19': ({ playerData, saveData, settingsData }) => {
+        '0.10.19': ({ saveData }) => {
             // Update hatchery helper sorting (again)
             saveData.breeding.hatcheryHelpers?.forEach(helper => {
                 if (helper.sortOption == 2) {
@@ -2619,7 +2639,7 @@ class Update implements Saveable {
             });
         },
 
-        '0.10.20': ({ playerData, saveData, settingsData }) => {
+        '0.10.20': ({ saveData }) => {
             // Add Olivine Lighthouse dungeon
             saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 29);
 
@@ -2697,7 +2717,7 @@ class Update implements Saveable {
             if (surveyEfficiencyLevel) {
                 const surveyEfficiencyCost = GameHelper.createArray(100, 400, 100);
                 const investedDiamonds = surveyEfficiencyCost.slice(0, surveyEfficiencyLevel).reduce((acc, cur) => acc + cur, 0);
-                saveData.wallet.currencies[GameConstants.Currency.diamond] += investedDiamonds;
+                saveData.wallet.currencies[Currency.diamond] += investedDiamonds;
             }
 
             // The NewYLayer upgrades has been refactored to Items_All, copy the level
@@ -2783,13 +2803,13 @@ class Update implements Saveable {
                 return upgradeCostMap[key]?.slice(0, value).reduce((acc, cur) => acc + cur, 0) ?? 0;
             }).reduce((acc, cur) => acc + cur, 0);
             saveData.underground.upgrades = {};
-            saveData.wallet.currencies[GameConstants.Currency.diamond] += totalReimburse;
+            saveData.wallet.currencies[Currency.diamond] += totalReimburse;
 
             if (totalReimburse > 0) {
                 Notifier.notify({
                     title: 'Underground refund',
                     type: NotificationConstants.NotificationOption.info,
-                    timeout: GameConstants.DAY,
+                    timeout: DAY,
                     message: `The old Underground upgrade system has been removed due to recent changes.
                     We have refunded ${totalReimburse.toLocaleString('en-US')} <img src="./assets/images/currency/diamond.svg" height="24px"/> to your wallet.`,
                 });
@@ -2799,7 +2819,7 @@ class Update implements Saveable {
                 Notifier.notify({
                     title: 'Underground changes',
                     type: NotificationConstants.NotificationOption.warning,
-                    timeout: GameConstants.DAY,
+                    timeout: DAY,
                     message: `The Underground has been overhauled! Check out the Underground Help tab for all the details on the new features and how everything works. Dive in and explore the changes!
                     <button class="btn btn-block btn-secondary" onclick="UndergroundController.openUndergroundModal()" data-dismiss="toast">Open Underground</button>`,
                 });
@@ -2833,7 +2853,7 @@ class Update implements Saveable {
             }
         },
 
-        '0.10.23': ({ playerData, saveData, settingsData }) => {
+        '0.10.23': ({ saveData }) => {
             // Remove easier-to-fix locale misformatting from underground grid item tiles
             saveData.underground?.mine.grid.map(t => t.reward).filter(r => r).forEach(r => {
                 if (!r.backgroundPosition.match(/^\d+% \d+%$/)) {
@@ -2849,7 +2869,7 @@ class Update implements Saveable {
                 .slice(0, saveData.oakItems[OakItemType[OakItemType.Sprinklotad]].level + 1)
                 .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
-            saveData.wallet.currencies[GameConstants.Currency.farmPoint] += reimburseFarmPoints;
+            saveData.wallet.currencies[Currency.farmPoint] += reimburseFarmPoints;
 
             // Reset the Sprinklotad
             saveData.oakItems[OakItemType[OakItemType.Sprinklotad]].level = 0;
@@ -2877,7 +2897,6 @@ class Update implements Saveable {
                 698: 'Sail_fossil',
             };
             saveData.breeding.eggList?.forEach((egg, i) => {
-                const oldType = egg.type;
                 if (egg.type === 6) {
                     egg.type = 0; // EggType.Pokemon
                 } else if (egg.type === 8) {
@@ -2909,7 +2928,7 @@ class Update implements Saveable {
             }
 
             // Update Enigma hint data
-            saveData.farming.mutations[63] = {seen: saveData.farming.mutations[63], last: null};
+            saveData.farming.mutations[63] = { seen: saveData.farming.mutations[63], last: null };
 
             // Refund any vitamins on MissingNo. as it now gets removed on update.
             // Will also no longer be able to give it vitamins so this is a one time thing
@@ -2980,7 +2999,7 @@ class Update implements Saveable {
                             Notifier.notify({
                                 title: `[UPDATE] v${result.version}`,
                                 message: 'A newer version of the game is available:\n\n<a class="btn btn-warning btn-block" href="#" onclick="location.reload(true);">Reload Page</a>',
-                                timeout: GameConstants.DAY,
+                                timeout: DAY,
                             });
                         }
                     },
@@ -2988,21 +3007,21 @@ class Update implements Saveable {
             } catch (ಠ_ಠ) {
                 console.error('[update] Unable to check for new version', ಠ_ಠ);
             }
-        }, GameConstants.HOUR * 3);
+        }, HOUR * 3);
     }
 
     // check if save version is newer or equal to version
-    minUpdateVersion(version, saveData): boolean {
+    minUpdateVersion(version: string, saveData: any): boolean {
         return !this.isOlderVersion(saveData.update?.version, version);
     }
 
     // potentially newer version > check against version
-    isNewerVersion(version, compareVersion): boolean {
+    isNewerVersion(version: string, compareVersion: string): boolean {
         return compareVersion.localeCompare(version, undefined, { numeric: true }) === -1;
     }
 
     // potentially older version < check against version
-    isOlderVersion(version, compareVersion): boolean {
+    isOlderVersion(version: string, compareVersion: string): boolean {
         return compareVersion.localeCompare(version, undefined, { numeric: true }) === 1;
     }
 
@@ -3028,7 +3047,7 @@ class Update implements Saveable {
         return [button, backupSaveData];
     }
 
-    automaticallyDownloadBackup(button, settingsData) {
+    automaticallyDownloadBackup(button: HTMLElement, settingsData: any) {
         // Add to body and click, triggering auto download
         if (!settingsData?.disableAutoDownloadBackupSaveOnUpdate) {
             button.style.display = 'none';
@@ -3053,7 +3072,7 @@ class Update implements Saveable {
                 title: 'Save version is newer than game version!',
                 message: `Please update your game before attempting to load this save..\n\nSave version: ${this.saveVersion}\nGame version: ${this.version}`,
                 type: NotificationConstants.NotificationOption.danger,
-                timeout: GameConstants.DAY,
+                timeout: DAY,
             });
             throw new Error(`Save is newer than game version\nSave version: ${this.saveVersion}\nGame version: ${this.version}`);
         }
@@ -3095,7 +3114,7 @@ class Update implements Saveable {
                             title: `Failed to update to v${this.version}!`,
                             message: 'Please check the console for errors, and report them on our <a class="text-light" href="https://discord.gg/a6DFe4p"><u>Discord</u></a>.\n\nUnable to prepare backup save for download. Your save file is safe, but report this error as well.',
                             type: NotificationConstants.NotificationOption.warning,
-                            timeout: GameConstants.DAY,
+                            timeout: DAY,
                         });
                         throw e;
                     }
@@ -3109,7 +3128,7 @@ class Update implements Saveable {
                         title: `Failed to update to v${this.version}!`,
                         message: `Please check the console for errors, and report them on our <a class="text-light" href="https://discord.gg/a6DFe4p"><u>Discord</u></a> along with your save file.\n\n${backupButton.outerHTML}\n${resetButton.outerHTML}`,
                         type: NotificationConstants.NotificationOption.primary,
-                        timeout: GameConstants.DAY,
+                        timeout: DAY,
                     });
 
                     // On the next tick, set the reset button click handler
@@ -3175,8 +3194,8 @@ class Update implements Saveable {
 
     // Used for moving dungeons and other stuff
     // Be sure to insert from lowest index to highest index
-    // Example to get dungeons new index: GameConstants.getDungeonIndex('Aqua Hideout')
-    static moveIndex = (arr, to, from = Infinity, defaultVal = 0) => {
+    // Example to get dungeons new index: getDungeonIndex('Aqua Hideout')
+    static moveIndex(arr: number[], to: number, from = Infinity, defaultVal = 0) {
         let temp = arr.splice(from, 1);
         if (!temp.length) {
             temp = [defaultVal];
@@ -3188,7 +3207,7 @@ class Update implements Saveable {
 
     // If any pokemon names change in the data rename them,
     // note that name isn't used in party.
-    static changeHatcheryKey = (saveData, oldName, newName) => {
+    static changeHatcheryKey(saveData: any, oldName: string | number, newName: string | number) {
         if (!saveData.breeding) {
             return;
         }
@@ -3204,7 +3223,7 @@ class Update implements Saveable {
     }
 
     // Swapping or Rotating Pokemon IDs
-    static rotatePokemonIDs = (saveData, rotationlist: number[], keepLast = true) => {
+    static rotatePokemonIDs(saveData: any, rotationlist: number[], keepLast = true) {
         // save some characters
         const s = saveData.statistics;
 
@@ -3352,19 +3371,19 @@ class Update implements Saveable {
     }
 
     // Will move from the previous ID to the new ID and delete any old statistics
-    static updatePokemonId(saveData, oldID, newID) {
+    static updatePokemonId(saveData: any, oldID: number, newID: number) {
         Update.rotatePokemonIDs(saveData, [newID, oldID], false);
     }
 
     // Replaces Pokémon names to IDs in the save data
-    static changePokemonNameToId(saveData, pokemonArray) {
+    static changePokemonNameToId(saveData: any, pokemonArray: PokemonNameType[]) {
         pokemonArray?.forEach(pokemonName => {
             const pokemon = PokemonHelper.getPokemonByName(pokemonName);
             Update.changeHatcheryKey(saveData, pokemonName, pokemon.id);
         });
     }
 
-    static startQuestLine = (saveData, questLineName: string) => {
+    static startQuestLine(saveData: any, questLineName: string) {
         const questLine = saveData.quests.questLines.find(ql => ql.name == questLineName);
         if (questLine) {
             // Set to started if not yet started, otherwise leave in it's current state
@@ -3376,7 +3395,7 @@ class Update implements Saveable {
     }
 
     // Use setBattleState as 0 or 1 to manipulate battles to what status they should be based on related questline progress.
-    static fixTempBattleState = (saveData, battleIndex: number, setBattleState: number, questLineName: string, questStep: number) => {
+    static fixTempBattleState(saveData: any, battleIndex: number, setBattleState: number, questLineName: string, questStep: number) {
         const ql = saveData.quests.questLines.find((q) => q.name === questLineName);
         if (!ql) {
             return;
@@ -3397,27 +3416,27 @@ class Update implements Saveable {
         }
     }
 
-    static giveMissingQuestLineProgressRewardPokemon(saveData, questLineName: string, questStep: number, pokemonId: number) {
+    static giveMissingQuestLineProgressRewardPokemon(saveData: any, questLineName: string, questStep: number, pokemonId: number) {
         const quest = saveData.quests.questLines.find((q) => q.name == questLineName);
         if (quest?.state == 2 || (quest?.state == 1 && quest?.quest >= questStep)) {
             Update.giveMissingPokemon(saveData, pokemonId);
         }
     }
 
-    static giveMissingTempBattleRewardPokemon(saveData, tempBattleIndex: number, pokemonId: number) {
+    static giveMissingTempBattleRewardPokemon(saveData: any, tempBattleIndex: number, pokemonId: number) {
         if (saveData.statistics.temporaryBattleDefeated[tempBattleIndex] > 0) {
             Update.giveMissingPokemon(saveData, pokemonId);
         }
     }
 
-    static giveMissingPokemon(saveData, pokemonId: number) {
+    static giveMissingPokemon(saveData: any, pokemonId: number) {
         if (!saveData.party.caughtPokemon.find((p) => p.id == pokemonId)) {
             saveData.party.caughtPokemon.push({ id: pokemonId });
             saveData.statistics.pokemonCaptured[pokemonId] = saveData.statistics.pokemonCaptured[pokemonId] + 1 || 1;
         }
     }
 
-    removeMissingNo(saveData) {
+    removeMissingNo(saveData: any) {
         // remove from party
         let idx;
         while ((idx = saveData.party.caughtPokemon.findIndex(p => p.id === 0)) !== -1) {
@@ -3488,7 +3507,7 @@ class Update implements Saveable {
         }
     }
 
-    fromJSON(json, initial = false): void {
+    fromJSON(json: Record<string, any>, initial = false): void {
         if (!initial) {
             return;
         }
@@ -3507,3 +3526,5 @@ class Update implements Saveable {
     }
 
 }
+
+export default Update;

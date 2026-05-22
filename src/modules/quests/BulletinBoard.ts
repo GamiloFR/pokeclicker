@@ -1,3 +1,4 @@
+import App from '../App';
 import areaStatus from '../enums/AreaStatus';
 import { BulletinBoards } from '../GameConstants';
 import QuestLineCompletedRequirement from '../requirements/QuestLineCompletedRequirement';

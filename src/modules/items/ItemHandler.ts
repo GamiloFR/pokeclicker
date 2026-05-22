@@ -1,9 +1,10 @@
 import { Observable } from 'knockout';
-import { ItemList } from './ItemList';
+import App from '../App';
+import { StoneType } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import { StoneType } from '../GameConstants';
+import { ItemList } from './ItemList';
 
 export default class ItemHandler {
     public static stoneSelected: Observable<string> = ko.observable(StoneType[0]);
@@ -18,9 +19,9 @@ export default class ItemHandler {
         }
 
         // Only allow the player to use the amount they have maximum
-        const amountToUse = Math.min(player.itemList[name](), amount);
+        const amountToUse = Math.min(App.player.itemList[name](), amount);
 
-        player.itemList[name](player.itemList[name]() - amountToUse);
+        App.player.itemList[name](App.player.itemList[name]() - amountToUse);
 
         // run the function
         const result = ItemList[name].use(amountToUse);
@@ -29,7 +30,7 @@ export default class ItemHandler {
     }
 
     public static hasItem(name: string): boolean {
-        return player.itemList[name] ? !!player.itemList[name]() : false;
+        return App.player.itemList[name] ? !!App.player.itemList[name]() : false;
     }
 
     public static resetAmount() {
@@ -60,7 +61,7 @@ export default class ItemHandler {
             });
         }
 
-        const amountTotal = Math.min(ItemHandler.amountSelected(), player.itemList[ItemHandler.stoneSelected()]());
+        const amountTotal = Math.min(ItemHandler.amountSelected(), App.player.itemList[ItemHandler.stoneSelected()]());
 
         if (!amountTotal) {
             return Notifier.notify({
@@ -79,7 +80,7 @@ export default class ItemHandler {
 
         let amountUsed = 0;
         for (let i = 0; i < amountTotal; i++) {
-            player.itemList[ItemHandler.stoneSelected()](player.itemList[ItemHandler.stoneSelected()]() - 1);
+            App.player.itemList[ItemHandler.stoneSelected()](App.player.itemList[ItemHandler.stoneSelected()]() - 1);
             amountUsed++;
             if ((ItemList[ItemHandler.stoneSelected()]).use(1, ItemHandler.pokemonSelected()) || !App.game.party.getPokemonByName(this.pokemonSelected())) {
                 // Stop when a shiny is encountered or the base is removed from the party in Real Evo.

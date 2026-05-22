@@ -1,4 +1,5 @@
 import { Computed, Observable } from 'knockout';
+import App from '../App';
 import { camelCaseToString, EggItemType, Region } from '../GameConstants';
 import { SkippableRateLimit } from '../koExtenders';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -163,7 +164,7 @@ class BreedingController {
     }
 
     public static getRegionFilterString() {
-        const unlockedRegionsMask = (2 << player.highestRegion()) - 1;
+        const unlockedRegionsMask = (2 << App.player.highestRegion()) - 1;
         const showRegions = Settings.getSetting('breedingRegionFilter').observableValue() & unlockedRegionsMask;
         if (showRegions == unlockedRegionsMask) {
             return 'All';
@@ -222,7 +223,7 @@ class BreedingController {
             ? Object.values(App.game.breeding.hatchList).reduce((total, eggTypePool) => total + eggTypePool[region].length, 0)
             : hatchList[region].length;
 
-        const regionDiff = 1 + (player.highestRegion() - Math.max(1, region));
+        const regionDiff = 1 + (App.player.highestRegion() - Math.max(1, region));
         // odds of this region pool
         const odds = 1 / Math.pow(2, regionDiff);
         // odds of pokemon in this region pool

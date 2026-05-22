@@ -1,9 +1,11 @@
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import { MINUTE } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import { pokemonMap } from '../pokemons/PokemonList';
+import Save from '../Save';
 import SeededRand from '../utilities/SeededRand';
 import DiscordCode from './DiscordCode';
 import DiscordItemCode from './DiscordItemCode';
@@ -73,7 +75,7 @@ class Discord implements Saveable {
 
         this.ID(this.defaults.id);
         // Save now
-        Save.store(player);
+        Save.store(App.player);
     }
 
     calcCode(code) {

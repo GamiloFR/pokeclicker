@@ -336,7 +336,7 @@ aria-labelledby="pokedexModalLabel">
                                                 <img width="32px" src="" data-bind="attr: { src: `assets/images/breeding/pokerus/${GameConstants.Pokerus[App.game.party.getPokemon($data.id)?.pokerus]}.png`}"/>
                                             </div>
                                             <!-- ko if: PokemonHelper.hasMegaEvolution($data.name) -->
-                                            <knockout data-bind="foreach: PokemonHelper.getMegaStones($data.name).filter(s => player.hasMegaStone(s.megaStone))">
+                                            <knockout data-bind="foreach: PokemonHelper.getMegaStones($data.name).filter(s => App.player.hasMegaStone(s.megaStone))">
                                                 <img width="20px" style="position: absolute; top: 4px;"
                                                     data-bind="attr: { src: $data.image }, style: { right: `${1 + 17 * $index()}px` }"/>
                                             </knockout>
@@ -366,7 +366,7 @@ aria-labelledby="pokedexModalLabel">
                                                             <br/>EV bonus: <strong>×${App.game.party.getPokemon($data.id).calculateEVAttackBonus().toLocaleString('en-US')}</strong>`
                                                             : '') +
                                                         (PokemonHelper.hasMegaEvolution($data.name) ?
-                                                            pokemonMap[$data.name].evolutions.flatMap(e => e.restrictions).filter(r => r instanceof MegaEvolveRequirement && player.hasMegaStone(r.megaStone))
+                                                            pokemonMap[$data.name].evolutions.flatMap(e => e.restrictions).filter(r => r instanceof MegaEvolveRequirement && App.player.hasMegaStone(r.megaStone))
                                                                 .map(r => `<br/><u>${GameConstants.humanifyString(GameConstants.MegaStoneType[r.megaStone])}</u><br/>${r.hint()}`).join('')
                                                             : ''),
                                                     trigger: 'hover',

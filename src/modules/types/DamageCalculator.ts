@@ -1,3 +1,4 @@
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import { Region } from '../GameConstants';
 import GameHelper from '../GameHelper';

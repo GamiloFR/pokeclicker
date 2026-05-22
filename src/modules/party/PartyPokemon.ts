@@ -1,5 +1,6 @@
 import { Computed, Observable, ObservableArray } from 'knockout';
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import KeyItemType from '../enums/KeyItemType';
 import PokemonType from '../enums/PokemonType';
@@ -106,7 +107,7 @@ class PartyPokemon implements Saveable {
 
     vitaminUsesRemaining = ko.pureComputed((): number => {
         // Allow 5 for every region visited (including Kanto)
-        return (player.highestRegion() + 1) * 5 - this.totalVitaminsUsed();
+        return (App.player.highestRegion() + 1) * 5 - this.totalVitaminsUsed();
     });
 
     calculateEVAttackBonus = ko.pureComputed((): number => {
@@ -190,7 +191,7 @@ class PartyPokemon implements Saveable {
         }
 
         // Check based on native region
-        const unlockedRegionsMask = (2 << player.highestRegion()) - 1;
+        const unlockedRegionsMask = (2 << App.player.highestRegion()) - 1;
         const regionFilterMask = Settings.getSetting('breedingRegionFilter').observableValue() & unlockedRegionsMask;
         if (regionFilterMask !== unlockedRegionsMask) {
             const nativeRegion = PokemonHelper.calcNativeRegion(this.name);
@@ -493,7 +494,7 @@ class PartyPokemon implements Saveable {
         }
 
         // The lowest number of amount they want to use, total in inventory, uses remaining for this Pokemon
-        amount = Math.min(amount, player.itemList[VitaminType[vitamin]](), usesRemaining);
+        amount = Math.min(amount, App.player.itemList[VitaminType[vitamin]](), usesRemaining);
 
         // Apply the vitamin
         if (ItemHandler.useItem(VitaminType[vitamin], amount)) {
@@ -522,7 +523,7 @@ class PartyPokemon implements Saveable {
         }
 
         GameHelper.incrementObservable(this.vitaminsUsed[vitamin], -amount);
-        GameHelper.incrementObservable(player.itemList[vitaminName], amount);
+        GameHelper.incrementObservable(App.player.itemList[vitaminName], amount);
     }
 
     public setVitaminAmount(vitamin: VitaminType, amount: number) {
@@ -543,7 +544,7 @@ class PartyPokemon implements Saveable {
 
     public useConsumable(type: ConsumableType, amount: number): void {
         const itemName = ConsumableType[type];
-        if (!player.itemList[itemName]()) {
+        if (!App.player.itemList[itemName]()) {
             return Notifier.notify({
                 message : `You do not have any more ${ItemList[itemName].displayName}`,
                 type : NotificationConstants.NotificationOption.danger,
@@ -553,7 +554,7 @@ class PartyPokemon implements Saveable {
         switch (type) {
             case ConsumableType.Rare_Candy:
             case ConsumableType.Magikarp_Biscuit:
-                amount = Math.min(amount, player.itemList[itemName]());
+                amount = Math.min(amount, App.player.itemList[itemName]());
                 if (this.breeding) {
                     return Notifier.notify({
                         message : `You cannot use ${ItemList[itemName].displayName} on Pokémon in the hatchery.`,
@@ -576,7 +577,7 @@ class PartyPokemon implements Saveable {
                 break;
             default :
         }
-        GameHelper.incrementObservable(player.itemList[itemName], -amount);
+        GameHelper.incrementObservable(App.player.itemList[itemName], -amount);
         Notifier.notify({
             message : `You used ${amount} of ${ItemList[itemName].displayName}`,
             type : NotificationConstants.NotificationOption.success,
@@ -593,7 +594,7 @@ class PartyPokemon implements Saveable {
                 });
                 return;
             }
-            if (player.amountOfItem(heldItem.name) < 1) {
+            if (App.player.amountOfItem(heldItem.name) < 1) {
                 Notifier.notify({
                     message: `You don't have any ${heldItem.displayName} left.`,
                     type: NotificationConstants.NotificationOption.warning,
@@ -622,7 +623,7 @@ class PartyPokemon implements Saveable {
         if (this.heldItem() && this.heldItem().name == heldItem.name) {
             this.heldItem(undefined);
         } else {
-            player.loseItem(heldItem.name, 1);
+            App.player.loseItem(heldItem.name, 1);
             this.heldItem(heldItem);
         }
     }

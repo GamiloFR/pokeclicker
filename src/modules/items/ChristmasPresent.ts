@@ -1,3 +1,4 @@
+import App from '../App';
 import { Currency } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
@@ -14,7 +15,7 @@ export default class ChristmasPresent extends Item {
     public gain() {
         // Should not be acquired multiple times at once
         super.gain(1);
-        const scaling = player.highestRegion();
+        const scaling = App.player.highestRegion();
         const values = {
             [Currency.money]: 50 * 3 ** scaling,
             [Currency.questPoint]: 5 * (1 + scaling) ** 2,

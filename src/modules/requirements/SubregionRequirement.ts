@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, camelCaseToString, Region } from '../GameConstants';
 import SubRegions from '../subRegion/SubRegions';
 import Requirement from './Requirement';
@@ -8,7 +9,7 @@ export default class SubregionRequirement extends Requirement {
     }
 
     public getProgress() {
-        return this.region === player.region && this.subregion === player.subregion ? 100 : 0;
+        return this.region === App.player.region && this.subregion === App.player.subregion ? 100 : 0;
     }
 
     public hint(): string {
@@ -16,10 +17,10 @@ export default class SubregionRequirement extends Requirement {
     }
 
     public getProgressPercentage() {
-        return this.region === player.region && this.subregion === player.subregion ? '100' : '0';
+        return this.region === App.player.region && this.subregion === App.player.subregion ? '100' : '0';
     }
 
     public isCompleted() {
-        return this.region === player.region && this.subregion === player.subregion;
+        return this.region === App.player.region && this.subregion === App.player.subregion;
     }
 }

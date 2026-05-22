@@ -1,3 +1,4 @@
+import App from '../App';
 import DungeonList from '../dungeons/DungeonList';
 import BadgeEnums from '../enums/Badges';
 import KeyItemType from '../enums/KeyItemType';

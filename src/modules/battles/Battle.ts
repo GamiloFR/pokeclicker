@@ -1,4 +1,5 @@
 import type { Observable as KnockoutObservable, PureComputed } from 'knockout';
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
@@ -55,7 +56,7 @@ export default class Battle {
      */
     public static clickAttack() {
         // click attacks disabled and we already beat the starter
-        if (App.game.challenges.list.disableClickAttack.active() && player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None) {
+        if (App.game.challenges.list.disableClickAttack.active() && App.player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None) {
             return;
         }
         // TODO: figure out a better way of handling this
@@ -80,14 +81,14 @@ export default class Battle {
      */
     public static defeatPokemon() {
         const enemyPokemon = this.enemyPokemon();
-        Battle.route = player.route;
-        const region = player.region;
-        const catchRoute = player.route; // Has to be set, the Battle.route is "zeroed" on region change
+        Battle.route = App.player.route;
+        const region = App.player.region;
+        const catchRoute = App.player.route; // Has to be set, the Battle.route is "zeroed" on region change
         enemyPokemon.defeat();
 
-        GameHelper.incrementObservable(App.game.statistics.routeKills[player.region][Battle.route]);
+        GameHelper.incrementObservable(App.game.statistics.routeKills[App.player.region][Battle.route]);
 
-        App.game.breeding.progressEggsBattle(Battle.route, player.region);
+        App.game.breeding.progressEggsBattle(Battle.route, App.player.region);
         const isShiny: boolean = enemyPokemon.shiny;
         const isShadow: boolean = enemyPokemon.shadow == GameConstants.ShadowStatus.Shadow;
         const pokeBall: GameConstants.PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
@@ -109,7 +110,7 @@ export default class Battle {
             this.generateNewEnemy();
         }
         this.gainItem();
-        player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
     }
 
     /**
@@ -118,7 +119,7 @@ export default class Battle {
      */
     public static generateNewEnemy() {
         this.counter = 0;
-        this.enemyPokemon(PokemonFactory.generateWildPokemon(player.route, player.region, player.subregionObject()));
+        this.enemyPokemon(PokemonFactory.generateWildPokemon(App.player.route, App.player.region, App.player.subregionObject()));
         const enemyPokemon = this.enemyPokemon();
         PokemonHelper.incrementPokemonStatistics(enemyPokemon.id, GameConstants.PokemonStatisticsType.Encountered, enemyPokemon.shiny, enemyPokemon.gender, enemyPokemon.shadow);
         // Shiny
@@ -127,11 +128,11 @@ export default class Battle {
                 LogBookTypes.SHINY,
                 App.game.party.alreadyCaughtPokemon(enemyPokemon.id, true)
                     ? createLogContent.encounterShinyDupe({
-                        location: Routes.getRoute(player.region, player.route).routeName,
+                        location: Routes.getRoute(App.player.region, App.player.route).routeName,
                         pokemon: enemyPokemon.name,
                     })
                     : createLogContent.encounterShiny({
-                        location: Routes.getRoute(player.region, player.route).routeName,
+                        location: Routes.getRoute(App.player.region, App.player.route).routeName,
                         pokemon: enemyPokemon.name,
                     }),
             );
@@ -139,7 +140,7 @@ export default class Battle {
             App.game.logbook.newLog(
                 LogBookTypes.NEW,
                 createLogContent.encounterWild({
-                    location: Routes.getRoute(player.region, player.route).routeName,
+                    location: Routes.getRoute(App.player.region, App.player.route).routeName,
                     pokemon: enemyPokemon.name,
                 }),
             );
@@ -194,7 +195,7 @@ export default class Battle {
     }
 
     static gainItem() {
-        const p = MapHelper.normalizeRoute(Battle.route, player.region) / 1600 + 0.009375;
+        const p = MapHelper.normalizeRoute(Battle.route, App.player.region) / 1600 + 0.009375;
 
         if (Rand.chance(p)) {
             App.game.farming.gainRandomBerry();

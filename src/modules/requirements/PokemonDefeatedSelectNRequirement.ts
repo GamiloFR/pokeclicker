@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';

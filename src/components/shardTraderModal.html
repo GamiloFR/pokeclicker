@@ -30,7 +30,7 @@
                                 <!-- ko if: $data.isVisible() -->
                                     <!-- ko foreach: shards -->
                                     <tr class="text-center">
-                                        <td class="align-middle" data-bind="text: player.itemList[$data.shardType.itemName]().toLocaleString('en-US')"></td>
+                                        <td class="align-middle" data-bind="text: App.player.itemList[$data.shardType.itemName]().toLocaleString('en-US')"></td>
                                         <td class="align-middle">
                                             <img class='mineInventoryItem' data-bind='attr: {src: $data.shardType.image }'>
                                         </td>
@@ -48,7 +48,7 @@
                                             }">
                                         </td>
                                         <td class="align-middle" data-bind='attr: { rowspan: $parent.shards.length }, text: $parent.item.amount + " × " + $parent.item.itemType.displayName'></td>
-                                        <td class="align-middle" data-bind="attr: { rowspan: $parent.shards.length, hidden: ShopHandler.shopObservable().hidePlayerInventory }, text: player.itemList[$parent.item.itemType.name]().toLocaleString('en-US')"></td>
+                                        <td class="align-middle" data-bind="attr: { rowspan: $parent.shards.length, hidden: ShopHandler.shopObservable().hidePlayerInventory }, text: App.player.itemList[$parent.item.itemType.name]().toLocaleString('en-US')"></td>
                                         <td class="align-middle" data-bind="attr: { rowspan: $parent.shards.length }">
                                             <div class="btn-group btn-block" data-bind="let: { tradeAmount: ko.observable(1) }">
                                                 <button class='btn btn-success btn-block' data-bind='click: function(){ShardDeal.use(ShopHandler.shopObservable()?.location, $parentContext.$index(), tradeAmount())}, css: { disabled: !ShardDeal.canUse(ShopHandler.shopObservable()?.location, $parentContext.$index()) }'>

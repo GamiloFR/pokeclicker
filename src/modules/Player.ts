@@ -1,38 +1,53 @@
-/// <reference path="../declarations/TemporaryScriptTypes.d.ts" />
-/// <reference path="../declarations/upgrades/Upgrade.d.ts" />
-
-/**
- * Required modules before porting:
- * Save.ts
- * upgrades/Upgrade.ts
- * towns/Town.ts - Town, TownList
- * worldmap/MapHelper.ts
- * items/Item.ts - ItemList
- */
+import { Computed, Observable } from 'knockout';
+import App from './App';
+import { HOUR, MAX_AVAILABLE_REGION, MegaStoneType, Region, RegionalStarters, RegionGyms, SHINY_CHANCE_SHOP, Starter, StartingRoutes, StartingTowns } from './GameConstants';
+import GymList from './gym/GymList';
+import { ItemList } from './items/ItemList';
+import MegaStoneItem from './items/MegaStoneItem';
+import { MultiplierDecreaser } from './items/types';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
+import PokemonFactory from './pokemons/PokemonFactory';
+import Save from './Save';
+import SubRegion from './subRegion/SubRegion';
+import SubRegions from './subRegion/SubRegions';
+import Town from './towns/Town';
+import TownList from './towns/TownList';
+import Rand from './utilities/Rand';
+import MapHelper from './worldmap/MapHelper';
 
 /**
  * Information about the player.
  * All player variables need to be saved.
  */
-
-class Player implements TmpPlayerType {
-
-    private _route: KnockoutObservable<number>;
-    private _region: KnockoutObservable<GameConstants.Region>;
-    private _subregion: KnockoutObservable<number>;
+class Player {
+    private _route: Observable<number>;
+    private _region: Observable<Region>;
+    private _subregion: Observable<number>;
     private _townName: string;
-    private _town: KnockoutObservable<Town>;
+    private _town: Observable<Town>;
     private _timeTraveller = false;
     private _origins: Array<any>;
-    public regionStarters: Array<KnockoutObservable<GameConstants.Starter>>;
-    public subregionObject: KnockoutObservable<SubRegion>;
+    public regionStarters: Array<Observable<Starter>>;
+    public subregionObject: Computed<SubRegion>;
     public trainerId: string;
     private _createdTime: number;
 
-    constructor(savedPlayer?) {
-        const saved: boolean = (savedPlayer != null);
+    private _itemList: { [name: string]: Observable<number> };
+
+    public _lastSeen: number;
+
+    public effectList: { [name: string]: Observable<number> } = {};
+    public effectTimer: { [name: string]: Observable<string> } = {};
+
+    public highestRegion: Observable<Region>;
+    public highestSubRegion: Observable<number>;
+
+    private _itemMultipliers: { [name: string]: number };
+
+    constructor(savedPlayer?: any) {
         savedPlayer = savedPlayer || {
-            _region: GameConstants.Region.kanto,
+            _region: Region.kanto,
             _route: 1,
         };
         this._lastSeen = savedPlayer._lastSeen || 0;
@@ -42,7 +57,7 @@ class Player implements TmpPlayerType {
                 title: 'Welcome Time Traveller!',
                 message: 'Please ensure you keep a backup of your old save as travelling through time can cause some serious problems.\n\nAny Pokémon you may have obtained in the future could cease to exist which could corrupt your save file!',
                 type: NotificationConstants.NotificationOption.danger,
-                timeout: GameConstants.HOUR,
+                timeout: HOUR,
             });
             this._timeTraveller = true;
         }
@@ -52,19 +67,21 @@ class Player implements TmpPlayerType {
         this._route = ko.observable(savedPlayer._route);
         // Check that the route is valid, otherwise set it to the regions starting route (route 0 means they are in a town)
         if (this.route > 0 && !MapHelper.validRoute(this.route, this.region)) {
-            this.route = GameConstants.StartingRoutes[this.region];
+            this.route = StartingRoutes[this.region];
         }
         // Return player to last town or starter town if their town no longer exist for whatever reason
-        this._townName = TownList[savedPlayer._townName] ? savedPlayer._townName : GameConstants.StartingTowns[this.region];
+        this._townName = TownList[savedPlayer._townName] ? savedPlayer._townName : StartingTowns[this.region];
         this._town = ko.observable(TownList[this._townName]);
-        this._town.subscribe(value => this._townName = value.name);
+        this._town.subscribe((value: Town) => {
+            this._townName = value.name;
+        });
 
         this.highestRegion = ko.observable(savedPlayer.highestRegion || 0);
         this.highestSubRegion = ko.observable(savedPlayer.highestSubRegion || 0);
 
-        this.regionStarters = new Array<KnockoutObservable<number>>();
-        for (let i = 0; i <= GameConstants.MAX_AVAILABLE_REGION; i++) {
-            this.regionStarters.push(ko.observable(savedPlayer.regionStarters?.[i] ?? GameConstants.Starter.None));
+        this.regionStarters = new Array<Observable<Starter>>();
+        for (let i = 0; i <= MAX_AVAILABLE_REGION; i++) {
+            this.regionStarters.push(ko.observable(savedPlayer.regionStarters?.[i] ?? Starter.None));
         }
 
         this._itemList = Save.initializeItemlist();
@@ -88,25 +105,13 @@ class Player implements TmpPlayerType {
         this._createdTime = savedPlayer._createdTime ?? Date.now();
     }
 
-    private _itemList: { [name: string]: KnockoutObservable<number> };
-
-    public _lastSeen: number;
-
-    public effectList: { [name: string]: KnockoutObservable<number> } = {};
-    public effectTimer: { [name: string]: KnockoutObservable<string> } = {};
-
-    public highestRegion: KnockoutObservable<GameConstants.Region>;
-    public highestSubRegion: KnockoutObservable<number>;
-
-    get itemList(): { [p: string]: KnockoutObservable<number> } {
+    get itemList(): { [p: string]: Observable<number> } {
         return this._itemList;
     }
 
     public amountOfItem(itemName: string) {
         return this.itemList[itemName]();
     }
-
-    private _itemMultipliers: { [name: string]: number };
 
     get itemMultipliers(): { [p: string]: number } {
         return this._itemMultipliers;
@@ -120,11 +125,11 @@ class Player implements TmpPlayerType {
         this._route(value);
     }
 
-    get region(): GameConstants.Region {
+    get region(): Region {
         return this._region();
     }
 
-    set region(value: GameConstants.Region) {
+    set region(value: Region) {
         this._region(value);
     }
 
@@ -179,18 +184,18 @@ class Player implements TmpPlayerType {
         }
     }
 
-    public hasMegaStone(megaStone: GameConstants.MegaStoneType): boolean {
-        return this.itemList[GameConstants.MegaStoneType[megaStone]]() > 0;
+    public hasMegaStone(megaStone: MegaStoneType): boolean {
+        return this.itemList[MegaStoneType[megaStone]]() > 0;
     }
 
-    public gainMegaStone(megaStone: GameConstants.MegaStoneType, notify = true) {
-        const name = GameConstants.MegaStoneType[megaStone];
+    public gainMegaStone(megaStone: MegaStoneType, notify = true) {
+        const name = MegaStoneType[megaStone];
         if (!this.itemList[name]()) {
             this.gainItem(name, 1);
         }
 
         if (notify) {
-            const item = ItemList[GameConstants.MegaStoneType[megaStone]] as MegaStoneItem;
+            const item = ItemList[MegaStoneType[megaStone]] as MegaStoneItem;
             const partyPokemon = App.game.party.getPokemonByName(item.basePokemon);
             Notifier.notify({
                 message: partyPokemon ? `${partyPokemon.displayName} has gained a Mega Stone!` : `You have gained a Mega Stone for ${item.basePokemon}!`,
@@ -200,13 +205,13 @@ class Player implements TmpPlayerType {
     }
 
     public pickStarter(index: number) {
-        const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_SHOP);
-        App.game.party.gainPokemonById(GameConstants.RegionalStarters[this.region][index], shiny);
+        const shiny = PokemonFactory.generateShiny(SHINY_CHANCE_SHOP);
+        App.game.party.gainPokemonById(RegionalStarters[this.region][index], shiny);
         this.regionStarters[this.region](index);
     }
 
-    public hasBeatenChampOfRegion(region: GameConstants.Region = this.highestRegion()) {
-        const champion = GameConstants.RegionGyms[region].find(gym => GymList[gym]?.flags.champion);
+    public hasBeatenChampOfRegion(region: Region = this.highestRegion()) {
+        const champion = RegionGyms[region].find(gym => GymList[gym]?.flags.champion);
         return champion === undefined ? false : App.game.badgeCase.hasBadge(GymList[champion].badgeReward);
     }
 
@@ -232,7 +237,7 @@ class Player implements TmpPlayerType {
             'trainerId',
             '_createdTime',
         ];
-        const plainJS = ko.toJS(this);
+        const plainJS = ko.toJS(this) as Player;
         Object.entries(plainJS._itemMultipliers).forEach(([key, value]) => {
             if (value <= 1) {
                 delete plainJS._itemMultipliers[key];
@@ -250,4 +255,18 @@ class Player implements TmpPlayerType {
         });
         return Save.filter(plainJS, keep);
     }
+
+    public get townName(): string {
+        return this._townName;
+    }
+
+    public get timeTraveller(): boolean {
+        return this._timeTraveller;
+    }
+
+    public set timeTraveller(value: boolean) {
+        this._timeTraveller = value;
+    }
 }
+
+export default Player;

@@ -1,3 +1,4 @@
+import App from '../../App';
 import { Saveable } from '../../DataStore/common/Saveable';
 import { AchievementOption, MINUTE, ShadowStatus } from '../../GameConstants';
 import NotificationConstants from '../../notifications/NotificationConstants';

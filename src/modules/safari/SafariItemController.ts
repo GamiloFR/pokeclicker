@@ -1,4 +1,5 @@
 import SafariLevelRequirement from '../achievements/SafariLevelRequirement';
+import App from '../App';
 import ItemType from '../enums/ItemType';
 import { Region } from '../GameConstants';
 import BagItem from '../interfaces/BagItem';
@@ -119,10 +120,10 @@ class SafariItemController {
         };
     }
     public static getRandomItem(): BagItem | undefined {
-        if (!Safari.isSafariRegion(player.region)) {
+        if (!Safari.isSafariRegion(App.player.region)) {
             return undefined;
         }
-        const list = SafariItemController.list[player.region].filter((i) => (!i.requirement || i.requirement.isCompleted()) && BagHandler.isAvailable(i.item));
+        const list = SafariItemController.list[App.player.region].filter((i) => (!i.requirement || i.requirement.isCompleted()) && BagHandler.isAvailable(i.item));
         return Rand.fromWeightedArray(list.map((i) => i.item), list.map((i) => i.weight));
     }
 

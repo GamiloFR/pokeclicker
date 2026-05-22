@@ -1,3 +1,4 @@
+import App from '../../App';
 import { PokeballType } from '../../GameConstants';
 import { ItemList } from '../../items/ItemList';
 import Quest from '../Quest';

@@ -1,3 +1,4 @@
+import App from '../../App';
 import areaStatus from '../../enums/AreaStatus';
 import { Starter } from '../../GameConstants';
 import TownContent from './TownContent';
@@ -8,7 +9,7 @@ class PickStarterContent extends TownContent {
     }
 
     public isVisible(): boolean {
-        return player.regionStarters[player.region]() == Starter.None;
+        return App.player.regionStarters[App.player.region]() == Starter.None;
     }
 
     public onclick() {

@@ -1,10 +1,20 @@
-/// <reference path="../declarations/TemporaryScriptTypes.d.ts" />
-///<reference path="../declarations/Sortable.d.ts"/>
+import { Observable } from 'knockout';
+import AchievementHandler from './achievements/AchievementHandler';
+import App from './App';
+import PokemonType from './enums/PokemonType';
+import { BattleItemType, FluteItemType, SAVE_TICK, TICK_TIME, TypeEffectiveness } from './GameConstants';
+import { ItemList } from './items/ItemList';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
+import Player from './Player';
+import SaveSelector from './SaveSelector';
+import Settings from './settings/Settings';
+import { SortModules } from './Sortable';
 
 class Save {
 
     // Process new day events as soon as possible after loading a file.
-    static counter = GameConstants.SAVE_TICK - GameConstants.TICK_TIME;
+    static counter = SAVE_TICK - TICK_TIME;
     static key = '';
 
     public static store(player: Player) {
@@ -19,9 +29,12 @@ class Save {
     public static getSaveObject() {
         const saveObject: Record<any, any> = {};
 
-        Object.keys(App.game).filter(key => App.game[key].saveKey).forEach(key => {
-            saveObject[App.game[key].saveKey] = App.game[key].toJSON();
-        });
+        Object.keys(App.game)
+            .filter((key): key is keyof typeof App.game => true)
+            .filter(key => App.game[key].saveKey)
+            .forEach(key => {
+                saveObject[App.game[key].saveKey] = App.game[key].toJSON();
+            });
         saveObject.achievements = AchievementHandler.toJSON();
 
         return saveObject;
@@ -45,7 +58,7 @@ class Save {
     }
 
     public static download() {
-        const backupSaveData = {player, save: this.getSaveObject(), settings: Settings.toJSON()};
+        const backupSaveData = { player: App.player, save: this.getSaveObject(), settings: Settings.toJSON() };
         try {
             const element = SaveSelector.createDownloadElement(backupSaveData, App.game.update.version);
             element.style.display = 'none';
@@ -71,7 +84,7 @@ class Save {
     }
 
     public static copySaveToClipboard() {
-        const backupSaveData = {player, save: this.getSaveObject(), settings: Settings.toJSON()};
+        const backupSaveData = { player: App.player, save: this.getSaveObject(), settings: Settings.toJSON() };
         navigator.clipboard.writeText(SaveSelector.btoa(JSON.stringify(backupSaveData)));
         Notifier.notify({
             title: 'Save copied',
@@ -115,23 +128,23 @@ class Save {
     }
 
     public static initializeMultipliers(): { [name: string]: number } {
-        const res = {};
+        const res: { [name: string]: number } = {};
         for (const obj in ItemList) {
             res[obj] = 1;
         }
         return res;
     }
 
-    public static initializeItemlist(): { [name: string]: KnockoutObservable<number> } {
-        const res = {};
+    public static initializeItemlist(): { [name: string]: Observable<number> } {
+        const res: { [name: string]: Observable<number> } = {};
         for (const obj in ItemList) {
             res[obj] = ko.observable(0).extend({ numeric: 0 });
         }
         return res;
     }
 
-    public static initializeGems(saved?: Array<Array<number>>): Array<Array<KnockoutObservable<number>>> {
-        let res;
+    public static initializeGems(saved?: Array<Array<number>>): Array<Array<Observable<number>>> {
+        let res: Array<Array<Observable<number>>>;
         if (saved) {
             res = saved.map((type) => {
                 return type.map((effectiveness) => {
@@ -143,10 +156,10 @@ class Save {
             for (const item in PokemonType) {
                 if (!isNaN(Number(item))) {
                     res[item] = [];
-                    res[item][GameConstants.TypeEffectiveness.Immune] = ko.observable(0);
-                    res[item][GameConstants.TypeEffectiveness.NotVery] = ko.observable(0);
-                    res[item][GameConstants.TypeEffectiveness.Neutral] = ko.observable(0);
-                    res[item][GameConstants.TypeEffectiveness.Very] = ko.observable(0);
+                    res[item][TypeEffectiveness.Immune] = ko.observable(0);
+                    res[item][TypeEffectiveness.NotVery] = ko.observable(0);
+                    res[item][TypeEffectiveness.Neutral] = ko.observable(0);
+                    res[item][TypeEffectiveness.Very] = ko.observable(0);
                 }
             }
         }
@@ -154,29 +167,29 @@ class Save {
         return res;
     }
 
-    public static initializeEffects(saved?: Array<string>): { [name: string]: KnockoutObservable<number> } {
-        const res = {};
-        for (const obj in GameConstants.BattleItemType) {
+    public static initializeEffects(saved?: Array<string>): { [name: string]: Observable<number> } {
+        const res: { [name: string]: Observable<number> } = {};
+        for (const obj in BattleItemType) {
             res[obj] = ko.observable(saved ? saved[obj] || 0 : 0);
         }
-        for (const obj in GameConstants.FluteItemType) {
+        for (const obj in FluteItemType) {
             res[obj] = ko.observable(saved ? saved[obj] || 0 : 0);
         }
         return res;
     }
 
-    public static initializeEffectTimer(): { [name: string]: KnockoutObservable<string> } {
-        const res = {};
-        for (const obj in GameConstants.BattleItemType) {
+    public static initializeEffectTimer(): { [name: string]: Observable<string> } {
+        const res: { [name: string]: Observable<string> } = {};
+        for (const obj in BattleItemType) {
             res[obj] = ko.observable('00:00');
         }
-        for (const obj in GameConstants.FluteItemType) {
+        for (const obj in FluteItemType) {
             res[obj] = ko.observable('00:00');
         }
         return res;
     }
 
-    public static loadFromFile(file) {
+    public static loadFromFile(file: Blob) {
         const fileToRead = file;
         const fr = new FileReader();
         fr.readAsText(fileToRead);
@@ -214,4 +227,4 @@ class Save {
     }
 }
 
-Save satisfies TmpSaveType;
+export default Save;

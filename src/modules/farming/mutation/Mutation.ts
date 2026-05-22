@@ -1,3 +1,4 @@
+import App from '../../App';
 import BerryType from '../../enums/BerryType';
 import OakItemType from '../../enums/OakItemType';
 import Rand from '../../utilities/Rand';

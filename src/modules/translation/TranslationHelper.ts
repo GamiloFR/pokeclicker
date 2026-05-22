@@ -1,3 +1,4 @@
+import App from '../App';
 import GameHelper from '../GameHelper';
 import { pokemonList } from '../pokemons/PokemonList';
 import * as DownloadUtil from '../utilities/DownloadUtil';
@@ -28,7 +29,7 @@ export default class TranslationHelper {
             const defval = replaceFunction ? replaceFunction(defaultValue) : defaultValue;
             // split key on periods, unless:
             // 1. adjacent to a space, in which case we assume it's part of a key's text
-            // 2. the rest of the key is a hash 
+            // 2. the rest of the key is a hash
             const subkeys = key.split(/(?<! )\.(?! |\d{10}$)/);
             let current = exportTree;
             // add to tree, creating new child objects if not yet present

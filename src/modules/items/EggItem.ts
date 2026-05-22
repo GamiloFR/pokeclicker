@@ -1,3 +1,4 @@
+import App from '../App';
 import CaughtStatus from '../enums/CaughtStatus';
 import { Currency, EggItemType } from '../GameConstants';
 import CaughtIndicatingItem from './CaughtIndicatingItem';

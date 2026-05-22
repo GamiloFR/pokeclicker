@@ -1,5 +1,5 @@
 import { Computed, Observable } from 'knockout';
-import DungeonRunner from '../dungeons/DungeonRunner';
+import App from '../App';
 import BadgeEnums from '../enums/Badges';
 import KeyItemType from '../enums/KeyItemType';
 import { Currency, FluteItemType, GYM_COUNTDOWN, GYM_TICK, GYM_TIME, GameState, getGymIndex } from '../GameConstants';
@@ -49,7 +49,7 @@ class GymRunner {
         GymRunner.running(false);
         GymRunner.gymObservable(gym);
         App.game.gameState = GameState.idle;
-        DungeonRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute));
+        GymRunner.timeBonus(FluteEffectRunner.getFluteMultiplier(FluteItemType.Time_Flute));
         GymRunner.timeLeft(GYM_TIME * GymRunner.timeBonus());
         GymRunner.timeLeftPercentage(100);
 

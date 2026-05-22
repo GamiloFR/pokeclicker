@@ -1,4 +1,5 @@
 import type { Computed, Observable } from 'knockout';
+import App from '../App';
 import BattleHelper from '../battles/BattleHelper';
 import { Feature } from '../DataStore/common/Feature';
 import AuraType from '../enums/AuraType';
@@ -28,6 +29,7 @@ import Aura from './aura/Aura';
 import Berry from './Berry';
 import FarmController from './FarmController';
 import FarmHands from './FarmHands';
+import FarmHelper from './FarmHelper';
 import Mutation from './mutation/Mutation';
 import BlankMutation from './mutation/mutationTypes/BlankMutation';
 import EnigmaMutation from './mutation/mutationTypes/EnigmaMutation';
@@ -2055,7 +2057,7 @@ class Farming implements Feature {
         App.game.oakItems.use(OakItemType.Sprayduck, this.berryData[plot.berry].exp);
         GameHelper.incrementObservable(App.game.statistics.totalManualHarvests, 1);
 
-        player.lowerItemMultipliers(MultiplierDecreaser.Berry, this.berryData[plot.berry].exp);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Berry, this.berryData[plot.berry].exp);
 
         plot.die(true);
     }
@@ -2178,7 +2180,7 @@ class Farming implements Feature {
         if (!disableNotification) {
             Notifier.notify({
                 message: `You found ${GameHelper.anOrA(BerryType[berry])} ${BerryType[berry]} Berry!`,
-                image: FarmController.getBerryImage(berry),
+                image: FarmHelper.getBerryImage(berry),
                 type: NotificationConstants.NotificationOption.success,
                 setting: NotificationConstants.NotificationSetting.Items.route_item_found,
             });
@@ -2216,7 +2218,7 @@ class Farming implements Feature {
         if (!this.unlockedBerries[berry]()) {
             Notifier.notify({
                 message: `You've discovered the ${BerryType[berry]} Berry!`,
-                image: FarmController.getBerryImage(berry),
+                image: FarmHelper.getBerryImage(berry),
                 type: NotificationConstants.NotificationOption.success,
                 setting: NotificationConstants.NotificationSetting.Farming.berry_discovered,
                 sound: NotificationConstants.NotificationSound.Farming.berry_discovered,

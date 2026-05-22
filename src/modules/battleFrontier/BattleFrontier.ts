@@ -1,3 +1,4 @@
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import { GameState } from '../GameConstants';
 import BattleFrontierBattle from './BattleFrontierBattle';

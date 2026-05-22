@@ -1,3 +1,4 @@
+import App from '../../App';
 import { GAIN_FARM_POINTS_BASE_REWARD } from '../../GameConstants';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';

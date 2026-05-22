@@ -1,3 +1,4 @@
+import App from '../../App';
 import { HATCH_EGGS_BASE_REWARD, pluralizeString } from '../../GameConstants';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';
@@ -15,7 +16,7 @@ class HatchEggsQuest extends Quest implements QuestInterface {
     }
 
     public static generateData(): any[] {
-        const highestRegion = player.highestRegion();
+        const highestRegion = App.player.highestRegion();
         const amount = SeededRand.intBetween(1, (10 + (5 * highestRegion)));
         const reward = this.calcReward(amount);
         return [amount, reward];

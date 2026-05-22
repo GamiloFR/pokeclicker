@@ -1,3 +1,4 @@
+import App from '../App';
 import GameHelper from '../GameHelper';
 import NPC, { NPCOptionalArgument } from './NPC';
 import NPCType from './NPCType';

@@ -1,3 +1,4 @@
+import App from '../App';
 import GameHelper from '../GameHelper';
 import SeededRand from '../utilities/SeededRand';
 import NPC from './NPC';

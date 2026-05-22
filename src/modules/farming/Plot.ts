@@ -1,4 +1,5 @@
 import { Computed, Observable } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import AuraType from '../enums/AuraType';
 import BerryType from '../enums/BerryType';
@@ -411,9 +412,9 @@ class Plot implements Saveable {
 
             // Check for Banetteite drop if Kasib died
             if (this.berry == BerryType.Kasib) {
-                if (player.highestRegion() >= Region.kalos && App.game.party.alreadyCaughtPokemonByName('Banette') && !player.hasMegaStone(MegaStoneType.Banettite)) {
+                if (App.player.highestRegion() >= Region.kalos && App.game.party.alreadyCaughtPokemonByName('Banette') && !App.player.hasMegaStone(MegaStoneType.Banettite)) {
                     if (Rand.chance(0.05)) {
-                        player.gainMegaStone(MegaStoneType.Banettite);
+                        App.player.gainMegaStone(MegaStoneType.Banettite);
                     }
                 }
             }

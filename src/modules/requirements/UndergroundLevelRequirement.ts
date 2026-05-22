@@ -1,5 +1,6 @@
-import AchievementRequirement from './AchievementRequirement';
+import App from '../App';
 import * as GameConstants from '../GameConstants';
+import AchievementRequirement from './AchievementRequirement';
 
 export default class UndergroundLevelRequirement extends AchievementRequirement {
     constructor(level: number, option: GameConstants.AchievementOption = GameConstants.AchievementOption.more) {

@@ -1,3 +1,4 @@
+import App from '../../App';
 import MapHelper from '../../worldmap/MapHelper';
 import TownContent from './TownContent';
 
@@ -7,7 +8,7 @@ class DockTownContent extends TownContent {
     }
 
     public isVisible() {
-        return player.highestRegion() > 0;
+        return App.player.highestRegion() > 0;
     }
 
     public onclick(): void {

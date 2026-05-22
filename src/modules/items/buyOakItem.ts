@@ -1,3 +1,4 @@
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 import { Currency } from '../GameConstants';
 import BoughtOakItem from '../oakItems/BoughtOakItem';

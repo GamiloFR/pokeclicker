@@ -1,3 +1,4 @@
+import App from '../App';
 import { camelCaseToString, Region } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import RoamingPokemonList from '../pokemons/RoamingPokemonList';

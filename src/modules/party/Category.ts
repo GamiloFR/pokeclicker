@@ -3,6 +3,7 @@ import {
     Observable as KnockoutObservable,
     Subscription as KnockoutSubscription,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';

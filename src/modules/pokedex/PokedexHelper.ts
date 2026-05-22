@@ -1,4 +1,5 @@
 import { Computed, Observable } from 'knockout';
+import App from '../App';
 import DungeonList from '../dungeons/DungeonList';
 import PokemonType from '../enums/PokemonType';
 import { MaxIDPerRegion, Region, TypeColor } from '../GameConstants';
@@ -101,7 +102,7 @@ class PokedexHelper {
             const highestEncountered = App.game.statistics.pokemonEncountered.highestID;
             const highestDefeated = App.game.statistics.pokemonDefeated.highestID;
             const highestCaught = App.game.statistics.pokemonCaptured.highestID;
-            const highestRegionID = player.hasBeatenChampOfRegion() ? MaxIDPerRegion[player.highestRegion()] : -1;
+            const highestRegionID = App.player.hasBeatenChampOfRegion() ? MaxIDPerRegion[App.player.highestRegion()] : -1;
             return Math.max(highestSeen, highestEncountered, highestDefeated, highestCaught, highestRegionID);
         }).peek();
 
@@ -116,7 +117,7 @@ class PokedexHelper {
 
             // If the Pokemon shouldn't be unlocked yet
             const nativeRegion = PokemonHelper.calcNativeRegion(pokemon.name);
-            if (nativeRegion > player.highestRegion() || nativeRegion == Region.none && !alreadyCaught) {
+            if (nativeRegion > App.player.highestRegion() || nativeRegion == Region.none && !alreadyCaught) {
                 return false;
             }
 

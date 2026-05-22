@@ -1,3 +1,4 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import { PokemonListData, pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';

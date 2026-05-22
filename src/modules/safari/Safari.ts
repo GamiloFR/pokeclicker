@@ -1,6 +1,8 @@
+import App from '../App';
 import KeyItemType from '../enums/KeyItemType';
 import SafariEnvironments from '../enums/SafariEnvironments';
 import { camelCaseToString, Currency, DockTowns, GameState, Region, SAFARI_BASE_POKEBALL_COUNT, SAFARI_BATTLE_CHANCE, SAFARI_LEGAL_WALK_BLOCKS, SAFARI_MJ_BATTLE_CHANCE, SAFARI_WATER_BLOCKS, SafariTile } from '../GameConstants';
+import GameController from '../GameController';
 import GameHelper from '../GameHelper';
 import BagHandler from '../items/BagHandler';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -89,7 +91,7 @@ class Safari {
     }
 
     public static load() {
-        Safari.activeRegion(player.region as SafariRegion);
+        Safari.activeRegion(App.player.region as SafariRegion);
         Safari.grid = [];
         Safari.pokemonGrid([]);
         Safari.itemGrid([]);
@@ -278,7 +280,7 @@ class Safari {
         if (modalState.safariModal !== 'hidden') {
             // Do nothing if the modal is already open or mid-animation
             return;
-        } else if (Safari.inProgress() && Safari.activeRegion() !== player.region) {
+        } else if (Safari.inProgress() && Safari.activeRegion() !== App.player.region) {
             Safari.safariReset();
         } else {
             App.game.gameState = GameState.safari;
@@ -289,7 +291,7 @@ class Safari {
     public static startSafari() {
         if (Safari.canAccess()) {
             // Check if player has an active Safari Zone session
-            if (Safari.activeRegion() >= 0 && player.region != Safari.activeRegion()) {
+            if (Safari.activeRegion() >= 0 && App.player.region != Safari.activeRegion()) {
                 Safari.safariReset();
             } else {
                 Safari.openModal();
@@ -313,7 +315,7 @@ class Safari {
     }
 
     private static cost() {
-        switch (player.region) {
+        switch (App.player.region) {
             case Region.kanto:
                 return new Amount(100, Currency.questPoint);
             case Region.johto:
@@ -636,9 +638,9 @@ class Safari {
 
     static completed(shiny = false) {
         // Check current region
-        if (SafariPokemonList.list[player.region]) {
+        if (SafariPokemonList.list[App.player.region]) {
             // Check each pokemon within this zone
-            return SafariPokemonList.list[player.region]().every(poke => {
+            return SafariPokemonList.list[App.player.region]().every(poke => {
                 return App.game.party.alreadyCaughtPokemonByName(poke.name, shiny);
             });
         }
@@ -686,7 +688,7 @@ $(document).ready(() => {
     $('#safariModal').on('hide.bs.modal', () => {
         Safari.inBattle(false);
         SafariBattle.busy(false);
-        switch (player.region) {
+        switch (App.player.region) {
             case Region.kanto:
                 MapHelper.moveToTown('Safari Zone');
                 break;
@@ -703,7 +705,7 @@ $(document).ready(() => {
                 MapHelper.moveToTown('Hoppy Town Fishing Pond');
                 break;
             default:
-                MapHelper.moveToTown(DockTowns[player.region]);
+                MapHelper.moveToTown(DockTowns[App.player.region]);
                 break;
         }
     });

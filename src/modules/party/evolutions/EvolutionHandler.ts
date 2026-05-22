@@ -1,3 +1,4 @@
+import App from '../../App';
 import { SHINY_CHANCE_STONE, STONE_EP_YIELD, ShadowStatus } from '../../GameConstants';
 import GameHelper from '../../GameHelper';
 import { createLogContent } from '../../logbook/helpers';
@@ -22,7 +23,7 @@ class EvolutionHandler {
         const evolvedPokemon = data.evolvedPokemon;
 
         // This Pokemon is from a region we haven't reached yet
-        if (PokemonHelper.calcNativeRegion(evolvedPokemon) > player.highestRegion()) {
+        if (PokemonHelper.calcNativeRegion(evolvedPokemon) > App.player.highestRegion()) {
             return false;
         }
         const shiny = PokemonFactory.generateShiny(SHINY_CHANCE_STONE);

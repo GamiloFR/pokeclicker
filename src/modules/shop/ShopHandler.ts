@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../App';
 import { getGymIndex } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import Item from '../items/Item';
@@ -27,7 +28,7 @@ class ShopHandler {
         this.shopObservable(shop);
 
         shop.items.forEach(item => {
-            item.price(Math.round(item.basePrice * (player.itemMultipliers[item.saveName] || 1)));
+            item.price(Math.round(item.basePrice * (App.player.itemMultipliers[item.saveName] || 1)));
         });
     }
 

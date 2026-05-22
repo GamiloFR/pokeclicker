@@ -15,7 +15,7 @@
                 <div class="tab-content p-0">
                     <!-- Hiring Tab -->
                     <div id="dungeonGuidesModalHireTab" class="tab-pane fade active show">
-                        <!-- ko if: player.town instanceof DungeonTown -->
+                        <!-- ko if: App.player.town instanceof DungeonTown -->
                         <div class="row m-0 justify-content-center d-flex p-1" data-bind="foreach: DungeonGuides.available()" style="max-width: 100%;">
                             <div class="card text-left col-lg-6 col-md-12 p-1 border-0 align-items-stretch">
                                 <h5 class="card-header d-flex align-items-center py-2">
@@ -34,7 +34,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="align-middle" data-bind="text: `${($data.interval / 1000).toLocaleString('en-US')} seconds`"></td>
-                                                <td rowspan="3" class="align-middle" data-bind="foreach: $data.calcCost(1, player.town.dungeon.tokenCost, player.region)">
+                                                <td rowspan="3" class="align-middle" data-bind="foreach: $data.calcCost(1, App.player.town.dungeon.tokenCost, App.player.region)">
                                                     <knockout class="w-100 currency-template" data-bind="template: { name: 'currencyTemplate', data: {'amount': $data.amount, 'currency': $data.currency}}">cost</knockout><br/>
                                                 </td>
                                             </tr>
@@ -78,7 +78,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="align-middle" data-bind="text: `${($data.interval / 1000).toLocaleString('en-US')} seconds`"></td>
-                                                    <td class="align-middle" data-bind="foreach: $data.calcCost(1, player.town.dungeon.tokenCost, player.region)">
+                                                    <td class="align-middle" data-bind="foreach: $data.calcCost(1, App.player.town.dungeon.tokenCost, App.player.region)">
                                                         <img width="24" src="" data-bind="attr: { src: `assets/images/currency/${GameConstants.Currency[$data.currency]}.svg` }"/>
                                                     </td>
                                                 </tr>
@@ -123,7 +123,7 @@
                 </button>
             </div>
             <div class="modal-body text-left p-0">
-                <!-- ko if: player.town instanceof DungeonTown -->
+                <!-- ko if: App.player.town instanceof DungeonTown -->
                 <table class="table m-0 text-center">
                     <tbody>
                         <tr>
@@ -184,7 +184,7 @@
                 </button>
             </div>
             <div class="modal-body p-0">
-                <!-- ko if: player.town instanceof DungeonTown && DungeonGuides.hired() -->
+                <!-- ko if: App.player.town instanceof DungeonTown && DungeonGuides.hired() -->
                     <div class="card text-left col-12 p-0" data-bind="with: DungeonGuides.hired()">
                         <h5 class="card-header">
                             <knockout data-bind="text: $data.name">Name</knockout>
@@ -203,7 +203,7 @@
                                         <th>Cost / Run</th>
                                     </tr>
                                     <tr>
-                                        <td data-bind="foreach: $data.calcCost(1, player.town.dungeon.tokenCost, player.region)">
+                                        <td data-bind="foreach: $data.calcCost(1, App.player.town.dungeon.tokenCost, App.player.region)">
                                             <knockout data-bind="template: { name: 'currencyTemplate', data: {'amount': $data.amount, 'currency': $data.currency}}"></knockout><br/>
                                         </td>
                                     </tr>

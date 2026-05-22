@@ -1,3 +1,4 @@
+import App from '../App';
 import areaStatus from '../enums/AreaStatus';
 import { BattleBackground, Environment, getTemporaryBattlesIndex } from '../GameConstants';
 import GymPokemon from '../gym/GymPokemon';

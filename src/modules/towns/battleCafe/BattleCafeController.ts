@@ -1,4 +1,5 @@
 import type { Computed } from 'knockout';
+import App from '../../App';
 import DayCycle from '../../dayCycle/DayCycle';
 import DayCyclePart from '../../dayCycle/DayCyclePart';
 import BerryType from '../../enums/BerryType';

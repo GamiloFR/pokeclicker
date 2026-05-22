@@ -1,3 +1,4 @@
+import App from '../App';
 import areaStatus from '../enums/AreaStatus';
 import { SHINY_CHANCE_REWARD } from '../GameConstants';
 import PokemonFactory from '../pokemons/PokemonFactory';

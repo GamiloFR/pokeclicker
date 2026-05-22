@@ -1,3 +1,4 @@
+import App from '../App';
 import BadgeEnums from '../enums/Badges';
 import KeyItemType from '../enums/KeyItemType';
 import { AchievementOption, getDungeonIndex, Region, Starter } from '../GameConstants';
@@ -22,7 +23,7 @@ import GymPokemon from './GymPokemon';
 import GymRunner from './GymRunner';
 
 function initGyms() {
-// Kanto Gyms
+    // Kanto Gyms
     GymList['Pewter City'] = new Gym(
         'Brock',
         'Pewter City',
@@ -1641,7 +1642,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         { imageName: 'Jump Champ Red' },
@@ -1661,7 +1662,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         { imageName: 'Jump Champ Blue' },
@@ -1681,7 +1682,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         {
@@ -1704,7 +1705,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         { imageName: 'Jump Champ Blue' },
@@ -1724,7 +1725,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         {
@@ -1747,7 +1748,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         {
@@ -1770,7 +1771,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         { imageName: 'Jump Champ Blue' },
@@ -1790,7 +1791,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         {
@@ -1813,7 +1814,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
         undefined,
         {
@@ -1836,7 +1837,7 @@ function initGyms() {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         },
     );
 

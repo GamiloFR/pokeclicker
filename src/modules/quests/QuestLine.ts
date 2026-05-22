@@ -1,3 +1,4 @@
+import App from '../App';
 import { BulletinBoards, GameState, MINUTE } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';

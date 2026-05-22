@@ -1,6 +1,7 @@
 import {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import { Currency } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import ExpUpgrade from '../upgrades/ExpUpgrade';

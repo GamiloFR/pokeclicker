@@ -1,3 +1,4 @@
+import App from '../../App';
 import BadgeEnums from '../../enums/Badges';
 import { ACTIVE_QUEST_MULTIPLIER, DEFEAT_POKEMONS_BASE_REWARD, getGymIndex, getGymRegion, Region, RegionGyms } from '../../GameConstants';
 import GymList from '../../gym/GymList';
@@ -22,16 +23,16 @@ class DefeatGymQuest extends Quest implements QuestInterface {
         this.focus = App.game.statistics.gymsDefeated[getGymIndex(this.gymTown)];
     }
 
-    // Only add Defeat Gym Quest if the player has defeated the first gym (Brock).
+    // Only add Defeat Gym Quest if the App.player has defeated the first gym (Brock).
     public static canComplete() {
         return App.game.badgeCase.hasBadge(BadgeEnums.Boulder);
     }
 
     public static generateData(): any[] {
         const amount = SeededRand.intBetween(5, 20);
-        let maxRegion = player.highestRegion();
+        let maxRegion = App.player.highestRegion();
         // Check if first gym of highest region has been cleared. If not, pick one region lower than highest.
-        if (!App.game.badgeCase.hasBadge(GymList[RegionGyms[player.highestRegion()][0]].badgeReward)) {
+        if (!App.game.badgeCase.hasBadge(GymList[RegionGyms[App.player.highestRegion()][0]].badgeReward)) {
             maxRegion -= 1;
         }
         const region = SeededRand.intBetween(0, maxRegion);

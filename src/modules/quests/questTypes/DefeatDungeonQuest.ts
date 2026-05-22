@@ -1,3 +1,4 @@
+import App from '../../App';
 import DungeonList from '../../dungeons/DungeonList';
 import { ACTIVE_QUEST_MULTIPLIER, DEFEAT_POKEMONS_BASE_REWARD, getDungeonIndex, getDungeonRegion, QUEST_CLICKS_PER_SECOND, Region, RegionDungeons } from '../../GameConstants';
 import PokemonFactory from '../../pokemons/PokemonFactory';
@@ -27,7 +28,7 @@ class DefeatDungeonQuest extends Quest implements QuestInterface {
     public static generateData(): any[] {
         // Allow up to highest region
         const amount = SeededRand.intBetween(5, 20);
-        const region = SeededRand.intBetween(0, player.highestRegion());
+        const region = SeededRand.intBetween(0, App.player.highestRegion());
         // Only use unlocked dungeons
         const possibleDungeons = RegionDungeons[region].filter(dungeon => TownList[dungeon].isUnlocked());
         // If no dungeons unlocked in this region, just use the first dungeon of the region
@@ -44,7 +45,7 @@ class DefeatDungeonQuest extends Quest implements QuestInterface {
         const completeDungeonsReward = attacksToCompleteDungeon * DEFEAT_POKEMONS_BASE_REWARD * ACTIVE_QUEST_MULTIPLIER * amount;
 
         let region: Region, route: number = 0;
-        for (region = player.highestRegion(); region >= 0; region--) {
+        for (region = App.player.highestRegion(); region >= 0; region--) {
             route = QuestHelper.highestOneShotRoute(region); // returns 0 if no routes in this region can be one shot
             if (route) {
                 break;

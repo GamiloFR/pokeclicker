@@ -1,3 +1,4 @@
+import App from '../../../App';
 import BerryType from '../../../enums/BerryType';
 import PlotStage from '../../../enums/PlotStage';
 import Rand from '../../../utilities/Rand';
@@ -60,7 +61,7 @@ class EnigmaMutation extends GrowMutation {
      * Returns a list of 4 Berry types to cause the mutation
      */
     static getReqs(): BerryType[] {
-        SeededRand.seed(+player.trainerId);
+        SeededRand.seed(+App.player.trainerId);
         // Getting possible Berries
         // Only Gen 3 and 4 Berries so there isn't as big of a growth discrepancy (e.g. Cheri and Haban)
         let berryTypes = Farming.getGeneration(2).concat(Farming.getGeneration(3));

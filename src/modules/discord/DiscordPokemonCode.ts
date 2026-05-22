@@ -1,3 +1,4 @@
+import App from '../App';
 import { SHINY_CHANCE_SHOP } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
@@ -9,7 +10,7 @@ class DiscordPokemonCode extends DiscordCode {
     constructor(pokemon: PokemonListData, price: number, description: string) {
         const image = `assets/images/pokemon/${pokemon.id}.png`;
         const claimFunction = () => {
-            if (pokemon.nativeRegion > player.highestRegion()) {
+            if (pokemon.nativeRegion > App.player.highestRegion()) {
                 Notifier.notify({
                     message: 'You need to progress further to unlock this pokemon.',
                     type: NotificationConstants.NotificationOption.warning,

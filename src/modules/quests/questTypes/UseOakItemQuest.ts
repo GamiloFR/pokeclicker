@@ -1,3 +1,4 @@
+import App from '../../App';
 import OakItemType from '../../enums/OakItemType';
 import { USE_OAK_ITEM_BASE_REWARD, humanifyString } from '../../GameConstants';
 import SeededRand from '../../utilities/SeededRand';

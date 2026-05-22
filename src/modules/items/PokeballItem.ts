@@ -1,3 +1,4 @@
+import App from '../App';
 import { Currency, PokeballType } from '../GameConstants';
 import Item from './Item';
 import { ShopOptions } from './types';

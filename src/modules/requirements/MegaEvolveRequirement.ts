@@ -1,4 +1,5 @@
-import { AchievementOption, MegaStoneType, humanifyString, MEGA_REQUIRED_ATTACK_MULTIPLIER } from '../GameConstants';
+import App from '../App';
+import { AchievementOption, humanifyString, MEGA_REQUIRED_ATTACK_MULTIPLIER, MegaStoneType } from '../GameConstants';
 import P from '../pokemons/mapProvider';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Requirement from './Requirement';
@@ -11,7 +12,7 @@ export default class MegaEvolveRequirement extends Requirement {
     getProgress(): number {
         const partyPokemon = App.game.party.getPokemonByName(this.name);
 
-        return player.hasMegaStone(this.megaStone)
+        return App.player.hasMegaStone(this.megaStone)
             && partyPokemon?.attack >= P.pokemonMap[this.name].attack * MEGA_REQUIRED_ATTACK_MULTIPLIER ? 1 : 0;
     }
 
@@ -21,7 +22,7 @@ export default class MegaEvolveRequirement extends Requirement {
             return 'Use a Key Stone to Mega Evolve.';
         } else {
             const hints = [];
-            if (!player.hasMegaStone(this.megaStone)) {
+            if (!App.player.hasMegaStone(this.megaStone)) {
                 hints.push(`${this.name} needs the ${humanifyString(MegaStoneType[this.megaStone])} Mega Stone.`);
             }
             if ((App.game.party.getPokemonByName(this.name)?.attack ?? 0) < attackRequired) {

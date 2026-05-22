@@ -1,24 +1,25 @@
 import type {
+    Computed as KnockoutComputed,
     Observable as KnockoutObservable,
     ObservableArray as KnockoutObservableArray,
-    Computed as KnockoutComputed,
 } from 'knockout';
-import type Multiplier from '../multiplier/Multiplier';
-import GameHelper from '../GameHelper';
-import { ItemList } from '../items/ItemList';
-import type FluteItem from '../items/FluteItem';
-import NotificationConstants from '../notifications/NotificationConstants';
-import Notifier from '../notifications/Notifier';
+import App from '../App';
 import {
     FluteItemType,
-    humanifyString,
     formatSecondsToTime,
     formatTime,
+    humanifyString,
     MINUTE,
 } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import PokemonType from '../enums/PokemonType';
+import type FluteItem from '../items/FluteItem';
+import { ItemList } from '../items/ItemList';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import { createLogContent } from '../logbook/helpers';
+import type Multiplier from '../multiplier/Multiplier';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
 
 export default class FluteEffectRunner {
     public static counter = 0;
@@ -66,7 +67,7 @@ export default class FluteEffectRunner {
 
         GameHelper.enumStrings(FluteItemType).forEach((itemName: FluteItemType) => {
             if (this.getLowestGem(itemName) > 0 && this.isActive(itemName)()) {
-                player.effectList[itemName](Math.max(0, this.getLowestGem(itemName) - this.numActiveFlutes()));
+                App.player.effectList[itemName](Math.max(0, this.getLowestGem(itemName) - this.numActiveFlutes()));
                 this.updateFormattedTimeLeft(itemName);
                 if (this.numActiveFlutes() >= this.getLowestGem(itemName)) {
                     this.removeEffect(itemName);
@@ -113,10 +114,10 @@ export default class FluteEffectRunner {
     }
 
     public static getEffect(itemName: FluteItemType) {
-        if (!player) {
+        if (!App.player) {
             return 0;
         }
-        return player.effectList[itemName]();
+        return App.player.effectList[itemName]();
     }
 
     public static toggleEffect(itemName: FluteItemType) {
@@ -126,23 +127,23 @@ export default class FluteEffectRunner {
             return;
         }
 
-        player.effectList[itemName](Math.max(0, player.effectList[itemName]() + FluteEffectRunner.getLowestGem(itemName)));
+        App.player.effectList[itemName](Math.max(0, App.player.effectList[itemName]() + FluteEffectRunner.getLowestGem(itemName)));
         GameHelper.incrementObservable(this.numActiveFlutes, 1);
         this.updateFormattedTimeLeft(itemName);
         this.updateActiveGemTypes();
     }
 
     public static removeEffect(itemName: FluteItemType) {
-        player.effectList[itemName](0);
+        App.player.effectList[itemName](0);
         GameHelper.incrementObservable(this.numActiveFlutes, -1);
         this.updateFormattedTimeLeft(itemName);
-        player.gainItem(itemName, 1);
+        App.player.gainItem(itemName, 1);
         this.updateActiveGemTypes();
         FluteEffectRunner.fluteActiveTime[itemName](0);
     }
 
     public static fluteFormattedTime(itemName: FluteItemType): number {
-        return (player.effectList[itemName]() / this.numActiveFlutes());
+        return (App.player.effectList[itemName]() / this.numActiveFlutes());
     }
 
     public static fluteTooltip(itemName: FluteItemType): string {
@@ -154,12 +155,12 @@ export default class FluteEffectRunner {
     public static updateFormattedTimeLeft(itemName: FluteItemType) {
         const times = formatTime(this.fluteFormattedTime(itemName)).split(':');
         if (+times[0] > 99) {
-            return player.effectTimer[itemName]('99h+');
+            return App.player.effectTimer[itemName]('99h+');
         } else if (+times[0] > 0) {
-            return player.effectTimer[itemName](`${+times[0]}h`);
+            return App.player.effectTimer[itemName](`${+times[0]}h`);
         }
         times.shift();
-        player.effectTimer[itemName](times.join(':'));
+        App.player.effectTimer[itemName](times.join(':'));
     }
 
     public static getFluteMultiplier(itemName: FluteItemType) {
@@ -170,10 +171,10 @@ export default class FluteEffectRunner {
 
     public static isActive(itemName: FluteItemType): KnockoutComputed<boolean> {
         return ko.pureComputed(() => {
-            if (!player) {
+            if (!App.player) {
                 return false;
             }
-            return !!player.effectList[itemName]();
+            return !!App.player.effectList[itemName]();
         });
     }
 

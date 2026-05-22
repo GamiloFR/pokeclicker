@@ -35,6 +35,7 @@ import AchievementTracker from './achievements/AchievementTracker';
 import CaughtUniqueShinyPokemonsByRegionRequirement from './achievements/CaughtShinyPokemonByRegionRequirement';
 import SafariLevelRequirement from './achievements/SafariLevelRequirement';
 import SecretAchievement from './achievements/SecretAchievement';
+import App from './App';
 import BadgeCaseController from './badgeCase/BadgeCaseController';
 import BattleFrontier from './battleFrontier/BattleFrontier';
 import BattleFrontierBattle from './battleFrontier/BattleFrontierBattle';
@@ -74,9 +75,11 @@ import Berry from './farming/Berry';
 import BerryDeal from './farming/BerryDeal';
 import FarmController from './farming/FarmController';
 import FarmHands from './farming/FarmHands';
+import FarmHelper from './farming/FarmHelper';
 import Farming from './farming/Farming';
 import EnigmaMutation from './farming/mutation/mutationTypes/EnigmaMutation';
 import WandererPokemon from './farming/WandererPokemon';
+import GameController from './GameController';
 import FluteEffectRunner from './gems/FluteEffectRunner';
 import GemDeals from './gems/GemDeals';
 import Gems from './gems/Gems';
@@ -92,6 +95,7 @@ import Consumable from './items/Consumable';
 import ConsumableController from './items/ConsumableController';
 import EggItem from './items/EggItem';
 import EnergyRestore from './items/EnergyRestore';
+import EvolutionStone from './items/EvolutionStone';
 import HeldItem from './items/heldItem/HeldItem';
 import Item from './items/Item';
 import ItemHandler from './items/ItemHandler';
@@ -241,6 +245,7 @@ import Safari from './safari/Safari';
 import SafariBattle from './safari/SafariBattle';
 import SafariPokemonList from './safari/SafariPokemonList';
 import SafariTownContent from './safari/SafariTownContent';
+import Save from './Save';
 import SaveReminder from './saveReminder/SaveReminder';
 import BooleanSetting from './settings/BooleanSetting';
 import RangeSetting from './settings/RangeSetting';
@@ -257,6 +262,7 @@ import ShopHandler from './shop/ShopHandler';
 import { SortModules, SortSaves } from './Sortable';
 import SpecialEvent from './specialEvents/SpecialEvent';
 import SpecialEvents from './specialEvents/SpecialEvents';
+import StartSequenceRunner from './StartSequenceRunner';
 import SubRegion from './subRegion/SubRegion';
 import SubRegions from './subRegion/SubRegions';
 import TemporaryBattleBattle from './temporaryBattle/TemporaryBattleBattle';
@@ -322,7 +328,7 @@ import WeatherForecast from './weather/WeatherForecast';
 import WeatherType from './weather/WeatherType';
 import RouteHelper from './wildBattle/RouteHelper';
 import MapHelper from './worldmap/MapHelper';
-import ZMoves from './zMoves/zMoves';
+import ZMoves from './ZMoves/ZMoves';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -660,5 +666,11 @@ Object.assign(<any>window, {
     TemporaryBattleRunner,
     Preload,
     MapHelper,
-    ZMoves
+    ZMoves,
+    FarmHelper,
+    App,
+    GameController,
+    Save,
+    StartSequenceRunner,
+    EvolutionStone,
 });

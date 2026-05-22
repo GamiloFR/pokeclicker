@@ -1,4 +1,5 @@
 import type { ObservableArray } from 'knockout';
+import App from '../App';
 import BerryType from '../enums/BerryType';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
 import { BattleItemType, BerryTraderLocations, StoneType, humanifyString, pluralizeString } from '../GameConstants';

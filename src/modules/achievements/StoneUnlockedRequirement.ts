@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, MAX_AVAILABLE_REGION, Region, StoneType, camelCaseToString } from '../GameConstants';
 import EvolutionStone from '../items/EvolutionStone';
 import { ItemList } from '../items/ItemList';
@@ -14,14 +15,14 @@ class StoneUnlockedRequirement extends Requirement {
     }
 
     public getProgress() {
-        return Math.min(player.highestRegion(), this.requiredValue);
+        return Math.min(App.player.highestRegion(), this.requiredValue);
     }
 
     public isCompleted(): boolean {
         if (!this.stone) {
             return true;
         }
-        return this.stone.unlockedRegion <= player.highestRegion();
+        return this.stone.unlockedRegion <= App.player.highestRegion();
     }
 
     public hint(): string {

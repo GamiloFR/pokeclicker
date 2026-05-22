@@ -1,5 +1,6 @@
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
-import { TypeEffectiveness, TypeEffectivenessValue, GEM_UPGRADE_STEP } from '../GameConstants';
+import { GEM_UPGRADE_STEP, TypeEffectiveness, TypeEffectivenessValue } from '../GameConstants';
 
 export default class TypeHelper {
     public static readonly typeColors = [

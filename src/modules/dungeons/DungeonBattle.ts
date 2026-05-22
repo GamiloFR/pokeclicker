@@ -1,3 +1,4 @@
+import App from '../App';
 import Battle from '../battles/Battle';
 import BattlePokemon from '../battles/BattlePokemon';
 import { DungeonTileType, PokeballType, PokemonStatisticsType, ShadowStatus } from '../GameConstants';
@@ -57,8 +58,8 @@ class DungeonBattle extends Battle {
             DungeonRunner.defeatedBoss(enemyPokemon.name);
         }
         enemyPokemon.defeat();
-        App.game.breeding.progressEggsBattle(DungeonRunner.dungeon.difficultyRoute, player.region);
-        player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+        App.game.breeding.progressEggsBattle(DungeonRunner.dungeon.difficultyRoute, App.player.region);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
 
         // Clearing Dungeon tile
         DungeonRunner.map.currentTile().type(DungeonTileType.empty);
@@ -68,8 +69,8 @@ class DungeonBattle extends Battle {
         const isShiny: boolean = enemyPokemon.shiny;
         const isShadow: boolean = enemyPokemon.shadow == ShadowStatus.Shadow;
         const pokeBall: PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
-        const route = player.town?.dungeon?.difficultyRoute || 1;
-        const region = player.region;
+        const route = App.player.town?.dungeon?.difficultyRoute || 1;
+        const region = App.player.region;
         if (pokeBall !== PokeballType.None) {
             this.prepareCatch(enemyPokemon, pokeBall);
             setTimeout(
@@ -94,16 +95,16 @@ class DungeonBattle extends Battle {
         enemyPokemon.defeat(true);
 
         GameHelper.incrementObservable(this.trainerPokemonIndex);
-        App.game.breeding.progressEggsBattle(DungeonRunner.dungeon.difficultyRoute, player.region);
-        player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+        App.game.breeding.progressEggsBattle(DungeonRunner.dungeon.difficultyRoute, App.player.region);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
 
         if (this.enemyPokemon().shadow == ShadowStatus.Shadow) {
             // Attempting to catch Pokemon
             const isShiny: boolean = enemyPokemon.shiny;
             const isShadow: boolean = enemyPokemon.shadow == ShadowStatus.Shadow;
             const pokeBall: PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
-            const route = player.town?.dungeon?.difficultyRoute || 1;
-            const region = player.region;
+            const route = App.player.town?.dungeon?.difficultyRoute || 1;
+            const region = App.player.region;
             if (pokeBall !== PokeballType.None) {
                 this.prepareCatch(enemyPokemon, pokeBall);
                 setTimeout(
@@ -181,11 +182,11 @@ class DungeonBattle extends Battle {
                     LogBookTypes.SHINY,
                     App.game.party.alreadyCaughtPokemon(this.enemyPokemon().id, true)
                         ? createLogContent.encounterShinyDupe({
-                            location: player.town.dungeon.name,
+                            location: App.player.town.dungeon.name,
                             pokemon: this.enemyPokemon().name,
                         })
                         : createLogContent.encounterShiny({
-                            location: player.town.dungeon.name,
+                            location: App.player.town.dungeon.name,
                             pokemon: this.enemyPokemon().name,
                         }),
                 );
@@ -193,7 +194,7 @@ class DungeonBattle extends Battle {
                 App.game.logbook.newLog(
                     LogBookTypes.NEW,
                     createLogContent.encounterWild({
-                        location: player.town.dungeon.name,
+                        location: App.player.town.dungeon.name,
                         pokemon: this.enemyPokemon().name,
                     }),
                 );
@@ -223,11 +224,11 @@ class DungeonBattle extends Battle {
                 LogBookTypes.SHINY,
                 App.game.party.alreadyCaughtPokemon(this.enemyPokemon().id, true)
                     ? createLogContent.encounterShinyDupe({
-                        location: player.town.dungeon.name,
+                        location: App.player.town.dungeon.name,
                         pokemon: this.enemyPokemon().name,
                     })
                     : createLogContent.encounterShiny({
-                        location: player.town.dungeon.name,
+                        location: App.player.town.dungeon.name,
                         pokemon: this.enemyPokemon().name,
                     }),
             );
@@ -235,7 +236,7 @@ class DungeonBattle extends Battle {
             App.game.logbook.newLog(
                 LogBookTypes.NEW,
                 createLogContent.encounterWild({
-                    location: player.town.dungeon.name,
+                    location: App.player.town.dungeon.name,
                     pokemon: this.enemyPokemon().name,
                 }),
             );
@@ -280,11 +281,11 @@ class DungeonBattle extends Battle {
                     LogBookTypes.SHINY,
                     App.game.party.alreadyCaughtPokemon(this.enemyPokemon().id, true)
                         ? createLogContent.encounterShinyDupe({
-                            location: player.town.dungeon.name,
+                            location: App.player.town.dungeon.name,
                             pokemon: this.enemyPokemon().name,
                         })
                         : createLogContent.encounterShiny({
-                            location: player.town.dungeon.name,
+                            location: App.player.town.dungeon.name,
                             pokemon: this.enemyPokemon().name,
                         }),
                 );
@@ -292,7 +293,7 @@ class DungeonBattle extends Battle {
                 App.game.logbook.newLog(
                     LogBookTypes.NEW,
                     createLogContent.encounterWild({
-                        location: player.town.dungeon.name,
+                        location: App.player.town.dungeon.name,
                         pokemon: this.enemyPokemon().name,
                     }),
                 );

@@ -1,8 +1,9 @@
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import BattleFrontierRunner from '../battleFrontier/BattleFrontierRunner';
 import Battle from '../battles/Battle';
+import DungeonHelper from '../dungeons/DungeonHelper';
 import DungeonList from '../dungeons/DungeonList';
-import DungeonRunner from '../dungeons/DungeonRunner';
 import areaStatus from '../enums/AreaStatus';
 import { BattleBackground, BattleBackgroundImage, BattleBackgrounds, camelCaseToString, DockTowns, Environment, Environments, GameState, getDungeonIndex, MAX_AVAILABLE_REGION, Pokerus, Region, ROUTE_KILLS_NEEDED, ShadowStatus, Starter, StartingTowns } from '../GameConstants';
 import GameHelper from '../GameHelper';
@@ -36,11 +37,11 @@ class MapHelper {
             genNewEnemy = true;
         }
         if (MapHelper.accessToRoute(route, region)) {
-            if (player.region != region) {
-                player.region = region;
+            if (App.player.region != region) {
+                App.player.region = region;
             }
-            player.subregion = routeData.subRegion ?? 0;
-            player.route = route;
+            App.player.subregion = routeData.subRegion ?? 0;
+            App.player.route = route;
             if (genNewEnemy && !Battle.catching()) {
                 Battle.generateNewEnemy();
             }
@@ -137,21 +138,21 @@ class MapHelper {
     }
 
     public static getCurrentEnvironments(): Environment[] {
-        const area = player.route ||
-            player.town?.name ||
+        const area = App.player.route ||
+            App.player.town?.name ||
             undefined;
-        return this.getEnvironments(area, player.region);
+        return this.getEnvironments(area, App.player.region);
     }
 
     public static getBattleBackground(): BattleBackground {
-        const area = player.route ||
+        const area = App.player.route ||
             (App.game.gameState == GameState.temporaryBattle
                 ? TemporaryBattleRunner.getBattleBackgroundImage() : undefined) ||
             (App.game.gameState == GameState.gym
                 ? GymRunner.getBattleBackgroundImage() : undefined) ||
             (App.game.gameState == GameState.battleFrontier
                 ? BattleFrontierRunner.battleBackground() : undefined) ||
-            player.town?.name ||
+            App.player.town?.name ||
             undefined;
 
         if (area in BattleBackgrounds) {
@@ -159,7 +160,7 @@ class MapHelper {
         }
 
         const [img] = Object.entries(BattleBackgrounds).find(
-            ([, regions]) => regions[player.region]?.has(area),
+            ([, regions]) => regions[App.player.region]?.has(area),
         ) || [];
 
         return (img as BattleBackground);
@@ -200,14 +201,14 @@ class MapHelper {
     }
 
     public static isRouteCurrentLocation(route: number, region: Region): boolean {
-        return player.route == route && player.region == region;
+        return App.player.route == route && App.player.region == region;
     }
 
     public static isTownCurrentLocation(townName: string): boolean {
         if (App.game.gameState == GameState.temporaryBattle) {
             return TemporaryBattleRunner.battleObservable()?.getTown()?.name == townName;
         }
-        return !player.route && player.town.name == townName;
+        return !App.player.route && App.player.town.name == townName;
     }
 
     public static calculateTownCssClass(townName: string): string {
@@ -236,7 +237,7 @@ class MapHelper {
             if (shadowPokemon.some(p => App.game.party.alreadyCaughtPokemonByName(p) && App.game.party.getPokemonByName(p).shadow == ShadowStatus.None)) {
                 states.add(areaStatus.uncaughtShadowPokemon);
             }
-            if (!DungeonRunner.isAchievementsComplete(DungeonList[townName])) {
+            if (!DungeonHelper.isAchievementsComplete(DungeonList[townName])) {
                 states.add(areaStatus.missingAchievement);
             }
         }
@@ -269,13 +270,13 @@ class MapHelper {
     public static moveToTown(townName: string) {
         if (MapHelper.accessToTown(townName)) {
             App.game.gameState = GameState.idle;
-            player.route = 0;
+            App.player.route = 0;
             Battle.route = 0;
             Battle.catching(false);
             const town = TownList[townName];
-            player.region = town.region;
-            player.subregion = town.subRegion;
-            player.town = town;
+            App.player.region = town.region;
+            App.player.subregion = town.subRegion;
+            App.player.town = town;
             Battle.enemyPokemon(null);
             //this should happen last, so all the values all set beforehand
             App.game.gameState = GameState.town;
@@ -304,11 +305,11 @@ class MapHelper {
         const openModal = () => {
             $('#ShipModal').modal('show');
         };
-        if (player.highestRegion() > 0 && (TownList[DockTowns[player.region]].isUnlocked())) {
+        if (App.player.highestRegion() > 0 && (TownList[DockTowns[App.player.region]].isUnlocked())) {
             openModal();
         } else {
             Notifier.notify({
-                message: `You cannot access this dock yet!${player.region > Region.kanto ? '\n<i>Progress further to return to previous regions!</i>' : ''}`,
+                message: `You cannot access this dock yet!${App.player.region > Region.kanto ? '\n<i>Progress further to return to previous regions!</i>' : ''}`,
                 type: NotificationConstants.NotificationOption.warning,
             });
         }
@@ -316,13 +317,13 @@ class MapHelper {
 
     public static ableToTravel() {
         // If player already reached highest region, they can't move on
-        if (player.highestRegion() >= MAX_AVAILABLE_REGION) {
+        if (App.player.highestRegion() >= MAX_AVAILABLE_REGION) {
             return false;
         }
 
         const challengeActive = App.game.challenges.list.requireCompletePokedex.active();
-        const nextStartingTownUnlocked = TownList[StartingTowns[player.highestRegion() + 1]]?.isUnlocked() ?? false;
-        const fullDex = AchievementHandler.findByName(`${camelCaseToString(Region[player.highestRegion()])} Master`).isCompleted();
+        const nextStartingTownUnlocked = TownList[StartingTowns[App.player.highestRegion() + 1]]?.isUnlocked() ?? false;
+        const fullDex = AchievementHandler.findByName(`${camelCaseToString(Region[App.player.highestRegion()])} Master`).isCompleted();
 
         return nextStartingTownUnlocked && (fullDex || !challengeActive);
     }
@@ -330,16 +331,16 @@ class MapHelper {
     public static travelToNextRegion() {
         if (MapHelper.ableToTravel()) {
             // Gain queue slots based on highest region
-            App.game.breeding.gainQueueSlot(App.game.breeding.queueSlotsGainedFromRegion(player.highestRegion()));
-            GameHelper.incrementObservable(player.highestRegion);
-            player.highestSubRegion(0);
-            MapHelper.moveToTown(StartingTowns[player.highestRegion()]);
-            player.region = player.highestRegion();
+            App.game.breeding.gainQueueSlot(App.game.breeding.queueSlotsGainedFromRegion(App.player.highestRegion()));
+            GameHelper.incrementObservable(App.player.highestRegion);
+            App.player.highestSubRegion(0);
+            MapHelper.moveToTown(StartingTowns[App.player.highestRegion()]);
+            App.player.region = App.player.highestRegion();
             // Update hatchery region filter to include new region if all previous regions selected
-            const previousRegionFullMask = (2 << (player.highestRegion() - 1)) - 1;
+            const previousRegionFullMask = (2 << (App.player.highestRegion() - 1)) - 1;
             const regionFilterMask = Settings.getSetting('breedingRegionFilter').value & previousRegionFullMask;
             if (regionFilterMask == previousRegionFullMask) {
-                const newRegionFullMask = (2 << player.highestRegion()) - 1;
+                const newRegionFullMask = (2 << App.player.highestRegion()) - 1;
                 Settings.setSettingByName('breedingRegionFilter', newRegionFullMask);
             }
             $('#pickStarterModal').modal('show');
@@ -360,7 +361,7 @@ class MapHelper {
 
 
 
-        if (player.regionStarters[Region.kanto]() == Starter.Special) {
+        if (App.player.regionStarters[Region.kanto]() == Starter.Special) {
             return new Blimp(
                 baseProps.name,
                 baseProps.width,

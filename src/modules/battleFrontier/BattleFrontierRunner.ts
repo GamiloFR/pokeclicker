@@ -1,3 +1,4 @@
+import App from '../App';
 import { BattleBackground, BattleBackgrounds, GYM_TICK, GYM_TIME, GameState, MINUTE } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { createLogContent } from '../logbook/helpers';

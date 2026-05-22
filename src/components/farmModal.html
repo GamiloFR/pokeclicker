@@ -49,7 +49,7 @@
                                                 FarmController.selectedFarmTool(FarmingTool.Berry);
                                             }, css: { 'active': FarmController.selectedBerry() === $data && FarmController.selectedFarmTool() == FarmingTool.Berry }">
                                             <img src="" height="28px"
-                                                data-bind="attr:{ src: FarmController.getBerryImage($data) },
+                                                data-bind="attr:{ src: FarmHelper.getBerryImage($data) },
                                                 css: {'berryLocked': !App.game.farming.unlockedBerries[$data]() }">
                                             <span data-bind="text: App.game.farming.unlockedBerries[$data]() ? BerryType[$data] : '???'"></span>
                                             <span class="flex-grow-1 text-right" data-bind="text: App.game.farming.berryList[$data]().toLocaleString('en-US')"></span>
@@ -177,7 +177,7 @@
                                                 <div>
                                                     <span style="display: inline;">
                                                         <img alt="Berry" style="height: 28px;"
-                                                            data-bind="attr:{ src: FarmController.getBerryImage(App.game.farming.plotBerryCost($index()).type) },
+                                                            data-bind="attr:{ src: FarmHelper.getBerryImage(App.game.farming.plotBerryCost($index()).type) },
                                                             css: {'berryLocked': !App.game.farming.unlockedBerries[App.game.farming.plotBerryCost($index()).type]() }"/>
                                                         <span data-bind="text: GameConstants.formatNumber(App.game.farming.plotBerryCost($index()).amount)">0</span>
                                                     </span>
@@ -231,7 +231,7 @@
                                     trigger: 'hover',
                                     placement:'top' }">
                                  <span class="id" style="top: 0; border-top-left-radius: 6px; border-top-right-radius: 6px;" data-bind="text: ($data + 1 + '').padStart(2, 0)">number</span>
-                                     <img src="" width=80px style="padding: 20px 0px;" data-bind="css: { 'pokemon-not-seen': !App.game.farming.unlockedBerries[$data]() }, attr:{ src: FarmController.getBerryImage($data)}">
+                                     <img src="" width=80px style="padding: 20px 0px;" data-bind="css: { 'pokemon-not-seen': !App.game.farming.unlockedBerries[$data]() }, attr:{ src: FarmHelper.getBerryImage($data)}">
                                      <!-- ko if: App.game.farming.unlockedBerries[$data]() -->
                                      <span style="bottom: 0; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px" data-bind="text: BerryType[$data]">name</span>
                                      <a class="overlay" href="#berryDexModal" data-toggle="modal"
@@ -252,7 +252,7 @@
                                     }">
                                         <span data-bind="text: `#${($data + 1).toString().padStart(2, 0)}`"></span>
                                         <img width="48" height="48" data-bind="css: { 'pokemon-not-seen': !App.game.farming.unlockedBerries[$data]() },
-                                            attr:{ src: FarmController.getBerryImage($data)}" style="margin: -6px 0;">
+                                            attr:{ src: FarmHelper.getBerryImage($data)}" style="margin: -6px 0;">
                                         <!-- ko if: !App.game.farming.unlockedBerries[$data]() && !FarmController.getHint($data,true) -->
                                         <span data-bind="text: '???'">name</span>
                                         <!-- /ko -->
@@ -273,7 +273,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-2">
-                                    <img data-bind="attr:{ src: FarmController.getBerryImage($data) }" src=""/>
+                                    <img data-bind="attr:{ src: FarmHelper.getBerryImage($data) }" src=""/>
                                     <!-- ko if: App.game.farming.unlockedBerries[$data]() -->
                                     <table class="table table-striped table-hover table-bordered table-sm m-0">
                                         <thead>

@@ -1,3 +1,4 @@
+import App from '../../App';
 import { DEFEAT_POKEMONS_BASE_REWARD, PokeballType } from '../../GameConstants';
 import { ItemList } from '../../items/ItemList';
 import TownList from '../../towns/TownList';

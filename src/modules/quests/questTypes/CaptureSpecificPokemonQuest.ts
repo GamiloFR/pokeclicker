@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../../App';
 import { PokemonListData, pokemonMap } from '../../pokemons/PokemonList';
 import { PokemonNameType } from '../../pokemons/PokemonNameType';
 import Quest from '../Quest';

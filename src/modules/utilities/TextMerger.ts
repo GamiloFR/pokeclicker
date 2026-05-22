@@ -1,4 +1,5 @@
 import type { Observable } from 'knockout';
+import App from '../App';
 
 export default class TextMerger {
     private static tempElementForEscape = document.createElement('textarea');

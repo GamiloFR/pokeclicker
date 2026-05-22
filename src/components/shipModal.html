@@ -12,13 +12,13 @@
                 <div style='margin-top:20px'>
                     <!-- ko foreach: GameHelper.enumStrings(GameConstants.Region) -->
                         <!-- ko if: $data !== 'none' && GameConstants.Region[$data] <= GameConstants.MAX_AVAILABLE_REGION -->
-                            <!-- ko if: GameConstants.Region[$data] <= player.highestRegion() -->
+                            <!-- ko if: GameConstants.Region[$data] <= App.player.highestRegion() -->
                             <div class="btn-group w-100 my-1">
                                 <button style="position: relative;" class='btn btn-block btn-success ship-modal-region-button'
                                     data-dismiss='modal'
-                                    data-bind='click: () => { player.region = GameConstants.Region[$data]; player.subregion = 0; MapHelper.moveToTown(GameConstants.DockTowns[GameConstants.Region[$data]]); $("#ShipModal").modal("hide"); },
-                                    attr: { disabled: player.region == GameConstants.Region[$data] }'>
-                                    <img style="position:absolute; left: 10px;" data-bind="visible: player.region == GameConstants.Region[$data], attr: { src: `assets/images/profile/trainer-${App.game.profile.trainer() || 0}.png` }"/> <knockout data-bind="text: GameConstants.camelCaseToString($data)">Region</knockout>
+                                    data-bind='click: () => { App.player.region = GameConstants.Region[$data]; App.player.subregion = 0; MapHelper.moveToTown(GameConstants.DockTowns[GameConstants.Region[$data]]); $("#ShipModal").modal("hide"); },
+                                    attr: { disabled: App.player.region == GameConstants.Region[$data] }'>
+                                    <img style="position:absolute; left: 10px;" data-bind="visible: App.player.region == GameConstants.Region[$data], attr: { src: `assets/images/profile/trainer-${App.game.profile.trainer() || 0}.png` }"/> <knockout data-bind="text: GameConstants.camelCaseToString($data)">Region</knockout>
                                 </button>
                                 <!-- ko using: Weather.regionalWeather[GameConstants.Region[$data]], as: 'weatherType' -->
                                 <button class="btn btn-weather-dock" style="right: 0px; top: 0px; width: auto; padding: 0 4px;"
@@ -34,7 +34,7 @@
                                 <!-- /ko -->
                             </div>
                             <!-- /ko -->
-                            <!-- ko if: GameConstants.Region[$data] > player.highestRegion() -->
+                            <!-- ko if: GameConstants.Region[$data] > App.player.highestRegion() -->
                             <div class="btn-group w-100 my-1">
                                 <button style="position: relative;" class='btn btn-block btn-success ship-modal-region-button'
                                         data-bind='attr: { disabled: true }'>

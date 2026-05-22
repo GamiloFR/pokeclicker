@@ -1,8 +1,9 @@
-import SpecialEventNotifiedStatus from './SpecialEventsNotifiedStatus';
-import Notifier from '../notifications/Notifier';
+import App from '../App';
+import { Currency, DAY, HOUR, SECOND, SPECIAL_EVENT_TICK, formatTime, formatTimeShortWords } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
-import { DAY, HOUR, formatTimeShortWords, formatTime, Currency, SPECIAL_EVENT_TICK, SECOND } from '../GameConstants';
 import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
+import SpecialEventNotifiedStatus from './SpecialEventsNotifiedStatus';
 import { SpecialEventTitleType } from './SpecialEventTitleType';
 
 export type EventCallback = () => void;

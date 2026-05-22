@@ -98,7 +98,7 @@
 
                     <!-- ko ifnot: $data.selectedEnergyRestore() < 0 -->
                     <img class="pixelated" data-bind="attr: { src: ItemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]].image }" src="" alt="" style="height: 26px;">
-                    <span data-bind="text: `× ${player.itemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]]().toLocaleString('en-US')}`"></span>
+                    <span data-bind="text: `× ${App.player.itemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]]().toLocaleString('en-US')}`"></span>
                     <!-- /ko -->
 
                     <div class="progress mt-2" style='height: 5px'>

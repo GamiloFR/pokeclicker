@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import OakItemType from '../enums/OakItemType';
 import PokemonType from '../enums/PokemonType';

@@ -1,4 +1,5 @@
 import { Computed } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import OakItemType from '../enums/OakItemType';
@@ -202,13 +203,13 @@ class Party implements Feature {
         type1: PokemonType = PokemonType.None,
         type2: PokemonType = PokemonType.None,
         ignoreRegionMultiplier = false,
-        region: Region = player.region,
+        region: Region = App.player.region,
         includeBreeding = false,
         useBaseAttack = false,
         overrideWeather?: WeatherType,
         ignoreLevel = false,
         includeTempBonuses = true,
-        subregion: SubRegions = player.subregion,
+        subregion: SubRegions = App.player.subregion,
     ): number {
         let attack = 0;
         const pokemon = this.partyPokemonActiveInSubRegion(region, subregion);
@@ -226,7 +227,7 @@ class Party implements Feature {
         pokemon: PartyPokemon,
         type1: PokemonType = PokemonType.None,
         type2: PokemonType = PokemonType.None,
-        region: Region = player.region,
+        region: Region = App.player.region,
         ignoreRegionMultiplier = false,
         includeBreeding = false,
         useBaseAttack = false,
@@ -284,7 +285,7 @@ class Party implements Feature {
         return attack;
     }
 
-    public getRegionAttackMultiplier(highestRegion = player.highestRegion()): number {
+    public getRegionAttackMultiplier(highestRegion = App.player.highestRegion()): number {
         // between 0.2 -> 1 based on highest region
         return Math.min(1, Math.max(0.2, 0.1 + (highestRegion / 10)));
     }
@@ -390,7 +391,7 @@ class Party implements Feature {
     }
 
     get activePartyPokemon(): ReadonlyArray<PartyPokemon> {
-        return this.partyPokemonActiveInSubRegion(player.region, player.subregion);
+        return this.partyPokemonActiveInSubRegion(App.player.region, App.player.subregion);
     }
 
 }

@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, AchievementType, Region } from '../GameConstants';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import AchievementRequirement from '../requirements/AchievementRequirement';

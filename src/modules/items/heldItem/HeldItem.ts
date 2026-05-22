@@ -1,3 +1,4 @@
+import App from '../../App';
 import { Currency, Region } from '../../GameConstants';
 import PartyPokemon from '../../party/PartyPokemon';
 import Item from '../Item';
@@ -23,7 +24,7 @@ class HeldItem extends Item {
     }
 
     public isUnlocked() {
-        return player.highestRegion() >= this.regionUnlocked;
+        return App.player.highestRegion() >= this.regionUnlocked;
     }
 }
 

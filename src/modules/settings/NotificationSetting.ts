@@ -1,4 +1,5 @@
 import { Computed } from 'knockout';
+import App from '../App';
 import NotificationOption from '../notifications/NotificationOption';
 import Notifier from '../notifications/Notifier';
 import BooleanSetting from './BooleanSetting';

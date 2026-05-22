@@ -1,10 +1,11 @@
 import {
-    Observable as KnockoutObservable,
     Computed as KnockoutComputed,
+    Observable as KnockoutObservable,
 } from 'knockout';
-import SettingOption from './SettingOption';
+import App from '../App';
 import Requirement from '../requirements/Requirement';
 import GameLoadState from '../utilities/GameLoadState';
+import SettingOption from './SettingOption';
 
 export default class Setting<T> {
     private _value: T;

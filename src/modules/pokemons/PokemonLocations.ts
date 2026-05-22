@@ -1,3 +1,4 @@
+import App from '../App';
 import BattleFrontierMilestonePokemon from '../battleFrontier/BattleFrontierMilestonePokemon';
 import BattleFrontierMilestones from '../battleFrontier/BattleFrontierMilestones';
 import GenericDeal, { DealCostOrProfitType } from '../deal/GenericDeal';

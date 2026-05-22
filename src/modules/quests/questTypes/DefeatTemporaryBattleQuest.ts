@@ -1,3 +1,4 @@
+import App from '../../App';
 import { getTemporaryBattlesIndex } from '../../GameConstants';
 import Quest from '../Quest';
 import QuestInterface from '../QuestInterface';

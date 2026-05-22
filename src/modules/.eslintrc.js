@@ -18,10 +18,6 @@ module.exports = {
     globals: {
         ko: 'readonly',
         $: 'readonly',
-        App: 'readonly',
-        player: 'readonly',
-        Save: 'readonly',
-        GameController: 'readonly',
     },
     rules: {
         indent: 'off',

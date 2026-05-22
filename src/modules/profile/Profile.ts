@@ -1,12 +1,14 @@
 import type {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
 import '../koExtenders';
 import Notifier from '../notifications/Notifier';
 import { matchPokemonByNames } from '../pokemons/PokemonHelper';
+import Save from '../Save';
 import Rand from '../utilities/Rand';
 
 export default class Profile implements Saveable {
@@ -155,7 +157,7 @@ export default class Profile implements Saveable {
             throttledTimePlayed(),
             App.game.update.version,
             App.game.challenges.toJSON().list,
-            player.trainerId,
+            App.player.trainerId,
         ));
 
         preview.subscribe((previewElement) => {

@@ -1,4 +1,5 @@
 import { Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import OakItemType from '../enums/OakItemType';
 import { Currency } from '../GameConstants';

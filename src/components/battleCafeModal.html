@@ -23,7 +23,7 @@
                                     <img style="width: 40px; margin-top: -3px;" data-bind="attr: { src: 'assets/images/sweets/' + $data + '.png' }"/>
                                     <h6 class="card-title mb-1" data-bind="text: $data.replace(' Sweet', '')"></h6>
                                     <div class="d-flex" data-bind="foreach: BattleCafeController.getPrice(GameConstants.AlcremieSweet[$data])">
-                                        <img style="width: 24px;" data-bind="attr: { src: FarmController.getBerryImage($data.berry) },
+                                        <img style="width: 24px;" data-bind="attr: { src: FarmHelper.getBerryImage($data.berry) },
                                             tooltip: { title: `${BerryType[$data.berry]} × ${$data.amount.toLocaleString('en-US')}`, trigger: 'hover', placement: 'bottom' }">
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
                                     <tbody data-bind="foreach: BattleCafeController.getPrice(GameConstants.AlcremieSweet[$data])">
                                         <tr>
                                             <td class="border-top-0 p-0">
-                                                <img style="width: 30px;" data-bind="attr: { src: FarmController.getBerryImage($data.berry) }">
+                                                <img style="width: 30px;" data-bind="attr: { src: FarmHelper.getBerryImage($data.berry) }">
                                                 <span data-bind="text: `${BerryType[$data.berry]} × ${$data.amount.toLocaleString('en-US')}`"></span>
                                             </td>
                                             <td class="align-middle border-top-0 p-0" data-bind="text: App.game.farming.berryList[$data.berry]().toLocaleString('en-US'),

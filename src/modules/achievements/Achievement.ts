@@ -1,3 +1,4 @@
+import App from '../App';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import { createLogContent } from '../logbook/helpers';
 import NotificationConstants from '../notifications/NotificationConstants';

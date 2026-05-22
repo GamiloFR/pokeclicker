@@ -1,9 +1,10 @@
 import type { Computed, Observable } from 'knockout';
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import BerryNameType from '../enums/BerryNameType';
 import BerryType from '../enums/BerryType';
-import FarmController from '../farming/FarmController';
+import FarmHelper from '../farming/FarmHelper';
 import { BASE_DUNGEON_SIZE, BattleItemType, camelCaseToString, Currency, DUNGEON_LADDER_BONUS, DUNGEON_TICK, DUNGEON_TIME, DungeonInteractionSource, DungeonTileType, FluteItemType, GameState, getDungeonIndex, humanifyString, MIN_DUNGEON_SIZE, MINUTE, pluralizeString, PokeballType, StartingTowns } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import FluteEffectRunner from '../gems/FluteEffectRunner';
@@ -20,7 +21,6 @@ import Notifier from '../notifications/Notifier';
 import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
-import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import Settings from '../settings/Settings';
 import { UndergroundController } from '../underground/UndergroundController';
 import UndergroundItem from '../underground/UndergroundItem';
@@ -244,7 +244,7 @@ class DungeonRunner {
 
     public static gainLoot(input: Loot['loot'], amount: number, weight: number) {
         if (typeof BerryType[input as BerryNameType] == 'number') {
-            DungeonRunner.lootNotification(input, amount, weight, FarmController.getBerryImage(BerryType[humanifyString(input) as BerryNameType]));
+            DungeonRunner.lootNotification(input, amount, weight, FarmHelper.getBerryImage(BerryType[humanifyString(input) as BerryNameType]));
             return App.game.farming.gainBerry(BerryType[humanifyString(input) as BerryNameType], amount, false);
         } else if (ItemList[input] instanceof PokeballItem) {
             DungeonRunner.lootNotification(input, amount, weight, ItemList[input].image);
@@ -265,10 +265,10 @@ class DungeonRunner {
                 GameHelper.incrementObservable(App.game.statistics.totalVitaminsObtained, amount);
             }
             DungeonRunner.lootNotification(input, amount, weight, ItemList[input].image);
-            return player.gainItem(ItemList[input].name, amount);
+            return App.player.gainItem(ItemList[input].name, amount);
         } else {
             DungeonRunner.lootNotification(input, amount, weight, ItemList[input].image);
-            return player.gainItem(ItemList.xAttack.name, 1);
+            return App.player.gainItem(ItemList.xAttack.name, 1);
         }
     }
 
@@ -333,7 +333,7 @@ class DungeonRunner {
         MapHelper.moveToTown(DungeonRunner.dungeon.name);
         if (App.game.gameState !== GameState.town) {
             // MoveToTown failed and the player is stuck in the dungeon
-            const dest = StartingTowns[player.region];
+            const dest = StartingTowns[App.player.region];
             MapHelper.moveToTown(dest);
         }
     }
@@ -397,13 +397,6 @@ class DungeonRunner {
         return RouteHelper.listCompleted(possiblePokemon, includeShiny);
     }
 
-    public static isAchievementsComplete(dungeon: Dungeon) {
-        const dungeonIndex = getDungeonIndex(dungeon.name);
-        return AchievementHandler.achievementList.every(achievement => {
-            return !(achievement.property instanceof ClearDungeonRequirement && achievement.property.dungeonIndex === dungeonIndex && !achievement.isCompleted());
-        });
-    }
-
     public static canStartDungeon(dungeon: Dungeon = DungeonRunner.dungeon) {
         return (DungeonGuides.hired() || DungeonRunner.hasEnoughTokens(dungeon)) && dungeon.isUnlocked() && dungeon.hasUnlockedBoss();
     }
@@ -413,7 +406,7 @@ class DungeonRunner {
     }
 
     public static dungeonLevel(): number {
-        return PokemonFactory.routeLevel(DungeonRunner.dungeon.difficultyRoute, player.region);
+        return PokemonFactory.routeLevel(DungeonRunner.dungeon.difficultyRoute, App.player.region);
     }
 
     public static getFlash(dungeonName: string): DungeonFlash | undefined {
@@ -431,7 +424,7 @@ class DungeonRunner {
     }
 
     public static isDungeonDebuffed(dungeon: Dungeon) {
-        return dungeon.difficulty < player.highestRegion() - 2;
+        return dungeon.difficulty < App.player.highestRegion() - 2;
     }
 }
 

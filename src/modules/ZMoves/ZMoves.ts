@@ -1,3 +1,4 @@
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import KeyItemType from '../enums/KeyItemType';
 import PokemonType from '../enums/PokemonType';

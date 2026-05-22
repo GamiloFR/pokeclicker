@@ -1,6 +1,8 @@
 import { Observable } from 'knockout';
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import { BUG_SAFARI_SHINY_MODIFIER, camelCaseToString, Region, SAFARI_EP_YIELD, SAFARI_OUT_OF_BALLS, ShadowStatus } from '../GameConstants';
+import GameController from '../GameController';
 import GameHelper from '../GameHelper';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
@@ -217,7 +219,7 @@ class SafariBattle {
         App.game.party.gainPokemonById(pokemonID, SafariBattle.enemy.shiny);
         const partyPokemon = App.game.party.getPokemon(pokemonID);
         partyPokemon.effortPoints += App.game.party.calculateEffortPoints(partyPokemon, SafariBattle.enemy.shiny, ShadowStatus.None, SAFARI_EP_YIELD);
-        switch (player.region) {
+        switch (App.player.region) {
             case (Region.johto):
                 const shinyModifier = SafariBattle.enemy.shiny ? BUG_SAFARI_SHINY_MODIFIER : 1;
                 const bugReward = Math.floor(partyPokemon.baseAttack / 5) * shinyModifier;
@@ -406,7 +408,7 @@ class SafariBattle {
     }
 
     private static pokeball() {
-        switch (player.region) {
+        switch (App.player.region) {
             case Region.johto:
                 return '<div><img id="safariBall" src="assets/images/pokeball/Sportball.svg" height="30px"></div>';
             default:

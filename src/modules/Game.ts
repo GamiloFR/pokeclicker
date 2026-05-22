@@ -1,19 +1,94 @@
-/// <reference path="../declarations/TemporaryScriptTypes.d.ts" />
-/// <reference path="../declarations/DataStore/BadgeCase.d.ts" />
-/// <reference path="../declarations/GameHelper.d.ts" />
-/// <reference path="../declarations/party/Category.d.ts"/>
-/// <reference path="../declarations/effectEngine/effectEngineRunner.d.ts"/>
-/// <reference path="../declarations/items/ItemHandler.d.ts"/>
-/// <reference path="../declarations/wildBattle/RouteHelper.d.ts" />
-/// <reference path="../declarations/quests/Quests.d.ts" />
+/* eslint-disable no-console */
+import AchievementHandler from './achievements/AchievementHandler';
+import AchievementTracker from './achievements/AchievementTracker';
+import App from './App';
+import BattleFrontier from './battleFrontier/BattleFrontier';
+import BattleFrontierBattle from './battleFrontier/BattleFrontierBattle';
+import BattleFrontierRunner from './battleFrontier/BattleFrontierRunner';
+import Battle from './battles/Battle';
+import BattlePokemon from './battles/BattlePokemon';
+import Breeding, { HatcheryQueueEntry } from './breeding/Breeding';
+import BreedingController from './breeding/BreedingController';
+import EggType from './breeding/EggType';
+import Challenges from './challenges/Challenges';
+import RedeemableCodes from './codes/RedeemableCodes';
+import BadgeCase from './DataStore/BadgeCase';
+import Statistics from './DataStore/StatisticStore';
+import GenericDeal from './deal/GenericDeal';
+import Discord from './discord/Discord';
+import DungeonBattle from './dungeons/DungeonBattle';
+import DungeonRunner from './dungeons/DungeonRunner';
+import EffectEngineRunner from './effectEngine/effectEngineRunner';
+import BadgeEnums from './enums/Badges';
+import EncounterType from './enums/EncounterType';
+import KeyItemType from './enums/KeyItemType';
+import PokemonType from './enums/PokemonType';
+import BerryDeal from './farming/BerryDeal';
+import FarmController from './farming/FarmController';
+import Farming from './farming/Farming';
+import EnigmaMutation from './farming/mutation/mutationTypes/EnigmaMutation';
+import { ACHIEVEMENT_TICK, BATTLE_FRONTIER_TICK, BATTLE_TICK, BattleItemType, BattlePokemonGender, Currency, EFFECT_ENGINE_TICK, formatDate, GameState, getGymIndex, getTemporaryBattlesIndex, HOUR, MINUTE, Region, SAVE_TICK, SECOND, ShadowStatus, SPECIAL_EVENT_TICK, Starter, StartingRoutes, TICK_TIME, ZMOVE_TICK } from './GameConstants';
+import GameHelper from './GameHelper';
+import FluteEffectRunner from './gems/FluteEffectRunner';
+import GemDeals from './gems/GemDeals';
+import Gems from './gems/Gems';
+import GymBattle from './gym/GymBattle';
+import GymRunner from './gym/GymRunner';
+import ItemHandler from './items/ItemHandler';
+import { ItemList } from './items/ItemList';
+import KeyItems from './keyItems/KeyItems';
+import LogBook from './logbook/LogBook';
+import Multiplier from './multiplier/Multiplier';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
+import OakItemLoadouts from './oakItems/OakItemLoadouts';
+import OakItems from './oakItems/OakItems';
+import PokemonCategories from './party/Category';
+import Party from './party/Party';
+import PokeballFilters from './pokeballs/PokeballFilters';
+import Pokeballs from './pokeballs/Pokeballs';
+import PokedexHelper from './pokedex/PokedexHelper';
+import PokemonFactory from './pokemons/PokemonFactory';
+import { pokemonMap } from './pokemons/PokemonList';
+import RoamingPokemonList from './pokemons/RoamingPokemonList';
+import Profile from './profile/Profile';
+import QuestLineState from './quests/QuestLineState';
+import Quests from './quests/Quests';
+import MultipleQuestsQuest from './quests/questTypes/MultipleQuestsQuest';
+import SafariPokemonList from './safari/SafariPokemonList';
+import Save from './Save';
+import SaveReminder from './saveReminder/SaveReminder';
+import Settings from './settings/Settings';
+import SpecialEvents from './specialEvents/SpecialEvents';
+import StartSequenceRunner from './StartSequenceRunner';
+import TemporaryBattleBattle from './temporaryBattle/TemporaryBattleBattle';
+import TemporaryBattleList from './temporaryBattle/TemporaryBattleList';
+import TemporaryBattleRunner from './temporaryBattle/TemporaryBattleRunner';
+import BattleCafeController from './towns/battleCafe/BattleCafeController';
+import BattleCafeSaveObject from './towns/battleCafe/BattleCafeSaveObject';
+import DreamOrbController, { DreamOrbTownContent } from './towns/DreamOrbController';
+import PurifyChamber from './towns/purifyChamber/PurifyChamber';
+import DamageCalculator from './types/DamageCalculator';
+import { ShardDeal } from './underground/ShardDeal';
+import { Underground } from './underground/Underground';
+import Update from './Update';
+import Rand from './utilities/Rand';
+import SeededDateRand from './utilities/SeededDateRand';
+import Amount from './wallet/Amount';
+import Wallet from './wallet/Wallet';
+import Weather from './weather/Weather';
+import WeatherApp from './weather/WeatherApp';
+import RouteHelper from './wildBattle/RouteHelper';
+import MapHelper from './worldmap/MapHelper';
+import ZMoves from './ZMoves/ZMoves';
 
 /**
  * Main game class.
  */
-class Game implements TmpGameType {
+class Game {
     frameRequest;
     public static achievementCounter = 0;
-    private _gameState: KnockoutObservable<GameConstants.GameState>;
+    private _gameState = ko.observable(GameState.loading);
     private worker: Worker;
 
     // Features
@@ -55,7 +130,7 @@ class Game implements TmpGameType {
         this.multiplier = new Multiplier();
 
         // Load player
-        player = Save.load();
+        App.player = Save.load();
 
         // Load other Features
         this.profile = new Profile();
@@ -87,8 +162,6 @@ class Game implements TmpGameType {
         this.purifyChamber = new PurifyChamber();
         this.weatherApp = new WeatherApp();
         this.zMoves = new ZMoves();
-
-        this._gameState = ko.observable(GameConstants.GameState.loading);
     }
 
     load() {
@@ -112,7 +185,7 @@ class Game implements TmpGameType {
     initialize() {
         AchievementHandler.initialize(this.multiplier, this.challenges);
         FarmController.initialize();
-        EffectEngineRunner.initialize(this.multiplier, GameHelper.enumStrings(GameConstants.BattleItemType).map((name) => ItemList[name]));
+        EffectEngineRunner.initialize(this.multiplier, GameHelper.enumStrings(BattleItemType).map((name) => ItemList[name]));
         ItemHandler.initializeItems();
         BreedingController.initialize();
         PokedexHelper.initialize();
@@ -135,10 +208,10 @@ class Game implements TmpGameType {
         AchievementHandler.preCheckAchievements();
 
         // TODO refactor to proper initialization methods
-        if (player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None) {
+        if (App.player.regionStarters[Region.kanto]() != Starter.None) {
             Battle.generateNewEnemy();
         } else {
-            const battlePokemon = new BattlePokemon('MissingNo.', 0, PokemonType.None, PokemonType.None, 0, 0, 0, 0, new Amount(0, GameConstants.Currency.money), false, 0, GameConstants.BattlePokemonGender.NoGender, GameConstants.ShadowStatus.None, EncounterType.route);
+            const battlePokemon = new BattlePokemon('MissingNo.', 0, PokemonType.None, PokemonType.None, 0, 0, 0, 0, new Amount(0, Currency.money), false, 0, BattlePokemonGender.NoGender, ShadowStatus.None, EncounterType.route);
             Battle.enemyPokemon(battlePokemon);
         }
         //Safari.load();
@@ -166,25 +239,25 @@ class Game implements TmpGameType {
                 type: NotificationConstants.NotificationOption.danger,
                 title: 'Auto Save Disabled',
                 message: 'You have disabled auto saving! Be sure to manually save before exiting or any progress will be lost!',
-                timeout: 5 * GameConstants.MINUTE,
+                timeout: 5 * MINUTE,
             });
         }
 
         // If the player isn't on a route, they're in a town/dungeon
-        this.gameState = player.route ? GameConstants.GameState.fighting : GameConstants.GameState.town;
+        this.gameState = App.player.route ? GameState.fighting : GameState.town;
     }
 
     computeOfflineEarnings() {
         const now = Date.now();
-        const timeDiffInSeconds = Math.floor((now - player._lastSeen) / 1000);
+        const timeDiffInSeconds = Math.floor((now - App.player._lastSeen) / 1000);
         if (timeDiffInSeconds > 1) {
             // Only allow up to 24 hours worth of bonuses
             const timeDiffOverride = Math.min(86400, timeDiffInSeconds);
-            let region: GameConstants.Region = player.region;
-            let route: number = player.route || GameConstants.StartingRoutes[region];
+            let region: Region = App.player.region;
+            let route: number = App.player.route || StartingRoutes[region];
             if (!MapHelper.validRoute(route, region)) {
                 route = 1;
-                region = GameConstants.Region.kanto;
+                region = Region.kanto;
             }
             const availablePokemonMap = RouteHelper.getAvailablePokemonList(route, region).map(name => pokemonMap[name]);
             const maxHealth: number = PokemonFactory.routeHealth(route, region);
@@ -201,7 +274,7 @@ class Game implements TmpGameType {
             if (numberOfPokemonDefeated === 0) {
                 return;
             }
-            const routeMoney: number = PokemonFactory.routeMoney(player.route, player.region, false);
+            const routeMoney: number = PokemonFactory.routeMoney(App.player.route, App.player.region, false);
             const baseMoneyToEarn = numberOfPokemonDefeated * routeMoney;
             const moneyToEarn = Math.floor(baseMoneyToEarn * 0.5);//Debuff for offline money
             App.game.wallet.gainMoney(moneyToEarn, true);
@@ -211,7 +284,7 @@ class Game implements TmpGameType {
                 title: 'Offline Bonus',
                 message: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyToEarn.toLocaleString('en-US')}`,
                 strippedMessage: `Defeated: ${numberOfPokemonDefeated.toLocaleString('en-US')} Pokémon\nEarned: ${moneyToEarn.toLocaleString('en-US')} Pokédollars`,
-                timeout: 2 * GameConstants.MINUTE,
+                timeout: 2 * MINUTE,
                 setting: NotificationConstants.NotificationSetting.General.offline_earnings,
             });
 
@@ -231,7 +304,7 @@ class Game implements TmpGameType {
                         type: NotificationConstants.NotificationOption.info,
                         title: 'Dream Orbs',
                         message: `Gained ${orbsEarned} Dream Orbs while offline:<br /><ul class="mb-0">${messageAppend}</ul>`,
-                        timeout: 2 * GameConstants.MINUTE,
+                        timeout: 2 * MINUTE,
                         setting: NotificationConstants.NotificationSetting.General.offline_earnings,
                     });
                 }
@@ -242,10 +315,10 @@ class Game implements TmpGameType {
     checkAndFix() {
         // Quest box not showing (game thinking tutorial is not completed)
         if (App.game.quests.getQuestLine('Tutorial Quests').state() == QuestLineState.inactive) {
-            if (App.game.statistics.gymsDefeated[GameConstants.getGymIndex('Pewter City')]() >= 1) {
+            if (App.game.statistics.gymsDefeated[getGymIndex('Pewter City')]() >= 1) {
                 // Defeated Brock, Has completed the Tutorial
                 App.game.quests.getQuestLine('Tutorial Quests').state(QuestLineState.ended);
-            } else if (player.regionStarters[GameConstants.Region.kanto]() > GameConstants.Starter.None) {
+            } else if (App.player.regionStarters[Region.kanto]() > Starter.None) {
                 // Has chosen a starter, Tutorial is started
                 App.game.quests.getQuestLine('Tutorial Quests').state(QuestLineState.started);
                 App.game.quests.getQuestLine('Tutorial Quests').beginQuest(App.game.quests.getQuestLine('Tutorial Quests').curQuest());
@@ -303,14 +376,14 @@ class Game implements TmpGameType {
         });
 
         // Kick player out of Client Island if they are not on the client
-        if (!App.isUsingClient && player._townName === 'Client Island') {
+        if (!App.isUsingClient && App.player.townName === 'Client Island') {
             MapHelper.moveToTown('One Island');
         }
     }
 
     start() {
-        console.log(`[${GameConstants.formatDate(new Date())}] %cGame started`, 'color:#2ecc71;font-weight:900;');
-        if (player.regionStarters[GameConstants.Region.kanto]() === GameConstants.Starter.None) {
+        console.log(`[${formatDate(new Date())}] %cGame started`, 'color:#2ecc71;font-weight:900;');
+        if (App.player.regionStarters[Region.kanto]() === Starter.None) {
             StartSequenceRunner.start();
         }
 
@@ -319,7 +392,7 @@ class Game implements TmpGameType {
         // requestAnimationFrame (consistent if page visible)
         let lastFrameTime = 0;
         let ticks = 0;
-        const tick = (currentFrameTime) => {
+        const tick = (currentFrameTime: number) => {
             // Don't process while page hidden
             if (pageHidden) {
                 this.frameRequest = requestAnimationFrame(tick);
@@ -329,12 +402,12 @@ class Game implements TmpGameType {
             const delta = currentFrameTime - lastFrameTime;
             ticks += delta;
             lastFrameTime = currentFrameTime;
-            if (ticks >= GameConstants.TICK_TIME) {
+            if (ticks >= TICK_TIME) {
                 // Skip the ticks if we have too many...
-                if (ticks >= GameConstants.TICK_TIME * 2) {
+                if (ticks >= TICK_TIME * 2) {
                     ticks = 0;
                 } else {
-                    ticks -= GameConstants.TICK_TIME;
+                    ticks -= TICK_TIME;
                 }
                 this.gameTick();
             }
@@ -344,7 +417,7 @@ class Game implements TmpGameType {
 
         // Try start our webworker so we can process stuff while the page isn't focused
         try {
-            console.log(`[${GameConstants.formatDate(new Date())}] %cStarting web worker..`, 'color:#8e44ad;font-weight:900;');
+            console.log(`[${formatDate(new Date())}] %cStarting web worker..`, 'color:#8e44ad;font-weight:900;');
             const blob = new Blob([
                 `
                 // Window visibility state
@@ -361,7 +434,7 @@ class Game implements TmpGameType {
                     if (!pageHidden) return;
 
                     postMessage('tick')
-                }, ${GameConstants.TICK_TIME});
+                }, ${TICK_TIME});
                 `,
             ]);
             const blobURL = window.URL.createObjectURL(blob);
@@ -374,19 +447,19 @@ class Game implements TmpGameType {
                 // Let our worker know if the page is visible or not
                 if (pageHidden != document.hidden) {
                     pageHidden = document.hidden;
-                    this.worker.postMessage({'pageHidden': pageHidden});
+                    this.worker.postMessage({ 'pageHidden': pageHidden });
                 }
 
                 // Save resources by not displaying updates if game is not currently visible
                 const gameEl = document.getElementById('game');
                 document.hidden ? gameEl.classList.add('hidden') : gameEl.classList.remove('hidden');
             });
-            this.worker.postMessage({'pageHidden': pageHidden});
+            this.worker.postMessage({ 'pageHidden': pageHidden });
             if (this.worker) {
-                console.log(`[${GameConstants.formatDate(new Date())}] %cWeb worker started`, 'color:#2ecc71;font-weight:900;');
+                console.log(`[${formatDate(new Date())}] %cWeb worker started`, 'color:#2ecc71;font-weight:900;');
             }
         } catch (e) {
-            console.error(`[${GameConstants.formatDate(new Date())}] Web worker error`, e);
+            console.error(`[${formatDate(new Date())}] Web worker error`, e);
         }
 
         window.onbeforeunload = () => {
@@ -404,8 +477,8 @@ class Game implements TmpGameType {
 
     gameTick() {
         // Acheivements
-        Game.achievementCounter += GameConstants.TICK_TIME;
-        if (Game.achievementCounter >= GameConstants.ACHIEVEMENT_TICK) {
+        Game.achievementCounter += TICK_TIME;
+        if (Game.achievementCounter >= ACHIEVEMENT_TICK) {
             Game.achievementCounter = 0;
             AchievementHandler.checkAchievements();
             GameHelper.incrementObservable(App.game.statistics.secondsPlayed);
@@ -413,40 +486,40 @@ class Game implements TmpGameType {
 
         // Battles
         switch (this.gameState) {
-            case GameConstants.GameState.fighting: {
-                Battle.counter += GameConstants.TICK_TIME;
-                if (Battle.counter >= GameConstants.BATTLE_TICK) {
+            case GameState.fighting: {
+                Battle.counter += TICK_TIME;
+                if (Battle.counter >= BATTLE_TICK) {
                     Battle.tick();
                 }
                 break;
             }
-            case GameConstants.GameState.gym: {
-                GymBattle.counter += GameConstants.TICK_TIME;
-                if (GymBattle.counter >= GameConstants.BATTLE_TICK) {
+            case GameState.gym: {
+                GymBattle.counter += TICK_TIME;
+                if (GymBattle.counter >= BATTLE_TICK) {
                     GymBattle.tick();
                 }
                 GymRunner.tick();
                 break;
             }
-            case GameConstants.GameState.dungeon: {
-                DungeonBattle.counter += GameConstants.TICK_TIME;
-                if (DungeonBattle.counter >= GameConstants.BATTLE_TICK) {
+            case GameState.dungeon: {
+                DungeonBattle.counter += TICK_TIME;
+                if (DungeonBattle.counter >= BATTLE_TICK) {
                     DungeonBattle.tick();
                 }
                 DungeonRunner.tick();
                 break;
             }
-            case GameConstants.GameState.battleFrontier: {
-                BattleFrontierBattle.counter += GameConstants.TICK_TIME;
-                if (BattleFrontierBattle.counter >= GameConstants.BATTLE_FRONTIER_TICK) {
+            case GameState.battleFrontier: {
+                BattleFrontierBattle.counter += TICK_TIME;
+                if (BattleFrontierBattle.counter >= BATTLE_FRONTIER_TICK) {
                     BattleFrontierBattle.tick();
                 }
                 BattleFrontierRunner.tick();
                 break;
             }
-            case GameConstants.GameState.temporaryBattle: {
-                TemporaryBattleBattle.counter += GameConstants.TICK_TIME;
-                if (TemporaryBattleBattle.counter >= GameConstants.BATTLE_TICK) {
+            case GameState.temporaryBattle: {
+                TemporaryBattleBattle.counter += TICK_TIME;
+                if (TemporaryBattleBattle.counter >= BATTLE_TICK) {
                     TemporaryBattleBattle.tick();
                 }
                 TemporaryBattleRunner.tick();
@@ -455,9 +528,9 @@ class Game implements TmpGameType {
         }
 
         // Auto Save
-        Save.counter += GameConstants.TICK_TIME;
-        if (Save.counter > GameConstants.SAVE_TICK) {
-            const old = new Date(player._lastSeen);
+        Save.counter += TICK_TIME;
+        if (Save.counter > SAVE_TICK) {
+            const old = new Date(App.player._lastSeen);
             const now = new Date();
 
 
@@ -471,9 +544,9 @@ class Game implements TmpGameType {
 
                         Any Pokémon you may have obtained in the future could cease to exist which could corrupt your save file!`,
                         type: NotificationConstants.NotificationOption.danger,
-                        timeout: GameConstants.HOUR,
+                        timeout: HOUR,
                     });
-                    player._timeTraveller = true;
+                    App.player.timeTraveller = true;
                 }
 
                 GameHelper.updateDay();
@@ -502,7 +575,7 @@ class Game implements TmpGameType {
                 // Reset some temporary battles
                 Object.values(TemporaryBattleList).forEach(t => {
                     if (t.optionalArgs?.resetDaily) {
-                        this.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(t.name)](0);
+                        this.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex(t.name)](0);
                     }
                 });
             }
@@ -517,55 +590,55 @@ class Game implements TmpGameType {
                 }
             }
 
-            player._lastSeen = Date.now();
+            App.player._lastSeen = Date.now();
             this.save();
         }
 
         // Underground
         if (this.underground.canAccess()) {
-            this.underground.update(GameConstants.TICK_TIME / GameConstants.SECOND);
+            this.underground.update(TICK_TIME / SECOND);
         }
 
         // Farm
-        this.farming.update(GameConstants.TICK_TIME / GameConstants.SECOND);
+        this.farming.update(TICK_TIME / SECOND);
 
         // Effect Engine (battle items and flutes)
-        EffectEngineRunner.counter += GameConstants.TICK_TIME;
-        if (EffectEngineRunner.counter >= GameConstants.EFFECT_ENGINE_TICK) {
+        EffectEngineRunner.counter += TICK_TIME;
+        if (EffectEngineRunner.counter >= EFFECT_ENGINE_TICK) {
             EffectEngineRunner.tick();
         }
-        FluteEffectRunner.counter += GameConstants.TICK_TIME;
-        if (FluteEffectRunner.counter >= GameConstants.EFFECT_ENGINE_TICK) {
+        FluteEffectRunner.counter += TICK_TIME;
+        if (FluteEffectRunner.counter >= EFFECT_ENGINE_TICK) {
             FluteEffectRunner.tick();
         }
 
-        this.zMoves.counter += GameConstants.TICK_TIME;
-        if (this.zMoves.counter >= GameConstants.ZMOVE_TICK) {
+        this.zMoves.counter += TICK_TIME;
+        if (this.zMoves.counter >= ZMOVE_TICK) {
             this.zMoves.tick();
         }
 
         // Game timers
-        GameHelper.counter += GameConstants.TICK_TIME;
-        if (GameHelper.counter >= GameConstants.MINUTE) {
+        GameHelper.counter += TICK_TIME;
+        if (GameHelper.counter >= MINUTE) {
             GameHelper.tick();
         }
 
         // Check our save reminder once every 5 minutes
-        SaveReminder.counter += GameConstants.TICK_TIME;
-        if (SaveReminder.counter >= 5 * GameConstants.MINUTE) {
+        SaveReminder.counter += TICK_TIME;
+        if (SaveReminder.counter >= 5 * MINUTE) {
             SaveReminder.tick();
         }
 
         // update event calendar
-        this.specialEvents.counter += GameConstants.TICK_TIME;
-        if (this.specialEvents.counter >= GameConstants.SPECIAL_EVENT_TICK) {
+        this.specialEvents.counter += TICK_TIME;
+        if (this.specialEvents.counter >= SPECIAL_EVENT_TICK) {
             this.specialEvents.tick();
         }
     }
 
     save() {
         if (Settings.getSetting('disableAutoSave').value === false) {
-            Save.store(player);
+            Save.store(App.player);
         }
     }
 
@@ -578,3 +651,5 @@ class Game implements TmpGameType {
         this._gameState(value);
     }
 }
+
+export default Game;

@@ -1,3 +1,4 @@
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import WeatherType from '../weather/WeatherType';

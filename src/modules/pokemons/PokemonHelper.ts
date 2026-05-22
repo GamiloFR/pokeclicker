@@ -1,4 +1,5 @@
 import type { Computed } from 'knockout';
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import {
     BattlePokemonGender,

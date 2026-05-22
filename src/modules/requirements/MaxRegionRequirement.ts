@@ -1,4 +1,5 @@
-import { AchievementOption, Region, camelCaseToString, MAX_AVAILABLE_REGION } from '../GameConstants';
+import App from '../App';
+import { AchievementOption, camelCaseToString, MAX_AVAILABLE_REGION, Region } from '../GameConstants';
 import Requirement from './Requirement';
 
 export default class MaxRegionRequirement extends Requirement {
@@ -7,7 +8,7 @@ export default class MaxRegionRequirement extends Requirement {
     }
 
     public getProgress() {
-        return Math.min(player.highestRegion(), this.requiredValue);
+        return Math.min(App.player.highestRegion(), this.requiredValue);
     }
 
     public hint(): string {

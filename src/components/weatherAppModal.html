@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Castform App</h4>
                 <div style="width: 100px;">
-                    <!-- ko using: GameHelper.enumNumbers(GameConstants.Region).filter((r) => r >= 0 && r <= player.highestRegion()), as: 'regions' -->
+                    <!-- ko using: GameHelper.enumNumbers(GameConstants.Region).filter((r) => r >= 0 && r <= App.player.highestRegion()), as: 'regions' -->
                     <select class="custom-select" onchange="WeatherApp.selectedRegion(+this.value);">
                         <!-- ko foreach: regions -->
                         <option data-bind="attr: { value: $data, selected: WeatherApp.selectedRegion() === $data }, text: GameConstants.camelCaseToString(GameConstants.Region[$data])"></option>

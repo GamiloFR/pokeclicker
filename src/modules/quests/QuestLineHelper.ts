@@ -1,3 +1,4 @@
+import App from '../App';
 import BattleFrontierMilestonePokemon from '../battleFrontier/BattleFrontierMilestonePokemon';
 import BattleFrontierMilestones from '../battleFrontier/BattleFrontierMilestones';
 import BadgeEnums from '../enums/Badges';
@@ -28,6 +29,7 @@ import NPCList from '../towns/NPCList';
 import Information from '../utilities/Information';
 import Rand from '../utilities/Rand';
 import MapHelper from '../worldmap/MapHelper';
+import ZMovesHelper from '../ZMoves/ZMovesHelper';
 import QuestLine from './QuestLine';
 import { QuestLineNameType } from './QuestLineNameType';
 import QuestLineState from './QuestLineState';
@@ -60,7 +62,7 @@ class QuestLineHelper {
     // Multi-quest statics
     // Item rewards
     public static itemReward = (item: ItemNameType, amount: number, npc?: string) => (function () {
-        player.gainItem(item, amount);
+        App.player.gainItem(item, amount);
         const subject = npc ? `${npc} has given you` : 'You found';
         Notifier.notify({
             title: this.parentQuestLine?.name,
@@ -70,16 +72,6 @@ class QuestLineHelper {
             timeout: 3e4,
         });
     });
-
-    // Alola z crystals, also used for temp battles
-    public static zCrystalGet = (crystalType: PokemonType) => function () {
-        player.gainItem(zCrystalItemType[crystalType], 1);
-        Notifier.notify({
-            title: 'Z Crystal',
-            message: `<img width="60" src="assets/images/items/zCrystal/${zCrystalItemType[crystalType]}.svg"/> You got the ${zCrystalItemType[crystalType]}!`,
-            timeout: 1e4,
-        });
-    };
 
     public static createZCrystalTrial = (
         crystalType: PokemonType,
@@ -96,7 +88,7 @@ class QuestLineHelper {
         const dungeonBoss = nonTrialOptions?.boss ?? `Trial Site of ${dungeon}`;
         const clearTrial = new DefeatDungeonBossQuest(dungeon, dungeonBoss)
             .withDescription(description)
-            .withCustomReward(this.zCrystalGet(crystalType))
+            .withCustomReward(ZMovesHelper.zCrystalGet(crystalType))
             .withOptionalArgs({
                 clearedMessage: `${successMessage}</br></br><img width="100" src="assets/images/items/zCrystal/${zCrystalItemType[crystalType]}.svg"/>`,
                 npcDisplayName: `${captain}`,
@@ -914,7 +906,7 @@ class QuestLineHelper {
         const collectPinkanMaterials = new MultipleQuestsQuest(
             [
                 new GainGemsQuest(1000, 0, PokemonType.Fairy),
-                new CustomQuest(10, 0, 'Gain 10 Pixie Plates', () => player.itemList.Pixie_plate()),
+                new CustomQuest(10, 0, 'Gain 10 Pixie Plates', () => App.player.itemList.Pixie_plate()),
             ], 'Collect Fairy Gems and Pixie Plates');
         pinkanThemeparkQuestLine.addQuest(collectPinkanMaterials);
 
@@ -1350,19 +1342,19 @@ class QuestLineHelper {
         const talktoMesprit = new TalkToNPCQuest(NPCList.VerityMesprit, 'At Lake Verity, ask Mesprit about the Distortion World.');
         giratinaQuestLine.addQuest(talktoMesprit);
 
-        const obtain10PurpleShards = new CustomQuest(10, 0, 'Obtain 10 Purple Shards.', () => player.itemList.Purple_shard());
+        const obtain10PurpleShards = new CustomQuest(10, 0, 'Obtain 10 Purple Shards.', () => App.player.itemList.Purple_shard());
         giratinaQuestLine.addQuest(obtain10PurpleShards);
 
         const talktoAzelf = new TalkToNPCQuest(NPCList.ValorAzelf, 'At Lake Valor, ask Azelf about the Distortion World.');
         giratinaQuestLine.addQuest(talktoAzelf);
 
-        const obtain10OchreShards = new CustomQuest(10, 0, 'Obtain 10 Ochre Shards.', () => player.itemList.Ochre_shard());
+        const obtain10OchreShards = new CustomQuest(10, 0, 'Obtain 10 Ochre Shards.', () => App.player.itemList.Ochre_shard());
         giratinaQuestLine.addQuest(obtain10OchreShards);
 
         const talktoUxie = new TalkToNPCQuest(NPCList.AcuityUxie, 'At Lake Acuity, ask Uxie about the Distortion World.');
         giratinaQuestLine.addQuest(talktoUxie);
 
-        const obtain10CrimsonShards = new CustomQuest(10, 0, 'Obtain 10 Crimson Shards.', () => player.itemList.Crimson_shard());
+        const obtain10CrimsonShards = new CustomQuest(10, 0, 'Obtain 10 Crimson Shards.', () => App.player.itemList.Crimson_shard());
         giratinaQuestLine.addQuest(obtain10CrimsonShards);
 
         const clearSendoffSpring = new DefeatDungeonQuest(1, 0, 'Sendoff Spring').withDescription('Clear Sendoff Spring to meet the Lake Trio.');
@@ -1374,7 +1366,7 @@ class QuestLineHelper {
         const chargeDistortionKey = new MultipleQuestsQuest(
             [
                 new GainGemsQuest(500, 0, PokemonType.Ghost),
-                new CustomQuest(1, 0, 'Gain 1 Spooky Plate.', () => player.itemList.Spooky_plate()),
+                new CustomQuest(1, 0, 'Gain 1 Spooky Plate.', () => App.player.itemList.Spooky_plate()),
             ], 'Charge the key to the Distortion World.');
         giratinaQuestLine.addQuest(chargeDistortionKey);
 
@@ -2052,7 +2044,7 @@ class QuestLineHelper {
 
         const clearGranite = new DefeatDungeonQuest(10, 0, 'Granite Cave').withDescription('Clear Granite Cave 10 times.');
 
-        const findStars = new CustomQuest(1, 0, 'Find a Star Piece.', () => player.itemList.Star_piece());
+        const findStars = new CustomQuest(1, 0, 'Find a Star Piece.', () => App.player.itemList.Star_piece());
 
         deltaEpisodeQuestLine.addQuest(new MultipleQuestsQuest(
             [
@@ -2136,7 +2128,7 @@ class QuestLineHelper {
         deltaEpisodeQuestLine.addQuest(catchDeltaRayquaza);
 
         const MeteoriteReward = () => {
-            player.gainMegaStone(MegaStoneType.Meteorite);
+            App.player.gainMegaStone(MegaStoneType.Meteorite);
             Notifier.notify({
                 title: deltaEpisodeQuestLine.name,
                 message: 'Your Meteorite Shards combine into a Meteorite!',
@@ -2195,11 +2187,11 @@ class QuestLineHelper {
         const talkToStern2 = new TalkToNPCQuest(NPCList.Stern2, 'Talk to Captain Stern at Sea Mauville about the mysteries of the sea.');
         primalReversionQuestLine.addQuest(talkToStern2);
 
-        const findMetalCoats = new CustomQuest(10, 0, 'Find 10 Metal Coats.', () => player.itemList.Metal_coat());
+        const findMetalCoats = new CustomQuest(10, 0, 'Find 10 Metal Coats.', () => App.player.itemList.Metal_coat());
 
-        const findMysticWater = new CustomQuest(1, 0, 'Find one Mystic Water.', () => player.itemList.Mystic_Water());
+        const findMysticWater = new CustomQuest(1, 0, 'Find one Mystic Water.', () => App.player.itemList.Mystic_Water());
 
-        const findHeatRocks = new CustomQuest(3, 0, 'Find 3 Heat Rocks.', () => player.itemList.Heat_rock());
+        const findHeatRocks = new CustomQuest(3, 0, 'Find 3 Heat Rocks.', () => App.player.itemList.Heat_rock());
 
         primalReversionQuestLine.addQuest(new MultipleQuestsQuest(
             [
@@ -2526,7 +2518,7 @@ class QuestLineHelper {
         unrivaledPowerQuestLine.addQuest(clearUnrivaledGreen);
 
         const MewtwoniteXReward = () => {
-            player.gainMegaStone(MegaStoneType.Mewtwonite_X);
+            App.player.gainMegaStone(MegaStoneType.Mewtwonite_X);
             Notifier.notify({
                 title: unrivaledPowerQuestLine.name,
                 message: 'You received Mewtwonite X from Green!',
@@ -2559,7 +2551,7 @@ class QuestLineHelper {
         const talkToAnomalyMewtwo2 = new TalkToNPCQuest(NPCList.AnomalyMewtwo2, 'Talk to Anomaly Mewtwo in Pokémon Village.');
         unrivaledPowerQuestLine.addQuest(talkToAnomalyMewtwo2);
 
-        const findGreatTwistedSpoon = new CustomQuest(1, 0, 'Find the Great Twisted Spoon in P2 Lab.', () => player.itemList.Great_Twisted_Spoon());
+        const findGreatTwistedSpoon = new CustomQuest(1, 0, 'Find the Great Twisted Spoon in P2 Lab.', () => App.player.itemList.Great_Twisted_Spoon());
         const unrivaledPsychicGems = new GainGemsQuest(60000, 0, PokemonType.Psychic);
         const unrivaledFightingGems = new GainGemsQuest(60000, 0, PokemonType.Fighting);
         unrivaledPowerQuestLine.addQuest(new MultipleQuestsQuest([
@@ -2575,7 +2567,7 @@ class QuestLineHelper {
         unrivaledPowerQuestLine.addQuest(clearAnomalyMewtwo6);
 
         const MewtwoniteYReward = () => {
-            player.gainMegaStone(MegaStoneType.Mewtwonite_Y);
+            App.player.gainMegaStone(MegaStoneType.Mewtwonite_Y);
             Notifier.notify({
                 title: unrivaledPowerQuestLine.name,
                 message: 'You received Mewtwonite Y from Anomaly Mewtwo!',
@@ -2673,7 +2665,7 @@ class QuestLineHelper {
 
         // 11 - Gym Battle: Hala
         // reward defined at the end of this file
-        const battleKahunaHala = new DefeatGymQuest(1, 0, 'Iki Town').withDescription('Defeat Hala in Iki Town to complete Melemele\'s Grand Trial!').withCustomReward(this.zCrystalGet(PokemonType.Fighting));
+        const battleKahunaHala = new DefeatGymQuest(1, 0, 'Iki Town').withDescription('Defeat Hala in Iki Town to complete Melemele\'s Grand Trial!').withCustomReward(ZMovesHelper.zCrystalGet(PokemonType.Fighting));
         melemeleAlolaQuestLine.addQuest(battleKahunaHala);
 
         // end - Clear dungeon boss: Ten Carat Hill, Flyinium Z Trial
@@ -2730,7 +2722,7 @@ class QuestLineHelper {
         akalaAlolaQuestLine.addQuest(clearDiglettsTunnel);
 
         // 8 - Gym battle: Olivia
-        const battleKahunaOlivia = new DefeatGymQuest(1, 0, 'Konikoni City').withDescription('Reach Kahuna Olivia and Lillie at the Ruins of Life and complete Akala\'s Grand Trial!').withCustomReward(this.zCrystalGet(PokemonType.Rock));
+        const battleKahunaOlivia = new DefeatGymQuest(1, 0, 'Konikoni City').withDescription('Reach Kahuna Olivia and Lillie at the Ruins of Life and complete Akala\'s Grand Trial!').withCustomReward(ZMovesHelper.zCrystalGet(PokemonType.Rock));
         akalaAlolaQuestLine.addQuest(battleKahunaOlivia);
 
         // end - Temp battle: Ultra Wormhole
@@ -2787,7 +2779,7 @@ class QuestLineHelper {
         ulaulaAlolaQuestLine.addQuest(battleGladion2);
 
         // 8 - Gym battle: Nanu
-        const battleKahunaNanu = new DefeatGymQuest(1, 0, 'Malie City').withDescription('Kahuna Nanu is challenging you to a Grand Trial in Malie City! Test your strength before you go to Aether by defeating him.').withCustomReward(this.zCrystalGet(PokemonType.Dark));
+        const battleKahunaNanu = new DefeatGymQuest(1, 0, 'Malie City').withDescription('Kahuna Nanu is challenging you to a Grand Trial in Malie City! Test your strength before you go to Aether by defeating him.').withCustomReward(ZMovesHelper.zCrystalGet(PokemonType.Dark));
         ulaulaAlolaQuestLine.addQuest(battleKahunaNanu);
 
         // 9 - Clear dungeon: Aether Foundation
@@ -2887,7 +2879,7 @@ class QuestLineHelper {
 
         // 3 - Temp Battle: Skull 6
         const battleSkullGrunts6 = new DefeatTemporaryBattleQuest('Skull 6', 'Team Skull are being annoying again. Settle the score with them near Vast Poni Canyon.')
-            .withCustomReward(this.zCrystalGet(PokemonType.Poison))
+            .withCustomReward(ZMovesHelper.zCrystalGet(PokemonType.Poison))
             .withOptionalArgs({
                 clearedMessage: 'That\'s enough, grunts. No one wants to see a sore loser.</br></br>You. To be honest, I\'ve treated you really badly. Even if I apologize, I know it\'s probably too late for you to forgive me. This is my way of saying sorry, OK? Take it. It\'s Poisonium Z.</br><img width="100" src="assets/images/items/zCrystal/Poisonium Z.svg">',
                 npcDisplayName: 'Plumeria',
@@ -2896,7 +2888,7 @@ class QuestLineHelper {
         poniAlolaQuestLine.addQuest(battleSkullGrunts6);
 
         // 4 - Gym battle: Hapu
-        const battleKahunaHapu = new DefeatGymQuest(1, 0, 'Exeggutor Island').withDescription('Proceed to Vast Poni Canyon and prove your skills in a Grand Trial against Poni\'s new kahuna, Hapu!').withCustomReward(this.zCrystalGet(PokemonType.Ground));
+        const battleKahunaHapu = new DefeatGymQuest(1, 0, 'Exeggutor Island').withDescription('Proceed to Vast Poni Canyon and prove your skills in a Grand Trial against Poni\'s new kahuna, Hapu!').withCustomReward(ZMovesHelper.zCrystalGet(PokemonType.Ground));
         poniAlolaQuestLine.addQuest(battleKahunaHapu);
 
         // 5 - Clear dungeon boss: Vast Poni Canyon, Dragonium Z Trial
@@ -3063,7 +3055,7 @@ class QuestLineHelper {
         const talkToLanaSilvally = new TalkToNPCQuest(NPCList.LanaSilvally1, 'Search for Silvally\'s Memory near pools of freshwater. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToLanaSilvally);
 
-        const BuyWaterMemory = new CustomQuest(1, 0, 'Buy the Water Memory from Captain Lana with Dungeon Tokens.', () => player.itemList.Water_Memory_Silvally())
+        const BuyWaterMemory = new CustomQuest(1, 0, 'Buy the Water Memory from Captain Lana with Dungeon Tokens.', () => App.player.itemList.Water_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'Thank you so much $playername$! Now I can finally buy that rod I\'ve always wanted!',
                 npcDisplayName: 'Captain Lana',
@@ -3074,7 +3066,7 @@ class QuestLineHelper {
         const talkToMallowSilvally = new TalkToNPCQuest(NPCList.MallowSilvally1, 'Search for Silvally\'s Memory in overgrown forests. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToMallowSilvally);
 
-        const BuyGrassMemory = new CustomQuest(1, 0, 'Buy the Grass Memory from Captain Mallow with Quest Points.', () => player.itemList.Grass_Memory_Silvally())
+        const BuyGrassMemory = new CustomQuest(1, 0, 'Buy the Grass Memory from Captain Mallow with Quest Points.', () => App.player.itemList.Grass_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'Thank you, $playername$. I\'ll go to the market and buy the new ingredients right now!',
                 npcDisplayName: 'Captain Mallow',
@@ -3085,7 +3077,7 @@ class QuestLineHelper {
         const talkToKiaweSilvally = new TalkToNPCQuest(NPCList.KiaweSilvally1, 'Search for Silvally\'s Memory near fiery hotspots. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToKiaweSilvally);
 
-        const BuyFireMemory = new CustomQuest(1, 0, 'Buy the Fire Memory from Captain Kiawe with Battle Points.', () => player.itemList.Fire_Memory_Silvally())
+        const BuyFireMemory = new CustomQuest(1, 0, 'Buy the Fire Memory from Captain Kiawe with Battle Points.', () => App.player.itemList.Fire_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'Thanks, $playername$. I\'ll be going to the market to buy the project supplies this instant.',
                 npcDisplayName: 'Captain Kiawe',
@@ -3096,7 +3088,7 @@ class QuestLineHelper {
         const talkToSophoclesSilvally = new TalkToNPCQuest(NPCList.SophoclesSilvally1, 'Search for Silvally\'s Memory in electrical institutions. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToSophoclesSilvally);
 
-        const BuyElectricMemory = new CustomQuest(1, 0, 'Buy the Electric Memory from Captain Sophocles with Pokédollars.', () => player.itemList.Electric_Memory_Silvally())
+        const BuyElectricMemory = new CustomQuest(1, 0, 'Buy the Electric Memory from Captain Sophocles with Pokédollars.', () => App.player.itemList.Electric_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'Thank you, $playername$! Now I\'ll go buy some new equipment for my laboratory.',
                 npcDisplayName: 'Captain Sophocles',
@@ -3107,7 +3099,7 @@ class QuestLineHelper {
         const talkToVeteranSilvally = new TalkToNPCQuest(NPCList.VeteranSilvally1, 'Search for Silvally\'s Memory near snow-covered peaks. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToVeteranSilvally);
 
-        const BuyIceMemory = new CustomQuest(1, 0, 'Buy the Ice Memory from Veteran Aristo with Diamonds.', () => player.itemList.Ice_Memory_Silvally())
+        const BuyIceMemory = new CustomQuest(1, 0, 'Buy the Ice Memory from Veteran Aristo with Diamonds.', () => App.player.itemList.Ice_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'You\'re the best, kiddo! I\'m sure she\'ll love the ring I\'ll buy her with these diamonds!',
                 npcDisplayName: 'Veteran Aristo',
@@ -3118,7 +3110,7 @@ class QuestLineHelper {
         const talkToHapuSilvally = new TalkToNPCQuest(NPCList.HapuSilvally1, 'Search for Silvally\'s Memory in isolated ground. Ask Gladion at Aether Foundation if you\'re lost.');
         SilvallyTypesQuestLine.addQuest(talkToHapuSilvally);
 
-        const BuyGroundMemory = new CustomQuest(1, 0, 'Buy the Ground Memory from Kahuna Hapu with Farm Points.', () => player.itemList.Ground_Memory_Silvally())
+        const BuyGroundMemory = new CustomQuest(1, 0, 'Buy the Ground Memory from Kahuna Hapu with Farm Points.', () => App.player.itemList.Ground_Memory_Silvally())
             .withOptionalArgs({
                 clearedMessage: 'Wow you\'re pretty good at the farm, $playername$! I\'ll go buy the palm tree seeds right this instant!',
                 npcDisplayName: 'Kahuna Hapu',
@@ -3550,7 +3542,7 @@ class QuestLineHelper {
                 type: NotificationConstants.NotificationOption.success,
                 image: ItemList.Magikarp_Biscuit.image,
             });
-            player.gainItem('Magikarp_Biscuit', 1);
+            App.player.gainItem('Magikarp_Biscuit', 1);
         };
 
         drSplashQuestLine.quests().forEach(q => q.withCustomReward(karpStepReward));
@@ -4128,36 +4120,36 @@ class QuestLineHelper {
         const talktoPeonia2 = new TalkToNPCQuest(NPCList.Peonia2, 'Report back to Peonia in Max Lair.');
         gigantamaxQuestLine.addQuest(talktoPeonia2);
 
-        gigantamaxQuestLine.addQuest(new CustomQuest(1, undefined, 'Obtain 1 Wishing Piece', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(2, undefined, 'Obtain 2 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(4, undefined, 'Obtain 4 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(6, undefined, 'Obtain 6 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(9, undefined, 'Obtain 9 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(12, undefined, 'Obtain 12 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(16, undefined, 'Obtain 16 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(20, undefined, 'Obtain 20 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(25, undefined, 'Obtain 25 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(30, undefined, 'Obtain 30 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(36, undefined, 'Obtain 36 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(42, undefined, 'Obtain 42 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(49, undefined, 'Obtain 49 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(56, undefined, 'Obtain 56 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(64, undefined, 'Obtain 64 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(72, undefined, 'Obtain 72 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(81, undefined, 'Obtain 81 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(90, undefined, 'Obtain 90 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(100, undefined, 'Obtain 100 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(110, undefined, 'Obtain 110 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(121, undefined, 'Obtain 121 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(132, undefined, 'Obtain 132 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(144, undefined, 'Obtain 144 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(156, undefined, 'Obtain 156 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(169, undefined, 'Obtain 169 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(182, undefined, 'Obtain 182 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(196, undefined, 'Obtain 196 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(210, undefined, 'Obtain 210 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(225, undefined, 'Obtain 225 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
-        gigantamaxQuestLine.addQuest(new CustomQuest(240, undefined, 'Obtain 240 Wishing Pieces', player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(1, undefined, 'Obtain 1 Wishing Piece', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(2, undefined, 'Obtain 2 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(4, undefined, 'Obtain 4 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(6, undefined, 'Obtain 6 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(9, undefined, 'Obtain 9 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(12, undefined, 'Obtain 12 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(16, undefined, 'Obtain 16 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(20, undefined, 'Obtain 20 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(25, undefined, 'Obtain 25 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(30, undefined, 'Obtain 30 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(36, undefined, 'Obtain 36 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(42, undefined, 'Obtain 42 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(49, undefined, 'Obtain 49 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(56, undefined, 'Obtain 56 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(64, undefined, 'Obtain 64 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(72, undefined, 'Obtain 72 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(81, undefined, 'Obtain 81 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(90, undefined, 'Obtain 90 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(100, undefined, 'Obtain 100 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(110, undefined, 'Obtain 110 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(121, undefined, 'Obtain 121 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(132, undefined, 'Obtain 132 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(144, undefined, 'Obtain 144 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(156, undefined, 'Obtain 156 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(169, undefined, 'Obtain 169 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(182, undefined, 'Obtain 182 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(196, undefined, 'Obtain 196 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(210, undefined, 'Obtain 210 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(225, undefined, 'Obtain 225 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
+        gigantamaxQuestLine.addQuest(new CustomQuest(240, undefined, 'Obtain 240 Wishing Pieces', App.player.itemList.Wishing_Piece).withInitialValue(0));
 
         const talktoPeonia3 = new TalkToNPCQuest(NPCList.Peonia3, 'You\'ve finally obtained enough Wishing Pieces to attract every Gigantamax Pokémon to the Max Lair! Tell Peonia about your achievement in Max Lair.');
         gigantamaxQuestLine.addQuest(talktoPeonia3);

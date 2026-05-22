@@ -1,3 +1,4 @@
+import App from '../App';
 import { Currency, MegaStoneType } from '../GameConstants';
 //import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
@@ -27,7 +28,7 @@ export default class MegaStoneItem extends Item {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     gain(amt: number) {
-        player.gainMegaStone(this.megaStone);
+        App.player.gainMegaStone(this.megaStone);
     }
 
     isAvailable(): boolean {
@@ -39,7 +40,7 @@ export default class MegaStoneItem extends Item {
     }
 
     isSoldOut(): boolean {
-        return player.hasMegaStone(this.megaStone);
+        return App.player.hasMegaStone(this.megaStone);
     }
 
     get description(): string {

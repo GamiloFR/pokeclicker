@@ -1,5 +1,6 @@
+import App from '../App';
 import BerryType from '../enums/BerryType';
-import FarmController from '../farming/FarmController';
+import FarmHelper from '../farming/FarmHelper';
 import GameHelper from '../GameHelper';
 import Rand from '../utilities/Rand';
 import Bait, { BaitType } from './Bait';
@@ -17,7 +18,7 @@ export function initBaitList() {
 
         },
     );
-    BaitList.Razz = new Bait(BaitType.Razz, 'Razz Berry', 'a Razz Berry', FarmController.getBerryImage(BerryType.Razz),
+    BaitList.Razz = new Bait(BaitType.Razz, 'Razz Berry', 'a Razz Berry', FarmHelper.getBerryImage(BerryType.Razz),
         () => App.game.farming.berryList[BerryType.Razz](),
         (pokemon: SafariPokemon) => {
             GameHelper.incrementObservable(App.game.farming.berryList[BerryType.Razz], -1);
@@ -26,7 +27,7 @@ export function initBaitList() {
             pokemon.angry = 0;
         },
     );
-    BaitList.Nanab = new Bait(BaitType.Nanab, 'Nanab Berry', 'a Nanab Berry', FarmController.getBerryImage(BerryType.Nanab),
+    BaitList.Nanab = new Bait(BaitType.Nanab, 'Nanab Berry', 'a Nanab Berry', FarmHelper.getBerryImage(BerryType.Nanab),
         () => App.game.farming.berryList[BerryType.Nanab](),
         (pokemon: SafariPokemon) => {
             GameHelper.incrementObservable(App.game.farming.berryList[BerryType.Nanab], -1);

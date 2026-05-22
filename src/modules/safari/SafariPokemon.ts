@@ -1,4 +1,5 @@
 import { Computed } from 'knockout';
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 import PokemonType from '../enums/PokemonType';
 import SafariEnvironments from '../enums/SafariEnvironments';

@@ -1,3 +1,4 @@
+import App from '../../App';
 import { GAIN_MONEY_BASE_REWARD, getGymIndex, getGymRegion, KantoGyms } from '../../GameConstants';
 import GymList from '../../gym/GymList';
 import SeededRand from '../../utilities/SeededRand';
@@ -12,7 +13,7 @@ class GainMoneyQuest extends Quest implements QuestInterface {
     }
 
     public static generateData(): any[] {
-        const highestRegion = player.highestRegion();
+        const highestRegion = App.player.highestRegion();
         const gymAmount = Object.values(GymList).reduce((max, gym) => {
             if (App.game.statistics.gymsDefeated[getGymIndex(gym.town)]()) {
                 // 1.3 raised to variable power so we account for gyms from early regions being easier and better for money.
