@@ -1,3 +1,4 @@
+import App from '../App';
 import Battle from '../battles/Battle';
 import BattlePokemon from '../battles/BattlePokemon';
 import EncounterType from '../enums/EncounterType';
@@ -67,7 +68,7 @@ class BattleFrontierBattle extends Battle {
     }
 
     public static generateNewEnemy() {
-        const enemy = pokemonMap.randomRegion(player.highestRegion());
+        const enemy = pokemonMap.randomRegion(App.player.highestRegion());
         // This needs to stay as none so the stage number isn't adjusted
         const health = PokemonFactory.routeHealth(BattleFrontierRunner.stage() + 10, Region.none);
         const level = Math.min(100, BattleFrontierRunner.stage());

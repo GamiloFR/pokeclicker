@@ -1,4 +1,5 @@
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import { Region, StartingTowns, camelCaseToString } from '../GameConstants';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';

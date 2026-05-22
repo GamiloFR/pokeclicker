@@ -1,4 +1,5 @@
 import { Observable, PureComputed } from 'knockout';
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 import {
     humanifyString,

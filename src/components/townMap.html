@@ -2,7 +2,7 @@
     <div id="townMap" class="card sortable border-secondary mb-3" data-bind="visible: App.game.keyItems.hasKeyItem(KeyItemType.Town_map) && (App.game.gameState === GameConstants.GameState.fighting || App.game.gameState === GameConstants.GameState.gym || App.game.gameState === GameConstants.GameState.town||
         App.game.gameState === GameConstants.GameState.shop || App.game.gameState === GameConstants.GameState.farm || App.game.gameState === GameConstants.GameState.temporaryBattle || App.game.gameState === GameConstants.GameState.paused)">
         <div class="card-header p-0" data-toggle="collapse" href="#mapBody">
-            <span data-bind="text: `Town Map (${GameConstants.camelCaseToString(GameConstants.Region[player.region])})`">Town Map</span>
+            <span data-bind="text: `Town Map (${GameConstants.camelCaseToString(GameConstants.Region[App.player.region])})`">Town Map</span>
         </div>
         <button class='btn btn-sm' style="position: absolute; left: 0px; top: 0px; width: auto; height: 41px;" data-toggle="popover" data-trigger="hover" data-html="true" data-title="Map Legend:"
         data-content=""
@@ -54,14 +54,14 @@
         </button>
         <div id="mapBody" class="card-body p-0 show">
             <div id="subregion-travel-buttons" class="btn-group mr-2" role="group" style="width: 100%;" data-bind="
-                visible: SubRegions.getSubRegions(player.region).filter(sr => sr.unlocked()).length > 1,
-                css: { 'slow-flash': player.highestRegion() == player.region && SubRegions.getSubRegions(player.region).filter(sr => sr.unlocked()).length > player.highestSubRegion() + 1 }">
-                <button class="btn btn-sm btn-secondary" data-bind="click: () => player.subregion = player.subregion - 1">&lt;</button>
+                visible: SubRegions.getSubRegions(App.player.region).filter(sr => sr.unlocked()).length > 1,
+                css: { 'slow-flash': App.player.highestRegion() == App.player.region && SubRegions.getSubRegions(App.player.region).filter(sr => sr.unlocked()).length > App.player.highestSubRegion() + 1 }">
+                <button class="btn btn-sm btn-secondary" data-bind="click: () => App.player.subregion = App.player.subregion - 1">&lt;</button>
                 <button class="btn btn-sm btn-primary" style="width: 70%;" data-bind="
                     click: () => SubRegions.openModal(),
-                    text: 'Subregional Travel (' + player.subregionObject()?.name + ')'"
+                    text: 'Subregional Travel (' + App.player.subregionObject()?.name + ')'"
                     >Subregional Travel</button>
-                <button class="btn btn-sm btn-secondary" data-bind="click: () => player.subregion = player.subregion + 1">&gt;</button>
+                <button class="btn btn-sm btn-secondary" data-bind="click: () => App.player.subregion = App.player.subregion + 1">&gt;</button>
             </div>
             <p id="mapTooltip" class="btn btn-secondary" style="visibility: hidden;"></p>
             <svg id="map" viewBox="0 0 1600 960" preserveAspectRatio="xMaxYMax meet">

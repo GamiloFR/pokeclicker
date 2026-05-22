@@ -1,3 +1,4 @@
+import App from '../../App';
 import Dungeon from '../../dungeons/Dungeon';
 import areaStatus from '../../enums/AreaStatus';
 import { getDungeonIndex } from '../../GameConstants';

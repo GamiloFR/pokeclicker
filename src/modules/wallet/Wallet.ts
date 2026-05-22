@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import { Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import { Currency, formatNumber } from '../GameConstants';
 import GameHelper from '../GameHelper';

@@ -1,3 +1,4 @@
+import App from '../App';
 import Battle from '../battles/Battle';
 import { PokeballType, ShadowStatus } from '../GameConstants';
 import { MultiplierDecreaser } from '../items/types';
@@ -42,7 +43,7 @@ class TemporaryBattleBattle extends Battle {
                 this.prepareCatch(enemyPokemon, pokeBall);
                 setTimeout(
                     () => {
-                        this.attemptCatch(enemyPokemon, 1, player.region);
+                        this.attemptCatch(enemyPokemon, 1, App.player.region);
                         this.endFight();
                     },
                     App.game.pokeballs.calculateCatchTime(pokeBall),
@@ -71,7 +72,7 @@ class TemporaryBattleBattle extends Battle {
         } else {
             TemporaryBattleBattle.generateNewEnemy();
         }
-        player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
     }
 
     /**

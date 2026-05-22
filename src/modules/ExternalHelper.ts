@@ -1,13 +1,40 @@
+import { MAX_AVAILABLE_REGION, getGymIndex } from './GameConstants';
+import Gym from './gym/Gym';
+import GymList from './gym/GymList';
+import * as PokemonHelper from './pokemons/PokemonHelper';
+import PokemonLocations from './pokemons/PokemonLocations';
+import { PokemonNameType } from './pokemons/PokemonNameType';
+import QuestLine from './quests/QuestLine';
+import ClearGymRequirement from './requirements/ClearGymRequirement';
+import DevelopmentRequirement from './requirements/DevelopmentRequirement';
+import MaxRegionRequirement from './requirements/MaxRegionRequirement';
+import MultiRequirement from './requirements/MultiRequirement';
+import ObtainedPokemonRequirement from './requirements/ObtainedPokemonRequirement';
+import OneFromManyRequirement from './requirements/OneFromManyRequirement';
+import PokemonLevelRequirement from './requirements/PokemonLevelRequirement';
+import QuestLineCompletedRequirement from './requirements/QuestLineCompletedRequirement';
+import QuestLineStartedRequirement from './requirements/QuestLineStartedRequirement';
+import QuestLineStepCompletedRequirement from './requirements/QuestLineStepCompletedRequirement';
+import Requirement from './requirements/Requirement';
+import RouteKillRequirement from './requirements/RouteKillRequirement';
+import StarterRequirement from './requirements/StarterRequirement';
+import TemporaryBattleRequirement from './requirements/TemporaryBattleRequirement';
+import RegionRoute from './routes/RegionRoute';
+import Routes from './routes/Routes';
+import TemporaryBattle from './temporaryBattle/TemporaryBattle';
+import TemporaryBattleList from './temporaryBattle/TemporaryBattleList';
+import Town from './towns/Town';
+
 class ExternalHelper {
-    private static townCache: {[name: string] : boolean} = {};
-    private static questlineCache: {[name: string] : boolean} = {};
-    private static temporaryBattleCache: {[name: string] : boolean} = {};
-    private static routeCache: {[name: string] : boolean} = {};
-    private static gymCache: {[name: string] : boolean} = {};
+    private static townCache: { [name: string] : boolean } = {};
+    private static questlineCache: { [name: string] : boolean } = {};
+    private static temporaryBattleCache: { [name: string] : boolean } = {};
+    private static routeCache: { [name: string] : boolean } = {};
+    private static gymCache: { [name: string] : boolean } = {};
 
     public static isInLiveVersion(content: Town | QuestLine | TemporaryBattle | RegionRoute | Gym) {
         if (content instanceof Town) {
-            if (content.region > GameConstants.MAX_AVAILABLE_REGION) {
+            if (content.region > MAX_AVAILABLE_REGION) {
                 return false;
             }
             if (ExternalHelper.townCache[content.name] == undefined) {
@@ -28,7 +55,7 @@ class ExternalHelper {
             return !ExternalHelper.temporaryBattleCache[content.name];
         }
         if (content instanceof RegionRoute) {
-            if (content.region > GameConstants.MAX_AVAILABLE_REGION) {
+            if (content.region > MAX_AVAILABLE_REGION) {
                 return false;
             }
             if (ExternalHelper.routeCache[content.routeName] == undefined) {
@@ -68,15 +95,15 @@ class ExternalHelper {
             } else if (r instanceof RouteKillRequirement) {
                 containsDevRequirement = ExternalHelper.isInLiveVersion(Routes.getRoute(r.region, r.route));
             } else if (r instanceof ClearGymRequirement) {
-                containsDevRequirement = ExternalHelper.isInLiveVersion(Object.values(GymList).find(g => GameConstants.getGymIndex(g.town) == r.gymIndex));
+                containsDevRequirement = ExternalHelper.isInLiveVersion(Object.values(GymList).find(g => getGymIndex(g.town) == r.gymIndex));
             } else if (r instanceof MaxRegionRequirement) {
-                containsDevRequirement = r.requiredValue > GameConstants.MAX_AVAILABLE_REGION;
+                containsDevRequirement = r.requiredValue > MAX_AVAILABLE_REGION;
             } else if (r instanceof ObtainedPokemonRequirement) {
                 containsDevRequirement = ExternalHelper.pokemonIsInLiveVersion(r.pokemon);
             } else if (r instanceof PokemonLevelRequirement) {
                 containsDevRequirement = ExternalHelper.pokemonIsInLiveVersion(r.pokemon);
             } else if (r instanceof StarterRequirement) {
-                containsDevRequirement = r.region > GameConstants.MAX_AVAILABLE_REGION;
+                containsDevRequirement = r.region > MAX_AVAILABLE_REGION;
             } else if (r instanceof MultiRequirement) {
                 r.requirements.forEach(r2 => {
                     if (!containsDevRequirement) {
@@ -101,7 +128,7 @@ class ExternalHelper {
     }
 
     public static pokemonIsInLiveVersion(name: PokemonNameType) {
-        if (PokemonHelper.calcNativeRegion(name) > GameConstants.MAX_AVAILABLE_REGION) {
+        if (PokemonHelper.calcNativeRegion(name) > MAX_AVAILABLE_REGION) {
             return false;
         }
 
@@ -114,3 +141,5 @@ class ExternalHelper {
         return true;
     }
 }
+
+export default ExternalHelper;

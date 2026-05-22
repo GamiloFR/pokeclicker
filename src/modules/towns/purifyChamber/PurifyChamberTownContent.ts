@@ -1,3 +1,4 @@
+import App from '../../App';
 import areaStatus from '../../enums/AreaStatus';
 import { ShadowStatus } from '../../GameConstants';
 import TownContent from '../townContent/TownContent';

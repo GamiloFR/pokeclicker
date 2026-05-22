@@ -30,11 +30,11 @@
                                         <button class="btn btn-secondary smallButton list-group-item-action pl-2"
                                                 data-bind="css:{'item-selected': ItemHandler.stoneSelected() === $data},
                                                     click: function(){ ItemHandler.stoneSelected($data); ItemHandler.pokemonSelected('')},
-                                                    visible: ItemList[$data].unlockedRegion <= player.highestRegion() || player.amountOfItem($data) > 0">
+                                                    visible: ItemList[$data].unlockedRegion <= App.player.highestRegion() || App.player.amountOfItem($data) > 0">
                                             <div class="d-flex align-items-center">
                                                 <img class="mr-3" data-bind="attr: {src: ItemList[$data].image }" style="max-width: 32px;">
                                                 <div class="flex-grow-1 mr-1" data-bind="text: ItemList[$data].displayName"></div>
-                                                <div class="mr-1" data-bind="text: player.itemList[$data]().toLocaleString('en-US')"></div>
+                                                <div class="mr-1" data-bind="text: App.player.itemList[$data]().toLocaleString('en-US')"></div>
                                                 <!-- ko if: ItemList[$data] instanceof CaughtIndicatingItem -->
                                                 <div class="mr-1" data-bind="template: { name: 'caughtStatusTemplate', data: {'status': ItemList[$data].getCaughtStatus()}}"></div>
                                                 <!-- /ko -->
@@ -109,14 +109,14 @@
 
                     <div id="itemBag" class="tab-pane p-3">
 
-                        <!-- ko if: Object.values(ItemList).some((i) => i instanceof QuestItem && i.isActive() && player.itemList[i.name]()) -->
+                        <!-- ko if: Object.values(ItemList).some((i) => i instanceof QuestItem && i.isActive() && App.player.itemList[i.name]()) -->
                         <div class="bg-primary text-left rounded-0 px-3 py-2 mb-1" data-toggle="collapse" data-target="#itemBag-questItems">
                             <h5 class="m-0 text-light">Quest Items</h5>
                         </div>
                         <div id="itemBag-questItems" class="collapse show">
                             <div class="card-body pt-2 p-1">
                                 <div class="row justify-content-center">
-                                    <!-- ko foreach: Object.values(ItemList).filter((i) => i instanceof QuestItem && i.isActive() && player.itemList[i.name]()) -->
+                                    <!-- ko foreach: Object.values(ItemList).filter((i) => i instanceof QuestItem && i.isActive() && App.player.itemList[i.name]()) -->
                                     <div class="col-6 col-lg-3 mb-2">
                                         <div class="btn btn-secondary text-left w-100 px-1" style="padding-top: 1px; padding-bottom: 2px;"
                                             data-bind="template: { name: 'otherItemTemplate', data: $data.name }">
@@ -146,14 +146,14 @@
                             </div>
                         </div>
 
-                        <!-- ko if: GameHelper.enumStrings(GameConstants.ConsumableType).some(type => player.itemList[type]()) -->
+                        <!-- ko if: GameHelper.enumStrings(GameConstants.ConsumableType).some(type => App.player.itemList[type]()) -->
                         <div class="bg-primary text-left rounded-0 px-3 py-2 mb-1" data-toggle="collapse" data-target="#itemBag-consumables">
                             <h5 class="m-0 text-light">Consumables</h5>
                         </div>
                         <div id="itemBag-consumables" class="collapse show">
                             <div class="card-body pt-2 p-1">
                                 <div class="row justify-content-center">
-                                    <!-- ko foreach: GameHelper.enumStrings(GameConstants.ConsumableType).filter(type => player.itemList[type]()).map(type => ItemList[type]) -->
+                                    <!-- ko foreach: GameHelper.enumStrings(GameConstants.ConsumableType).filter(type => App.player.itemList[type]()).map(type => ItemList[type]) -->
                                     <div class="col-6 col-lg-3 mb-2">
                                         <div class="btn btn-secondary text-left w-100 px-1" style="padding-top: 1px; padding-bottom: 2px;"
                                             data-bind="template: { name: 'otherItemTemplate', data: $data.name },
@@ -265,13 +265,13 @@
                             </div>
                         </div>
 
-                        <!-- ko if: Object.values(ItemList).some((i) => i instanceof MegaStoneItem && player.itemList[i.name]()) -->
+                        <!-- ko if: Object.values(ItemList).some((i) => i instanceof MegaStoneItem && App.player.itemList[i.name]()) -->
                         <div class="bg-primary text-left rounded-0 px-3 py-2 mb-1" data-toggle="collapse" data-target="#itemBag-megaStones">
                             <h5 class="m-0 text-light">Mega Stones</h5>
                         </div>
                         <div id="itemBag-megaStones" class="collapse show mt-1">
                             <div class="card-body pt-2 p-1">
-                                <div class="row justify-content-center" data-bind="foreach: Object.values(ItemList).filter((i) => i instanceof MegaStoneItem && player.itemList[i.name]())">
+                                <div class="row justify-content-center" data-bind="foreach: Object.values(ItemList).filter((i) => i instanceof MegaStoneItem && App.player.itemList[i.name]())">
                                     <div class="col-6 col-lg-3 mb-2">
                                         <div class="btn btn-secondary px-1 py-0 d-flex align-items-center text-left" style="pointer-events: none;">
                                             <img width="42px" data-bind="attr: { src: $data.image }">
@@ -346,7 +346,7 @@
         <img width="42px" data-bind="attr: { src: ItemList[$data].image }">
         <div class="flex-grow-1 small align-self-end ml-2" style="min-width: 0;">
             <div class="text-truncate" data-bind="text: ItemList[$data].displayName"></div>
-            <div data-bind="text: player.itemList[$data]().toLocaleString('en-US')"></div>
+            <div data-bind="text: App.player.itemList[$data]().toLocaleString('en-US')"></div>
         </div>
     </div>
 </script>

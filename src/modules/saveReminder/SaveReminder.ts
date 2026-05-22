@@ -1,6 +1,7 @@
 import type {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
 import '../koExtenders';

@@ -1,4 +1,5 @@
 import { Computed as KnockoutComputed } from 'knockout';
+import App from '../App';
 import CaughtStatus from '../enums/CaughtStatus';
 import { Currency, PokemonStatisticsType, Pokerus, SHINY_CHANCE_SHOP, SHOPMON_EP_YIELD, ShadowStatus } from '../GameConstants';
 import GameHelper from '../GameHelper';

@@ -1,9 +1,10 @@
 import { PureComputed } from 'knockout';
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import { pokemonMap } from '../pokemons/PokemonList';
-import AchievementRequirement from './AchievementRequirement';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
+import AchievementRequirement from './AchievementRequirement';
 
 export default class DefeatedPokemonTypeRequirement extends AchievementRequirement {
     private pokemonList: PokemonNameType[];

@@ -450,7 +450,7 @@
                                                         attr: { src: ItemList[GameConstants.EnergyRestoreSize[$data]].image },
                                                         style: { opacity: $parent.hasAllowedEnergyRestore($data) ? 1 : 0.3 }
                                                     ">
-                                                    <div class="small" data-bind="text: `${ItemList[GameConstants.EnergyRestoreSize[$data]].displayName.replace(' Restore', '')} [${player.itemList[GameConstants.EnergyRestoreSize[$data]]().toLocaleString('en-US', { notation: 'compact' })}]`"></div>
+                                                    <div class="small" data-bind="text: `${ItemList[GameConstants.EnergyRestoreSize[$data]].displayName.replace(' Restore', '')} [${App.player.itemList[GameConstants.EnergyRestoreSize[$data]]().toLocaleString('en-US', { notation: 'compact' })}]`"></div>
                                                 </div>
                                                 <!-- /ko -->
                                             </div>
@@ -878,7 +878,7 @@
                                     </div>
                                     <!-- ko ifnot: $data.selectedEnergyRestore() < 0 -->
                                     <img class="pixelated" data-bind="attr: { src: ItemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]].image }" src="" alt="" style="height: 26px;">
-                                    <span data-bind="text: `× ${player.itemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]]().toLocaleString('en-US')}`"></span>
+                                    <span data-bind="text: `× ${App.player.itemList[GameConstants.EnergyRestoreSize[$data.selectedEnergyRestore()]]().toLocaleString('en-US')}`"></span>
                                     <!-- /ko -->
                                 </div>
                             </div>
@@ -983,7 +983,7 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 col-lg-3 font-weight-bold" data-bind="css: { 'text-danger': UndergroundTrading.sellAmount > player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() }">
+                            <div class="col-12 col-lg-3 font-weight-bold" data-bind="css: { 'text-danger': UndergroundTrading.sellAmount > App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() }">
                                 <label data-bind="text: UndergroundTrading.sellAmount.toLocaleString('en-US')"></label>
                             </div>
                             <div class="col-12 col-lg-6">
@@ -1052,7 +1052,7 @@
                                         <!-- ko foreach: [0.1, 0.25, 0.5, 0.75, 1] -->
                                         <button class="dropdown-item small py-1" type="button" data-bind="
                                             text: `${$data.toLocaleString('en-US', { style: 'percent' })}`,
-                                            click: () => { UndergroundTrading.sellAmount = player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() * $data }
+                                            click: () => { UndergroundTrading.sellAmount = App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() * $data }
                                         "></button>
                                         <!-- /ko -->
                                     </div>
@@ -1093,7 +1093,7 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col-12 col-lg-3 font-weight-bold" data-bind="css: { 'text-danger': UndergroundTrading.tradeFromAmount > player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() }">
+                            <div class="col-12 col-lg-3 font-weight-bold" data-bind="css: { 'text-danger': UndergroundTrading.tradeFromAmount > App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() }">
                                 <label data-bind="text: UndergroundTrading.tradeFromAmount.toLocaleString('en-US')"></label>
                             </div>
                             <div class="col-12 col-lg-6">
@@ -1156,7 +1156,7 @@
                                         <!-- ko foreach: [0.1, 0.25, 0.5, 0.75, 1] -->
                                         <button class="dropdown-item small py-1" type="button" data-bind="
                                             text: `${$data.toLocaleString('en-US', { style: 'percent' })}`,
-                                            click: () => { UndergroundTrading.tradeFromAmount = player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() * $data }
+                                            click: () => { UndergroundTrading.tradeFromAmount = App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]() * $data }
                                         "></button>
                                         <!-- /ko -->
                                     </div>
@@ -1192,7 +1192,7 @@
                                     <tbody>
                                     <tr>
                                         <td class="text-left">Owned</td>
-                                        <td class="text-left tight"><code data-bind="text: player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]().toLocaleString('en-US')"></code></td>
+                                        <td class="text-left tight"><code data-bind="text: App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]().toLocaleString('en-US')"></code></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Mined</td>
@@ -1209,7 +1209,7 @@
 
             <div class="modal-footer justify-content-between">
                 <!-- ko if: UndergroundTrading.selectedTradeFromItem -->
-                <div>Owned: <knockout data-bind="text: player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]().toLocaleString('en-US')"></knockout></div>
+                <div>Owned: <knockout data-bind="text: App.player.itemList[UndergroundTrading.selectedTradeFromItem.itemName]().toLocaleString('en-US')"></knockout></div>
                 <!-- /ko -->
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
@@ -1229,7 +1229,7 @@
     ">
         <div class="treasure-item" data-bind="style: { opacity: undergroundItem.isUnlocked() ? 1 : 0.25 },
             tooltip: {
-                title: `<u>${ItemList[itemName].displayName}</u><br/>${ItemList[itemName].description}<br/>${player.itemList[itemName]().toLocaleString('en-US')}`,
+                title: `<u>${ItemList[itemName].displayName}</u><br/>${ItemList[itemName].description}<br/>${App.player.itemList[itemName]().toLocaleString('en-US')}`,
                 trigger: 'hover',
                 html: true
             }
@@ -1237,8 +1237,8 @@
             <img width="42px" data-bind="attr: { src: ItemList[itemName].image }" />
             <div class="treasure-item-data-wrapper">
                 <div class="treasure-item-name small" style="line-height: 1rem;" data-bind="text: ItemList[itemName].displayName"></div>
-                <div class="small font-weight-bold short-format" style="line-height: 1rem; word-break: break-all" data-bind="text: GameConstants.formatNumber(player.itemList[itemName]())"></div>
-                <div class="small font-weight-bold long-format" style="line-height: 1rem; word-break: break-all" data-bind="text: player.itemList[itemName]().toLocaleString('en-US')"></div>
+                <div class="small font-weight-bold short-format" style="line-height: 1rem; word-break: break-all" data-bind="text: GameConstants.formatNumber(App.player.itemList[itemName]())"></div>
+                <div class="small font-weight-bold long-format" style="line-height: 1rem; word-break: break-all" data-bind="text: App.player.itemList[itemName]().toLocaleString('en-US')"></div>
             </div>
         </div>
 

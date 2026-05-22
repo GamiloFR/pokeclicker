@@ -1,6 +1,7 @@
 import {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';

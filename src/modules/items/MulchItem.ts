@@ -1,3 +1,4 @@
+import App from '../App';
 import MulchType from '../enums/MulchType';
 import { Currency } from '../GameConstants';
 import GameHelper from '../GameHelper';

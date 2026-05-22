@@ -1,6 +1,7 @@
-import Requirement from './Requirement';
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import OakItemType from '../enums/OakItemType';
+import Requirement from './Requirement';
 
 export default class OakItemLevelRequirement extends Requirement {
     private _oakItemType;

@@ -1,4 +1,5 @@
 import type { Computed } from 'knockout';
+import App from '../App';
 import AuraType from '../enums/AuraType';
 import BerryType from '../enums/BerryType';
 import FarmingTool from '../enums/FarmingTool';
@@ -294,10 +295,6 @@ class FarmController {
 
     }
 
-    public static getBerryImage(index: number) {
-        return `assets/images/items/berry/${BerryType[index]}.png`;
-    }
-
     public static getHint(index: number, checkSeen = false, checkUnlocked = false) {
         if (checkUnlocked && App.game.farming.unlockedBerries[index]()) {
             return '';
@@ -322,7 +319,7 @@ class FarmController {
     }
 
     public static wandererToRoute(pokemon: PokemonNameType): RegionRoute {
-        const maxRegion = player.highestRegion();
+        const maxRegion = App.player.highestRegion();
         const pokemonRegion = pokemonMap[pokemon].nativeRegion;
         const routes = Routes.getRoutesByRegion(maxRegion).filter(r => !r.ignoreRouteInCalculations);
         const minIndex = Math.floor((routes.length - 1) * pokemonRegion / (maxRegion + 2));

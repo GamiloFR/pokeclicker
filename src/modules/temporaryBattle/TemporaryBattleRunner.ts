@@ -1,3 +1,4 @@
+import App from '../App';
 import Battle from '../battles/Battle';
 import DungeonRunner from '../dungeons/DungeonRunner';
 import { FluteItemType, GYM_COUNTDOWN, GameState, StartingTowns, TEMP_BATTLE_TICK, TEMP_BATTLE_TIME, getTemporaryBattlesIndex } from '../GameConstants';
@@ -32,7 +33,7 @@ class TemporaryBattleRunner {
         this.timeLeft(TEMP_BATTLE_TIME * this.timeBonus());
         this.timeLeftPercentage(100);
 
-        player.route = 0;
+        App.player.route = 0;
         Battle.route = 0;
         Battle.catching(!(battle.optionalArgs.isTrainerBattle ?? true));
         TemporaryBattleBattle.totalPokemons(battle.getPokemonList().length);
@@ -96,7 +97,7 @@ class TemporaryBattleRunner {
                 message: `It appears you are not strong enough to defeat ${TemporaryBattleBattle.battle.getDisplayName()}.`,
                 type: NotificationConstants.NotificationOption.danger,
             });
-            player.town = TemporaryBattleBattle.battle.getTown() ?? TownList[StartingTowns[player.region]];
+            App.player.town = TemporaryBattleBattle.battle.getTown() ?? TownList[StartingTowns[App.player.region]];
             App.game.gameState = GameState.town;
         }
     }
@@ -112,7 +113,7 @@ class TemporaryBattleRunner {
             }
             battle.optionalArgs.rewardFunction?.();
             GameHelper.incrementObservable(App.game.statistics.temporaryBattleDefeated[getTemporaryBattlesIndex(battle.name)]);
-            player.town = battle.getTown() ?? TownList[StartingTowns[player.region]];
+            App.player.town = battle.getTown() ?? TownList[StartingTowns[App.player.region]];
             App.game.gameState = GameState.town;
         }
     }

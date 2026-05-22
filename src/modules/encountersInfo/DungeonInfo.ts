@@ -1,6 +1,7 @@
+import App from '../App';
 import { Loot } from '../dungeons/Dungeon';
 import BerryType from '../enums/BerryType';
-import FarmController from '../farming/FarmController';
+import FarmHelper from '../farming/FarmHelper';
 import { camelCaseToString, humanifyString, Region } from '../GameConstants';
 import { ItemList } from '../items/ItemList';
 import { pokemonMap } from '../pokemons/PokemonList';
@@ -13,7 +14,7 @@ class DungeonInfo {
     });
 
     private static getLootList() {
-        const rawTable = player.town.dungeon?.lootTable || {};
+        const rawTable = App.player.town.dungeon?.lootTable || {};
         const displayTable = {};
         Object.entries(rawTable).forEach(([tier, loots]) => {
             const filteredLoots = (loots as Loot[]).filter(l => ItemList[l.loot] || pokemonMap[l.loot].name == 'MissingNo.');
@@ -29,21 +30,21 @@ class DungeonInfo {
     }
 
     private static getDungeonName() {
-        return player.town.name;
+        return App.player.town.name;
     }
 
     private static getRegionName() {
-        return camelCaseToString(Region[player.region]);
+        return camelCaseToString(Region[App.player.region]);
     }
 
     private static getSubregionName() {
-        return player.subregionObject()?.name;
+        return App.player.subregionObject()?.name;
     }
 
     public static getLootImage(input: string) {
         switch (true) {
             case typeof BerryType[input] == 'number':
-                return FarmController.getBerryImage(BerryType[humanifyString(input)]);
+                return FarmHelper.getBerryImage(BerryType[humanifyString(input)]);
             case UndergroundItems.getByName(input) instanceof UndergroundItem:
                 return UndergroundItems.getByName(input).image;
             default:

@@ -1,15 +1,26 @@
-/// <reference path="../declarations/TemporaryScriptTypes.d.ts" />
-/// <reference path="../declarations/DataStore/BadgeCase.d.ts" />
-/// <reference path="../declarations/party/Category.d.ts"/>
+/* eslint-disable no-console */
+import Game from './Game';
+import * as GameConstants from './GameConstants';
+import GameController from './GameController';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
+import Player from './Player';
+import Settings from './settings/Settings';
+import Translate from './translation/Translation';
+import GameLoadState from './utilities/GameLoadState';
+import Preload from './utilities/Preload';
 
 class App {
 
     static readonly debug = false;
     static game: Game;
+    static player: Player;
     static readonly isUsingClient = typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0;
-    static translation = new Translate(Settings.getSetting('translation.language'));
+    static translation: Translate;
 
     static start() {
+        this.translation = new Translate(Settings.getSetting('translation.language'));
+
         // Hide tooltips that stay on game load
         $('.tooltip').tooltip('hide');
 
@@ -71,4 +82,4 @@ class App {
     }
 }
 
-App satisfies TmpAppType;
+export default App;

@@ -1,3 +1,4 @@
+import App from '../../../App';
 import BerryType from '../../../enums/BerryType';
 import PlotStage from '../../../enums/PlotStage';
 import Mutation, { MutationOptions } from '../Mutation';

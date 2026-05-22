@@ -1,3 +1,4 @@
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import KeyItemType from '../enums/KeyItemType';
 import {
@@ -75,7 +76,7 @@ export default class KeyItems implements Feature {
                 'Pokérus Virus',
                 () => {
                     const patientZero = App.game.party.getPokemon(
-                        RegionalStarters[Region.kanto][player.regionStarters[Region.kanto]()],
+                        RegionalStarters[Region.kanto][App.player.regionStarters[Region.kanto]()],
                     ) || App.game.party.caughtPokemon[0];
                     patientZero.pokerus = Pokerus.Contagious;
                 }),

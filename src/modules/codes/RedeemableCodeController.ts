@@ -1,3 +1,5 @@
+import App from '../App';
+
 export default class RedeemableCodeController {
     static enterCode() {
         const el = document.getElementById('redeemable-code-input') as HTMLInputElement;

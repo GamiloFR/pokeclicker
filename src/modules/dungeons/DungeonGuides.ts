@@ -1,4 +1,5 @@
 import type { Computed } from 'knockout';
+import App from '../App';
 import { Currency, DUNGEON_TICK, DungeonInteractionSource, DungeonTileType, MINUTE, Region, SECOND } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -38,11 +39,11 @@ class DungeonGuides {
     }
 
     public static calcCost(includeDungeonCost = false): Amount[] {
-        return this.list[this.selected()].calcCost(this.clears(), player.town.dungeon.tokenCost, player.town.dungeon.difficulty, includeDungeonCost);
+        return this.list[this.selected()].calcCost(this.clears(), App.player.town.dungeon.tokenCost, App.player.town.dungeon.difficulty, includeDungeonCost);
     }
 
     public static calcDungeonCost(): Amount {
-        return new Amount(player.town.dungeon.tokenCost * this.clears(), Currency.dungeonToken);
+        return new Amount(App.player.town.dungeon.tokenCost * this.clears(), Currency.dungeonToken);
     }
 
     public static canAfford(): boolean {
@@ -62,7 +63,7 @@ class DungeonGuides {
             return;
         }
         const guide = this.list[this.selected()];
-        const dungeon = player.town.dungeon;
+        const dungeon = App.player.town.dungeon;
         // Check player has enough currency
         if (!this.canAfford()) {
             Notifier.notify({
@@ -161,7 +162,7 @@ class DungeonGuide {
             if (DungeonRunner.canStartDungeon(DungeonRunner.dungeon)) {
                 // Need to reset the map
                 DungeonRunner.map.board([]);
-                DungeonRunner.initializeDungeon(player.town.dungeon);
+                DungeonRunner.initializeDungeon(App.player.town.dungeon);
             } else {
                 // Most likely, dungeon is not open anymore
                 Notifier.notify({

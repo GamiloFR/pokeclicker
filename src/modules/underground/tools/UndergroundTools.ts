@@ -1,12 +1,13 @@
-import UndergroundTool from './UndergroundTool';
-import UndergroundToolType from './UndergroundToolType';
 import { Observable } from 'knockout';
-import { UndergroundController } from '../UndergroundController';
-import { Coordinate, Mine } from '../mine/Mine';
-import Rand from '../../utilities/Rand';
+import App from '../../App';
 import OakItemType from '../../enums/OakItemType';
 import { clipNumber, SURVEY_RANGE_BASE, SURVEY_RANGE_REDUCTION_LEVELS } from '../../GameConstants';
 import GameHelper from '../../GameHelper';
+import Rand from '../../utilities/Rand';
+import { Coordinate, Mine } from '../mine/Mine';
+import { UndergroundController } from '../UndergroundController';
+import UndergroundTool from './UndergroundTool';
+import UndergroundToolType from './UndergroundToolType';
 
 export default class UndergroundTools {
     tools: UndergroundTool[] = [];

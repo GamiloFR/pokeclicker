@@ -1,8 +1,9 @@
 import {
-    Observable as KnockoutObservable,
     Computed as KnockoutComputed,
+    Observable as KnockoutObservable,
     Subscription as KnockoutSubscription,
 } from 'knockout';
+import App from '../App';
 import KeyItemType from '../enums/KeyItemType';
 import * as GameConstants from '../GameConstants';
 

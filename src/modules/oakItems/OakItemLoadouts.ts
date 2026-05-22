@@ -1,10 +1,11 @@
 import type {
-    Observable as KnockoutObservable,
     Computed as KnockoutComputed,
+    Observable as KnockoutObservable,
 } from 'knockout';
-import '../koExtenders';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import OakItemType from '../enums/OakItemType';
+import '../koExtenders';
 import OakItemLoadout from './OakItemLoadout';
 
 export default class OakItemLoadouts implements Saveable {

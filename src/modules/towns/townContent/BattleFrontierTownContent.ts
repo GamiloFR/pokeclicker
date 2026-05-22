@@ -1,3 +1,4 @@
+import App from '../../App';
 import TownContent from './TownContent';
 
 class BattleFrontierTownContent extends TownContent {

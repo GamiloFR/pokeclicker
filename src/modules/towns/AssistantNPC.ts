@@ -1,3 +1,4 @@
+import App from '../App';
 import { EvoTrigger } from '../pokemons/evolutions/Base';
 import { pokemonBabyPrevolutionMap, pokemonMap } from '../pokemons/PokemonList';
 import MultiRequirement from '../requirements/MultiRequirement';
@@ -23,14 +24,14 @@ class AssistantNPC extends NPC {
                 case 'baby':
                     return App.game.party.caughtPokemon.filter(p =>
                         pokemonBabyPrevolutionMap[p.name] &&
-                        player.highestRegion() >= pokemonMap[pokemonBabyPrevolutionMap[p.name]].nativeRegion &&
+                        App.player.highestRegion() >= pokemonMap[pokemonBabyPrevolutionMap[p.name]].nativeRegion &&
                         !App.game.party.caughtPokemon.some(e => e.name === pokemonBabyPrevolutionMap[p.name]),
                     ).sort((a, b) => a.id - b.id);
                 case 'evolution':
                     return App.game.party.caughtPokemon.filter(p => p.evolutions?.some(e =>
                         e.trigger !== EvoTrigger.NONE &&
                         !App.game.party.caughtPokemon.some(p => p.name === e.evolvedPokemon) &&
-                        player.highestRegion() >= pokemonMap[e.evolvedPokemon].nativeRegion &&
+                        App.player.highestRegion() >= pokemonMap[e.evolvedPokemon].nativeRegion &&
                         Math.floor(pokemonMap[e.basePokemon].id) != Math.floor(pokemonMap[e.evolvedPokemon].id),
                     )).sort((a, b) => a.id - b.id);
                 default:

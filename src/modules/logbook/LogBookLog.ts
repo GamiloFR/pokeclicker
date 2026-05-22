@@ -1,4 +1,5 @@
 import type { PureComputed } from 'knockout';
+import App from '../App';
 import { createLogContent, LogContent, LogContentKey } from './helpers';
 import { LogBookType } from './LogBookTypes';
 

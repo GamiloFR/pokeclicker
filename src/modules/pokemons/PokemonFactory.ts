@@ -1,3 +1,4 @@
+import App from '../App';
 import BattlePokemon from '../battles/BattlePokemon';
 import DungeonBossPokemon from '../dungeons/DungeonBossPokemon';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
@@ -98,7 +99,7 @@ class PokemonFactory {
                         : createLogContent.roamerShiny
                     : createLogContent.roamer
                 )({
-                    location: Routes.getRoute(player.region, player.route).routeName,
+                    location: Routes.getRoute(App.player.region, App.player.route).routeName,
                     pokemon: name,
                 }),
             );
@@ -392,7 +393,7 @@ class PokemonFactory {
         const maxRoute = allRoutes.length - 1;
         const routeInd = allRoutes.indexOf(curRoute);
         // Check if we should have increased chances on this route (3 x rate)
-        const increasedChance = RoamingPokemonList.getIncreasedChanceRouteBySubRegionGroup(player.region, RoamingPokemonList.findGroup(region, subRegion.id))()?.number == curRoute?.number;
+        const increasedChance = RoamingPokemonList.getIncreasedChanceRouteBySubRegionGroup(App.player.region, RoamingPokemonList.findGroup(region, subRegion.id))()?.number == curRoute?.number;
         const roamingChance = (max + ((min - max) * (maxRoute - routeInd) / (maxRoute))) / ((increasedChance ? ROAMING_INCREASED_CHANCE : 1) * bonus);
         return Rand.chance(roamingChance);
     }
@@ -514,7 +515,7 @@ class PokemonFactory {
         const availablePokemon: PokemonNameType[] = [];
         const weights: number[] = [];
         berry.wander.forEach((p, i) => {
-            if (pokemonMap[p].nativeRegion <= player.highestRegion()) {
+            if (pokemonMap[p].nativeRegion <= App.player.highestRegion()) {
                 availablePokemon.push(p);
                 weights.push(mulch === MulchType.Gooey_Mulch && i >= Berry.baseWander.length ? 2 : 1);
             }

@@ -1,4 +1,5 @@
-import { EnergyRestoreSize, Currency } from '../GameConstants';
+import App from '../App';
+import { Currency, EnergyRestoreSize } from '../GameConstants';
 import Item from './Item';
 
 export default class EnergyRestore extends Item {
@@ -10,10 +11,10 @@ export default class EnergyRestore extends Item {
     }
 
     use(): boolean {
-        if (player.itemList[this.name]() <= 0) {
+        if (App.player.itemList[this.name]() <= 0) {
             return false;
         }
-        player.loseItem(this.name, 1);
+        App.player.loseItem(this.name, 1);
         return true;
     }
 }

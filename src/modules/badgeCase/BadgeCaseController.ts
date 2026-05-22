@@ -1,3 +1,4 @@
+import App from '../App';
 import BadgeEnums from '../enums/Badges';
 import { Region, RegionGyms } from '../GameConstants';
 import GymList from '../gym/GymList';
@@ -10,7 +11,7 @@ class BadgeCaseController {
     private static optionalLeagueNames = ['Orange League', 'Magikarp Jump', 'Orre'];
 
     static getDisplayableBadges(): DisplayableBadges {
-        const highestRegion = player.highestRegion();
+        const highestRegion = App.player.highestRegion();
         const result: DisplayableBadges = {};
         RegionGyms.forEach((region, i) => {
             // Optional leagues

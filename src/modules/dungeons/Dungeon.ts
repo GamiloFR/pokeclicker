@@ -1,3 +1,4 @@
+import App from '../App';
 import BerryNameType from '../enums/BerryNameType';
 import KeyItemType from '../enums/KeyItemType';
 import { getDungeonRegion, Pokerus, Region, ShadowStatus } from '../GameConstants';

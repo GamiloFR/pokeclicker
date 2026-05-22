@@ -1,3 +1,4 @@
+import App from '../../App';
 import PokemonType from '../../enums/PokemonType';
 import { DEFEAT_POKEMONS_BASE_REWARD } from '../../GameConstants';
 import GameHelper from '../../GameHelper';

@@ -1,3 +1,4 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import TemporaryBattleList from '../temporaryBattle/TemporaryBattleList';
 import AchievementRequirement from './AchievementRequirement';

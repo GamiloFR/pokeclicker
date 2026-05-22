@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import QuestLine from '../quests/QuestLine';
 import { QuestLineNameType } from '../quests/QuestLineNameType';

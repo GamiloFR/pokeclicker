@@ -1,3 +1,4 @@
+import App from '../App';
 import GameHelper from '../GameHelper';
 import MultiRequirement from '../requirements/MultiRequirement';
 import OneFromManyRequirement from '../requirements/OneFromManyRequirement';

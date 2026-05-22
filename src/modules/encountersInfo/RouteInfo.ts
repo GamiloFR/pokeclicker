@@ -1,3 +1,4 @@
+import App from '../App';
 import KeyItemType from '../enums/KeyItemType';
 import { camelCaseToString, Region } from '../GameConstants';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
@@ -45,7 +46,7 @@ class RouteInfo {
     });
 
     public static getPokemonList() {
-        const pokemonList = Routes.getRoute(player.region, player.route)?.pokemon;
+        const pokemonList = Routes.getRoute(App.player.region, App.player.route)?.pokemon;
         const pokemonArray: PokemonInfo[] = [];
         if (pokemonList) {
             [...new Set(pokemonList.land)].forEach(pokemonName => {
@@ -72,7 +73,7 @@ class RouteInfo {
         }
 
         const roamerArray =
-            RoamingPokemonList.getSubRegionalGroupRoamers(player.region, RoamingPokemonList.findGroup(player.region, player.subregion))
+            RoamingPokemonList.getSubRegionalGroupRoamers(App.player.region, RoamingPokemonList.findGroup(App.player.region, App.player.subregion))
                 .map((roamer) => ({ id: roamer.pokemon.id, name: roamer.pokemonName, type: 'roamer', requirement: roamer.unlockRequirement }))
                 .sort((a, b) => a.id - b.id);
 
@@ -119,15 +120,15 @@ class RouteInfo {
     }
 
     private static getRouteName() {
-        return Routes.getName(player.route, player.region);
+        return Routes.getName(App.player.route, App.player.region);
     }
 
     private static getRegionName() {
-        return camelCaseToString(Region[player.region]);
+        return camelCaseToString(Region[App.player.region]);
     }
 
     private static getSubregionName() {
-        return player.subregionObject()?.name;
+        return App.player.subregionObject()?.name;
     }
 }
 

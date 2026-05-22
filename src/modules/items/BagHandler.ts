@@ -1,8 +1,9 @@
 import { Observable } from 'knockout';
+import App from '../App';
 import BerryType from '../enums/BerryType';
 import ItemType from '../enums/ItemType';
 import PokemonType from '../enums/PokemonType';
-import FarmController from '../farming/FarmController';
+import FarmHelper from '../farming/FarmHelper';
 import Gems from '../gems/Gems';
 import BagItem from '../interfaces/BagItem';
 import { UndergroundController } from '../underground/UndergroundController';
@@ -50,7 +51,7 @@ class BagHandler {
             case ItemType.underground:
                 return this.getUndergroundItem(item.id).image;
             case ItemType.berry:
-                return FarmController.getBerryImage(this.getBerry(item.id));
+                return FarmHelper.getBerryImage(this.getBerry(item.id));
             case ItemType.gem:
                 return Gems.image(this.getGem(item.id));
         }
@@ -67,9 +68,9 @@ class BagHandler {
         }
         switch (item.type) {
             case ItemType.item:
-                return player.itemList[this.getItem(item.id).name];
+                return App.player.itemList[this.getItem(item.id).name];
             case ItemType.underground:
-                return player.itemList[this.getUndergroundItem(item.id).itemName];
+                return App.player.itemList[this.getUndergroundItem(item.id).itemName];
             case ItemType.berry:
                 return App.game.farming.berryList[this.getBerry(item.id)];
             case ItemType.gem:

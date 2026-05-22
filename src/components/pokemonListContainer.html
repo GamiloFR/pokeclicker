@@ -29,7 +29,7 @@
         </div>
     </div>
 </script>
-<div id="pokemonListContainer" class="card sortable border-secondary mb-3" data-bind="visible: player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None">
+<div id="pokemonListContainer" class="card sortable border-secondary mb-3" data-bind="visible: App.player.regionStarters[GameConstants.Region.kanto]() != GameConstants.Starter.None">
     <div class="card-header p-0" data-toggle="collapse" href="#pokemonListBody">
         <span>Pokémon List</span>
     </div>
@@ -72,7 +72,7 @@
                                         <sup data-bind="visible: App.game.party.alreadyCaughtPokemon($data.id, true)">✨</sup>
                                         <img class="shadow-icon" src="assets/images/status/shadow.svg" data-bind="visible: $data.shadow == GameConstants.ShadowStatus.Shadow"/>
                                         <img class="shadow-icon" src="assets/images/status/purified.svg" data-bind="visible: $data.shadow == GameConstants.ShadowStatus.Purified"/>
-                                        <!-- ko foreach: PokemonHelper.getMegaStones($data.name).filter(s => player.hasMegaStone(s.megaStone)) -->
+                                        <!-- ko foreach: PokemonHelper.getMegaStones($data.name).filter(s => App.player.hasMegaStone(s.megaStone)) -->
                                         <img width="20px" data-bind="attr: { src: $data.image },
                                             tooltip: {
                                                 title: pokemonMap[$parent.name].evolutions.flatMap(e => e.restrictions)

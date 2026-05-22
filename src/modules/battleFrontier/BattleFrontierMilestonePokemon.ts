@@ -1,3 +1,4 @@
+import App from '../App';
 import { SHINY_CHANCE_BATTLEFRONTIER } from '../GameConstants';
 import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';

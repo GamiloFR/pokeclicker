@@ -1,4 +1,5 @@
 import type { Computed as KnockoutComputed, Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
 import type EncounterType from '../enums/EncounterType';
 import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';

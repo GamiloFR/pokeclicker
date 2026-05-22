@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import { SpecialEventTitleType } from '../specialEvents/SpecialEventTitleType';
 

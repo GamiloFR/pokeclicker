@@ -1,4 +1,5 @@
 import { Observable, Subscription } from 'knockout';
+import App from '../App';
 import Battle from '../battles/Battle';
 import { Feature } from '../DataStore/common/Feature';
 import DayCycle from '../dayCycle/DayCycle';
@@ -41,8 +42,8 @@ class Pokeballs implements Feature {
                 if (opts.encounterType === EncounterType.wanderer) {
                     return 0;
                 }
-                if (App.game.gameState == GameState.fighting && player.route) {
-                    const kills = App.game.statistics.routeKills[Region[player.region]]?.[player.route]?.() || 0;
+                if (App.game.gameState == GameState.fighting && App.player.route) {
+                    const kills = App.game.statistics.routeKills[Region[App.player.region]]?.[App.player.route]?.() || 0;
                     // between 15 (0 kills) → 0 (4012 kills)
                     return Math.min(15, Math.max(0, Math.pow(16, 1 - Math.pow(Math.max(0, kills - 10), 0.6) / 145) - 1));
                 }
@@ -55,8 +56,8 @@ class Pokeballs implements Feature {
                 if (opts.encounterType === EncounterType.wanderer) {
                     return 0;
                 }
-                if (App.game.gameState == GameState.fighting && player.route) {
-                    const kills = App.game.statistics.routeKills[Region[player.region]]?.[player.route]?.() || 0;
+                if (App.game.gameState == GameState.fighting && App.player.route) {
+                    const kills = App.game.statistics.routeKills[Region[App.player.region]]?.[App.player.route]?.() || 0;
                     // between 0 (0 kills) → 15 (9920 kills)
                     return Math.min(15, Math.max(0, Math.pow(16, Math.pow(kills, 0.6) / 250) - 1));
                 }
@@ -94,9 +95,9 @@ class Pokeballs implements Feature {
                 if (opts.encounterType === EncounterType.wanderer) {
                     return 0;
                 }
-                if (App.game.gameState == GameState.fighting && player.route) {
-                    const hasLandPokemon = Routes.getRoute(player.region, player.route).pokemon.land.length > 0;
-                    const isWaterPokemon = Routes.getRoute(player.region, player.route).pokemon.water.includes(Battle.enemyPokemon().name);
+                if (App.game.gameState == GameState.fighting && App.player.route) {
+                    const hasLandPokemon = Routes.getRoute(App.player.region, App.player.route).pokemon.land.length > 0;
+                    const isWaterPokemon = Routes.getRoute(App.player.region, App.player.route).pokemon.water.includes(Battle.enemyPokemon().name);
 
                     // If route has Land Pokémon and the current pokémon is a Water Pokémon
                     if (hasLandPokemon && isWaterPokemon) {
@@ -110,19 +111,19 @@ class Pokeballs implements Feature {
                 if (opts.encounterType === EncounterType.wanderer) {
                     return 0;
                 }
-                const highestRegionRoutes = Routes.getRoutesByRegion(player.highestRegion());
-                const maxRoute = MapHelper.normalizeRoute(highestRegionRoutes[highestRegionRoutes.length - 1].number, player.highestRegion());
+                const highestRegionRoutes = Routes.getRoutesByRegion(App.player.highestRegion());
+                const maxRoute = MapHelper.normalizeRoute(highestRegionRoutes[highestRegionRoutes.length - 1].number, App.player.highestRegion());
                 let currentRoute;
                 if (App.game.gameState == GameState.dungeon) {
                     // Use equivalent route difficulty for dungeons
                     currentRoute = DungeonRunner.dungeon.difficultyRoute;
                 } else {
-                    currentRoute = player.route;
+                    currentRoute = App.player.route;
                 }
-                currentRoute = MapHelper.normalizeRoute(currentRoute, player.region);
+                currentRoute = MapHelper.normalizeRoute(currentRoute, App.player.region);
 
                 // Increased rate for earlier routes and dungeons, scales with regional progression
-                return Math.min(15, Math.max(1, player.highestRegion()) * Math.max(1, (maxRoute / currentRoute)));
+                return Math.min(15, Math.max(1, App.player.highestRegion()) * Math.max(1, (maxRoute / currentRoute)));
             }, 1250, 'Increased catch rate on earlier routes', new RouteKillRequirement(10, Region.johto, 34)),
 
             new Pokeball(PokeballType.Repeatball, (opts) => {
@@ -171,7 +172,7 @@ class Pokeballs implements Feature {
 
     /**
      * Checks the players preferences to see what pokéball needs to be used on the next throw.
-     * Checks from the players pref to the most basic ball to see if the player has any.
+     * Checks from the players pref to the most basic ball to see if the App.player has any.
      * @param id the pokemon we are trying to catch.
      * @param isShiny if the Pokémon is shiny.
      * @returns {Pokeball} pokéball to use.

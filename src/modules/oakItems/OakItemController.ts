@@ -1,6 +1,7 @@
 import {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import OakItemType from '../enums/OakItemType';
 
 export default class OakItemController {

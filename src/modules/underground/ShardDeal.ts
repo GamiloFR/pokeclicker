@@ -1,4 +1,5 @@
-import { ShardTraderLocations, Currency, pluralizeString, humanifyString } from '../GameConstants';
+import App from '../App';
+import { Currency, humanifyString, pluralizeString, ShardTraderLocations } from '../GameConstants';
 import Item from '../items/Item';
 import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -46,7 +47,7 @@ export class ShardDeal {
         } else if (deal.questPointCost > App.game.wallet.currencies[deal.currencyType]()) {
             return false;
         } else {
-            return deal.shards.every((value) => player.itemList[value.shardType.itemName]() >= value.amount);
+            return deal.shards.every((value) => App.player.itemList[value.shardType.itemName]() >= value.amount);
         }
     }
 
@@ -54,14 +55,14 @@ export class ShardDeal {
         const deal = ShardDeal.list[town]?.peek()[i];
         if (ShardDeal.canUse(town, i)) {
             const trades = deal.shards.map(shard => {
-                const amt = player.itemList[shard.shardType.itemName]();
+                const amt = App.player.itemList[shard.shardType.itemName]();
                 const maxShardTrades = Math.floor(amt / shard.amount);
                 return maxShardTrades;
             });
             const qp = App.game.wallet.currencies[deal.currencyType]();
             const maxCurrencyTrades = Math.floor(qp / deal.questPointCost);
             const maxTrades = Math.min(maxCurrencyTrades, trades.reduce((a, b) => Math.min(a, b), tradeTimes));
-            deal.shards.forEach((value) => player.loseItem(value.shardType.itemName, value.amount * maxTrades));
+            deal.shards.forEach((value) => App.player.loseItem(value.shardType.itemName, value.amount * maxTrades));
 
             const amount = deal.item.amount * maxTrades;
             deal.item.itemType.gain(deal.item.amount * maxTrades);

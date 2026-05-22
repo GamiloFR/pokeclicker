@@ -1,3 +1,4 @@
+import App from '../../App';
 import { MINE_ITEMS_BASE_REWARD } from '../../GameConstants';
 import SeededRand from '../../utilities/SeededRand';
 import Quest from '../Quest';

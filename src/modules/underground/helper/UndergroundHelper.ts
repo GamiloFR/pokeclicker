@@ -1,17 +1,14 @@
 import { Observable, ObservableArray, PureComputed } from 'knockout';
-import { MineType } from '../mine/MineConfig';
-import Requirement from '../../requirements/Requirement';
-import MultiRequirement from '../../requirements/MultiRequirement';
-import OneFromManyRequirement from '../../requirements/OneFromManyRequirement';
+import App from '../../App';
 import {
-    REWARD_RETENTION_BASE,
-    REWARD_RETENTION_DECREASE_PER_LEVEL,
-    REWARD_RETENTION_MINIMUM,
     EnergyRestoreSize,
     FAVORITE_MINE_CHANCE_BASE,
     FAVORITE_MINE_CHANCE_INCREASE_PER_LEVEL,
     FAVORITE_MINE_CHANCE_MAXIMUM,
     MAX_HIRES,
+    REWARD_RETENTION_BASE,
+    REWARD_RETENTION_DECREASE_PER_LEVEL,
+    REWARD_RETENTION_MINIMUM,
     SMART_TOOL_CHANCE_BASE,
     SMART_TOOL_CHANCE_INCREASE_PER_LEVEL,
     SMART_TOOL_CHANCE_MAXIMUM,
@@ -20,10 +17,14 @@ import {
     WORKCYCLE_TIMEOUT_MINIMUM,
 } from '../../GameConstants';
 import GameHelper from '../../GameHelper';
+import MultiRequirement from '../../requirements/MultiRequirement';
+import OneFromManyRequirement from '../../requirements/OneFromManyRequirement';
+import Requirement from '../../requirements/Requirement';
+import Rand from '../../utilities/Rand';
+import { MineType } from '../mine/MineConfig';
+import UndergroundTool from '../tools/UndergroundTool';
 import UndergroundToolType from '../tools/UndergroundToolType';
 import { UndergroundController } from '../UndergroundController';
-import Rand from '../../utilities/Rand';
-import UndergroundTool from '../tools/UndergroundTool';
 import UndergroundItem from '../UndergroundItem';
 
 type UndergroundHelperParams = {
@@ -59,7 +60,7 @@ export class UndergroundHelper {
     private _workCycleTime: PureComputed<number> = ko.pureComputed(() => Math.max(WORKCYCLE_TIMEOUT_BASE - WORKCYCLE_TIMEOUT_DECREASE_PER_LEVEL * this._level(), WORKCYCLE_TIMEOUT_MINIMUM));
 
     private _allowedEnergyRestores: ObservableArray<EnergyRestoreSize> = ko.observableArray([]);
-    public selectedEnergyRestore: PureComputed<EnergyRestoreSize | -1> = ko.pureComputed(() => this._allowedEnergyRestores().find(potion => player.itemList[EnergyRestoreSize[potion]]() > 0) ?? -1);
+    public selectedEnergyRestore: PureComputed<EnergyRestoreSize | -1> = ko.pureComputed(() => this._allowedEnergyRestores().find(potion => App.player.itemList[EnergyRestoreSize[potion]]() > 0) ?? -1);
 
     private _trackedStolenItems: Record<600, Observable<number>> = {
         600: ko.observable(0),
@@ -156,7 +157,7 @@ export class UndergroundHelper {
             return;
 
         const potionName = EnergyRestoreSize[this.selectedEnergyRestore()];
-        if (player.itemList[potionName]() <= 0)
+        if (App.player.itemList[potionName]() <= 0)
             return;
 
         switch (this.selectedEnergyRestore()) {
@@ -171,7 +172,7 @@ export class UndergroundHelper {
                 break;
         }
 
-        player.loseItem(potionName, 1);
+        App.player.loseItem(potionName, 1);
     }
 
     public hire() {

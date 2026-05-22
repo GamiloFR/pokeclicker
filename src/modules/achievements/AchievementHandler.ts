@@ -1,3 +1,4 @@
+import App from '../App';
 import Challenges from '../challenges/Challenges';
 import PokemonType from '../enums/PokemonType';
 import { ACHIEVEMENT_DEFEAT_DUNGEON_VALUES, ACHIEVEMENT_DEFEAT_GYM_VALUES, ACHIEVEMENT_DEFEAT_ROUTE_VALUES, AlolaSubRegions, camelCaseToString, DAY, ExtraAchievementCategories, getDungeonIndex, getGymIndex, getGymRegion, HoennSubRegions, KantoSubRegions, MAX_AVAILABLE_REGION, PokeballType, Pokerus, Region, RegionDungeons, RegionGyms, ShadowStatus } from '../GameConstants';
@@ -123,7 +124,7 @@ class AchievementHandler {
         if (AchievementHandler._achievementCategories) {
             return AchievementHandler._achievementCategories;
         }
-        const categories = GameHelper.enumStrings(Region).filter(r => r != 'none' && r != 'final').map(r => new AchievementCategory(r, 100, () => player.highestRegion() >= Region[r]));
+        const categories = GameHelper.enumStrings(Region).filter(r => r != 'none' && r != 'final').map(r => new AchievementCategory(r, 100, () => App.player.highestRegion() >= Region[r]));
         categories.push(new AchievementCategory(ExtraAchievementCategories[ExtraAchievementCategories.global], 150, () => true));
         categories.push(new AchievementCategory(
             ExtraAchievementCategories[ExtraAchievementCategories.secret],

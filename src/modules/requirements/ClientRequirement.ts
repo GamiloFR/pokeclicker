@@ -1,3 +1,4 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import Requirement from './Requirement';
 

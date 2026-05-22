@@ -1,8 +1,9 @@
-import QuestLineState from '../quests/QuestLineState';
+import App from '../App';
+import { Currency } from '../GameConstants';
 import { QuestLineNameType } from '../quests/QuestLineNameType';
+import QuestLineState from '../quests/QuestLineState';
 import Item from './Item';
 import { ShopOptions } from './types';
-import { Currency } from '../GameConstants';
 
 export default class QuestItem extends Item {
     constructor(
@@ -24,7 +25,7 @@ export default class QuestItem extends Item {
     }
 
     isSoldOut(): boolean {
-        return player.itemList[this.name]() > 0;
+        return App.player.itemList[this.name]() > 0;
     }
 
 }

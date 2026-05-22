@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-classes-per-file */
+import App from '../App';
 import { Currency } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import Item from './Item';

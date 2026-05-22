@@ -1,4 +1,5 @@
 import type { ObservableArray as KnockoutObservableArray } from 'knockout';
+import App from '../App';
 import BadgeEnums from '../enums/Badges';
 import { GemShops } from '../GameConstants';
 import GameHelper from '../GameHelper';

@@ -1,3 +1,4 @@
+import App from '../../App';
 import BerryType from '../../enums/BerryType';
 import { pluralizeString } from '../../GameConstants';
 import SeededRand from '../../utilities/SeededRand';

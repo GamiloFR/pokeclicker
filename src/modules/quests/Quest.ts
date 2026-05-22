@@ -1,4 +1,5 @@
 import type { Computed, Observable, PureComputed, Subscription } from 'knockout';
+import App from '../App';
 import GameHelper from '../GameHelper';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';

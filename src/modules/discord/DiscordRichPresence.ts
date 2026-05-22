@@ -1,4 +1,5 @@
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import { camelCaseToString, Currency, formatSecondsToTime, getDungeonIndex, getGymIndex, Region } from '../GameConstants';
 import Routes from '../routes/Routes';
@@ -78,33 +79,33 @@ class DiscordRichPresence {
         },
         {
             key: 'current_region',
-            value: () => camelCaseToString(Region[player.region]),
+            value: () => camelCaseToString(Region[App.player.region]),
             default: 'Unknown Region',
         },
         {
             key: 'current_subregion',
-            value: () => SubRegions.getSubRegionById(player.region, player.subregion)?.name,
+            value: () => SubRegions.getSubRegionById(App.player.region, App.player.subregion)?.name,
             default: 'Unknown Subregion',
         },
         {
             key: 'current_route',
-            value: () => player.route ? Routes.getName(player.route, player.region) : player.town ? player.town.name : 'Unknown Area',
+            value: () => App.player.route ? Routes.getName(App.player.route, App.player.region) : App.player.town ? App.player.town.name : 'Unknown Area',
             default: 'Unknown Area',
         },
         {
             key: 'current_area',
-            value: () => player.route ? Routes.getName(player.route, player.region) : player.town ? player.town.name : 'Unknown Area',
+            value: () => App.player.route ? Routes.getName(App.player.route, App.player.region) : App.player.town ? App.player.town.name : 'Unknown Area',
             default: 'Unknown Area',
         },
         {
             key: 'current_route_stats',
             value: () => {
-                if (player.route) {
-                    return App.game.statistics.routeKills[player.region][player.route]();
-                } else if (player.town.dungeon) {
-                    return App.game.statistics.dungeonsCleared[getDungeonIndex(player.town.name)]();
-                } else if (player.town.gym) {
-                    return App.game.statistics.gymsDefeated[getGymIndex(player.town.name)]();
+                if (App.player.route) {
+                    return App.game.statistics.routeKills[App.player.region][App.player.route]();
+                } else if (App.player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(App.player.town.name)]();
+                } else if (App.player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(App.player.town.name)]();
                 }
                 return 0;
             },
@@ -113,12 +114,12 @@ class DiscordRichPresence {
         {
             key: 'current_area_stats',
             value: () => {
-                if (player.route) {
-                    return App.game.statistics.routeKills[player.region][player.route]();
-                } else if (player.town.dungeon) {
-                    return App.game.statistics.dungeonsCleared[getDungeonIndex(player.town.name)]();
-                } else if (player.town.gym) {
-                    return App.game.statistics.gymsDefeated[getGymIndex(player.town.name)]();
+                if (App.player.route) {
+                    return App.game.statistics.routeKills[App.player.region][App.player.route]();
+                } else if (App.player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(App.player.town.name)]();
+                } else if (App.player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(App.player.town.name)]();
                 }
                 return 0;
             },
@@ -256,18 +257,18 @@ class DiscordRichPresence {
 
     static getRichPresenceData() {
         let nextArea;
-        if (player == undefined) {
+        if (App.player == undefined) {
             nextArea = 'Loading Game';
-        } else if (player.route) {
-            nextArea = Routes.getName(player.route, player.region);
-        } else if (player.town) {
-            nextArea = player.town.name;
+        } else if (App.player.route) {
+            nextArea = Routes.getName(App.player.route, App.player.region);
+        } else if (App.player.town) {
+            nextArea = App.player.town.name;
         } else {
             nextArea = 'Unknown Area';
         }
 
         const discordRPCValues: Record<string, any> = {
-            enabled: (player != undefined ? Settings.getSetting('discord-rp.enabled').observableValue() : false),
+            enabled: (App.player != undefined ? Settings.getSetting('discord-rp.enabled').observableValue() : false),
             line1: this.replaceDiscordText(Settings.getSetting('discord-rp.line-1').value || '  '),
             line2: this.replaceDiscordText(Settings.getSetting('discord-rp.line-2').value || '  '),
         };

@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import CaughtStatus from '../enums/CaughtStatus';
 import KeyItemType from '../enums/KeyItemType';
@@ -314,7 +315,7 @@ class Breeding implements Feature {
             return false;
         }
         const item = ItemList[EggItemType[eggItem]];
-        if (player.itemList[item.name]() <= 0) {
+        if (App.player.itemList[item.name]() <= 0) {
             return false;
         }
         let success = false;
@@ -328,7 +329,7 @@ class Breeding implements Feature {
             success = this.addDataToQueue(queueData);
         }
         if (success) {
-            player.loseItem(EggItemType[eggItem], 1);
+            App.player.loseItem(EggItemType[eggItem], 1);
             return true;
         }
         let message = 'You don\'t have any free egg slots';
@@ -367,7 +368,7 @@ class Breeding implements Feature {
                 App.game.party.getPokemon(queueData[1]).breeding = false;
                 return true;
             } else if (queueData[0] === EggType.EggItem) {
-                player.gainItem(EggItemType[queueData[1]], 1);
+                App.player.gainItem(EggItemType[queueData[1]], 1);
                 return true;
             } else {
                 throw new Error(`Invalidly-typed data detected in hatchery queue: ${queueData}`);
@@ -470,7 +471,7 @@ class Breeding implements Feature {
     private createItemEgg(eggItem: EggItemType): Egg {
         const hatchIndex = eggItem === EggItemType.Mystery_egg ? Rand.fromEnum(EggItemType) : eggItem;
         const hatchList = this.hatchList[hatchIndex] as PokemonNameType[][];
-        const hatchable = hatchList.slice(0, player.highestRegion() + 1).filter(list => list.length);
+        const hatchable = hatchList.slice(0, App.player.highestRegion() + 1).filter(list => list.length);
 
         // highest region has 1/ratio chance, next highest has 1/(ratio ^ 2), etc.
         // Leftover is given to Kanto, making Kanto and Johto equal chance
@@ -492,7 +493,7 @@ class Breeding implements Feature {
     public calculateBaseForm(pokemonName: PokemonNameType): PokemonNameType {
         const devolution = pokemonBabyPrevolutionMap[pokemonName];
         // Base form of Pokemon depends on which regions players unlocked
-        if (!devolution || PokemonHelper.calcNativeRegion(devolution) > player.highestRegion()) {
+        if (!devolution || PokemonHelper.calcNativeRegion(devolution) > App.player.highestRegion()) {
             // No devolutions at all
             // No further devolutions in current unlocked regions
             return pokemonName;
@@ -569,7 +570,7 @@ class Breeding implements Feature {
             return CaughtStatus.NotCaught;
         }
 
-        const hatchable = hatchList.slice(0, player.highestRegion() + 1).flat();
+        const hatchable = hatchList.slice(0, App.player.highestRegion() + 1).flat();
 
         return hatchable.reduce((status: CaughtStatus, pname: PokemonNameType) => {
             return Math.min(status, PartyController.getCaughtStatusByName(pname));

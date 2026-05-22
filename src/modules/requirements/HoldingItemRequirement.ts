@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, humanifyString } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import { ItemNameType } from '../items/ItemNameType';

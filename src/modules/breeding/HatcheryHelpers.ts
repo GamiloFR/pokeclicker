@@ -1,3 +1,4 @@
+import App from '../App';
 import { Currency, Region } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import Multiplier from '../multiplier/Multiplier';

@@ -1,3 +1,4 @@
+import App from '../App';
 import Battle from '../battles/Battle';
 import { Region } from '../GameConstants';
 import { MultiplierDecreaser } from '../items/types';
@@ -45,7 +46,7 @@ class GymBattle extends Battle {
         } else {
             this.generateNewEnemy();
         }
-        player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
     }
 
     /**

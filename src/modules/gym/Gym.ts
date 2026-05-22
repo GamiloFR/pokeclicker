@@ -1,5 +1,6 @@
 import AchievementHandler from '../achievements/AchievementHandler';
 import SecretAchievement from '../achievements/SecretAchievement';
+import App from '../App';
 import areaStatus from '../enums/AreaStatus';
 import BadgeEnums from '../enums/Badges';
 import { BattleBackground, Environment, getGymIndex, GymAutoRepeatRewardTiers } from '../GameConstants';

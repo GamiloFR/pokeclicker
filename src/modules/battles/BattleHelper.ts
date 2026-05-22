@@ -1,3 +1,4 @@
+import App from '../App';
 import { Currency, LuxuryBallCurrencyRate, PokeballType, Region } from '../GameConstants';
 import PokemonFactory from '../pokemons/PokemonFactory';
 import Amount from '../wallet/Amount';

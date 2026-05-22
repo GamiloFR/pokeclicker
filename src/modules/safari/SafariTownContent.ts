@@ -1,3 +1,4 @@
+import App from '../App';
 import areaStatus from '../enums/AreaStatus';
 import TownContent from '../towns/townContent/TownContent';
 import MapHelper from '../worldmap/MapHelper';
@@ -20,10 +21,10 @@ class SafariTownContent extends TownContent {
         Safari.openModal();
     }
     public areaStatus(): areaStatus[] {
-        if (!Safari.isSafariRegion(player.region)) {
+        if (!Safari.isSafariRegion(App.player.region)) {
             return [areaStatus.completed];
         }
-        const safariEncounters = (<SafariEncounter[]>SafariPokemonList.list[player.region]())
+        const safariEncounters = (<SafariEncounter[]>SafariPokemonList.list[App.player.region]())
             .filter(p => p.isAvailable())
             .map(p => p.name);
         return [areaStatus.completed, ...MapHelper.getPokemonAreaStatus(safariEncounters)];

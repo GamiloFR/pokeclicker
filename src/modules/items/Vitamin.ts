@@ -1,8 +1,9 @@
+import App from '../App';
 import { Currency, VitaminType } from '../GameConstants';
 import GameHelper from '../GameHelper';
-import Item from './Item';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import Item from './Item';
 import { ShopOptions } from './types';
 
 export default class Vitamin extends Item {
@@ -26,7 +27,7 @@ export default class Vitamin extends Item {
     }
 
     checkCanUse(): boolean {
-        if (!player.itemList[this.name]()) {
+        if (!App.player.itemList[this.name]()) {
             Notifier.notify({
                 message: `You don't have any ${this.displayName} left...`,
                 type: NotificationConstants.NotificationOption.danger,

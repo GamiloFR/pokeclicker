@@ -1,9 +1,10 @@
 import { Observable, PureComputed } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
 import KeyItemType from '../enums/KeyItemType';
 import {
     BASE_EXTRA_LAYER_DEPTH,
-    BASE_MAXIMUM_ITEMS, BASE_MINE_HEIGHT, BASE_MINE_WIDTH, BASE_MINIMUM_ITEMS, BASE_MINIMUM_LAYER_DEPTH
+    BASE_MAXIMUM_ITEMS, BASE_MINE_HEIGHT, BASE_MINE_WIDTH, BASE_MINIMUM_ITEMS, BASE_MINIMUM_LAYER_DEPTH,
 } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import NotificationConstants from '../notifications/NotificationConstants';

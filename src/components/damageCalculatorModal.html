@@ -29,7 +29,7 @@ aria-labelledby="damageCalculatorModalLabel" aria-hidden="true">
                 <div class="form-group col-4 col-lg">
                     <label>Region</label>
                     <select autocomplete="off" class="custom-select" data-bind="value: DamageCalculator.region">
-                        <!-- ko foreach: GameHelper.enumStrings(GameConstants.Region).filter(r => GameConstants.Region[r] <= player.highestRegion()) -->
+                        <!-- ko foreach: GameHelper.enumStrings(GameConstants.Region).filter(r => GameConstants.Region[r] <= App.player.highestRegion()) -->
                         <option data-bind="value: GameConstants.Region[$data], text: GameConstants.camelCaseToString($data)">Region</option>
                         <!-- /ko -->
                     </select>

@@ -1,4 +1,5 @@
 import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import { Currency, MegaStoneType, QUESTS_PER_SET, Region } from '../GameConstants';
 import GameHelper from '../GameHelper';
@@ -130,9 +131,9 @@ class Quests implements Saveable {
         const quest  = this.questList()[index];
         if (quest && quest.isCompleted() && !quest.claimed()) {
             quest.claim();
-            if (player.highestRegion() >= Region.kalos && App.game.party.alreadyCaughtPokemonByName('Medicham') && !player.hasMegaStone(MegaStoneType.Medichamite)) {
+            if (App.player.highestRegion() >= Region.kalos && App.game.party.alreadyCaughtPokemonByName('Medicham') && !App.player.hasMegaStone(MegaStoneType.Medichamite)) {
                 if (Rand.chance(Math.max(0, (App.game.quests.level() - 15) / 8192))) {
-                    player.gainMegaStone(MegaStoneType.Medichamite);
+                    App.player.gainMegaStone(MegaStoneType.Medichamite);
                 }
             }
             // Once the player completes every available quest, refresh the list for free
@@ -197,7 +198,7 @@ class Quests implements Saveable {
         }
         this.lastRefresh = date;
         this.lastRefreshLevel = level;
-        this.lastRefreshRegion = player.highestRegion();
+        this.lastRefreshRegion = App.player.highestRegion();
         this.currentQuests().forEach(quest => quest.quit());
         this.questList(QuestBuilder.generateQuestList(this.generateSeed(date, level), QUESTS_PER_SET));
     }
@@ -397,7 +398,7 @@ class Quests implements Saveable {
         this.refreshes(json.refreshes || this.defaults.refreshes);
         this.lastRefresh = json.lastRefresh ? new Date(json.lastRefresh) : new Date();
         this.lastRefreshLevel = json.lastRefreshLevel || this.level();
-        this.lastRefreshRegion = json.lastRefreshRegion || player.highestRegion();
+        this.lastRefreshRegion = json.lastRefreshRegion || App.player.highestRegion();
         if (this.lastRefresh.toDateString() != new Date().toDateString()) {
             this.freeRefresh(true);
         } else {

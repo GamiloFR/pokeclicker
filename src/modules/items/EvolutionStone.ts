@@ -1,3 +1,4 @@
+import App from '../App';
 import CaughtStatus from '../enums/CaughtStatus';
 import { Currency, Pokerus, Region, StoneType } from '../GameConstants';
 import PartyController from '../party/PartyController';
@@ -57,7 +58,7 @@ class EvolutionStone extends PokerusIndicatingItem {
     }
 
     public gain(n: number) {
-        player.gainItem(StoneType[this.type], n);
+        App.player.gainItem(StoneType[this.type], n);
     }
 
     public use(amount: number, pokemon?: PokemonNameType): boolean {

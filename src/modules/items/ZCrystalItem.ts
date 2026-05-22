@@ -1,3 +1,4 @@
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
 import { zCrystalItemType } from '../GameConstants';
 import NotificationConstants from '../notifications/NotificationConstants';
@@ -16,7 +17,7 @@ class ZCrystalItem extends Item {
 
     use(): boolean {
         App.game.zMoves.activate(this.type);
-        player.gainItem(this.name, 1);
+        App.player.gainItem(this.name, 1);
         return true;
     }
 

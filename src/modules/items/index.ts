@@ -1,3 +1,4 @@
+import App from '../App';
 import DungeonRunner from '../dungeons/DungeonRunner';
 import BerryType from '../enums/BerryType';
 import KeyItemType from '../enums/KeyItemType';

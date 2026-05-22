@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../../App';
 import PokemonType from '../../enums/PokemonType';
 import { CAPTURE_POKEMONS_BASE_REWARD } from '../../GameConstants';
 import GameHelper from '../../GameHelper';

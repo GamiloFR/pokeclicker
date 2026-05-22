@@ -1,3 +1,4 @@
+import App from '../App';
 import CaughtStatus from '../enums/CaughtStatus';
 import PokemonType from '../enums/PokemonType';
 import { Pokerus, StoneType, VitaminType } from '../GameConstants';
@@ -96,7 +97,7 @@ class PartyController {
         return partyPokemon?.evolutions?.filter(
             (evo) => evo.trigger === EvoTrigger.STONE
                 && (evo as StoneEvoData).stone == evoType
-                && PokemonHelper.calcNativeRegion(evo.evolvedPokemon) <= player.highestRegion()
+                && PokemonHelper.calcNativeRegion(evo.evolvedPokemon) <= App.player.highestRegion()
                 && !evo.restrictions.find(
                     req => (req instanceof InRegionRequirement && !req.isCurrentlyPossible())
                         || (req instanceof MaxRegionRequirement && !req.isCompleted()),

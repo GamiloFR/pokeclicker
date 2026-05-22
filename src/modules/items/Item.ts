@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { Observable } from 'knockout';
+import App from '../App';
 import {
     Currency, ITEM_PRICE_MULTIPLIER,
     camelCaseToString,
@@ -75,7 +76,7 @@ class Item {
         // multiplier should be capped at 100, so work out how many to buy at increasing price and how many at max
         //    (m_start) * (m^k) = 100
         // => k = (2 - log(m_start)) / log(m)
-        const mStart = Math.max(player.itemMultipliers[this.saveName] || 1, 1);
+        const mStart = Math.max(App.player.itemMultipliers[this.saveName] || 1, 1);
         const k = (mStart < 100)
             ? Math.ceil((2 - Math.log10(mStart)) / Math.log10(this.multiplier))
             : 0;
@@ -138,7 +139,7 @@ class Item {
     }
 
     gain(n: number) {
-        player.gainItem(this.name, n);
+        App.player.gainItem(this.name, n);
     }
 
     // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
@@ -147,7 +148,7 @@ class Item {
     }
 
     checkCanUse(): boolean {
-        if (!player.itemList[this.name]()) {
+        if (!App.player.itemList[this.name]()) {
             Notifier.notify({
                 message: `You don't have any ${this.displayName}s left...`,
                 type: NotificationConstants.NotificationOption.danger,
@@ -177,8 +178,8 @@ class Item {
     }
 
     increasePriceMultiplier(amount = 1) {
-        player.itemMultipliers[this.saveName] = Math.min(100, (player.itemMultipliers[this.saveName] || 1) * (this.multiplier ** amount));
-        this.price(Math.round(this.basePrice * player.itemMultipliers[this.saveName]));
+        App.player.itemMultipliers[this.saveName] = Math.min(100, (App.player.itemMultipliers[this.saveName] || 1) * (this.multiplier ** amount));
+        this.price(Math.round(this.basePrice * App.player.itemMultipliers[this.saveName]));
     }
 
     decreasePriceMultiplier(amount = 1, multiplierDecreaser?: MultiplierDecreaser) {
@@ -188,8 +189,8 @@ class Item {
         if (this.multiplierDecreaser !== multiplierDecreaser) {
             return;
         }
-        player.itemMultipliers[this.saveName] = Math.max(1, (player.itemMultipliers[this.saveName] || 1) / (this.multiplier ** amount));
-        this.price(Math.round(this.basePrice * player.itemMultipliers[this.saveName]));
+        App.player.itemMultipliers[this.saveName] = Math.max(1, (App.player.itemMultipliers[this.saveName] || 1) / (this.multiplier ** amount));
+        this.price(Math.round(this.basePrice * App.player.itemMultipliers[this.saveName]));
     }
 
     showBagAmount() {
@@ -197,7 +198,7 @@ class Item {
     }
 
     getBagAmount() {
-        return player.amountOfItem(this.name);
+        return App.player.amountOfItem(this.name);
     }
 
     // eslint-disable-next-line class-methods-use-this

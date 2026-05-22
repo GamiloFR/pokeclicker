@@ -1,3 +1,4 @@
+import App from '../App';
 import DayCyclePart from '../dayCycle/DayCyclePart';
 import BadgeEnums from '../enums/Badges';
 import ItemType from '../enums/ItemType';
@@ -12,7 +13,6 @@ import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import PokemonFactory from '../pokemons/PokemonFactory';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
-import QuestLineHelper from '../quests/QuestLineHelper';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import ClearGymRequirement from '../requirements/ClearGymRequirement';
 import CustomRequirement from '../requirements/CustomRequirement';
@@ -37,6 +37,7 @@ import TemporaryBattleRequirement from '../requirements/TemporaryBattleRequireme
 import WeatherRequirement from '../requirements/WeatherRequirement';
 import TextMerger from '../utilities/TextMerger';
 import WeatherType from '../weather/WeatherType';
+import ZMovesHelper from '../ZMoves/ZMovesHelper';
 import TemporaryBattle from './TemporaryBattle';
 
 const TemporaryBattleList: { [battleName: string]: TemporaryBattle } = {};
@@ -435,8 +436,8 @@ export function initTemporaryBattleList() {
                 new ChristmasPresent(10).gain();
             },
             rewardFunction: () => {
-                if (player.itemList.Christmas_present() >= 150) {
-                    player.itemList.Christmas_present(50);
+                if (App.player.itemList.Christmas_present() >= 150) {
+                    App.player.itemList.Christmas_present(50);
                 }
             },
             resetDaily: true,
@@ -2443,7 +2444,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         undefined,
         {
             imageName: 'Scientist (female)',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Audinite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Audinite),
         },
     );
 
@@ -2563,7 +2564,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         undefined,
         {
             imageName: 'Korrina',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Lucarionite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Lucarionite),
         },
     );
     TemporaryBattleList['Courtney 1'] = new TemporaryBattle(
@@ -2743,7 +2744,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Giovanni',
             imageName: 'Team Rocket Boss Giovanni',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Beedrillite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Beedrillite),
         },
     );
     TemporaryBattleList['Mr. Stone'] = new TemporaryBattle(
@@ -2758,7 +2759,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Mr. Stone',
             imageName: 'Mr Stone',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Pidgeotite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Pidgeotite),
         },
     );
     TemporaryBattleList['Shoal Fisherman'] = new TemporaryBattle(
@@ -2770,7 +2771,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Shoal Fisherman',
             imageName: 'Fisherman',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Slowbronite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Slowbronite),
         },
     );
     TemporaryBattleList['Delta Brock'] = new TemporaryBattle(
@@ -2786,7 +2787,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Brock',
             imageName: 'Brock',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Steelixite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Steelixite),
         },
     );
     TemporaryBattleList['Delta Tabitha'] = new TemporaryBattle(
@@ -2798,7 +2799,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Magma Admin Tabitha',
             imageName: 'Magma Admin',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Cameruptite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Cameruptite),
         },
     );
     TemporaryBattleList['Delta Shelly'] = new TemporaryBattle(
@@ -2810,7 +2811,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Aqua Admin Shelly',
             imageName: 'Aqua Admin (shelly)',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Sharpedonite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Sharpedonite),
         },
     );
     TemporaryBattleList['Icy Boulder'] = new TemporaryBattle(
@@ -2823,7 +2824,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
             displayName: 'Icy Boulder',
             imageName: '../pokemon/362.01',
             hideTrainer: true,
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Glalitite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Glalitite),
         },
     );
     TemporaryBattleList['Mega Draconid Elder'] = new TemporaryBattle(
@@ -2841,7 +2842,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Draconid Elder',
             imageName: 'Draconid Elder',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Salamencite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Salamencite),
         },
     );
     TemporaryBattleList['Delta Steven'] = new TemporaryBattle(
@@ -2860,7 +2861,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Steven',
             imageName: 'Steven',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Metagrossite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Metagrossite),
         },
     );
     TemporaryBattleList['Dr Cozmo'] = new TemporaryBattle(
@@ -2876,7 +2877,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Dr. Cozmo',
             imageName: 'Dr Cozmo',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Galladite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Galladite),
         },
     );
     TemporaryBattleList['Matt 3'] = new TemporaryBattle(
@@ -2891,7 +2892,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Aqua Admin Matt',
             imageName: 'Aqua Admin (matt)',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Latiasite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Latiasite),
         },
     );
     TemporaryBattleList['Courtney 3'] = new TemporaryBattle(
@@ -2906,7 +2907,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Magma Admin Courtney',
             imageName: 'Magma Admin (courtney)',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Latiosite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Latiosite),
         },
     );
     TemporaryBattleList['Hoenn Stone Salesman'] = new TemporaryBattle(
@@ -2922,22 +2923,22 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             imageName: 'Ruin Maniac gen3',
             firstTimeRewardFunction: () => {
-                if ((App.game.party.alreadyCaughtPokemonByName('Sceptile') == true) && (player.regionStarters[Region.hoenn]() == Starter.Grass)) {
-                    player.gainMegaStone(MegaStoneType.Sceptilite);
+                if ((App.game.party.alreadyCaughtPokemonByName('Sceptile') == true) && (App.player.regionStarters[Region.hoenn]() == Starter.Grass)) {
+                    App.player.gainMegaStone(MegaStoneType.Sceptilite);
                     Notifier.notify({
                         message: 'You were awarded Sceptilite!',
                         type: NotificationConstants.NotificationOption.success,
                         setting: NotificationConstants.NotificationSetting.Dungeons.rare_dungeon_item_found,
                     });
-                } else if ((App.game.party.alreadyCaughtPokemonByName('Blaziken') == true) && (player.regionStarters[Region.hoenn]() == Starter.Fire)) {
-                    player.gainMegaStone(MegaStoneType.Blazikenite);
+                } else if ((App.game.party.alreadyCaughtPokemonByName('Blaziken') == true) && (App.player.regionStarters[Region.hoenn]() == Starter.Fire)) {
+                    App.player.gainMegaStone(MegaStoneType.Blazikenite);
                     Notifier.notify({
                         message: 'You were awarded Blazikenite!',
                         type: NotificationConstants.NotificationOption.success,
                         setting: NotificationConstants.NotificationSetting.Dungeons.rare_dungeon_item_found,
                     });
-                } else if ((App.game.party.alreadyCaughtPokemonByName('Swampert') == true) && (player.regionStarters[Region.hoenn]() == Starter.Water)) {
-                    player.gainMegaStone(MegaStoneType.Swampertite);
+                } else if ((App.game.party.alreadyCaughtPokemonByName('Swampert') == true) && (App.player.regionStarters[Region.hoenn]() == Starter.Water)) {
+                    App.player.gainMegaStone(MegaStoneType.Swampertite);
                     Notifier.notify({
                         message: 'You were awarded Swampertite!',
                         type: NotificationConstants.NotificationOption.success,
@@ -2968,22 +2969,22 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             imageName: 'Owner',
             firstTimeRewardFunction: () => {
-                if ((App.game.party.alreadyCaughtPokemonByName('Venusaur')) && (player.regionStarters[Region.kanto]() == Starter.Grass)) {
-                    player.gainMegaStone(MegaStoneType.Venusaurite);
+                if ((App.game.party.alreadyCaughtPokemonByName('Venusaur')) && (App.player.regionStarters[Region.kanto]() == Starter.Grass)) {
+                    App.player.gainMegaStone(MegaStoneType.Venusaurite);
                     Notifier.notify({
                         message: 'You were awarded Venusaurite!',
                         type: NotificationConstants.NotificationOption.success,
                         setting: NotificationConstants.NotificationSetting.Dungeons.rare_dungeon_item_found,
                     });
-                } else if ((App.game.party.alreadyCaughtPokemonByName('Charizard')) && (player.regionStarters[Region.kanto]() == Starter.Fire)) {
-                    player.gainMegaStone(MegaStoneType.Charizardite_Y);
+                } else if ((App.game.party.alreadyCaughtPokemonByName('Charizard')) && (App.player.regionStarters[Region.kanto]() == Starter.Fire)) {
+                    App.player.gainMegaStone(MegaStoneType.Charizardite_Y);
                     Notifier.notify({
                         message: 'You were awarded Charizardite Y!',
                         type: NotificationConstants.NotificationOption.success,
                         setting: NotificationConstants.NotificationSetting.Dungeons.rare_dungeon_item_found,
                     });
-                } else if ((App.game.party.alreadyCaughtPokemonByName('Blastoise')) && (player.regionStarters[Region.kanto]() == Starter.Water)) {
-                    player.gainMegaStone(MegaStoneType.Blastoisinite);
+                } else if ((App.game.party.alreadyCaughtPokemonByName('Blastoise')) && (App.player.regionStarters[Region.kanto]() == Starter.Water)) {
+                    App.player.gainMegaStone(MegaStoneType.Blastoisinite);
                     Notifier.notify({
                         message: 'You were awarded Blastoisinite!',
                         type: NotificationConstants.NotificationOption.success,
@@ -3054,7 +3055,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
             hideTrainer: true,
             returnTown: 'Mt. Pyre',
             imageName: '../pokemon/383.01',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Red_Orb),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Red_Orb),
         },
     );
     TemporaryBattleList['Primal Kyogre'] = new TemporaryBattle(
@@ -3067,7 +3068,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
             hideTrainer: true,
             returnTown: 'Mt. Pyre',
             imageName: '../pokemon/382.01',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Blue_Orb),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Blue_Orb),
         },
     );
     TemporaryBattleList['Aipom Alley'] = new TemporaryBattle(
@@ -3185,7 +3186,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         undefined,
         {
             displayName: 'Rampaging Yveltal',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Diancite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Diancite),
             imageName: '../pokemon/717',
             hideTrainer: true,
             returnTown: 'Shalour City',
@@ -3669,7 +3670,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Pokémon Trainer Calem',
             imageName: 'Calem',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Absolite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Absolite),
             rewardFunction: () =>
                 Notifier.notify({ message: 'Congratulations on beating Calem at his best! Come back to fight him again at any time.' }),
         },
@@ -3703,7 +3704,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Marquis Grant',
             imageName: 'Grant',
-            firstTimeRewardFunction: () => [player.gainMegaStone(MegaStoneType.Tyranitarite)],
+            firstTimeRewardFunction: () => [App.player.gainMegaStone(MegaStoneType.Tyranitarite)],
         },
     );
 
@@ -3721,7 +3722,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Grand Duchess Diantha',
             imageName: 'Diantha',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Gardevoirite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Gardevoirite),
         },
     );
 
@@ -3739,7 +3740,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Team Flare Boss Lysandre',
             imageName: 'Team Flare Boss Lysandre',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Gyaradosite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Gyaradosite),
         },
     );
 
@@ -3762,7 +3763,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         {
             displayName: 'Hex Maniac Aster',
             imageName: 'Hex Maniac',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Gengarite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Gengarite),
         },
     );
 
@@ -3786,7 +3787,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         undefined,
         {
             displayName: 'Wild Houndour Horde',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Houndoominite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Houndoominite),
             imageName: '../pokemon/229.01',
             hideTrainer: true,
             returnTown: 'Dendemille Town',
@@ -3813,7 +3814,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         undefined,
         {
             displayName: 'Wild Electrike Horde',
-            firstTimeRewardFunction: () => player.gainMegaStone(MegaStoneType.Manectite),
+            firstTimeRewardFunction: () => App.player.gainMegaStone(MegaStoneType.Manectite),
             imageName: '../pokemon/310.01',
             hideTrainer: true,
             returnTown: 'Dendemille Town',
@@ -4254,7 +4255,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         [new QuestLineStepCompletedRequirement('Child of the Stars', 2)],
         undefined,
         {
-            firstTimeRewardFunction: QuestLineHelper.zCrystalGet(PokemonType.Steel),
+            firstTimeRewardFunction: ZMovesHelper.zCrystalGet(PokemonType.Steel),
         },
     );
     TemporaryBattleList['Skull 5'] = new TemporaryBattle(
@@ -4283,7 +4284,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
         [new ClearDungeonRequirement(1, getDungeonIndex('Thrifty Megamart')), new RouteKillRequirement(10, Region.alola, 23)],
         undefined,
         {
-            firstTimeRewardFunction: QuestLineHelper.zCrystalGet(PokemonType.Psychic),
+            firstTimeRewardFunction: ZMovesHelper.zCrystalGet(PokemonType.Psychic),
             displayName: 'Trial Site of Haina Desert',
             returnTown: 'Tapu Village',
             isTrainerBattle: false,
@@ -4884,7 +4885,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -4904,7 +4905,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -4925,7 +4926,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -4945,7 +4946,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -4966,7 +4967,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -4986,7 +4987,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5007,7 +5008,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5027,7 +5028,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5048,7 +5049,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5069,7 +5070,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5089,7 +5090,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5110,7 +5111,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5131,7 +5132,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5151,7 +5152,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5172,7 +5173,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5193,7 +5194,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5213,7 +5214,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5234,7 +5235,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5255,7 +5256,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5275,7 +5276,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );
@@ -5296,7 +5297,7 @@ $playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> $
                     type: NotificationConstants.NotificationOption.success,
                     image: ItemList.Magikarp_Biscuit.image,
                 });
-                player.gainItem('Magikarp_Biscuit', 1);
+                App.player.gainItem('Magikarp_Biscuit', 1);
             },
         },
     );

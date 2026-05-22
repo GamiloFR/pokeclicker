@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, AchievementType } from '../GameConstants';
 import PartyPokemon from '../party/PartyPokemon';
 import AchievementRequirement from '../requirements/AchievementRequirement';

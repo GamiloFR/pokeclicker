@@ -1,12 +1,13 @@
 import { Observable, PureComputed } from 'knockout';
+import App from '../App';
+import UndergroundItemValueType from '../enums/UndergroundItemValueType';
+import { SECOND } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
+import { UndergroundController } from './UndergroundController';
 import UndergroundItem from './UndergroundItem';
 import UndergroundItems from './UndergroundItems';
-import UndergroundItemValueType from '../enums/UndergroundItemValueType';
-import { UndergroundController } from './UndergroundController';
-import GameHelper from '../GameHelper';
-import Notifier from '../notifications/Notifier';
-import NotificationOption from '../notifications/NotificationOption';
-import { SECOND } from '../GameConstants';
 
 export const TRADE_DOWN_AMOUNT = 3;
 
@@ -54,12 +55,12 @@ export class UndergroundTrading {
         const tradeFromAmount = this.tradeAmount * TRADE_DOWN_AMOUNT;
         const tradeToAmount = this.tradeAmount;
 
-        if (player.itemList[this.selectedTradeFromItem.itemName]() < tradeFromAmount) {
+        if (App.player.itemList[this.selectedTradeFromItem.itemName]() < tradeFromAmount) {
             return false;
         }
 
-        player.loseItem(this.selectedTradeFromItem.itemName, tradeFromAmount);
-        player.gainItem(this.selectedTradeToItem.itemName, tradeToAmount);
+        App.player.loseItem(this.selectedTradeFromItem.itemName, tradeFromAmount);
+        App.player.gainItem(this.selectedTradeToItem.itemName, tradeToAmount);
 
         GameHelper.incrementObservable(App.game.statistics.undergroundTrades, tradeToAmount);
 
@@ -74,7 +75,7 @@ export class UndergroundTrading {
     }
 
     static get canTrade(): boolean {
-        return this.selectedTradeFromItem && this.tradeToItemList.includes(this.selectedTradeToItem) && this.tradeFromAmount <= player.itemList[this.selectedTradeFromItem.itemName]();
+        return this.selectedTradeFromItem && this.tradeToItemList.includes(this.selectedTradeToItem) && this.tradeFromAmount <= App.player.itemList[this.selectedTradeFromItem.itemName]();
     }
 
     static get selectedTradeFromItem(): UndergroundItem | null {
@@ -128,7 +129,7 @@ export class UndergroundTrading {
     }
 
     static get canSell(): boolean {
-        return this.selectedTradeFromItem && this.selectedTradeFromItem.hasSellValue() && this.sellAmount <= player.itemList[this.selectedTradeFromItem.itemName]();
+        return this.selectedTradeFromItem && this.selectedTradeFromItem.hasSellValue() && this.sellAmount <= App.player.itemList[this.selectedTradeFromItem.itemName]();
     }
 
     public static sell() {
@@ -143,6 +144,6 @@ export class UndergroundTrading {
 
     public static quickSell(item: UndergroundItem) {
         if (!item.hasSellValue()) return;
-        UndergroundController.sellMineItem(item, player.itemList[item.itemName]());
+        UndergroundController.sellMineItem(item, App.player.itemList[item.itemName]());
     }
 }

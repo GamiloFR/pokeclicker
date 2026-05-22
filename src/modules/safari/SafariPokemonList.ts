@@ -1,5 +1,6 @@
 import { ObservableArray } from 'knockout';
 import CaughtUniquePokemonByFilterRequirement from '../achievements/CaughtPokemonByFilterRequirement';
+import App from '../App';
 import BadgeEnums from '../enums/Badges';
 import PokemonType from '../enums/PokemonType';
 import SafariEnvironments from '../enums/SafariEnvironments';
@@ -188,7 +189,7 @@ class SafariPokemonList {
                 && PokemonHelper.calcNativeRegion(p.name) <= MAX_AVAILABLE_REGION)
             .map((p) => p.name);
 
-        SeededRand.seed(+player.trainerId);
+        SeededRand.seed(+App.player.trainerId);
         const shuffledPokemon = new Array(FRIEND_SAFARI_POKEMON)
             .fill(SeededRand.shuffleArray(friendSafariPokemon)).flat();
 
@@ -264,7 +265,7 @@ class SafariPokemonList {
         return safariEnvironments;
     }
 
-    public static getDisplayList(region = player.region): EncounterInfo[] {
+    public static getDisplayList(region = App.player.region): EncounterInfo[] {
         const encounters: EncounterInfo[] = [];
 
         if (!Safari.isSafariRegion(region)) {

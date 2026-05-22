@@ -1,6 +1,9 @@
 import { Computed } from 'knockout';
+import App from '../App';
 import {
-    BattleItemType, humanifyString, ITEM_USE_TIME, formatTime,
+    BattleItemType,
+    formatTime,
+    humanifyString, ITEM_USE_TIME,
 } from '../GameConstants';
 import type BattleItem from '../items/BattleItem';
 import Multiplier from '../multiplier/Multiplier';
@@ -27,12 +30,12 @@ export default class EffectEngineRunner {
         this.counter = 0;
         const timeToReduce = 1;
         Object.values(BattleItemType).forEach((itemName) => {
-            const timeRemaining = player.effectList[itemName]();
+            const timeRemaining = App.player.effectList[itemName]();
             if (timeRemaining > 0) {
-                player.effectList[itemName](Math.max(0, timeRemaining - timeToReduce));
+                App.player.effectList[itemName](Math.max(0, timeRemaining - timeToReduce));
                 this.updateFormattedTimeLeft(itemName);
             }
-            if (player.effectList[itemName]() === 5) {
+            if (App.player.effectList[itemName]() === 5) {
                 Notifier.notify({
                     message: `The ${humanifyString(itemName)}'s effect is about to wear off!`,
                     type: NotificationConstants.NotificationOption.warning,
@@ -52,26 +55,26 @@ export default class EffectEngineRunner {
     }
 
     public static getEffect(itemName: string) {
-        if (!player) {
+        if (!App.player) {
             return 0;
         }
-        return player.effectList[itemName]();
+        return App.player.effectList[itemName]();
     }
 
     public static addEffect(itemName: string, amount: number) {
-        player.effectList[itemName](Math.max(0, player.effectList[itemName]() + (ITEM_USE_TIME * amount)));
+        App.player.effectList[itemName](Math.max(0, App.player.effectList[itemName]() + (ITEM_USE_TIME * amount)));
         this.updateFormattedTimeLeft(itemName);
     }
 
     public static updateFormattedTimeLeft(itemName: string) {
-        const times = formatTime(player.effectList[itemName]()).split(':');
+        const times = formatTime(App.player.effectList[itemName]()).split(':');
         if (+times[0] > 99) {
-            return player.effectTimer[itemName]('99h+');
+            return App.player.effectTimer[itemName]('99h+');
         } if (+times[0] > 0) {
-            return player.effectTimer[itemName](`${+times[0]}h`);
+            return App.player.effectTimer[itemName](`${+times[0]}h`);
         }
         times.shift();
-        return player.effectTimer[itemName](times.join(':'));
+        return App.player.effectTimer[itemName](times.join(':'));
     }
 
     public static getDungeonTokenMultiplier() {
@@ -80,10 +83,10 @@ export default class EffectEngineRunner {
 
     public static isActive(itemName: string): Computed<boolean> {
         return ko.pureComputed(() => {
-            if (!player) {
+            if (!App.player) {
                 return false;
             }
-            return !!player.effectList[itemName]();
+            return !!App.player.effectList[itemName]();
         });
     }
 }

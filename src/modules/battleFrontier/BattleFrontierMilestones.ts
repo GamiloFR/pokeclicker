@@ -1,3 +1,4 @@
+import App from '../App';
 import { Region } from '../GameConstants';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';

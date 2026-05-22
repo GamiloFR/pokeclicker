@@ -1,3 +1,4 @@
+import App from '../App';
 import EffectEngineRunner from '../effectEngine/effectEngineRunner';
 import { BattleItemType, Currency } from '../GameConstants';
 import MultiplierType from '../multiplier/MultiplierType';
@@ -35,7 +36,7 @@ export default class BattleItem extends Item {
             });
             return false;
         }
-        if (!player.itemList[this.name]()) {
+        if (!App.player.itemList[this.name]()) {
             Notifier.notify({
                 message: `You don't have any ${this.displayName}s left...`,
                 type: NotificationConstants.NotificationOption.danger,
