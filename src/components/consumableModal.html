@@ -12,7 +12,7 @@
                 <br/>
                 <div class="sticky-top" style="background-color: inherit;">
                   <div class="btn-group btn-block m-0" role="group" aria-label="Basic example">
-                    <button class="btn btn-block btn-secondary btn-static" data-bind="text: ItemList[ConsumableController.currentlySelectedName()].displayName + ': ' + player.amountOfItem(ConsumableController.currentlySelectedName())"></button>
+                    <button class="btn btn-block btn-secondary btn-static" data-bind="text: ItemList[ConsumableController.currentlySelectedName()].displayName + ': ' + App.player.amountOfItem(ConsumableController.currentlySelectedName())"></button>
                     <button class="btn btn-primary btn-sm" data-bind="text : ConsumableController.multiplier[ConsumableController.multiplierIndex()], click : () => ConsumableController.incrementMultiplier(), attr : { oncontextmenu : 'ConsumableController.decrementMultiplier(); return false;' }"></button>
                   </div>
                   <div class="input-group px-1 mt-1">
@@ -47,7 +47,7 @@
                         <div class="form-group col-6 m-0 px-1 py-0">
                             <!-- ko let: { consumableRegionFilter: Settings.getSetting('consumableRegionFilter') } -->
                             <label class="mb-1" for="consumable-region-filter">Region</label>
-                            <select id="consumable-region-filter" autocomplete="off" class="custom-select custom-select-sm" 
+                            <select id="consumable-region-filter" autocomplete="off" class="custom-select custom-select-sm"
                                 data-bind="options: consumableRegionFilter.getValidOptions(),
                                     optionsValue: 'value',
                                     optionsText: 'text',
@@ -58,7 +58,7 @@
                         <div class="form-group col-6 m-0 px-1 py-0">
                             <!-- ko let: { consumableTypeFilter: Settings.getSetting('consumableTypeFilter') } -->
                             <label class="mb-1" for="held-item-type-filter">Type</label>
-                            <select id="held-item-type-filter" name="consumableTypeFilter" autocomplete="off" class="custom-select custom-select-sm" 
+                            <select id="held-item-type-filter" name="consumableTypeFilter" autocomplete="off" class="custom-select custom-select-sm"
                                 data-bind="options: consumableTypeFilter.options,
                                     optionsValue: 'value',
                                     optionsText: 'text',
@@ -70,7 +70,7 @@
                     <div class="form-check align-middle mt-1">
                         <input type="checkbox" id="consumable-shiny-filter" class="form-check-input"
                             data-bind="checked: Settings.getSetting('consumableHideShinyPokemon').observableValue" />
-                        <label for="consumable-shiny-filter" class="form-check-label" 
+                        <label for="consumable-shiny-filter" class="form-check-label"
                             data-bind="text: Settings.getSetting('consumableHideShinyPokemon').displayName"></label>
                     </div>
                   </div>

@@ -1,13 +1,15 @@
-import '../koExtenders';
 import type {
     Observable as KnockoutObservable,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
-import Notifier from '../notifications/Notifier';
-import Rand from '../utilities/Rand';
 import GameHelper from '../GameHelper';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
+import '../koExtenders';
+import Notifier from '../notifications/Notifier';
+import { matchPokemonByNames } from '../pokemons/PokemonHelper';
+import Save from '../Save';
+import Rand from '../utilities/Rand';
 
 export default class Profile implements Saveable {
     public static MAX_TRAINER = 163;
@@ -35,7 +37,7 @@ export default class Profile implements Saveable {
         } else if (this.pokemonSearch() != '') {
             // Search by name
             const regex = GameHelper.safelyBuildRegex(this.pokemonSearch());
-            caughtPokemon = caughtPokemon.filter((pokemon) => PokemonHelper.matchPokemonByNames(regex, pokemon.name, pokemon));
+            caughtPokemon = caughtPokemon.filter((pokemon) => matchPokemonByNames(regex, pokemon.name, pokemon));
         }
         return caughtPokemon;
     });
@@ -155,7 +157,7 @@ export default class Profile implements Saveable {
             throttledTimePlayed(),
             App.game.update.version,
             App.game.challenges.toJSON().list,
-            player.trainerId,
+            App.player.trainerId,
         ));
 
         preview.subscribe((previewElement) => {

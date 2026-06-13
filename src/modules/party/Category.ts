@@ -2,12 +2,13 @@
 import {
     Observable as KnockoutObservable,
     Subscription as KnockoutSubscription,
-    ObservableArray as KnockoutObservableArray,
 } from 'knockout';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
-import Settings from '../settings/Settings';
-import Notifier from '../notifications/Notifier';
 import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import PokeballFilter from '../pokeballs/PokeballFilter';
+import Settings from '../settings/Settings';
 
 export type PokemonCategory = {
     id: number,
@@ -16,9 +17,9 @@ export type PokemonCategory = {
     subscriber?: KnockoutSubscription,
 };
 
-export default class PokemonCategories implements Saveable {
-    public static categories: KnockoutObservableArray<PokemonCategory> = ko.observableArray([]);
-    public static playerCategories = ko.pureComputed(() => PokemonCategories.categories().filter((cat) => cat.id > 0));
+class PokemonCategories implements Saveable {
+    public static categories = ko.observableArray<PokemonCategory>([]);
+    public static playerCategories = ko.pureComputed(() => (<PokemonCategory[]>PokemonCategories.categories()).filter((cat) => cat.id > 0));
     // Pokedex & Hatchery category assign mode
     public static categoryAssignEnabled = ko.observable(false);
     public static categoryAssignSelected = ko.observable(0);
@@ -49,14 +50,14 @@ export default class PokemonCategories implements Saveable {
     public static addCategory(name: string, color: string, id: number = -1): void {
         if (id === -1) {
             // Get next unused ID
-            PokemonCategories.categories().forEach(c => {
+            PokemonCategories.categories().forEach((c: PokemonCategory) => {
                 id = Math.max(id, c.id);
             });
             id++;
         } else {
             // Prevent adding an existing category
             // Really only used when resetting to preserve the None category
-            if (PokemonCategories.categories().some(c => c.id === id)) {
+            if (PokemonCategories.categories().some((c: PokemonCategory) => c.id === id)) {
                 return;
             }
         }
@@ -66,7 +67,7 @@ export default class PokemonCategories implements Saveable {
 
         // Subscribe to color change event
         const root = document.documentElement;
-        cat.subscriber = cat.color.subscribe((value) => {
+        cat.subscriber = cat.color.subscribe((value: string) => {
             root.style.setProperty(`--pokemon-category-${id + 1}`, value);
         });
         // Update the color now
@@ -79,14 +80,14 @@ export default class PokemonCategories implements Saveable {
             return;
         }
 
-        const index = PokemonCategories.categories().findIndex(c => c.id == id);
+        const index = PokemonCategories.categories().findIndex((c: PokemonCategory) => c.id == id);
         // Is this case expected to happen ?
         if (index === -1) {
             return;
         }
 
         const cat = PokemonCategories.categories()[index];
-        const pokeballFilters = App.game.pokeballFilters.list().filter(f => f.options?.category?.observableValue() == cat.id);
+        const pokeballFilters = (<PokeballFilter[]>App.game.pokeballFilters.list()).filter(f => f.options?.category?.observableValue() == cat.id);
 
         if (pokeballFilters.length) {
             if (force) {
@@ -116,7 +117,7 @@ export default class PokemonCategories implements Saveable {
         App.game.party.caughtPokemon.forEach((p) => p.removeCategory(cat.id));
 
         // Remove category from hatchery helper filters if selected
-        App.game.breeding.hatcheryHelpers.available().forEach((helper) => {
+        App.game.breeding.hatcheryHelpers.available().forEach(helper => {
             const idx = helper.categories().indexOf(cat.id);
             if (idx > -1) {
                 helper.categories().splice(idx, 1);
@@ -137,12 +138,12 @@ export default class PokemonCategories implements Saveable {
     }
 
     static getCategoryById(id: number) {
-        return PokemonCategories.categories().find(c => c.id === id);
+        return PokemonCategories.categories().find((c: PokemonCategory) => c.id === id);
     }
 
     toJSON(): Record<string, any> {
-        const categories = [];
-        PokemonCategories.categories().forEach((c) => {
+        const categories: any[] = [];
+        PokemonCategories.categories().forEach((c: PokemonCategory) => {
             categories.push({
                 id: c.id,
                 name: c.name(),
@@ -159,8 +160,8 @@ export default class PokemonCategories implements Saveable {
             return;
         }
 
-        const categoryOrder = json.categories?.map(c => c.id);
-        json.categories?.forEach((category) => {
+        const categoryOrder = json.categories?.map((c: any) => c.id);
+        json.categories?.forEach((category: any) => {
             const cat = PokemonCategories.getCategoryById(category.id);
             if (cat) {
                 cat.name(category.name);
@@ -169,8 +170,10 @@ export default class PokemonCategories implements Saveable {
                 PokemonCategories.addCategory(category.name, category.color, category.id);
             }
         });
-        PokemonCategories.categories().sort((a, b) => categoryOrder.indexOf(a.id) - categoryOrder.indexOf(b.id));
+        PokemonCategories.categories().sort((a: PokemonCategory, b: PokemonCategory) => categoryOrder.indexOf(a.id) - categoryOrder.indexOf(b.id));
     }
 }
 
 PokemonCategories.initialize();
+
+export default PokemonCategories;

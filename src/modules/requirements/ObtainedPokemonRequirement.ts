@@ -1,6 +1,7 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
-import Requirement from './Requirement';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
+import Requirement from './Requirement';
 
 export default class ObtainedPokemonRequirement extends Requirement {
     constructor(public pokemon: PokemonNameType, uncaught = false) {

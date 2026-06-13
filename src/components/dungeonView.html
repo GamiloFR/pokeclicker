@@ -59,7 +59,7 @@
                 </div>
                 <div data-bind="if: DungeonBattle.catching" class="catchChance">
                     <img class="pokeball-animated"
-                         data-bind="attr:{ src: 'assets/images/pokeball/' + GameConstants.Pokeball[DungeonBattle.pokeball()] + '.svg' }"
+                         data-bind="attr:{ src: 'assets/images/pokeball/' + GameConstants.PokeballType[DungeonBattle.pokeball()] + '.svg' }"
                          src=""/>
                     <br>
                     Catch Chance:
@@ -122,9 +122,9 @@
                     src=""/>
                   </knockout>
 
-                  <!-- ko if: player.town.dungeon.allAvailableShadowPokemon().length -->
+                  <!-- ko if: App.player.town.dungeon.allAvailableShadowPokemon().length -->
                   <img height="19" src="assets/images/status/shadow.svg" data-bind="
-                    css: { 'dungeon-pokemon-locked': player.town.dungeon.allAvailableShadowPokemon().some(p => (App.game.party.getPokemonByName(p)?.shadow ?? GameConstants.ShadowStatus.None) < GameConstants.ShadowStatus.Shadow) },"/>
+                    css: { 'dungeon-pokemon-locked': App.player.town.dungeon.allAvailableShadowPokemon().some(p => (App.game.party.getPokemonByName(p)?.shadow ?? GameConstants.ShadowStatus.None) < GameConstants.ShadowStatus.Shadow) },"/>
                   <!-- /ko -->
                 </td>
                 <td width="50%">

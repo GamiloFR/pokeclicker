@@ -1,3 +1,4 @@
+import App from '../App';
 import { StoneType } from '../GameConstants';
 import { EvoTrigger, StoneEvoData } from './evolutions/Base';
 

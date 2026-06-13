@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import { Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
-import GameHelper from '../GameHelper';
 import { Currency, formatNumber } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import Multiplier from '../multiplier/Multiplier';
-import Amount from './Amount';
+import Settings from '../settings/Settings';
 import { animateCurrency } from '../utilities/UI';
-import Settings from '../settings';
+import Amount from './Amount';
 
 export default class Wallet implements Feature {
     name = 'Wallet';
@@ -68,7 +69,7 @@ export default class Wallet implements Feature {
 
     public addAmount(amount: Amount, ignoreBonus = false) {
         if (Number.isNaN(amount.amount) || amount.amount <= 0) {
-            console.trace('Could not add amount:', amount);
+            console.warn('Could not add amount:', amount);
             amount.amount = 1;
         }
 
@@ -115,7 +116,7 @@ export default class Wallet implements Feature {
 
     public loseAmount(amount: Amount): boolean {
         if (Number.isNaN(amount.amount) || amount.amount <= 0) {
-            console.trace('Could not remove amount:', amount);
+            console.warn('Could not remove amount:', amount);
             amount.amount = 1;
         }
 

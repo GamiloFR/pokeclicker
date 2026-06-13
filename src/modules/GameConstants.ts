@@ -469,7 +469,7 @@ export enum GameState {
     temporaryBattle = 9,
 }
 
-export enum Pokeball {
+export enum PokeballType {
     'None' = -1,
     'Pokeball' = 0,
     'Greatball',

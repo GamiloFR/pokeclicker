@@ -1,34 +1,35 @@
-import { Coordinate } from './mine/Mine';
 import { Observable, PureComputed } from 'knockout';
-import GameHelper from '../GameHelper';
+import App from '../App';
+import OakItemType from '../enums/OakItemType';
 import {
     humanifyString,
-    Pokeball,
+    PokeballType,
     UNDERGROUND_BATTERY_COOLDOWN_SECONDS,
     UNDERGROUND_BATTERY_MAX_CHARGES,
 } from '../GameConstants';
-import Rand from '../utilities/Rand';
-import { UndergroundController } from './UndergroundController';
-import OakItemType from '../enums/OakItemType';
-import Notifier from '../notifications/Notifier';
+import GameHelper from '../GameHelper';
 import NotificationConstants from '../notifications/NotificationConstants';
-import Requirement from '../requirements/Requirement';
+import Notifier from '../notifications/Notifier';
 import MultiRequirement from '../requirements/MultiRequirement';
-import { batteryPatternEruption } from './battery/eruption';
-import { batteryPatternHydroCannon } from './battery/hydroCannon';
-import { batteryPatternDragonBreath } from './battery/dragonBreath';
-import { batteryPatternLeafTornado } from './battery/leafTornado';
-import { batteryPatternOverdrive } from './battery/overdrive';
-import { batteryPatternTenMillionVoltThunderbolt } from './battery/tenMillionVoltThunderbolt';
+import PokeballRequirement from '../requirements/PokeballRequirement';
+import Requirement from '../requirements/Requirement';
+import UndergroundLevelRequirement from '../requirements/UndergroundLevelRequirement';
+import Rand from '../utilities/Rand';
 import { batteryPatternDracoMeteor } from './battery/dracoMeteor';
-import { batteryPatternHeartStamp } from './battery/heartStamp';
-import { batteryPatternPokeball } from './battery/pokeball';
-import { batteryPatternSurf } from './battery/surf';
+import { batteryPatternDragonBreath } from './battery/dragonBreath';
+import { batteryPatternEruption } from './battery/eruption';
 import { batteryPatternExplosion } from './battery/explosion';
 import { batteryPatternFleurCannon } from './battery/fleurCannon';
+import { batteryPatternHeartStamp } from './battery/heartStamp';
+import { batteryPatternHydroCannon } from './battery/hydroCannon';
 import { batteryPatternHyperBeam } from './battery/hyperBeam';
-import PokeballRequirement from '../requirements/PokeballRequirement';
-import UndergroundLevelRequirement from '../requirements/UndergroundLevelRequirement';
+import { batteryPatternLeafTornado } from './battery/leafTornado';
+import { batteryPatternOverdrive } from './battery/overdrive';
+import { batteryPatternPokeball } from './battery/pokeball';
+import { batteryPatternSurf } from './battery/surf';
+import { batteryPatternTenMillionVoltThunderbolt } from './battery/tenMillionVoltThunderbolt';
+import { Coordinate } from './mine/Mine';
+import { UndergroundController } from './UndergroundController';
 
 export type Pattern = Array<Array<{ coordinate: Coordinate, depth: number }>>;
 
@@ -220,7 +221,7 @@ UndergroundBattery.addPattern(new UndergroundBatteryPattern('Overdrive', 2, batt
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('10,000,000 Volt Thunderbolt', 3, batteryPatternTenMillionVoltThunderbolt, new UndergroundLevelRequirement(15)));
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('Draco Meteor', 3, batteryPatternDracoMeteor, new UndergroundLevelRequirement(15)));
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('Heart Stamp', 3, batteryPatternHeartStamp, new UndergroundLevelRequirement(15)));
-UndergroundBattery.addPattern(new UndergroundBatteryPattern('Pokéball', 4, batteryPatternPokeball, new MultiRequirement([new UndergroundLevelRequirement(20), new PokeballRequirement(46100, Pokeball.Pokeball)])));
+UndergroundBattery.addPattern(new UndergroundBatteryPattern('Pokéball', 4, batteryPatternPokeball, new MultiRequirement([new UndergroundLevelRequirement(20), new PokeballRequirement(46100, PokeballType.Pokeball)])));
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('Surf', 4, batteryPatternSurf, new UndergroundLevelRequirement(20)));
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('Explosion', 5, batteryPatternExplosion, new UndergroundLevelRequirement(30)));
 UndergroundBattery.addPattern(new UndergroundBatteryPattern('Fleur Cannon', 5, batteryPatternFleurCannon, new UndergroundLevelRequirement(30)));

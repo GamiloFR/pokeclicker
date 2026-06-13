@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this */
 import type { Observable, ObservableArray, PureComputed } from 'knockout';
-import '../koExtenders';
 import { Feature } from '../DataStore/common/Feature';
+import '../koExtenders';
+import Settings from '../settings/Settings';
 import { LogContent } from './helpers';
 import LogBookLog from './LogBookLog';
 import { LogBookType, LogBookTypes } from './LogBookTypes';
-import Settings from '../settings';
 
 type SavedLog = { type: LogBookType; content: LogContent; date: number };
 

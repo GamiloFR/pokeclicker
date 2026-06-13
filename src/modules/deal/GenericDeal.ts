@@ -1,12 +1,13 @@
-import PokemonType from '../enums/PokemonType';
-import Amount from '../wallet/Amount';
+import App from '../App';
 import BerryType from '../enums/BerryType';
+import PokemonType from '../enums/PokemonType';
+import { Currency } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import Item from '../items/Item';
 import { ItemList } from '../items/ItemList';
-import GameHelper from '../GameHelper';
-import { Currency } from '../GameConstants';
-import Requirement from '../requirements/Requirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
+import Requirement from '../requirements/Requirement';
+import Amount from '../wallet/Amount';
 
 export type GenericTraderShopIdentifier =
     'Palaeontologist' |
@@ -60,7 +61,7 @@ type AmountDealCost = {
 
 export type DealCost = GemDealCost | ShardDealCost | BerryDealCost | ItemDealCost | AmountDealCost;
 
-type ItemDealProfit = {
+export type ItemDealProfit = {
     type: DealCostOrProfitType.Item,
     item: Item,
 } & DealCostProfit;
@@ -184,8 +185,8 @@ export default class GenericDeal {
         // Lose the cost
         deal._costs.forEach(cost => {
             switch (cost.type) {
-                case DealCostOrProfitType.Item: player.loseItem(cost.item.name, cost.amount * tradeTimes); break;
-                case DealCostOrProfitType.Shard: player.loseItem(cost.shardItem.name, cost.amount * tradeTimes); break;
+                case DealCostOrProfitType.Item: App.player.loseItem(cost.item.name, cost.amount * tradeTimes); break;
+                case DealCostOrProfitType.Shard: App.player.loseItem(cost.shardItem.name, cost.amount * tradeTimes); break;
                 case DealCostOrProfitType.Berry: GameHelper.incrementObservable(App.game.farming.berryList[cost.berryType], -1 * cost.amount * tradeTimes); break;
                 case DealCostOrProfitType.Gem: GameHelper.incrementObservable(App.game.gems.gemWallet[cost.gemType], -1 * cost.amount * tradeTimes); break;
                 case DealCostOrProfitType.Amount: App.game.wallet.loseAmount(new Amount(cost.currency.amount * cost.amount * tradeTimes, cost.currency.currency)); break;
@@ -215,9 +216,9 @@ export default class GenericDeal {
         return Math.min(...deal._costs.map(cost => {
             switch (cost.type) {
                 case DealCostOrProfitType.Item:
-                    return Math.floor(player.itemList[cost.item.name]() / cost.amount);
+                    return Math.floor(App.player.itemList[cost.item.name]() / cost.amount);
                 case DealCostOrProfitType.Shard:
-                    return Math.floor(player.itemList[cost.shardItem.name]() / cost.amount);
+                    return Math.floor(App.player.itemList[cost.shardItem.name]() / cost.amount);
                 case DealCostOrProfitType.Berry:
                     return Math.floor(App.game.farming.berryList[cost.berryType]() / cost.amount);
                 case DealCostOrProfitType.Gem:
@@ -231,9 +232,9 @@ export default class GenericDeal {
     public static inventoryAmount(a: DealCost | DealProfit): number {
         switch (a.type) {
             case DealCostOrProfitType.Gem: return App.game.gems.gemWallet[a.gemType]();
-            case DealCostOrProfitType.Shard: return player.itemList[a.shardItem.name]();
+            case DealCostOrProfitType.Shard: return App.player.itemList[a.shardItem.name]();
             case DealCostOrProfitType.Berry: return App.game.farming.berryList[a.berryType]();
-            case DealCostOrProfitType.Item: return player.itemList[a.item.name]();
+            case DealCostOrProfitType.Item: return App.player.itemList[a.item.name]();
             case DealCostOrProfitType.Amount: return App.game.wallet.currencies[a.currency.currency]();
             default: return 0;
         }

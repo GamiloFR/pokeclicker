@@ -7,17 +7,17 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <h5 data-bind="text: GameConstants.camelCaseToString(GameConstants.Region[player.region])">Region</h5>
+            <h5 data-bind="text: GameConstants.camelCaseToString(GameConstants.Region[App.player.region])">Region</h5>
             <div class="modal-body bg-ocean">
                 <img class="my-5" src='assets/images/boat.png' style='width: 40%;'>
-                <div style='margin-top:20px' data-bind="foreach: SubRegions.getSubRegions(player.region)">
+                <div style='margin-top:20px' data-bind="foreach: SubRegions.getSubRegions(App.player.region)">
                     <!-- ko if: $data !== 'none' -->
                     <button style="position: relative;" class='btn btn-block btn-success'
                         data-dismiss='modal'
                         data-bind='visible: $data.unlocked(),
-                        click: () => { player.subregion = $data.id; $("#SubregionModal").modal("hide"); },
-                        attr: { disabled: player.subregion == $data.id }'>
-                        <img style="position:absolute; left: 10px;" data-bind="visible: player.subregion == $data.id, attr: { src: `assets/images/profile/trainer-${App.game.profile.trainer() || 0}.png` }"/> <knockout data-bind="text: $data.name">Region</knockout>
+                        click: () => { App.player.subregion = $data.id; $("#SubregionModal").modal("hide"); },
+                        attr: { disabled: App.player.subregion == $data.id }'>
+                        <img style="position:absolute; left: 10px;" data-bind="visible: App.player.subregion == $data.id, attr: { src: `assets/images/profile/trainer-${App.game.profile.trainer() || 0}.png` }"/> <knockout data-bind="text: $data.name">Region</knockout>
                     </button>
                     <!-- /ko -->
                 </div>

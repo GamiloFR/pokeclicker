@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/member-ordering */
+import App from '../App';
 import {
-    SHINY_CHANCE_BREEDING,
-    MINUTE,
-    SECOND,
     MaxIDPerRegion,
+    MINUTE,
     Region,
+    SECOND,
+    SHINY_CHANCE_BREEDING,
 } from '../GameConstants';
 import { pokemonMap } from '../pokemons/PokemonList';
 import Rand from '../utilities/Rand';
@@ -120,7 +121,7 @@ export default class DynamicBackground {
         // Assign our timeout function so we can stop it later
         DynamicBackground.addPokemonTimeout = setTimeout(() => {
             // limited to players highest region
-            DynamicBackground.addPokemon(Rand.intBetween(1, MaxIDPerRegion[player?.highestRegion() || Region.kanto]));
+            DynamicBackground.addPokemon(Rand.intBetween(1, MaxIDPerRegion[App.player?.highestRegion() || Region.kanto]));
             // Add another pokemon
             DynamicBackground.startAddingPokemon();
         }, delay);

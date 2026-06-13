@@ -1,13 +1,6 @@
-import OakItemType from '../enums/OakItemType';
-import Rand from '../utilities/Rand';
-import { MineConfig, MineConfigs, MineType } from './mine/MineConfig';
-import UndergroundItem from './UndergroundItem';
-import UndergroundItems from './UndergroundItems';
-import { ItemList } from '../items/ItemList';
-import Settings from '../settings';
 import { PureComputed } from 'knockout';
-import Notifier from '../notifications/Notifier';
-import NotificationConstants from '../notifications/NotificationConstants';
+import App from '../App';
+import OakItemType from '../enums/OakItemType';
 import UndergroundItemValueType from '../enums/UndergroundItemValueType';
 import {
     camelCaseToString,
@@ -26,13 +19,21 @@ import {
     UNDERGROUND_EXPERIENCE_CLEAR_LAYER,
     UNDERGROUND_EXPERIENCE_DIG_UP_ITEM,
 } from '../GameConstants';
-import { UndergroundHelper } from './helper/UndergroundHelper';
-import NotificationOption from '../notifications/NotificationOption';
 import GameHelper from '../GameHelper';
-import { Coordinate } from './mine/Mine';
-import { SortOptionConfigs, SortOptions } from './UndergroundTreasuresSortOptions';
+import { ItemList } from '../items/ItemList';
+import NotificationConstants from '../notifications/NotificationConstants';
+import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
+import Settings from '../settings/Settings';
+import Rand from '../utilities/Rand';
+import { UndergroundHelper } from './helper/UndergroundHelper';
+import { Coordinate } from './mine/Mine';
+import { MineConfig, MineConfigs, MineType } from './mine/MineConfig';
 import UndergroundToolType from './tools/UndergroundToolType';
+import UndergroundItem from './UndergroundItem';
+import UndergroundItems from './UndergroundItems';
+import { SortOptionConfigs, SortOptions } from './UndergroundTreasuresSortOptions';
 
 export const UNDERGROUND_MAX_CLICKS_PER_SECOND = 20;
 
@@ -169,12 +170,12 @@ export class UndergroundController {
         if (amount <= 0) {
             return;
         }
-        const curAmt = player.itemList[item.itemName]();
+        const curAmt = App.player.itemList[item.itemName]();
         if (curAmt > 0) {
             const sellAmt = Math.min(curAmt, amount);
             const success = UndergroundController.gainProfit(item, sellAmt);
             if (success) {
-                player.loseItem(item.itemName, sellAmt);
+                App.player.loseItem(item.itemName, sellAmt);
             }
             return;
         }

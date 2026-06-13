@@ -1,3 +1,4 @@
+import App from '../App';
 import UndergroundItem from './UndergroundItem';
 
 export enum SortOptions {
@@ -26,7 +27,7 @@ export const SortOptionConfigs: Record<SortOptions, SortOptionConfig> = {
 
     [SortOptions.quantity]: {
         text: 'Quantity',
-        getValue: treasure => player.itemList[treasure.itemName]?.() ?? 0,
+        getValue: treasure => App.player.itemList[treasure.itemName]?.() ?? 0,
     },
 
     [SortOptions.value]: {

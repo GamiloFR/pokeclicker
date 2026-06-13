@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Requirement from './Requirement';

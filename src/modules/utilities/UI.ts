@@ -1,8 +1,8 @@
 // Utilities for controlling the user interface
 
-import Amount from '../wallet/Amount';
-import Settings from '../settings';
 import { Currency } from '../GameConstants';
+import Settings from '../settings/Settings';
+import Amount from '../wallet/Amount';
 import Rand from './Rand';
 
 // eslint-disable-next-line import/prefer-default-export

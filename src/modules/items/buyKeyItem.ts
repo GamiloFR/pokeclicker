@@ -1,3 +1,4 @@
+import App from '../App';
 import KeyItemType from '../enums/KeyItemType';
 import { Currency } from '../GameConstants';
 import Item from './Item';

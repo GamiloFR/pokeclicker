@@ -1,5 +1,6 @@
-import AchievementRequirement from './AchievementRequirement';
+import App from '../App';
 import * as GameConstants from '../GameConstants';
+import AchievementRequirement from './AchievementRequirement';
 
 export default class UndergroundHelperRequirement extends AchievementRequirement {
     constructor(helpersUnlocked: number, public levelRequired: number) {

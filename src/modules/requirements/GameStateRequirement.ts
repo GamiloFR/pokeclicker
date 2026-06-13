@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, camelCaseToString, GameState } from '../GameConstants';
 import Requirement from './Requirement';
 

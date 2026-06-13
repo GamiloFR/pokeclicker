@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption, camelCaseToString, Region } from '../GameConstants';
 import Requirement from './Requirement';
 
@@ -7,7 +8,7 @@ export default class InRegionRequirement extends Requirement {
     }
 
     public getProgress() {
-        return Number(this.regions.includes(player.region));
+        return Number(this.regions.includes(App.player.region));
     }
 
     public hint(): string {
@@ -21,6 +22,6 @@ export default class InRegionRequirement extends Requirement {
     }
 
     public isCurrentlyPossible() {
-        return this.regions.find((region) => region <= player.highestRegion()) !== undefined;
+        return this.regions.find((region) => region <= App.player.highestRegion()) !== undefined;
     }
 }

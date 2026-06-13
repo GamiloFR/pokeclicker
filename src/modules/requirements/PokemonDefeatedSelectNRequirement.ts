@@ -1,6 +1,7 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
-import { PokemonNameType } from '../pokemons/PokemonNameType';
 import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
 import SeededRand from '../utilities/SeededRand';
 import Requirement from './Requirement';
 

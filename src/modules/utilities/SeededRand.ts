@@ -1,4 +1,10 @@
-import { MINUTE, HOUR } from '../GameConstants';
+import { HOUR, MINUTE } from '../GameConstants';
+
+type Enum = {
+    [key: number]: string;
+};
+
+type EnumValues<E extends Enum> = E[keyof E];
 
 export default class SeededRand {
     public static state = 1234567890;
@@ -73,9 +79,9 @@ export default class SeededRand {
     }
 
     // Filters out any enum values that are less than 0 (for None)
-    public static fromEnum(_enum): number {
+    public static fromEnum<E extends Enum>(_enum: E): EnumValues<E> {
         const arr = Object.keys(_enum).map(Number).filter((item) => item >= 0);
-        return this.fromArray(arr);
+        return this.fromArray(arr) as EnumValues<E>;
     }
 
     // Get a string of letters and numbers (lowercase)

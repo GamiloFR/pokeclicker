@@ -1,7 +1,8 @@
-import AchievementRequirement from './AchievementRequirement';
-import UndergroundToolType from '../underground/tools/UndergroundToolType';
-import { humanifyString } from '../GameConstants';
+import App from '../App';
 import * as GameConstants from '../GameConstants';
+import { humanifyString } from '../GameConstants';
+import UndergroundToolType from '../underground/tools/UndergroundToolType';
+import AchievementRequirement from './AchievementRequirement';
 
 export default class UndergroundUseToolRequirement extends AchievementRequirement {
     constructor(public toolType: UndergroundToolType, amount: number) {

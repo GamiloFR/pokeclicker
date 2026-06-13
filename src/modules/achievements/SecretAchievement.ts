@@ -1,8 +1,9 @@
 import { ExtraAchievementCategories } from '../GameConstants';
 import AchievementRequirement from '../requirements/AchievementRequirement';
 import Achievement from './Achievement';
+import AchievementHandler from './AchievementHandler';
 
-export default class SecretAchievement extends Achievement {
+class SecretAchievement extends Achievement {
     constructor(
         name: string,
         description: string,
@@ -10,7 +11,7 @@ export default class SecretAchievement extends Achievement {
         private _hint: string,
         persist: boolean = false,
     ) {
-        super(name, description, property, 0, AchievementHandler.getAchievementCategoryByExtraCategory(ExtraAchievementCategories.secret), null, persist);
+        super(name, description, property, 0, AchievementHandler.getAchievementCategoryByExtraCategory(ExtraAchievementCategories.secret), undefined, persist);
         this.notificationTitle = 'Secret Achievement';
         this.notificationTimeout = 3e4;
     }
@@ -23,3 +24,5 @@ export default class SecretAchievement extends Achievement {
         return this.unlocked() ? this.name : '???';
     }
 }
+
+export default SecretAchievement;

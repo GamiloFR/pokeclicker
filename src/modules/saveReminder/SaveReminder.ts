@@ -1,11 +1,12 @@
 import type {
     Observable as KnockoutObservable,
 } from 'knockout';
-import '../koExtenders';
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
+import '../koExtenders';
 import Notifier from '../notifications/Notifier';
-import Settings from '../settings';
+import Settings from '../settings/Settings';
 
 export default class SaveReminder implements Saveable {
     public static counter = 0;

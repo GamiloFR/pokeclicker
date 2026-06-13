@@ -9,11 +9,11 @@ export default abstract class Requirement {
         this.option = option;
     }
 
-    public getProgressPercentage() {
+    public getProgressPercentage(): string {
         switch (this.option) {
             case GameConstants.AchievementOption.less:
             case GameConstants.AchievementOption.equal:
-                return this.isCompleted() ? 100 : 0;
+                return this.isCompleted() ? '100' : '0';
             case GameConstants.AchievementOption.more:
             default:
                 const fraction = this.requiredValue != 0 ? (this.getProgress() / this.requiredValue) : +this.isCompleted();

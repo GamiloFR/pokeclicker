@@ -1,11 +1,15 @@
-import KeyItem from './KeyItem';
-import KeyItemType from '../enums/KeyItemType';
-import Information from '../utilities/Information';
-import KeyItemController from './KeyItemController';
+import App from '../App';
 import { Feature } from '../DataStore/common/Feature';
+import KeyItemType from '../enums/KeyItemType';
 import {
-    getDungeonIndex, Region, RegionalStarters, ROUTE_KILLS_NEEDED, Pokerus,
+    getDungeonIndex,
+    Pokerus,
+    Region, RegionalStarters, ROUTE_KILLS_NEEDED,
 } from '../GameConstants';
+import Information from '../utilities/Information';
+import MapHelper from '../worldmap/MapHelper';
+import KeyItem from './KeyItem';
+import KeyItemController from './KeyItemController';
 
 export default class KeyItems implements Feature {
     name = 'Key Items';
@@ -13,7 +17,7 @@ export default class KeyItems implements Feature {
 
     itemList: KeyItem[];
 
-    defaults: Record<string, any>;
+    defaults = {};
 
     constructor() {
         this.itemList = [];
@@ -59,7 +63,6 @@ export default class KeyItems implements Feature {
                 () => App.game.statistics.dungeonsCleared[getDungeonIndex('Distortion World')]() > 0,
                 undefined,
                 () => {
-                    App.game.pokeballs.alreadyCaughtContagiousSelection = App.game.pokeballs.alreadyCaughtSelection;
                     Information.show({
                         steps: [
                             {
@@ -73,7 +76,7 @@ export default class KeyItems implements Feature {
                 'Pokérus Virus',
                 () => {
                     const patientZero = App.game.party.getPokemon(
-                        RegionalStarters[Region.kanto][player.regionStarters[Region.kanto]()],
+                        RegionalStarters[Region.kanto][App.player.regionStarters[Region.kanto]()],
                     ) || App.game.party.caughtPokemon[0];
                     patientZero.pokerus = Pokerus.Contagious;
                 }),

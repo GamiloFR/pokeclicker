@@ -97,17 +97,17 @@
 
     <!-- ko if: model.type === 'Shard' -->
     <div><img height="24px" data-bind="attr: {src: model.shardItem.image }"/></div>
-    <div class="text-left" data-bind="text: `${(tradeAmount * model.amount).toLocaleString('en-US')} × ${model.shardItem.displayName}`, css: { 'not-enough': tradeAmount * model.amount > player.itemList[model.shardItem.name]() }"></div>
+    <div class="text-left" data-bind="text: `${(tradeAmount * model.amount).toLocaleString('en-US')} × ${model.shardItem.displayName}`, css: { 'not-enough': tradeAmount * model.amount > App.player.itemList[model.shardItem.name]() }"></div>
     <!-- /ko -->
 
     <!-- ko if: model.type === 'Berry' -->
-    <div><img height="24px" data-bind="attr: {src: FarmController.getBerryImage(model.berryType) }, css: {'berryLocked': !App.game.farming.unlockedBerries[model.berryType]() }"/></div>
+    <div><img height="24px" data-bind="attr: {src: FarmHelper.getBerryImage(model.berryType) }, css: {'berryLocked': !App.game.farming.unlockedBerries[model.berryType]() }"/></div>
     <div class="text-left" data-bind="text: `${(tradeAmount * model.amount).toLocaleString('en-US')} × ${App.game.farming.unlockedBerries[model.berryType]() ? BerryType[model.berryType] : '???'}`, css: { 'not-enough': tradeAmount * model.amount > App.game.farming.berryList[model.berryType]() }"></div>
     <!-- /ko -->
 
     <!-- ko if: model.type === 'Item' -->
     <div><img height="24px" data-bind="attr: {src: model.item.image }"/></div>
-    <div class="text-left" data-bind="text: `${(tradeAmount * model.amount).toLocaleString('en-US')} × ${model.item.displayName}`, css: { 'not-enough': tradeAmount * model.amount > player.itemList[model.item.name]() }"></div>
+    <div class="text-left" data-bind="text: `${(tradeAmount * model.amount).toLocaleString('en-US')} × ${model.item.displayName}`, css: { 'not-enough': tradeAmount * model.amount > App.player.itemList[model.item.name]() }"></div>
     <!-- /ko -->
 
     <!-- ko if: model.type === 'Amount' -->

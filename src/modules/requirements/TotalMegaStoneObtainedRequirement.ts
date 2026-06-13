@@ -1,3 +1,4 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import { ItemList } from '../items/ItemList';
 import MegaStoneItem from '../items/MegaStoneItem';
@@ -9,7 +10,7 @@ export default class TotalMegaStoneObtainedRequirement extends AchievementRequir
     }
 
     public getProgress() {
-        return Math.min(Object.values(ItemList).filter((i) => i instanceof MegaStoneItem && player.itemList[i.name]()).length, this.requiredValue);
+        return Math.min(Object.values(ItemList).filter((i) => i instanceof MegaStoneItem && App.player.itemList[i.name]()).length, this.requiredValue);
     }
 
     public hint(): string {

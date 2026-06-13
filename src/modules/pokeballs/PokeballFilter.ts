@@ -1,18 +1,18 @@
 import { Observable, Unwrapped } from 'knockout';
-import { Pokeball } from '../GameConstants';
+import { PokeballType } from '../GameConstants';
 import Setting from '../settings/Setting';
 import { PokeballFilterMatchData, PokeballFilterOptions, pokeballFilterOptions } from './PokeballFilterOptions';
 
 export type PokeballFilterParams = {
     name: string;
     options: PokeballFilterOptions;
-    ball?: Pokeball;
+    ball?: PokeballType;
     inverted?: boolean;
     enabled?: boolean;
 };
 
 export default class PokeballFilter {
-    public ball: Observable<Pokeball>;
+    public ball: Observable<PokeballType>;
     public _options: Observable<{
         [K in keyof PokeballFilterOptions]:Setting<PokeballFilterOptions[K]>
     }>;
@@ -25,7 +25,7 @@ export default class PokeballFilter {
     constructor(
         name: string,
         options: PokeballFilterOptions,
-        ball: Pokeball = Pokeball.None,
+        ball: PokeballType = PokeballType.None,
         enabled = true,
         inverted = false,
     ) {

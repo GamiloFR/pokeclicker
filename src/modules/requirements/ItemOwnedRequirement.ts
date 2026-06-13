@@ -1,3 +1,4 @@
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import { ItemList } from '../items/ItemList';
 import AchievementRequirement from './AchievementRequirement';
@@ -8,7 +9,7 @@ export default class ItemOwnedRequirement extends AchievementRequirement {
     }
 
     public getProgress() {
-        return player.itemList[this.itemName]();
+        return App.player.itemList[this.itemName]();
     }
 
     public hint(): string {

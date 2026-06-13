@@ -1,4 +1,6 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
+import TemporaryBattleList from '../temporaryBattle/TemporaryBattleList';
 import AchievementRequirement from './AchievementRequirement';
 
 export default class TemporaryBattleRequirement extends AchievementRequirement {
@@ -14,7 +16,7 @@ export default class TemporaryBattleRequirement extends AchievementRequirement {
         const tempBattle = TemporaryBattleList[this.battleName];
         let locationHint = '';
         if (tempBattle.getTown()) {
-            locationHint = ` ${tempBattle.parent ? 'in' : 'near'} ${tempBattle.getTown().name}`;
+            locationHint = ` ${tempBattle.parent ? 'in' : 'near'} ${tempBattle.getTown()?.name}`;
             locationHint.replace(/\.$/, ''); // remove trailing period since the hint text adds one
         }
         const hint = `Requires beating ${tempBattle.getDisplayName()}${locationHint}.`;

@@ -1,12 +1,12 @@
 import { formatDate } from './GameConstants';
+import GameHelper from './GameHelper';
 import NotificationConstants from './notifications/NotificationConstants';
 import Notifier from './notifications/Notifier';
 import Profile from './profile/Profile';
+import Settings from './settings/Settings';
 import { SortSaves } from './Sortable';
-import Settings from './settings/index';
-import GameHelper from './GameHelper';
-import GameLoadState from './utilities/GameLoadState';
 import * as DownloadUtil from './utilities/DownloadUtil';
+import GameLoadState from './utilities/GameLoadState';
 
 export default class SaveSelector {
     static MAX_SAVES = 9;

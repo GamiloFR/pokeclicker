@@ -1,8 +1,9 @@
+import App from '../App';
 import * as GameConstants from '../GameConstants';
 import AchievementRequirement from './AchievementRequirement';
 
 export default class PokeballRequirement extends AchievementRequirement {
-    constructor(value: number, public pokeball: GameConstants.Pokeball, option: GameConstants.AchievementOption = GameConstants.AchievementOption.more) {
+    constructor(value: number, public pokeball: GameConstants.PokeballType, option: GameConstants.AchievementOption = GameConstants.AchievementOption.more) {
         super(value, option, GameConstants.AchievementType['Poke Balls']);
     }
 
@@ -11,7 +12,7 @@ export default class PokeballRequirement extends AchievementRequirement {
     }
 
     public hint(): string {
-        return `${this.requiredValue} ${GameConstants.Pokeball[this.pokeball]} need to be obtained.`;
+        return `${this.requiredValue} ${GameConstants.PokeballType[this.pokeball]} need to be obtained.`;
     }
 
     public toString(): string {

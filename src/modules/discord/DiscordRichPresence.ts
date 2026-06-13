@@ -1,0 +1,328 @@
+import AchievementHandler from '../achievements/AchievementHandler';
+import App from '../App';
+import PokemonType from '../enums/PokemonType';
+import { camelCaseToString, Currency, formatSecondsToTime, getDungeonIndex, getGymIndex, Region } from '../GameConstants';
+import Routes from '../routes/Routes';
+import Settings from '../settings/Settings';
+import SubRegions from '../subRegion/SubRegions';
+import WeatherType from '../weather/WeatherType';
+import MapHelper from '../worldmap/MapHelper';
+
+class DiscordRichPresence {
+    static focusedElement = document.createElement('input');
+    static clientVersion = '';
+
+    static startTimestamp = Date.now();
+    static currentArea = '';
+    static cycleSmallImageIndex = 0;
+    static cycleOptions = [
+        'money',
+        'dungeonToken',
+        'questPoint',
+        'farmPoint',
+        'diamond',
+        'battlePoint',
+        'trainer',
+        'egg',
+        'pokeball',
+    ];
+
+    static outputOptions: Array<{
+        key: string,
+        value: () => string | number,
+        default: string | number,
+    }> = [
+        {
+            key: 'caught',
+            value: () => App.game.party.caughtPokemon.length,
+            default: 0,
+        },
+        {
+            key: 'caught_shiny',
+            value: () => App.game.party.caughtPokemon.filter(p => p.shiny).length,
+            default: 0,
+        },
+        {
+            key: 'hatched',
+            value: () => App.game.statistics.totalPokemonHatched(),
+            default: 0,
+        },
+        {
+            key: 'hatched_shiny',
+            value: () => App.game.statistics.totalShinyPokemonHatched(),
+            default: 0,
+        },
+        {
+            key: 'sparkle',
+            value: () => '✨',
+            default: '✨',
+        },
+        {
+            key: 'pokerus',
+            value: () => App.game.party.caughtPokemon.filter(p => p.pokerus).length,
+            default: 0,
+        },
+        {
+            key: 'pokerus_resistant',
+            value: () => App.game.party.caughtPokemon.filter(p => p.pokerus >= 3).length,
+            default: 0,
+        },
+        {
+            key: 'attack',
+            value: () => App.game.party.calculatePokemonAttack(PokemonType.None, PokemonType.None, true, undefined, true, false, WeatherType.Clear, true, true),
+            default: 0,
+        },
+        {
+            key: 'regional_attack',
+            value: () => App.game.party.calculatePokemonAttack(),
+            default: 0,
+        },
+        {
+            key: 'current_region',
+            value: () => camelCaseToString(Region[App.player.region]),
+            default: 'Unknown Region',
+        },
+        {
+            key: 'current_subregion',
+            value: () => SubRegions.getSubRegionById(App.player.region, App.player.subregion)?.name,
+            default: 'Unknown Subregion',
+        },
+        {
+            key: 'current_route',
+            value: () => App.player.route ? Routes.getName(App.player.route, App.player.region) : App.player.town ? App.player.town.name : 'Unknown Area',
+            default: 'Unknown Area',
+        },
+        {
+            key: 'current_area',
+            value: () => App.player.route ? Routes.getName(App.player.route, App.player.region) : App.player.town ? App.player.town.name : 'Unknown Area',
+            default: 'Unknown Area',
+        },
+        {
+            key: 'current_route_stats',
+            value: () => {
+                if (App.player.route) {
+                    return App.game.statistics.routeKills[App.player.region][App.player.route]();
+                } else if (App.player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(App.player.town.name)]();
+                } else if (App.player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(App.player.town.name)]();
+                }
+                return 0;
+            },
+            default: 0,
+        },
+        {
+            key: 'current_area_stats',
+            value: () => {
+                if (App.player.route) {
+                    return App.game.statistics.routeKills[App.player.region][App.player.route]();
+                } else if (App.player.town.dungeon) {
+                    return App.game.statistics.dungeonsCleared[getDungeonIndex(App.player.town.name)]();
+                } else if (App.player.town.gym) {
+                    return App.game.statistics.gymsDefeated[getGymIndex(App.player.town.name)]();
+                }
+                return 0;
+            },
+            default: 0,
+        },
+        {
+            key: 'money',
+            value: () => App.game.wallet.currencies[Currency.money](),
+            default: 0,
+        },
+        {
+            key: 'dungeon_tokens',
+            value: () => App.game.wallet.currencies[Currency.dungeonToken](),
+            default: 0,
+        },
+        {
+            key: 'diamonds',
+            value: () => App.game.wallet.currencies[Currency.diamond](),
+            default: 0,
+        },
+        {
+            key: 'farm_points',
+            value: () => App.game.wallet.currencies[Currency.farmPoint](),
+            default: 0,
+        },
+        {
+            key: 'quest_points',
+            value: () => App.game.wallet.currencies[Currency.questPoint](),
+            default: 0,
+        },
+        {
+            key: 'battle_points',
+            value: () => App.game.wallet.currencies[Currency.battlePoint](),
+            default: 0,
+        },
+        {
+            key: 'achievement_bonus',
+            value: () => AchievementHandler.achievementBonusPercent(),
+            default: '0%',
+        },
+        {
+            key: 'clicks',
+            value: () => App.game.statistics.clickAttacks(),
+            default: 0,
+        },
+        {
+            key: 'time_played',
+            value: () => formatSecondsToTime(App.game.statistics.secondsPlayed()),
+            default: '0 Seconds',
+        },
+        {
+            key: 'underground_levels_cleared',
+            value: () => App.game.statistics.undergroundLayersMined(),
+            default: 0,
+        },
+        {
+            key: 'underground_items_found',
+            value: () => App.game.statistics.undergroundItemsFound(),
+            default: 0,
+        },
+        {
+            key: 'underground_trades',
+            value: () => App.game.statistics.undergroundTrades(),
+            default: 0,
+        },
+        {
+            key: 'quests_completed',
+            value: () => App.game.statistics.questsCompleted(),
+            default: 0,
+        },
+        {
+            key: 'frontier_stages_cleared',
+            value: () => App.game.statistics.battleFrontierTotalStagesCompleted(),
+            default: 0,
+        },
+        {
+            key: 'frontier_highest_cleared',
+            value: () => App.game.statistics.battleFrontierHighestStageCompleted(),
+            default: 0,
+        },
+        {
+            key: 'total_berries_obtained',
+            value: () => App.game.statistics.totalBerriesObtained(),
+            default: 0,
+        },
+        {
+            key: 'total_manual_harvests',
+            value: () => App.game.statistics.totalManualHarvests(),
+            default: 0,
+        },
+        {
+            key: 'total_berries_harvested',
+            value: () => App.game.statistics.totalBerriesHarvested(),
+            default: 0,
+        },
+        {
+            key: 'total_berries_replanted',
+            value: () => App.game.statistics.totalBerriesReplanted(),
+            default: 0,
+        },
+        {
+            key: 'total_berries_mutated',
+            value: () => App.game.statistics.totalBerriesMutated(),
+            default: 0,
+        },
+        {
+            key: 'total_mulches_used',
+            value: () => App.game.statistics.totalMulchesUsed(),
+            default: 0,
+        },
+        {
+            key: 'total_shovels_used',
+            value: () => App.game.statistics.totalShovelsUsed(),
+            default: 0,
+        },
+        {
+            key: 'berry_daily_deal_trades',
+            value: () => App.game.statistics.berryDailyDealTrades(),
+            default: 0,
+        },
+    ];
+
+    static replaceDiscordText(input: string) {
+        const toString = (v: number | string) => typeof v === 'number' ? v.toLocaleString('en-US') : v;
+        let output = input;
+        this.outputOptions.forEach((option) => {
+            try {
+                output = output.replace(new RegExp(`{${option.key}}`, 'g'), toString(option.value()));
+            } catch (e) {
+                output = output.replace(new RegExp(`{${option.key}}`, 'g'), toString(option.default));
+            }
+        });
+        return output.replace(/<\/?br>/g, ' ');
+    }
+
+    static getRichPresenceData() {
+        let nextArea;
+        if (App.player == undefined) {
+            nextArea = 'Loading Game';
+        } else if (App.player.route) {
+            nextArea = Routes.getName(App.player.route, App.player.region);
+        } else if (App.player.town) {
+            nextArea = App.player.town.name;
+        } else {
+            nextArea = 'Unknown Area';
+        }
+
+        const discordRPCValues: Record<string, any> = {
+            enabled: (App.player != undefined ? Settings.getSetting('discord-rp.enabled').observableValue() : false),
+            line1: this.replaceDiscordText(Settings.getSetting('discord-rp.line-1').value || '  '),
+            line2: this.replaceDiscordText(Settings.getSetting('discord-rp.line-2').value || '  '),
+        };
+
+        // Reset timer if area has changed
+        if (Settings.getSetting('discord-rp.timer-reset').observableValue() && this.currentArea != nextArea) {
+            this.startTimestamp = Date.now();
+        }
+        this.currentArea = nextArea;
+        // Set our "start" timestamp
+        if (Settings.getSetting('discord-rp.timer').observableValue()) {
+            discordRPCValues.startTimestamp = this.startTimestamp;
+        }
+
+        // Our Discord images
+        switch (Settings.getSetting('discord-rp.large-image').observableValue()) {
+            case 'current-environment':
+                discordRPCValues.largeImageKey = `background-${MapHelper.calculateBattleCssClass() ?? 'grass'}`;
+                break;
+            default:
+                discordRPCValues.largeImageKey = Settings.getSetting('discord-rp.large-image').observableValue();
+        }
+        discordRPCValues.largeImageText = this.currentArea;
+
+        let smallImage = Settings.getSetting('discord-rp.small-image').observableValue();
+        if (smallImage === 'cycle') {
+            smallImage = this.cycleOptions[++this.cycleSmallImageIndex % this.cycleOptions.length];
+        }
+
+        if (App.game != undefined) {
+            switch (smallImage) {
+                case 'trainer':
+                    discordRPCValues.smallImageKey = `trainer-${App.game.profile.trainer()}`;
+                    discordRPCValues.smallImageText = this.replaceDiscordText('Total Attack: {attack}');
+                    break;
+                case 'egg':
+                    discordRPCValues.smallImageKey = smallImage;
+                    discordRPCValues.smallImageText = this.replaceDiscordText('Total Hatched: {hatched}');
+                    break;
+                case 'pokeball':
+                    discordRPCValues.smallImageKey = smallImage;
+                    discordRPCValues.smallImageText = this.replaceDiscordText('Shinies: {caught_shiny}/{caught} ✨');
+                    break;
+                default:
+                    discordRPCValues.smallImageKey = smallImage.toLowerCase();
+                    discordRPCValues.smallImageText = `${camelCaseToString(smallImage)}: ${App.game.wallet.currencies[Currency[smallImage]]?.().toLocaleString('en-US') ?? '0'}`;
+            }
+        } else {
+            discordRPCValues.smallImageKey = smallImage;
+            discordRPCValues.smallImageText = '';
+        }
+
+        return discordRPCValues;
+    }
+}
+
+export default DiscordRichPresence;

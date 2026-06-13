@@ -19,9 +19,6 @@
     <!-- New module-based code from './modules' -->
     <script src="scripts/modules.min.js?v=$VERSION"></script>
 
-    <!--Minified scripts-->
-    <script src="scripts/script.min.js?v=$VERSION"></script>
-
     <!--Popper.js-->
     <script src="libs/popper.min.js"></script>
 
@@ -194,7 +191,7 @@
                                     </knockout>
                                 </div>
                                 <div class="title-right">
-                                    <div class="d-flex align-items-center mr-1 ml-auto" data-bind="using: App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(player.town.name)]()">
+                                    <div class="d-flex align-items-center mr-1 ml-auto" data-bind="using: App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(App.player.town.name)]()">
                                         <div class="px-1 clickable" data-bind="tooltip: { title: 'See the Pokémon available on this route.', trigger: 'hover' }, click: function() { $('#routeInfoModal').modal('show') }" data-original-title="" title="">
                                             <img src="assets/images/encountersInfo/encountersInfo.png">
                                         </div>
@@ -207,7 +204,7 @@
                                 </div>
                                 <div data-bind="visible: Battle.catching()" class="catchChance">
                                     <img class="pokeball-animated"
-                                         data-bind="attr:{ src: 'assets/images/pokeball/' + GameConstants.Pokeball[Battle.pokeball()] + '.svg'}"
+                                         data-bind="attr:{ src: 'assets/images/pokeball/' + GameConstants.PokeballType[Battle.pokeball()] + '.svg'}"
                                          src=""/>
                                     <br>
                                     Catch Chance:
@@ -229,26 +226,26 @@
                                     <!-- ko if: App.game.gameState === GameConstants.GameState.fighting -->
                                     <td width="50%">
                                       <span style="display: inline;">
-                                        <knockout data-bind="text: Routes.getName(player.route, player.region)"></knockout>
+                                        <knockout data-bind="text: Routes.getName(App.player.route, App.player.region)"></knockout>
                                         <!--If all Pokémon in the dungeon are caught or caught shiny-->
-                                        <knockout data-bind="if: RouteHelper.routeCompleted(player.route, player.region, false)">
+                                        <knockout data-bind="if: RouteHelper.routeCompleted(App.player.route, App.player.region, false)">
                                             <img class="pokeball-smallest"
-                                                 data-bind="attr: { src: `assets/images/pokeball/Pokeball${RouteHelper.routeCompleted(player.route, player.region, true) ? '-shiny' : ''}.svg`},
+                                                 data-bind="attr: { src: `assets/images/pokeball/Pokeball${RouteHelper.routeCompleted(App.player.route, App.player.region, true) ? '-shiny' : ''}.svg`},
                                                  tooltip: {
-                                                trigger: 'hover', placement: 'bottom', title: `You have captured all Pokémon${RouteHelper.routeCompleted(player.route, player.region, true) ? ' shiny' : ''} on this route!`
+                                                trigger: 'hover', placement: 'bottom', title: `You have captured all Pokémon${RouteHelper.routeCompleted(App.player.route, App.player.region, true) ? ' shiny' : ''} on this route!`
                                               }"/>
                                         </knockout>
 
                                         <!--Pokérus image-->
-                                        <knockout data-bind="if: RouteHelper.minPokerusCheck(RouteHelper.getAvailablePokemonList(player.route, player.region, true))">
-                                            <img data-bind="attr:{ src: 'assets/images/breeding/pokerus/' + GameConstants.Pokerus[RouteHelper.minPokerus(RouteHelper.getAvailablePokemonList(player.route, player.region, true))] + '.png' },
-                                            tooltip: { title: RouteHelper.routePokerusEVs(player.route, player.region), trigger: 'hover', placement: 'bottom', html: true }"
+                                        <knockout data-bind="if: RouteHelper.minPokerusCheck(RouteHelper.getAvailablePokemonList(App.player.route, App.player.region, true))">
+                                            <img data-bind="attr:{ src: 'assets/images/breeding/pokerus/' + GameConstants.Pokerus[RouteHelper.minPokerus(RouteHelper.getAvailablePokemonList(App.player.route, App.player.region, true))] + '.png' },
+                                            tooltip: { title: RouteHelper.routePokerusEVs(App.player.route, App.player.region), trigger: 'hover', placement: 'bottom', html: true }"
                                           src=""/>
                                         </knockout>
                                       </span>
                                     </td>
                                     <td width="50%">
-                                      <knockout data-bind="using: App.game.statistics.routeKills[player.region][player.route]()">
+                                      <knockout data-bind="using: App.game.statistics.routeKills[App.player.region][App.player.route]()">
                                           <knockout data-bind="text: $data.toLocaleString('en-US')">0</knockout>
                                           <knockout data-bind="visible: $data < GameConstants.ROUTE_KILLS_NEEDED">/ 10</knockout>
                                           &nbsp;Pokémon defeated

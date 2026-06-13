@@ -1,3 +1,4 @@
+import App from '../App';
 import {
     AchievementOption, camelCaseToString, Region, RegionalStarters, Starter,
 } from '../GameConstants';
@@ -10,7 +11,7 @@ export default class StarterRequirement extends Requirement {
     }
 
     public getProgress() {
-        const starter = player.regionStarters[this.region]();
+        const starter = App.player.regionStarters[this.region]();
         return starter === Starter.None ? Starter.Grass : starter;
     }
 

@@ -1,4 +1,5 @@
 import { Observable } from 'knockout';
+import App from '../App';
 import { AchievementOption } from '../GameConstants';
 import AchievementRequirement from './AchievementRequirement';
 

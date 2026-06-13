@@ -1,0 +1,96 @@
+import App from '../App';
+import Battle from '../battles/Battle';
+import { PokeballType, ShadowStatus } from '../GameConstants';
+import { MultiplierDecreaser } from '../items/types';
+import PokemonFactory from '../pokemons/PokemonFactory';
+import TemporaryBattle from './TemporaryBattle';
+import TemporaryBattleRunner from './TemporaryBattleRunner';
+
+class TemporaryBattleBattle extends Battle {
+
+    static index = ko.observable(0);
+    static totalPokemons = ko.observable(0);
+
+    public static pokemonsDefeatedComputable = ko.pureComputed(() => {
+        return TemporaryBattleBattle.index();
+    });
+
+    public static pokemonsUndefeatedComputable = ko.pureComputed(() => {
+        return TemporaryBattleBattle.totalPokemons() - TemporaryBattleBattle.index();
+    });
+
+    public static pokemonAttack() {
+        if (TemporaryBattleRunner.running()) {
+            super.pokemonAttack();
+        }
+    }
+
+    public static clickAttack() {
+        if (TemporaryBattleRunner.running()) {
+            super.clickAttack();
+        }
+    }
+
+
+    public static defeatPokemon() {
+        const enemyPokemon = super.enemyPokemon();
+        if (!TemporaryBattleBattle.battle.optionalArgs.isTrainerBattle || enemyPokemon.shadow == ShadowStatus.Shadow) {
+            // Attempting to catch Pokemon
+            const isShiny: boolean = enemyPokemon.shiny;
+            const isShadow: boolean = enemyPokemon.shadow == ShadowStatus.Shadow;
+            const pokeBall: PokeballType = App.game.pokeballs.calculatePokeballToUse(enemyPokemon.id, isShiny, isShadow, enemyPokemon.encounterType);
+            if (pokeBall !== PokeballType.None) {
+                this.prepareCatch(enemyPokemon, pokeBall);
+                setTimeout(
+                    () => {
+                        this.attemptCatch(enemyPokemon, 1, App.player.region);
+                        this.endFight();
+                    },
+                    App.game.pokeballs.calculateCatchTime(pokeBall),
+                );
+            } else {
+                this.endFight();
+            }
+        } else {
+            this.endFight();
+        }
+    }
+
+    private static endFight() {
+        if (TemporaryBattleBattle.index() >= TemporaryBattleBattle.battle.getPokemonList().length) {
+            TemporaryBattleRunner.battleWon(TemporaryBattleBattle.battle);
+        } else {
+            TemporaryBattleBattle.generateNewEnemy();
+        }
+
+        TemporaryBattleBattle.enemyPokemon().defeat(this.battle.optionalArgs.isTrainerBattle ?? true);
+
+        TemporaryBattleBattle.index(TemporaryBattleBattle.index() + 1);
+
+        if (TemporaryBattleBattle.index() >= TemporaryBattleBattle.battle.getPokemonList().length) {
+            TemporaryBattleRunner.battleWon(TemporaryBattleBattle.battle);
+        } else {
+            TemporaryBattleBattle.generateNewEnemy();
+        }
+        App.player.lowerItemMultipliers(MultiplierDecreaser.Battle);
+    }
+
+    /**
+     * Reset the counter.
+     */
+    public static generateNewEnemy() {
+        this.catching(false);
+        TemporaryBattleBattle.counter = 0;
+        TemporaryBattleBattle.enemyPokemon(PokemonFactory.generateTemporaryBattlePokemon(TemporaryBattleBattle.battle, TemporaryBattleBattle.index()));
+    }
+
+    static get battle(): TemporaryBattle {
+        return TemporaryBattleRunner.battleObservable();
+    }
+
+    static set battle(battle: TemporaryBattle) {
+        TemporaryBattleRunner.battleObservable(battle);
+    }
+}
+
+export default TemporaryBattleBattle;

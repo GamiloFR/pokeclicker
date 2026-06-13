@@ -1,3 +1,5 @@
+import App from '../App';
+
 export enum SortOptions {
     id = 0,
     name = 1,

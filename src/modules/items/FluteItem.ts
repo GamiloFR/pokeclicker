@@ -1,10 +1,12 @@
-import Item from './Item';
-import FluteEffectRunner from '../gems/FluteEffectRunner';
+import App from '../App';
 import { FluteItemType } from '../GameConstants';
+import AchievementHandler from '../achievements/AchievementHandler';
 import type PokemonType from '../enums/PokemonType';
+import FluteEffectRunner from '../gems/FluteEffectRunner';
 import type MultiplierType from '../multiplier/MultiplierType';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
+import Item from './Item';
 
 export default class FluteItem extends Item {
     name: FluteItemType;
@@ -41,11 +43,11 @@ export default class FluteItem extends Item {
     }
 
     isSoldOut(): boolean {
-        return player.itemList[this.name]() > 0 || FluteEffectRunner.isActive(FluteItemType[this.name])();
+        return App.player.itemList[this.name]() > 0 || FluteEffectRunner.isActive(FluteItemType[this.name])();
     }
 
     checkCanUse(): boolean {
-        if (!FluteEffectRunner.isActive(FluteItemType[this.name])() && !player.itemList[this.name]()) {
+        if (!FluteEffectRunner.isActive(FluteItemType[this.name])() && !App.player.itemList[this.name]()) {
             Notifier.notify({
                 message: `You don't have the ${this.displayName}...`,
                 type: NotificationConstants.NotificationOption.danger,

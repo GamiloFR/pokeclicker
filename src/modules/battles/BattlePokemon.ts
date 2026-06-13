@@ -1,17 +1,19 @@
+import type { Computed as KnockoutComputed, Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
+import type EncounterType from '../enums/EncounterType';
+import PokemonType from '../enums/PokemonType';
 import * as GameConstants from '../GameConstants';
 import GameHelper from '../GameHelper';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
+import type BagItem from '../interfaces/BagItem';
+import BagHandler from '../items/BagHandler';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
-import Notifier from '../notifications/Notifier';
 import NotificationConstants from '../notifications/NotificationConstants';
-import PokemonType from '../enums/PokemonType';
-import Amount from '../wallet/Amount';
-import type { PokemonNameType } from '../pokemons/PokemonNameType';
+import Notifier from '../notifications/Notifier';
 import type EnemyPokemonInterface from '../pokemons/EnemyPokemonInterface';
-import type EncounterType from '../enums/EncounterType';
-import type BagItem from '../interfaces/BagItem';
-import type { Observable as KnockoutObservable, Computed as KnockoutComputed } from 'knockout';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import type { PokemonNameType } from '../pokemons/PokemonNameType';
+import Amount from '../wallet/Amount';
 
 export default class BattlePokemon implements EnemyPokemonInterface {
 

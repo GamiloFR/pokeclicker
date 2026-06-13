@@ -1,0 +1,67 @@
+import App from '../../../App';
+import BerryType from '../../../enums/BerryType';
+import PlotStage from '../../../enums/PlotStage';
+import GameHelper from '../../../GameHelper';
+import { MutationOptions } from '../Mutation';
+import GrowNearMutation from './GrowNearMutation';
+
+export type StrictBerryReq = {
+    [key: number]: number
+};
+
+/**
+ * Mutation that requires very specific Berry plants near an empty plot.
+ * The required Berry plants must be in the Berry stage for mutations to occur.
+ */
+class GrowNearBerryStrictMutation extends GrowNearMutation {
+
+    berryReqs: StrictBerryReq;
+
+    constructor(mutationChance: number, mutatedBerry: BerryType, berryReqs: StrictBerryReq, options?: MutationOptions) {
+        super(mutationChance, mutatedBerry, options);
+        this.berryReqs = berryReqs;
+    }
+
+    /**
+     * Determines if the plots near fit the requirements
+     * @param plots The list of nearby plots
+     */
+    nearPlotsFitRequirements(plots: number[]) {
+        const currentReqs: StrictBerryReq = {};
+
+        plots.forEach((idx) => {
+            const plot = App.game.farming.plotList[idx];
+            if (!plot.isUnlocked) {
+                return;
+            }
+            if (plot.isEmpty()) {
+                return;
+            }
+            if (plot.stage() !== PlotStage.Berry) {
+                return;
+            }
+            if (!currentReqs[plot.berry]) {
+                currentReqs[plot.berry] = 1;
+            } else {
+                currentReqs[plot.berry] += 1;
+            }
+        });
+
+        return GameHelper.shallowEqual(this.berryReqs, currentReqs);
+    }
+
+    /**
+     * Determines whether the player can even cause this mutation
+     */
+    get unlocked(): boolean {
+        for (const berry in this.berryReqs) {
+            if (!App.game.farming.unlockedBerries[berry]()) {
+                return false;
+            }
+        }
+        return super.unlocked;
+    }
+
+}
+
+export default GrowNearBerryStrictMutation;

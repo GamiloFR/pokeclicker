@@ -1,15 +1,18 @@
-import PokerusIndicatingItem from './PokerusIndicatingItem';
-import { PokemonNameType } from  '../pokemons/PokemonNameType';
-import CaughtStatus from '../enums/CaughtStatus';
 import { Computed as KnockoutComputed } from 'knockout';
-import { Currency, SHINY_CHANCE_SHOP, SHOPMON_EP_YIELD, ShadowStatus, PokemonStatisticsType, Pokerus } from '../GameConstants';
-import { ShopOptions } from './types';
-import * as PokemonHelper from '../pokemons/PokemonHelper';
+import App from '../App';
+import CaughtStatus from '../enums/CaughtStatus';
+import { Currency, PokemonStatisticsType, Pokerus, SHINY_CHANCE_SHOP, SHOPMON_EP_YIELD, ShadowStatus } from '../GameConstants';
 import GameHelper from '../GameHelper';
-import NotificationConstants from '../notifications/NotificationConstants';
-import Notifier from '../notifications/Notifier';
 import { createLogContent } from '../logbook/helpers';
 import { LogBookTypes } from '../logbook/LogBookTypes';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
+import PartyController from '../party/PartyController';
+import PokemonFactory from '../pokemons/PokemonFactory';
+import * as PokemonHelper from '../pokemons/PokemonHelper';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
+import PokerusIndicatingItem from './PokerusIndicatingItem';
+import { ShopOptions } from './types';
 
 export default class PokemonItem extends PokerusIndicatingItem {
     type: PokemonNameType;
@@ -17,10 +20,10 @@ export default class PokemonItem extends PokerusIndicatingItem {
 
     constructor(
         pokemon: PokemonNameType,
-        basePrice: number = undefined,
+        basePrice?: number,
         currency: Currency = Currency.questPoint,
         public ignoreEV = false,
-        displayName: string = undefined,
+        displayName?: string,
         options?: ShopOptions,
         name: string = pokemon,
     ) {

@@ -1,7 +1,8 @@
 import { Observable as KnockoutObservable } from 'knockout';
+import App from '../App';
 import * as GameConstants from '../GameConstants';
-import Notifier from '../notifications/Notifier';
 import NotificationOption from '../notifications/NotificationOption';
+import Notifier from '../notifications/Notifier';
 
 export default class Challenge {
     public active: KnockoutObservable<boolean>;
@@ -20,7 +21,7 @@ export default class Challenge {
 
     async disable(confirm = true) {
         // If the player hasn't selected a starter yet, no need to confirm
-        if (player.regionStarters[GameConstants.Region.kanto]() === GameConstants.Starter.None) {
+        if (App.player.regionStarters[GameConstants.Region.kanto]() === GameConstants.Starter.None) {
             this.active(false);
             return;
         }

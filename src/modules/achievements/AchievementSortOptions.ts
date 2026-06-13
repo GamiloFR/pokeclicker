@@ -1,3 +1,5 @@
+import Achievement from './Achievement';
+
 export enum AchievementSortOptions {
     default = 0,
     progress = 1,
@@ -9,7 +11,7 @@ export type AchievementSortOptionConfig = {
     text: string;
 
     // How to get the comparison value from an Achievement
-    getValue: (a) => any;
+    getValue: (a: Achievement) => any;
 
     // true if the default sort direction should be descending
     invert?: boolean;

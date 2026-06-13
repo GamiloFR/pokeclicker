@@ -1,30 +1,25 @@
 import type { Computed } from 'knockout';
-import {
-    MaxIDPerRegion,
-    Region,
-    BattlePokemonGender,
-    PokemonStatisticsType,
-    ShadowStatus,
-    MegaStoneType,
-} from '../GameConstants';
-import type { PokemonNameType } from './PokemonNameType';
-import P from './mapProvider';
+import App from '../App';
 import PokemonType from '../enums/PokemonType';
-import DataPokemon from './DataPokemon';
+import {
+    BattlePokemonGender,
+    MaxIDPerRegion,
+    MegaStoneType,
+    PokemonStatisticsType,
+    Region,
+    ShadowStatus,
+} from '../GameConstants';
 import GameHelper from '../GameHelper';
-import MegaEvolveRequirement from '../requirements/MegaEvolveRequirement';
-import type MegaStoneItem from '../items/MegaStoneItem';
 import { ItemList } from '../items/ItemList';
+import type MegaStoneItem from '../items/MegaStoneItem';
+import PartyPokemon from '../party/PartyPokemon';
+import MegaEvolveRequirement from '../requirements/MegaEvolveRequirement';
 import Settings from '../settings/Settings';
-import type { TmpPartyPokemonType } from '../TemporaryScriptTypes';
+import DataPokemon from './DataPokemon';
+import P from './mapProvider';
+import PokemonLocations from './PokemonLocations';
+import type { PokemonNameType } from './PokemonNameType';
 
-// TODO remove when Dungeon is ported to modules
-declare class Dungeon {
-    public allShadowPokemon(): Array<PokemonNameType>;
-}
-declare const dungeonList: { [dungeonName: string]: Dungeon };
-
-// eslint-disable-next-line import/prefer-default-export
 export function calcNativeRegion(pokemonName: PokemonNameType) {
     const pokemon = P.pokemonMap[pokemonName];
     if (pokemon.nativeRegion !== undefined) {
@@ -128,7 +123,7 @@ export function displayName(englishName: string): Computed<string> {
     return App.translation.get(englishName, 'pokemon');
 }
 
-export function matchPokemonByNames(pattern: RegExp, pokemonName: PokemonNameType, pokemon?: TmpPartyPokemonType) {
+export function matchPokemonByNames(pattern: RegExp, pokemonName: PokemonNameType, pokemon?: PartyPokemon) {
     const partyName = (pokemon || App.game.party.getPokemonByName(pokemonName))?.displayName;
     return pattern.test(displayName(pokemonName)()) || pattern.test(pokemonName) || (partyName && pattern.test(partyName));
 }
@@ -166,10 +161,6 @@ export function hasUncaughtGigantamaxForm(pokemonName: PokemonNameType): boolean
 export function isGigantamaxForm(pokemonName: PokemonNameType): boolean {
     return pokemonName.startsWith('Gigantamax') || pokemonName.startsWith('Eternamax');
 }
-
-export const getAllShadowPokemon = ko.pureComputed((): Set<PokemonNameType> => {
-    return new Set(Object.values(dungeonList).flatMap(d => d.allShadowPokemon()));
-});
 
 // To have encounter/caught/defeat/hatch statistics in a single place
 export function incrementPokemonStatistics(pokemonId: number, statistic: PokemonStatisticsType, shiny: boolean, gender: BattlePokemonGender, shadow: ShadowStatus) {

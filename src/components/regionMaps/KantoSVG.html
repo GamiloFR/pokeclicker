@@ -1,6 +1,6 @@
-<g data-bind='visible: player.region == GameConstants.Region.kanto'>
+<g data-bind='visible: App.player.region == GameConstants.Region.kanto'>
 
-    <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Kanto').id">
+    <g data-bind="visible: App.player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Kanto').id">
         <image width="1600" height="960" data-bind="attr: {
             'xlink:href':'assets/images/kanto-kanto.png?v=$VERSION',
             href:'assets/images/kanto-kanto.png?v=$VERSION'
@@ -676,7 +676,7 @@
             { name: "Dock"
             , x: 61, y: 35
             , width: 3, height: 2
-            , databind: "click:function(){MapHelper.openShipModal()}, attr:{ class: player.highestRegion() >= 1 ? 'completed' : 'locked'}"
+            , databind: "click:function(){MapHelper.openShipModal()}, attr:{ class: App.player.highestRegion() >= 1 ? 'completed' : 'locked'}"
             })
         %>
 
@@ -684,8 +684,8 @@
             { name: "S. S. Anne"
             , x: 58, y: 35
             , width: 8, height: 3
-            , databind: "click:function(){MapHelper.openShipModal()}, attr:{ class: player.highestRegion() >= 1 ? 'completed' : 'locked'}"
-            , visible:  "player.highestRegion() >= 1"
+            , databind: "click:function(){MapHelper.openShipModal()}, attr:{ class: App.player.highestRegion() >= 1 ? 'completed' : 'locked'}"
+            , visible:  "App.player.highestRegion() >= 1"
             , image: "assets/images/ship.png"
             })
         %>
@@ -712,7 +712,7 @@
             , x: 27, y: 37
             , width: 4, height: 4
             , databind: "click:function(){MapHelper.moveToTown('Pallet Town')}, attr:{ class: MapHelper.calculateTownCssClass('Pallet Town') }"
-            , visible:  "!MapHelper.ableToTravel() && player.highestRegion() == 0 && App.game.statistics.gymsDefeated[GameConstants.getGymIndex('Champion Blue')]() >= 1"
+            , visible:  "!MapHelper.ableToTravel() && App.player.highestRegion() == 0 && App.game.statistics.gymsDefeated[GameConstants.getGymIndex('Champion Blue')]() >= 1"
             , image: "assets/images/map/professor_oak.png"
             })
         %>
@@ -863,7 +863,7 @@
     %>
     </g>
 
-    <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 123').id">
+    <g data-bind="visible: App.player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 123').id">
         <image width="1600" height="960" data-bind="attr: {
             'xlink:href':'assets/images/kanto-sevii123.png?v=$VERSION',
             href:'assets/images/kanto-sevii123.png?v=$VERSION'
@@ -1089,7 +1089,7 @@
         %>
     </g>
 
-    <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 4567').id">
+    <g data-bind="visible: App.player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 4567').id">
         <image width="1600" height="960" data-bind="attr: {
             'xlink:href':'assets/images/kanto-sevii4567.png?v=$VERSION',
             href:'assets/images/kanto-sevii4567.png?v=$VERSION'

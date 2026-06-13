@@ -1,21 +1,22 @@
+import App from '../App';
 import { Saveable } from '../DataStore/common/Saveable';
 import BerryType from '../enums/BerryType';
-import {
-    Currency, MegaStoneType, Pokeball, Region, VitaminType,
-} from '../GameConstants';
-import { ItemList } from '../items/ItemList';
 import KeyItemType from '../enums/KeyItemType';
+import {
+    Currency, MegaStoneType, PokeballType, Region, VitaminType,
+} from '../GameConstants';
+import GameHelper from '../GameHelper';
+import Item from '../items/Item';
+import { ItemList } from '../items/ItemList';
 import NotificationConstants from '../notifications/NotificationConstants';
 import Notifier from '../notifications/Notifier';
 import { pokemonMap } from '../pokemons/PokemonList';
+import QuestLineState from '../quests/QuestLineState';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
 import MultiRequirement from '../requirements/MultiRequirement';
 import ObtainedPokemonRequirement from '../requirements/ObtainedPokemonRequirement';
-import RedeemableCode from './RedeemableCode';
-import GameHelper from '../GameHelper';
 import Amount from '../wallet/Amount';
-import Item from '../items/Item';
-import QuestLineState from '../quests/QuestLineState';
+import RedeemableCode from './RedeemableCode';
 
 export default class RedeemableCodes implements Saveable {
     defaults: Record<string, any>;
@@ -40,8 +41,8 @@ export default class RedeemableCodes implements Saveable {
                 return true;
             }),
             new RedeemableCode('shiny-charmer', -318017456, false, async () => {
-                // Select a random Pokemon to give the player as a shiny
-                const pokemon = pokemonMap.randomRegion(player.highestRegion());
+                // Select a random Pokemon to give the App.player as a shiny
+                const pokemon = pokemonMap.randomRegion(App.player.highestRegion());
                 // Floor the ID, only give base/main Pokemon forms
                 const idToUse = Math.floor(pokemon.id);
                 App.game.party.gainPokemonById(idToUse, true, true);
@@ -57,7 +58,7 @@ export default class RedeemableCodes implements Saveable {
             }),
             new RedeemableCode('great-balls', -1761161712, false, async () => {
                 // Give the player 10 Great Balls
-                App.game.pokeballs.gainPokeballs(Pokeball.Greatball, 10);
+                App.game.pokeballs.gainPokeballs(PokeballType.Greatball, 10);
                 // Notify that the code was activated successfully
                 Notifier.notify({
                     title: 'Code activated!',
@@ -70,7 +71,7 @@ export default class RedeemableCodes implements Saveable {
             }),
             new RedeemableCode('everstone', 1389168938, false, async () => {
                 // Give the player 1 Everstone
-                player.gainItem('Everstone', 1);
+                App.player.gainItem('Everstone', 1);
                 // Notify that the code was activated successfully
                 Notifier.notify({
                     title: 'Code activated!',
@@ -114,7 +115,7 @@ export default class RedeemableCodes implements Saveable {
 
             new RedeemableCode('ampharosite', -512934122, false, async () => {
                 // Give the player Mega Ampharos
-                player.gainMegaStone(MegaStoneType.Ampharosite);
+                App.player.gainMegaStone(MegaStoneType.Ampharosite);
                 // Notify that the code was activated successfully
                 Notifier.notify({
                     title: 'Code activated!',
@@ -131,7 +132,7 @@ export default class RedeemableCodes implements Saveable {
                     const totalUsed = App.game.party.caughtPokemon.reduce(
                         (total, pokemon) => total + pokemon.vitaminsUsed[item.type](), 0,
                     );
-                    const totalNotUsed = player.itemList[item.name]();
+                    const totalNotUsed = App.player.itemList[item.name]();
                     const capPriceAt = Math.ceil(Math.log(100) / Math.log(item.multiplier));
 
                     let n = 0;
@@ -149,7 +150,7 @@ export default class RedeemableCodes implements Saveable {
                         // eslint-disable-next-line no-param-reassign
                         totals[item.currency] = 0;
                     }
-                    const price = Math.round(item.basePrice * (player.itemMultipliers[item.saveName] || 1));
+                    const price = Math.round(item.basePrice * (App.player.itemMultipliers[item.saveName] || 1));
                     // eslint-disable-next-line no-param-reassign
                     totals[item.currency] += n * price;
 
@@ -171,7 +172,7 @@ export default class RedeemableCodes implements Saveable {
 
                 if (refund) {
                     toRefund.forEach(([item, n]) => {
-                        player.loseItem(item.name, n);
+                        App.player.loseItem(item.name, n);
                     });
 
                     Object.entries(refundAmounts).forEach(([curr, amt]) => {
@@ -227,7 +228,7 @@ export default class RedeemableCodes implements Saveable {
             }),
             new RedeemableCode('Rare Candy', -296173205, false, async () => {
                 // Give the player a few Rare Candies
-                player.gainItem('Rare_Candy', 10);
+                App.player.gainItem('Rare_Candy', 10);
                 // Notify that the code was activated successfully
                 Notifier.notify({
                     title: 'Code activated!',
