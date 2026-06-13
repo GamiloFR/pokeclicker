@@ -1,7 +1,7 @@
 /// <reference path="../../declarations/GameHelper.d.ts" />
 /// <reference path="Pokeball.ts" />
 
-class Pokeballs implements Feature {
+class Pokeballs implements Feature, TmpPokeballsType {
     name = 'Pokeballs';
     saveKey = 'pokeballs';
 
@@ -11,6 +11,10 @@ class Pokeballs implements Feature {
 
     public selectedSelection: KnockoutObservable<KnockoutObservable<GameConstants.Pokeball>>;
     public selectedTitle: KnockoutObservable<string>;
+
+    // Removed fields
+    alreadyCaughtSelection: GameConstants.Pokeball;
+    alreadyCaughtContagiousSelection: GameConstants.Pokeball;
 
     constructor() {
         this.pokeballs = [

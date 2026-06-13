@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class GainMoneyQuest extends Quest implements QuestInterface {
 
     constructor(amount: number, reward: number) {

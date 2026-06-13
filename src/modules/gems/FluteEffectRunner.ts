@@ -1,31 +1,31 @@
-import type {
-    Observable as KnockoutObservable,
-    ObservableArray as KnockoutObservableArray,
-    Computed as KnockoutComputed,
+import ko, {
+    Computed,
+    Observable,
+    ObservableArray,
 } from 'knockout';
-import type Multiplier from '../multiplier/Multiplier';
-import GameHelper from '../GameHelper';
-import { ItemList } from '../items/ItemList';
-import type FluteItem from '../items/FluteItem';
-import NotificationConstants from '../notifications/NotificationConstants';
-import Notifier from '../notifications/Notifier';
 import {
     FluteItemType,
-    humanifyString,
     formatSecondsToTime,
     formatTime,
+    humanifyString,
     MINUTE,
 } from '../GameConstants';
+import GameHelper from '../GameHelper';
 import PokemonType from '../enums/PokemonType';
+import type FluteItem from '../items/FluteItem';
+import { ItemList } from '../items/ItemList';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import { createLogContent } from '../logbook/helpers';
+import type Multiplier from '../multiplier/Multiplier';
+import NotificationConstants from '../notifications/NotificationConstants';
+import Notifier from '../notifications/Notifier';
 
 export default class FluteEffectRunner {
     public static counter = 0;
-    public static numActiveFlutes: KnockoutObservable<number> = ko.observable(0);
-    public static activeGemTypes: KnockoutObservableArray<number> = ko.observableArray();
+    public static numActiveFlutes: Observable<number> = ko.observable(0);
+    public static activeGemTypes: ObservableArray<number> = ko.observableArray();
 
-    public static additionalInfoTooltip: KnockoutComputed<string> = ko.pureComputed(() => {
+    public static additionalInfoTooltip: Computed<string> = ko.pureComputed(() => {
         const tooltip = [];
 
         // List all types boosted
@@ -168,7 +168,7 @@ export default class FluteEffectRunner {
     }
 
 
-    public static isActive(itemName: FluteItemType): KnockoutComputed<boolean> {
+    public static isActive(itemName: FluteItemType): Computed<boolean> {
         return ko.pureComputed(() => {
             if (!player) {
                 return false;

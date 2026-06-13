@@ -1,6 +1,6 @@
 {
   "name": "pokeclicker",
-  "version": "0.10.25",
+  "version": "0.10.26",
   "description": "PokéClicker repository",
   "main": "index.js",
   "scripts": {
@@ -79,6 +79,7 @@
     "jsdom": "^25.0.0",
     "npm-run-all2": "^6.2.0",
     "postcss-less": "^6.0.0",
+    "prettier-eslint": "^16.4.2",
     "stylelint": "^15.10.1",
     "stylelint-config-standard-less": "^1.0.0",
     "ts-loader": "^8.0.4",

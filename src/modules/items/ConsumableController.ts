@@ -1,5 +1,6 @@
-import '../koExtenders';
+import ko from 'knockout';
 import { ConsumableType } from '../GameConstants';
+import '../koExtenders';
 
 export default class ConsumableController {
     public static currentlySelected = ko.observable(ConsumableType.Rare_Candy).extend({ numeric: 0 });

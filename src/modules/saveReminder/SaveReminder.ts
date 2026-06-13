@@ -1,9 +1,9 @@
-import type {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
-import '../koExtenders';
 import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
+import '../koExtenders';
 import Notifier from '../notifications/Notifier';
 import Settings from '../settings';
 
@@ -14,8 +14,8 @@ export default class SaveReminder implements Saveable {
 
     defaults: Record<string, any> = {};
 
-    public lastDownloaded: KnockoutObservable<number> = ko.observable(0).extend({ numeric: 0 });
-    public lastReminder: KnockoutObservable<number> = ko.observable(0).extend({ numeric: 0 });
+    public lastDownloaded: Observable<number> = ko.observable(0).extend({ numeric: 0 });
+    public lastReminder: Observable<number> = ko.observable(0).extend({ numeric: 0 });
 
     // eslint-disable-next-line @typescript-eslint/no-useless-constructor, @typescript-eslint/no-empty-function
     constructor() {}

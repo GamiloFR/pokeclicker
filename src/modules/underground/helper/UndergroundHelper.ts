@@ -1,17 +1,13 @@
-import { Observable, ObservableArray, PureComputed } from 'knockout';
-import { MineType } from '../mine/MineConfig';
-import Requirement from '../../requirements/Requirement';
-import MultiRequirement from '../../requirements/MultiRequirement';
-import OneFromManyRequirement from '../../requirements/OneFromManyRequirement';
+import ko, { Observable, ObservableArray, PureComputed } from 'knockout';
 import {
-    REWARD_RETENTION_BASE,
-    REWARD_RETENTION_DECREASE_PER_LEVEL,
-    REWARD_RETENTION_MINIMUM,
     EnergyRestoreSize,
     FAVORITE_MINE_CHANCE_BASE,
     FAVORITE_MINE_CHANCE_INCREASE_PER_LEVEL,
     FAVORITE_MINE_CHANCE_MAXIMUM,
     MAX_HIRES,
+    REWARD_RETENTION_BASE,
+    REWARD_RETENTION_DECREASE_PER_LEVEL,
+    REWARD_RETENTION_MINIMUM,
     SMART_TOOL_CHANCE_BASE,
     SMART_TOOL_CHANCE_INCREASE_PER_LEVEL,
     SMART_TOOL_CHANCE_MAXIMUM,
@@ -20,10 +16,14 @@ import {
     WORKCYCLE_TIMEOUT_MINIMUM,
 } from '../../GameConstants';
 import GameHelper from '../../GameHelper';
+import MultiRequirement from '../../requirements/MultiRequirement';
+import OneFromManyRequirement from '../../requirements/OneFromManyRequirement';
+import Requirement from '../../requirements/Requirement';
+import Rand from '../../utilities/Rand';
+import { MineType } from '../mine/MineConfig';
+import UndergroundTool from '../tools/UndergroundTool';
 import UndergroundToolType from '../tools/UndergroundToolType';
 import { UndergroundController } from '../UndergroundController';
-import Rand from '../../utilities/Rand';
-import UndergroundTool from '../tools/UndergroundTool';
 import UndergroundItem from '../UndergroundItem';
 
 type UndergroundHelperParams = {

@@ -1,8 +1,12 @@
+import DungeonRunner from '../dungeons/DungeonRunner';
 import { AchievementOption } from '../GameConstants';
 import Requirement from './Requirement';
 
 export default class InDungeonRequirement extends Requirement {
-    constructor(public dungeon: string, option = AchievementOption.more) {
+    constructor(
+        public dungeon: string,
+        option = AchievementOption.more,
+    ) {
         super(1, option);
     }
 
@@ -11,8 +15,6 @@ export default class InDungeonRequirement extends Requirement {
     }
 
     public hint(): string {
-        return `You must be in the ${
-            this.dungeon
-        } dungeon`;
+        return `You must be in the ${this.dungeon} dungeon`;
     }
 }

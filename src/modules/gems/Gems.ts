@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-import type {
-    Observable as KnockoutObservable,
+import ko, {
+    Observable,
 } from 'knockout';
 import { Feature } from '../DataStore/common/Feature';
 import KeyItemType from '../enums/KeyItemType';
@@ -28,8 +28,8 @@ export default class Gems implements Feature {
         gemUpgrades: Array<number>(Gems.nTypes * Gems.nEffects).fill(0),
     };
 
-    public gemWallet: Array<KnockoutObservable<number>>;
-    public gemUpgrades: Array<KnockoutObservable<number>>;
+    public gemWallet: Array<Observable<number>>;
+    public gemUpgrades: Array<Observable<number>>;
 
     public validUpgrades = {};
 

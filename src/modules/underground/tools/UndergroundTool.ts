@@ -1,9 +1,9 @@
-import UndergroundToolType from './UndergroundToolType';
-import { Coordinate } from '../mine/Mine';
-import Notifier from '../../notifications/Notifier';
+import ko, { Observable, PureComputed } from 'knockout';
 import NotificationConstants from '../../notifications/NotificationConstants';
-import { Observable, PureComputed } from 'knockout';
+import Notifier from '../../notifications/Notifier';
+import { Coordinate } from '../mine/Mine';
 import { UNDERGROUND_MAX_CLICKS_PER_SECOND } from '../UndergroundController';
+import UndergroundToolType from './UndergroundToolType';
 
 type UndergroundToolProperties = {
     id: UndergroundToolType;

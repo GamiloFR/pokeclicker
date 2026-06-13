@@ -1,15 +1,16 @@
+import ko from 'knockout';
+import EncounterType from '../enums/EncounterType';
+import KeyItemType from '../enums/KeyItemType';
+import PokemonType from '../enums/PokemonType';
 import { Pokerus } from '../GameConstants';
+import GameHelper from '../GameHelper';
+import PokemonCategories from '../party/Category';
+import CustomRequirement from '../requirements/CustomRequirement';
+import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepCompletedRequirement';
+import Requirement from '../requirements/Requirement';
 import BooleanSetting from '../settings/BooleanSetting';
 import Setting from '../settings/Setting';
-import GameHelper from '../GameHelper';
 import SettingOption from '../settings/SettingOption';
-import KeyItemType from '../enums/KeyItemType';
-import Requirement from '../requirements/Requirement';
-import CustomRequirement from '../requirements/CustomRequirement';
-import PokemonType from '../enums/PokemonType';
-import EncounterType from '../enums/EncounterType';
-import QuestLineStepCompletedRequirement from '../requirements/QuestLineStepCompletedRequirement';
-import PokemonCategories from '../party/Category';
 
 class PokeballFilterOption<T, M = T> {
     public defaultSetting: Setting<T>;

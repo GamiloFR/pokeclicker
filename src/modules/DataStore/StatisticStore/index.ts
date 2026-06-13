@@ -1,4 +1,4 @@
-import type { Observable as KnockoutObservable } from 'knockout';
+import ko, { Observable } from 'knockout';
 import '../../koExtenders';
 import type { PokemonList } from '../../pokemons/PokemonList';
 import { Saveable } from '../common/Saveable';
@@ -7,7 +7,7 @@ import getRouteKillsProxy from './getRouteKillsProxy';
 const failedSetValue = () => 0;
 
 type PokemonID = PokemonList[number]['id'];
-type PokemonStats = Record<PokemonID, KnockoutObservable<number>> & { highestID: PokemonID };
+type PokemonStats = Record<PokemonID, Observable<number>> & { highestID: PokemonID };
 
 export default class Statistics implements Saveable {
     saveKey = 'statistics';
@@ -22,118 +22,118 @@ export default class Statistics implements Saveable {
      * observables
      */
     // Other
-    secondsPlayed: KnockoutObservable<number>;
-    clickAttacks: KnockoutObservable<number>;
-    questsCompleted: KnockoutObservable<number>;
-    totalGemsGained: KnockoutObservable<number>;
-    totalVitaminsPurchased: KnockoutObservable<number>;
-    totalVitaminsObtained: KnockoutObservable<number>;
+    secondsPlayed: Observable<number>;
+    clickAttacks: Observable<number>;
+    questsCompleted: Observable<number>;
+    totalGemsGained: Observable<number>;
+    totalVitaminsPurchased: Observable<number>;
+    totalVitaminsObtained: Observable<number>;
     // Currency
-    totalMoney: KnockoutObservable<number>;
-    totalDungeonTokens: KnockoutObservable<number>;
-    totalQuestPoints: KnockoutObservable<number>;
-    totalDiamonds: KnockoutObservable<number>;
-    totalFarmPoints: KnockoutObservable<number>;
-    totalBattlePoints: KnockoutObservable<number>;
-    totalContestTokens: KnockoutObservable<number>;
+    totalMoney: Observable<number>;
+    totalDungeonTokens: Observable<number>;
+    totalQuestPoints: Observable<number>;
+    totalDiamonds: Observable<number>;
+    totalFarmPoints: Observable<number>;
+    totalBattlePoints: Observable<number>;
+    totalContestTokens: Observable<number>;
     // Pokemon
-    totalPokemonCaptured: KnockoutObservable<number>;
-    totalPokemonDefeated: KnockoutObservable<number>;
-    totalPokemonEncountered: KnockoutObservable<number>;
-    totalPokemonHatched: KnockoutObservable<number>;
-    totalShinyPokemonCaptured: KnockoutObservable<number>;
-    totalShinyPokemonDefeated: KnockoutObservable<number>;
-    totalShinyPokemonEncountered: KnockoutObservable<number>;
-    totalShinyPokemonHatched: KnockoutObservable<number>;
+    totalPokemonCaptured: Observable<number>;
+    totalPokemonDefeated: Observable<number>;
+    totalPokemonEncountered: Observable<number>;
+    totalPokemonHatched: Observable<number>;
+    totalShinyPokemonCaptured: Observable<number>;
+    totalShinyPokemonDefeated: Observable<number>;
+    totalShinyPokemonEncountered: Observable<number>;
+    totalShinyPokemonHatched: Observable<number>;
 
-    totalMalePokemonCaptured: KnockoutObservable<number>;
-    totalMalePokemonDefeated: KnockoutObservable<number>;
-    totalMalePokemonEncountered: KnockoutObservable<number>;
-    totalMalePokemonHatched: KnockoutObservable<number>;
-    totalFemalePokemonCaptured: KnockoutObservable<number>;
-    totalFemalePokemonDefeated: KnockoutObservable<number>;
-    totalFemalePokemonEncountered: KnockoutObservable<number>;
-    totalFemalePokemonHatched: KnockoutObservable<number>;
-    totalGenderlessPokemonCaptured: KnockoutObservable<number>;
-    totalGenderlessPokemonDefeated: KnockoutObservable<number>;
-    totalGenderlessPokemonEncountered: KnockoutObservable<number>;
-    totalGenderlessPokemonHatched: KnockoutObservable<number>;
+    totalMalePokemonCaptured: Observable<number>;
+    totalMalePokemonDefeated: Observable<number>;
+    totalMalePokemonEncountered: Observable<number>;
+    totalMalePokemonHatched: Observable<number>;
+    totalFemalePokemonCaptured: Observable<number>;
+    totalFemalePokemonDefeated: Observable<number>;
+    totalFemalePokemonEncountered: Observable<number>;
+    totalFemalePokemonHatched: Observable<number>;
+    totalGenderlessPokemonCaptured: Observable<number>;
+    totalGenderlessPokemonDefeated: Observable<number>;
+    totalGenderlessPokemonEncountered: Observable<number>;
+    totalGenderlessPokemonHatched: Observable<number>;
 
-    totalShinyMalePokemonCaptured: KnockoutObservable<number>;
-    totalShinyMalePokemonDefeated: KnockoutObservable<number>;
-    totalShinyMalePokemonEncountered: KnockoutObservable<number>;
-    totalShinyMalePokemonHatched: KnockoutObservable<number>;
-    totalShinyFemalePokemonCaptured: KnockoutObservable<number>;
-    totalShinyFemalePokemonDefeated: KnockoutObservable<number>;
-    totalShinyFemalePokemonEncountered: KnockoutObservable<number>;
-    totalShinyFemalePokemonHatched: KnockoutObservable<number>;
-    totalShinyGenderlessPokemonCaptured: KnockoutObservable<number>;
-    totalShinyGenderlessPokemonDefeated: KnockoutObservable<number>;
-    totalShinyGenderlessPokemonEncountered: KnockoutObservable<number>;
-    totalShinyGenderlessPokemonHatched: KnockoutObservable<number>;
+    totalShinyMalePokemonCaptured: Observable<number>;
+    totalShinyMalePokemonDefeated: Observable<number>;
+    totalShinyMalePokemonEncountered: Observable<number>;
+    totalShinyMalePokemonHatched: Observable<number>;
+    totalShinyFemalePokemonCaptured: Observable<number>;
+    totalShinyFemalePokemonDefeated: Observable<number>;
+    totalShinyFemalePokemonEncountered: Observable<number>;
+    totalShinyFemalePokemonHatched: Observable<number>;
+    totalShinyGenderlessPokemonCaptured: Observable<number>;
+    totalShinyGenderlessPokemonDefeated: Observable<number>;
+    totalShinyGenderlessPokemonEncountered: Observable<number>;
+    totalShinyGenderlessPokemonHatched: Observable<number>;
 
-    totalShadowPokemonCaptured: KnockoutObservable<number>;
-    totalShadowPokemonDefeated: KnockoutObservable<number>;
+    totalShadowPokemonCaptured: Observable<number>;
+    totalShadowPokemonDefeated: Observable<number>;
 
-    totalShadowMalePokemonCaptured: KnockoutObservable<number>;
-    totalShadowMalePokemonDefeated: KnockoutObservable<number>;
-    totalShadowFemalePokemonCaptured: KnockoutObservable<number>;
-    totalShadowFemalePokemonDefeated: KnockoutObservable<number>;
-    totalShadowGenderlessPokemonCaptured: KnockoutObservable<number>;
-    totalShadowGenderlessPokemonDefeated: KnockoutObservable<number>;
+    totalShadowMalePokemonCaptured: Observable<number>;
+    totalShadowMalePokemonDefeated: Observable<number>;
+    totalShadowFemalePokemonCaptured: Observable<number>;
+    totalShadowFemalePokemonDefeated: Observable<number>;
+    totalShadowGenderlessPokemonCaptured: Observable<number>;
+    totalShadowGenderlessPokemonDefeated: Observable<number>;
 
-    totalShinyTrainerPokemonSeen: KnockoutObservable<number>;
+    totalShinyTrainerPokemonSeen: Observable<number>;
     // Underground
-    undergroundItemsFound: KnockoutObservable<number>;
-    undergroundLayersMined: KnockoutObservable<number>;
-    undergroundLayersFullyMined: KnockoutObservable<number>;
-    undergroundTrades: KnockoutObservable<number>;
-    undergroundToolsUsed: Record<string, KnockoutObservable<number>>;
+    undergroundItemsFound: Observable<number>;
+    undergroundLayersMined: Observable<number>;
+    undergroundLayersFullyMined: Observable<number>;
+    undergroundTrades: Observable<number>;
+    undergroundToolsUsed: Record<string, Observable<number>>;
     // Farm
-    totalManualHarvests: KnockoutObservable<number>;
-    totalBerriesObtained: KnockoutObservable<number>;
-    totalBerriesHarvested: KnockoutObservable<number>;
-    totalBerriesReplanted: KnockoutObservable<number>;
-    totalBerriesMutated: KnockoutObservable<number>;
-    totalMulchesUsed: KnockoutObservable<number>;
-    totalShovelsUsed: KnockoutObservable<number>;
-    berryDailyDealTrades: KnockoutObservable<number>;
-    farmWandererFarmPointsObtained: KnockoutObservable<number>;
-    farmWandererDungeonTokensObtained: KnockoutObservable<number>;
+    totalManualHarvests: Observable<number>;
+    totalBerriesObtained: Observable<number>;
+    totalBerriesHarvested: Observable<number>;
+    totalBerriesReplanted: Observable<number>;
+    totalBerriesMutated: Observable<number>;
+    totalMulchesUsed: Observable<number>;
+    totalShovelsUsed: Observable<number>;
+    berryDailyDealTrades: Observable<number>;
+    farmWandererFarmPointsObtained: Observable<number>;
+    farmWandererDungeonTokensObtained: Observable<number>;
     // Battle Frontier
-    battleFrontierTotalStagesCompleted: KnockoutObservable<number>;
-    battleFrontierHighestStageCompleted: KnockoutObservable<number>;
+    battleFrontierTotalStagesCompleted: Observable<number>;
+    battleFrontierHighestStageCompleted: Observable<number>;
     // Safari Zone
-    safariTimesEntered: KnockoutObservable<number>;
-    safariRocksThrown: KnockoutObservable<number>;
-    safariBaitThrown: KnockoutObservable<number>;
-    safariBallsThrown: KnockoutObservable<number>;
-    safariPokemonCaptured: KnockoutObservable<number>;
-    safariShinyPokemonCaptured: KnockoutObservable<number>;
-    safariStepsTaken: KnockoutObservable<number>;
-    safariItemsObtained: KnockoutObservable<number>;
+    safariTimesEntered: Observable<number>;
+    safariRocksThrown: Observable<number>;
+    safariBaitThrown: Observable<number>;
+    safariBallsThrown: Observable<number>;
+    safariPokemonCaptured: Observable<number>;
+    safariShinyPokemonCaptured: Observable<number>;
+    safariStepsTaken: Observable<number>;
+    safariItemsObtained: Observable<number>;
 
     /*
      * arrayObservables
      */
-    pokeballsUsed: Array<KnockoutObservable<number>>;
-    pokeballsPurchased: Array<KnockoutObservable<number>>;
-    pokeballsObtained: Array<KnockoutObservable<number>>;
+    pokeballsUsed: Array<Observable<number>>;
+    pokeballsPurchased: Array<Observable<number>>;
+    pokeballsObtained: Array<Observable<number>>;
     // Other
-    gemsGained: Array<KnockoutObservable<number>>;
-    oakItemUses: Array<KnockoutObservable<number>>;
+    gemsGained: Array<Observable<number>>;
+    oakItemUses: Array<Observable<number>>;
     // Farm
-    berriesHarvested: Array<KnockoutObservable<number>>;
-    berriesObtained: KnockoutObservable<number>;
-    mulchesUsed: Array<KnockoutObservable<number>>;
+    berriesHarvested: Array<Observable<number>>;
+    berriesObtained: Observable<number>;
+    mulchesUsed: Array<Observable<number>>;
     // Battle
-    routeKills: Record<string, Record<string, KnockoutObservable<number>>>;
-    gymsDefeated: Array<KnockoutObservable<number>>;
-    dungeonsCleared: Array<KnockoutObservable<number>>;
-    temporaryBattleDefeated: Array<KnockoutObservable<number>>;
+    routeKills: Record<string, Record<string, Observable<number>>>;
+    gymsDefeated: Array<Observable<number>>;
+    dungeonsCleared: Array<Observable<number>>;
+    temporaryBattleDefeated: Array<Observable<number>>;
     // DungeonGuides
-    dungeonGuideAttempts: Array<KnockoutObservable<number>>;
-    dungeonGuideClears: Array<KnockoutObservable<number>>;
+    dungeonGuideAttempts: Array<Observable<number>>;
+    dungeonGuideClears: Array<Observable<number>>;
 
     /*
      * objectObservables
@@ -149,10 +149,10 @@ export default class Statistics implements Saveable {
     shinyPokemonHatched: PokemonStats;
     shadowPokemonCaptured: PokemonStats;
     shadowPokemonDefeated: PokemonStats;
-    npcTalkedTo: Record<string, KnockoutObservable<number>>;
-    undergroundBatteryDischarges: Record<string, KnockoutObservable<number>>;
-    undergroundSpecificItemsFound: Record<string, KnockoutObservable<number>>;
-    undergroundSpecificLayersMined: Record<string, KnockoutObservable<number>>;
+    npcTalkedTo: Record<string, Observable<number>>;
+    undergroundBatteryDischarges: Record<string, Observable<number>>;
+    undergroundSpecificItemsFound: Record<string, Observable<number>>;
+    undergroundSpecificLayersMined: Record<string, Observable<number>>;
 
     observables = [
         'secondsPlayed',
@@ -294,7 +294,7 @@ export default class Statistics implements Saveable {
 
                 // This makes it so the stats observable can't be accidently changed
                 set: (
-                    obj: Array<KnockoutObservable<number>>,
+                    obj: Array<Observable<number>>,
                     prop: any,
                     value: number,
                 ): boolean => {

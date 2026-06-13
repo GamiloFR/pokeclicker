@@ -1,4 +1,4 @@
-class Pokeball {
+class Pokeball implements TmpPokeballType {
     public quantity: KnockoutObservable<number>;
 
     constructor(

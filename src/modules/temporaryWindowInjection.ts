@@ -1,237 +1,263 @@
 // TODO: Remove temporary code after all code in ../scripts has been ported.
 // This is only here so that the code in ../scripts can use the new functionality
 
-import SaveSelector from './SaveSelector';
-import Profile from './profile/Profile';
 import DataStore from './DataStore';
 import * as GameConstants from './GameConstants';
 import GameHelper from './GameHelper';
+import Profile from './profile/Profile';
+import SaveSelector from './SaveSelector';
 // enums
 import AuraType from './enums/AuraType';
 import BadgeEnums from './enums/Badges';
 import BerryColor from './enums/BerryColor';
 import BerryFirmness from './enums/BerryFirmness';
 import BerryType from './enums/BerryType';
-import SizeUnits from './enums/SizeUnits';
-import PokemonType from './enums/PokemonType';
 import CaughtStatus from './enums/CaughtStatus';
 import EvolutionType from './enums/EvolutionType';
+import FarmingTool from './enums/FarmingTool';
 import FarmNotificationType from './enums/FarmNotificationType';
 import FlavorType from './enums/FlavorType';
 import ItemType from './enums/ItemType';
 import KeyItemType from './enums/KeyItemType';
 import MulchType from './enums/MulchType';
 import PlotStage from './enums/PlotStage';
-import QuestLineState from './quests/QuestLineState';
-import WeatherForecastStatus from './enums/WeatherForecastStatus';
+import PokemonType from './enums/PokemonType';
 import SafariEnvironments from './enums/SafariEnvironments';
-import FarmingTool from './enums/FarmingTool';
+import SizeUnits from './enums/SizeUnits';
+import WeatherForecastStatus from './enums/WeatherForecastStatus';
+import QuestLineState from './quests/QuestLineState';
 // end enums
+import Achievement from './achievements/Achievement';
+import AchievementCategory from './achievements/AchievementCategory';
+import { AchievementSortOptionConfigs, AchievementSortOptions } from './achievements/AchievementSortOptions';
+import SecretAchievement from './achievements/SecretAchievement';
 import Battle from './battles/Battle';
 import BattlePokemon from './battles/BattlePokemon';
 import Trainer from './battles/Trainer';
-import GymPokemon from './gym/GymPokemon';
-import BooleanSetting from './settings/BooleanSetting';
-import RangeSetting from './settings/RangeSetting';
-import Setting from './settings/Setting';
-import SettingOption from './settings/SettingOption';
-import WeatherType from './weather/WeatherType';
-import Weather from './weather/Weather';
-import WeatherApp from './weather/WeatherApp';
-import RegionalForecast from './weather/RegionalForecast';
-import WeatherForecast from './weather/WeatherForecast';
-import DayCycle from './dayCycle/DayCycle';
-import DayCyclePart from './dayCycle/DayCyclePart';
-import DayCyclePartRequirement from './requirements/DayCyclePartRequirement';
-import MoonCycle from './moonCycle/MoonCycle';
-import MoonCyclePhase from './moonCycle/MoonCyclePhase';
-import MoonCyclePhaseRequirement from './requirements/MoonCyclePhaseRequirement';
-import SeededRand from './utilities/SeededRand';
-import SeededDateRand from './utilities/SeededDateRand';
-import Rand from './utilities/Rand';
-import Settings, { breedingFilterSettingKeys, pokedexFilterSettingKeys } from './settings/index';
-import { SortOptionConfigs, SortOptions } from './settings/SortOptions';
-import { AchievementSortOptionConfigs, AchievementSortOptions } from './achievements/AchievementSortOptions';
-import AchievementCategory from './achievements/AchievementCategory';
-import NotificationConstants from './notifications/NotificationConstants';
-import Notifier from './notifications/Notifier';
-import LogBook from './logbook/LogBook';
-import { LogBookTypes } from './logbook/LogBookTypes';
+import EggType from './breeding/EggType';
+import Challenges from './challenges/Challenges';
 import ChangelogItems from './changelog/ChangelogItems';
 import RedeemableCode from './codes/RedeemableCode';
-import RedeemableCodes from './codes/RedeemableCodes';
 import RedeemableCodeController from './codes/RedeemableCodeController';
-import EggType from './breeding/EggType';
+import RedeemableCodes from './codes/RedeemableCodes';
+import Bot from './companion/bot/Bot';
+import RouteKillAchievementTask from './companion/bot/tasks/achievements/RouteKillAchievementTask';
+import Companion from './companion/Companion';
+import CompanionSettings from './companion/settings/Settings';
+import { CodeCredits, SpriteCredits } from './Credits';
+import DayCycle from './dayCycle/DayCycle';
+import DayCyclePart from './dayCycle/DayCyclePart';
+import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
+import DungeonList from './dungeons/DungeonList';
+import EffectEngineRunner from './effectEngine/effectEngineRunner';
+import areaStatus from './enums/AreaStatus';
+import EncounterType from './enums/EncounterType';
+import OakItemType from './enums/OakItemType';
+import UndergroundItemValueType from './enums/UndergroundItemValueType';
+import FluteEffectRunner from './gems/FluteEffectRunner';
+import GemDeals from './gems/GemDeals';
+import Gems from './gems/Gems';
+import Gym from './gym/Gym';
+import GymBattle from './gym/GymBattle';
+import GymList from './gym/GymList';
+import GymPokemon from './gym/GymPokemon';
+import GymRunner from './gym/GymRunner';
+import CaughtIndicatingItem from './items/CaughtIndicatingItem';
+import ChristmasPresent from './items/ChristmasPresent';
+import Consumable from './items/Consumable';
+import ConsumableController from './items/ConsumableController';
+import EggItem from './items/EggItem';
+import EnergyRestore from './items/EnergyRestore';
+import Item from './items/Item';
+import ItemHandler from './items/ItemHandler';
+import { ItemList } from './items/ItemList';
+import MegaStoneItem from './items/MegaStoneItem';
+import PokeballItem from './items/PokeballItem';
+import PokemonItem from './items/PokemonItem';
+import PokerusIndicatingItem from './items/PokerusIndicatingItem';
+import QuestItem from './items/QuestItem';
+import { MultiplierDecreaser } from './items/types';
+import Vitamin from './items/Vitamin';
+import VitaminController from './items/VitaminController';
+import KeyItem from './keyItems/KeyItem';
+import KeyItemController from './keyItems/KeyItemController';
+import KeyItems from './keyItems/KeyItems';
+import { createLogContent } from './logbook/helpers';
+import LogBook from './logbook/LogBook';
+import { LogBookTypes } from './logbook/LogBookTypes';
+import MoonCycle from './moonCycle/MoonCycle';
+import MoonCyclePhase from './moonCycle/MoonCyclePhase';
 import Multiplier from './multiplier/Multiplier';
 import MultiplierType from './multiplier/MultiplierType';
-import SpecialEvent from './specialEvents/SpecialEvent';
-import SpecialEvents from './specialEvents/SpecialEvents';
-import Challenges from './challenges/Challenges';
-import LevelType, { levelRequirements } from './party/LevelType';
-import WalletClasses from './wallet/inject';
-import GenericProxy from './utilities/GenericProxy';
-import { SpriteCredits, CodeCredits } from './Credits';
-import * as DisplayObservables from './utilities/DisplayObservables';
-import PokemonCategories from './party/Category';
-import Information from './utilities/Information';
-import TypeHelper from './types/TypeHelper';
-import Upgrade from './upgrades/Upgrade';
-import ExpUpgrade from './upgrades/ExpUpgrade';
-import OakItemType from './enums/OakItemType';
-import OakItem from './oakItems/OakItem';
-import OakItems from './oakItems/OakItems';
+import NotificationConstants from './notifications/NotificationConstants';
+import Notifier from './notifications/Notifier';
 import BoughtOakItem from './oakItems/BoughtOakItem';
+import OakItem from './oakItems/OakItem';
 import OakItemController from './oakItems/OakItemController';
 import OakItemLoadout from './oakItems/OakItemLoadout';
 import OakItemLoadouts from './oakItems/OakItemLoadouts';
-import {
-    SpecialRoutePokemon, RoutePokemon, RegionRoute, Routes,
-} from './routes';
-import SubRegion from './subRegion/SubRegion';
-import SubRegions from './subRegion/SubRegions';
-import Requirement from './requirements/Requirement';
+import OakItems from './oakItems/OakItems';
+import PokemonCategories from './party/Category';
+import LevelType, { levelRequirements } from './party/LevelType';
+import PokeballFilter from './pokeballs/PokeballFilter';
+import { pokeballFilterOptions } from './pokeballs/PokeballFilterOptions';
+import PokeballFilters from './pokeballs/PokeballFilters';
+import DataPokemon from './pokemons/DataPokemon';
+import { beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution } from './pokemons/evolutions/Base';
+import * as OtherEvos from './pokemons/evolutions/Methods';
+import * as PokemonHelper from './pokemons/PokemonHelper';
+import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
+import RoamingPokemon from './pokemons/RoamingPokemon';
+import RoamingPokemonList from './pokemons/RoamingPokemonList';
+import DefeatPokemonsQuest from './quests/questTypes/DefeatPokemonsQuest';
 import AchievementRequirement from './requirements/AchievementRequirement';
-import NullRequirement from './requirements/NullRequirement';
-import MultiRequirement from './requirements/MultiRequirement';
-import OneFromManyRequirement from './requirements/OneFromManyRequirement';
+import AllFlutesTimeActiveRequirement from './requirements/AllFlutesTimeActiveRequirement';
 import AttackRequirement from './requirements/AttackRequirement';
 import BattleFrontierHighestStageRequirement from './requirements/BattleFrontierHighestStageRequirement';
 import BattleFrontierTotalStageRequirement from './requirements/BattleFrontierTotalStageRequirement';
 import BerriesUnlockedRequirement from './requirements/BerriesUnlockedRequirement';
 import CapturedRequirement from './requirements/CapturedRequirement';
+import CaptureSpecificPokemonRequirement from './requirements/CaptureSpecificPokemonRequirement';
 import CaughtPokemonRequirement from './requirements/CaughtPokemonRequirement';
+import CaughtUniqueShinyPokemonsByRegionRequirement from './requirements/CaughtUniqueShinyPokemonsByRegionRequirement';
+import ClearAnyDungeonRequirement from './requirements/ClearAnyDungeonRequirement';
 import ClearDungeonRequirement from './requirements/ClearDungeonRequirement';
 import ClearGymRequirement from './requirements/ClearGymRequirement';
 import ClickRequirement from './requirements/ClickRequirement';
+import ClientRequirement from './requirements/ClientRequirement';
 import CustomRequirement from './requirements/CustomRequirement';
+import DayCyclePartRequirement from './requirements/DayCyclePartRequirement';
+import DayOfWeekRequirement from './requirements/DayOfWeekRequirement';
+import DefeatedPokemonTypeRequirement from './requirements/DefeatedPokemonTypeRequirement';
 import DefeatedRequirement from './requirements/DefeatedRequirement';
 import DevelopmentRequirement from './requirements/DevelopmentRequirement';
 import DiamondRequirement from './requirements/DiamondRequirement';
+import DummyRequirement from './requirements/DummyRequirement';
+import EVBonusRequirement from './requirements/EVBonusRequirement';
 import FarmHandRequirement from './requirements/FarmHandRequirement';
 import FarmPlotsUnlockedRequirement from './requirements/FarmPlotsUnlockedRequirement';
 import FarmPointsRequirement from './requirements/FarmPointsRequirement';
 import GymBadgeRequirement from './requirements/GymBadgeRequirement';
-import HatchRequirement from './requirements/HatchRequirement';
 import HatcheryHelperRequirement from './requirements/HatcheryHelperRequirement';
+import HatchRequirement from './requirements/HatchRequirement';
 import InRegionRequirement from './requirements/InRegionRequirement';
-import MoneyRequirement from './requirements/MoneyRequirement';
+import ItemOwnedRequirement from './requirements/ItemOwnedRequirement';
 import MaxLevelOakItemRequirement from './requirements/MaxLevelOakItemRequirement';
 import MaxRegionRequirement from './requirements/MaxRegionRequirement';
+import MegaEvolveRequirement from './requirements/MegaEvolveRequirement';
+import MoneyRequirement from './requirements/MoneyRequirement';
+import MoonCyclePhaseRequirement from './requirements/MoonCyclePhaseRequirement';
+import MultiRequirement from './requirements/MultiRequirement';
+import NullRequirement from './requirements/NullRequirement';
 import ObtainedPokemonRequirement from './requirements/ObtainedPokemonRequirement';
+import OneFromManyRequirement from './requirements/OneFromManyRequirement';
+import PokeballFilterCountRequirement from './requirements/PokeballFilterCountRequirement';
 import PokeballRequirement from './requirements/PokeballRequirement';
+import PokemonAttackRequirement from './requirements/PokemonAttackRequirement';
+import PokemonDefeatedSelectNRequirement from './requirements/PokemonDefeatedSelectNRequirement';
 import PokemonLevelRequirement from './requirements/PokemonLevelRequirement';
 import PokerusStatusRequirement from './requirements/PokerusStatusRequirement';
-import VitaminObtainRequirement from './requirements/VitaminObtainRequirement';
-import QuestRequirement from './requirements/QuestRequirement';
 import QuestLevelRequirement from './requirements/QuestLevelRequirement';
+import QuestLineCompletedRequirement from './requirements/QuestLineCompletedRequirement';
+import QuestLineStartedRequirement from './requirements/QuestLineStartedRequirement';
+import QuestLineStepCompletedRequirement from './requirements/QuestLineStepCompletedRequirement';
+import QuestRequirement from './requirements/QuestRequirement';
+import Requirement from './requirements/Requirement';
 import RouteKillRequirement from './requirements/RouteKillRequirement';
+import SafariBaitRequirement from './requirements/SafariBaitRequirement';
+import SafariCatchRequirement from './requirements/SafariCatchRequirement';
+import SafariItemsRequirement from './requirements/SafariItemsRequirement';
+import SafariRocksRequirement from './requirements/SafariRocksRequirement';
+import SafariStepsRequirement from './requirements/SafariStepsRequirement';
 import SeededDateRequirement from './requirements/SeededDateRequirement';
 import SeededDateSelectNRequirement from './requirements/SeededDateSelectNRequirement';
-import PokemonDefeatedSelectNRequirement from './requirements/PokemonDefeatedSelectNRequirement';
 import SeviiCaughtRequirement from './requirements/SeviiCaughtRequirement';
-import ShinyPokemonRequirement from './requirements/ShinyPokemonRequirement';
 import ShadowPokemonRequirement from './requirements/ShadowPokemonRequirement';
+import ShinyPokemonRequirement from './requirements/ShinyPokemonRequirement';
+import SpecialEventRandomRequirement from './requirements/SpecialEventRandomRequirement';
+import SpecialEventRequirement from './requirements/SpecialEventRequirement';
+import StarterRequirement from './requirements/StarterRequirement';
 import StatisticRequirement from './requirements/StatisticRequirement';
 import SubregionRequirement from './requirements/SubregionRequirement';
-import StarterRequirement from './requirements/StarterRequirement';
+import TemporaryBattleRequirement from './requirements/TemporaryBattleRequirement';
+import TimePlayedRequirement from './requirements/TimePlayedRequirement';
 import TokenRequirement from './requirements/TokenRequirement';
 import TotalMegaStoneObtainedRequirement from './requirements/TotalMegaStoneObtainedRequirement';
-import UndergroundItemsFoundRequirement from './requirements/UndergroundItemsFoundRequirement';
-import UndergroundItemValueType from './enums/UndergroundItemValueType';
-import UndergroundItem from './underground/UndergroundItem';
-import UndergroundItems from './underground/UndergroundItems';
-import UndergroundLayersMinedRequirement from './requirements/UndergroundLayersMinedRequirement';
+import TotalSpecialEventsActiveRequirement from './requirements/TotalSpecialEventsActiveRequirement';
 import UndergroundHelperRequirement from './requirements/UndergroundHelperRequirement';
+import UndergroundItemsFoundRequirement from './requirements/UndergroundItemsFoundRequirement';
+import UndergroundLayersFullyMinedRequirement from './requirements/UndergroundLayersFullyMinedRequirement';
+import UndergroundLayersMinedRequirement from './requirements/UndergroundLayersMinedRequirement';
 import UndergroundLevelRequirement from './requirements/UndergroundLevelRequirement';
 import UndergroundUseToolRequirement from './requirements/UndergroundUseToolRequirement';
-import UndergroundLayersFullyMinedRequirement from './requirements/UndergroundLayersFullyMinedRequirement';
-import CaptureSpecificPokemonRequirement from './requirements/CaptureSpecificPokemonRequirement';
-import ClearAnyDungeonRequirement from './requirements/ClearAnyDungeonRequirement';
-import EVBonusRequirement from './requirements/EVBonusRequirement';
-import TimePlayedRequirement from './requirements/TimePlayedRequirement';
-import TotalSpecialEventsActiveRequirement from './requirements/TotalSpecialEventsActiveRequirement';
-import PokeballFilterCountRequirement from './requirements/PokeballFilterCountRequirement';
-import DefeatedPokemonTypeRequirement from './requirements/DefeatedPokemonTypeRequirement';
-import AllFlutesTimeActiveRequirement from './requirements/AllFlutesTimeActiveRequirement';
-import DummyRequirement from './requirements/DummyRequirement';
+import UniqueItemOwnedRequirement from './requirements/UniqueItemOwnedRequirement';
+import VitaminObtainRequirement from './requirements/VitaminObtainRequirement';
 import WeatherRequirement from './requirements/WeatherRequirement';
-import MegaEvolveRequirement from './requirements/MegaEvolveRequirement';
-import PokemonAttackRequirement from './requirements/PokemonAttackRequirement';
-import { SortModules, SortSaves } from './Sortable';
-import KeyItemController from './keyItems/KeyItemController';
-import KeyItem from './keyItems/KeyItem';
-import KeyItems from './keyItems/KeyItems';
-import Achievement from './achievements/Achievement';
-import SecretAchievement from './achievements/SecretAchievement';
-import Gems from './gems/Gems';
-import GemDeals from './gems/GemDeals';
-import FluteEffectRunner from './gems/FluteEffectRunner';
-import QuestLineCompletedRequirement from './requirements/QuestLineCompletedRequirement';
-import QuestLineStepCompletedRequirement from './requirements/QuestLineStepCompletedRequirement';
-import QuestLineStartedRequirement from './requirements/QuestLineStartedRequirement';
-import TemporaryBattleRequirement from './requirements/TemporaryBattleRequirement';
-import Translate from './translation/Translation';
-import DayOfWeekRequirement from './requirements/DayOfWeekRequirement';
+import { RegionRoute, RoutePokemon, Routes, SpecialRoutePokemon } from './routes';
 import SaveReminder from './saveReminder/SaveReminder';
-import ClientRequirement from './requirements/ClientRequirement';
-import { lazyLoad, lazyLoadCallback } from './utilities/LazyLoader';
-import {
-    beforeEvolve, EvoTrigger, LevelEvolution, StoneEvolution,
-} from './pokemons/evolutions/Base';
-import * as OtherEvos from './pokemons/evolutions/Methods';
-import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
-import * as PokemonHelper from './pokemons/PokemonHelper';
-import { createLogContent } from './logbook/helpers';
-import { ItemList } from './items/ItemList';
-import Item from './items/Item';
-import { MultiplierDecreaser } from './items/types';
-import EnergyRestore from './items/EnergyRestore';
-import EffectEngineRunner from './effectEngine/effectEngineRunner';
-import ItemHandler from './items/ItemHandler';
-import CaughtIndicatingItem from './items/CaughtIndicatingItem';
-import PokerusIndicatingItem from './items/PokerusIndicatingItem';
-import PokemonItem from './items/PokemonItem';
-import EggItem from './items/EggItem';
-import MegaStoneItem from './items/MegaStoneItem';
-import PokeballItem from './items/PokeballItem';
-import QuestItem from './items/QuestItem';
-import Vitamin from './items/Vitamin';
-import VitaminController from './items/VitaminController';
-import Consumable from './items/Consumable';
-import ConsumableController from './items/ConsumableController';
-import RoamingPokemonList from './pokemons/RoamingPokemonList';
-import DataPokemon from './pokemons/DataPokemon';
-import RoamingPokemon from './pokemons/RoamingPokemon';
-import UndergroundMegaStoneItem from './underground/UndergroundMegaStoneItem';
-import PokeballFilter from './pokeballs/PokeballFilter';
-import PokeballFilters from './pokeballs/PokeballFilters';
-import TextMerger from './utilities/TextMerger';
-import { pokeballFilterOptions } from './pokeballs/PokeballFilterOptions';
+import BooleanSetting from './settings/BooleanSetting';
+import Settings, { breedingFilterSettingKeys, pokedexFilterSettingKeys } from './settings/index';
+import RangeSetting from './settings/RangeSetting';
+import Setting from './settings/Setting';
+import SettingOption from './settings/SettingOption';
+import { SortOptionConfigs, SortOptions } from './settings/SortOptions';
+import BerryMasterShop from './shop/BerryMasterShop';
+import GemMasterShop from './shop/GemMasterShop';
+import GenericTraderShop from './shop/GenericTraderShop';
+import ShardTraderShop from './shop/ShardTraderShop';
+import Shop, { ShopHandler } from './shop/Shop';
+import { SortModules, SortSaves } from './Sortable';
+import SpecialEvent from './specialEvents/SpecialEvent';
+import SpecialEvents from './specialEvents/SpecialEvents';
+import SubRegion from './subRegion/SubRegion';
+import SubRegions from './subRegion/SubRegions';
+import AssistantNPC from './towns/AssistantNPC';
+import BattleCafe, { BattleCafeController, BattleCafeSaveObject } from './towns/BattleCafe';
+import DreamOrbController, { DreamOrbTownContent } from './towns/DreamOrbController';
+import GiftNPC from './towns/GiftNPC';
+import KantoBerryMasterNPC from './towns/KantoBerryMasterNPC';
+import NPC from './towns/NPC';
+import NPCController from './towns/NPCController';
+import NPCType from './towns/NPCType';
+import PokemonGiftNPC from './towns/PokemonGiftNPC';
+import ProfNPC from './towns/ProfNPC';
+import PurifyChamber, { PurifyChamberTownContent } from './towns/PurifyChamber';
+import RoamerNPC from './towns/RoamerNPC';
+import Town, { DungeonTown } from './towns/Town';
+import TownContent, { AccessGym, BattleFrontierTownContent, DockTownContent, MoveToDungeon, MoveToTown, NextRegionTownContent, PickStarterContent, WeatherAppTownContent } from './towns/TownContent';
+import Translate from './translation/Translation';
+import TranslationHelper from './translation/TranslationHelper';
+import DamageCalculator from './types/DamageCalculator';
+import TypeHelper from './types/TypeHelper';
+import { UndergroundHelper } from './underground/helper/UndergroundHelper';
 import { Mine } from './underground/mine/Mine';
 import { MineConfigs, MineType } from './underground/mine/MineConfig';
 import { ShardDeal } from './underground/ShardDeal';
+import UndergroundToolType from './underground/tools/UndergroundToolType';
 import { Underground } from './underground/Underground';
 import { UndergroundController } from './underground/UndergroundController';
+import UndergroundItem from './underground/UndergroundItem';
+import UndergroundItems from './underground/UndergroundItems';
+import UndergroundMegaStoneItem from './underground/UndergroundMegaStoneItem';
 import { UndergroundTrading } from './underground/UndergroundTrading';
-import { UndergroundHelper } from './underground/helper/UndergroundHelper';
-import UndergroundToolType from './underground/tools/UndergroundToolType';
-import SpecialEventRandomRequirement from './requirements/SpecialEventRandomRequirement';
-import SpecialEventRequirement from './requirements/SpecialEventRequirement';
-import EncounterType from './enums/EncounterType';
-import SafariBaitRequirement from './requirements/SafariBaitRequirement';
-import SafariStepsRequirement from './requirements/SafariStepsRequirement';
-import SafariRocksRequirement from './requirements/SafariRocksRequirement';
-import SafariItemsRequirement from './requirements/SafariItemsRequirement';
-import SafariCatchRequirement from './requirements/SafariCatchRequirement';
-import ItemOwnedRequirement from './requirements/ItemOwnedRequirement';
-import UniqueItemOwnedRequirement from './requirements/UniqueItemOwnedRequirement';
-import ChristmasPresent from './items/ChristmasPresent';
-import DamageCalculator from './types/DamageCalculator';
-import GameLoadState from './utilities/GameLoadState';
-import GenericDeal, { DealCostOrProfitType } from './deal/GenericDeal';
-import areaStatus from './enums/AreaStatus';
-import TranslationHelper from './translation/TranslationHelper';
+import ExpUpgrade from './upgrades/ExpUpgrade';
+import Upgrade from './upgrades/Upgrade';
+import * as DisplayObservables from './utilities/DisplayObservables';
 import * as DownloadUtil from './utilities/DownloadUtil';
+import GameLoadState from './utilities/GameLoadState';
+import GenericProxy from './utilities/GenericProxy';
+import Information from './utilities/Information';
+import { lazyLoad, lazyLoadCallback } from './utilities/LazyLoader';
+import Rand from './utilities/Rand';
+import SeededDateRand from './utilities/SeededDateRand';
+import SeededRand from './utilities/SeededRand';
+import TextMerger from './utilities/TextMerger';
+import WalletClasses from './wallet/inject';
+import RegionalForecast from './weather/RegionalForecast';
+import Weather from './weather/Weather';
+import WeatherApp from './weather/WeatherApp';
+import WeatherForecast from './weather/WeatherForecast';
+import WeatherType from './weather/WeatherType';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -479,4 +505,48 @@ Object.assign(<any>window, {
     areaStatus,
     TranslationHelper,
     DownloadUtil,
+    AssistantNPC,
+    BattleCafe,
+    BattleCafeSaveObject,
+    BattleCafeController,
+    DreamOrbController,
+    DreamOrbTownContent,
+    GiftNPC,
+    KantoBerryMasterNPC,
+    NPC,
+    NPCController,
+    NPCType,
+    PokemonGiftNPC,
+    ProfNPC,
+    PurifyChamber,
+    PurifyChamberTownContent,
+    RoamerNPC,
+    Town,
+    DungeonTown,
+    TownContent,
+    DockTownContent,
+    BattleFrontierTownContent,
+    NextRegionTownContent,
+    MoveToDungeon,
+    MoveToTown,
+    AccessGym,
+    WeatherAppTownContent,
+    PickStarterContent,
+    CaughtUniqueShinyPokemonsByRegionRequirement,
+    BerryMasterShop,
+    GemMasterShop,
+    GenericTraderShop,
+    ShardTraderShop,
+    Shop,
+    ShopHandler,
+    Gym,
+    GymList,
+    GymBattle,
+    GymRunner,
+    DungeonList,
+    DefeatPokemonsQuest,
+    Companion,
+    CompanionSettings,
+    Bot,
+    RouteKillAchievementTask: RouteKillAchievementTask,
 });

@@ -1,5 +1,6 @@
-import '../koExtenders';
+import ko from 'knockout';
 import { VitaminType } from '../GameConstants';
+import '../koExtenders';
 
 export default class VitaminController {
     public static currentlySelected = ko.observable(VitaminType.Protein).extend({ numeric: 0 });

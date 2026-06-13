@@ -84,3 +84,5 @@ class TemporaryBattleBattle extends Battle {
         TemporaryBattleRunner.battleObservable(battle);
     }
 }
+
+TemporaryBattleBattle satisfies TmpTemporaryBattleBattleType;

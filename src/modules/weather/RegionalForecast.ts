@@ -1,6 +1,6 @@
-import WeatherForecast from './WeatherForecast';
+import ko, { ObservableArray } from 'knockout';
 import { Region } from '../GameConstants';
-import { ObservableArray } from 'knockout';
+import WeatherForecast from './WeatherForecast';
 
 
 export default class RegionalForecast {

@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class DefeatGymQuest extends Quest implements QuestInterface {
     private region: GameConstants.Region;
 

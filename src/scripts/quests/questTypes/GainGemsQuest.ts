@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class GainGemsQuest extends Quest implements QuestInterface {
     public static maxWeight = 4;
     public static minWeight = 1.2;

@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class HarvestBerriesQuest extends Quest implements QuestInterface {
 
     private berryType: BerryType;

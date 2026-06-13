@@ -123,17 +123,17 @@ export enum FinalSubRegions {
 }
 
 export type SubRegions =
-    | KantoSubRegions
-    | JohtoSubRegions
-    | HoennSubRegions
-    | SinnohSubRegions
-    | UnovaSubRegions
-    | KalosSubRegions
-    | AlolaSubRegions
-    | GalarSubRegions
-    | HisuiSubRegions
-    | PaldeaSubRegions
-    | FinalSubRegions;
+  | KantoSubRegions
+  | JohtoSubRegions
+  | HoennSubRegions
+  | SinnohSubRegions
+  | UnovaSubRegions
+  | KalosSubRegions
+  | AlolaSubRegions
+  | GalarSubRegions
+  | HisuiSubRegions
+  | PaldeaSubRegions
+  | FinalSubRegions;
 
 // Battle Items
 export const ITEM_USE_TIME = 30;
@@ -652,7 +652,13 @@ export function formatSecondsToTime(input: number): string {
 
 export function formatNumber(input: number): string {
     let num = Number(input); // Temporary cast until everything is in modules
-    if (Number.isNaN(+num)) { return '0'; }
+    if (Number.isNaN(+num)) {
+        return '0';
+    }
+
+    if (!Number.isFinite(num)) {
+        return num.toLocaleString('en-US');
+    }
 
     if (num >= 1e12) {
         num = Math.floor(num / 1e11);

@@ -1,10 +1,10 @@
-import type {
-    Observable as KnockoutObservable,
-    Computed as KnockoutComputed,
+import ko, {
+    Computed,
+    Observable,
 } from 'knockout';
-import '../koExtenders';
 import { Saveable } from '../DataStore/common/Saveable';
 import OakItemType from '../enums/OakItemType';
+import '../koExtenders';
 import OakItemLoadout from './OakItemLoadout';
 
 export default class OakItemLoadouts implements Saveable {
@@ -15,7 +15,7 @@ export default class OakItemLoadouts implements Saveable {
     defaults = {};
 
     loadouts: Array<OakItemLoadout> = Array(OakItemLoadouts.MAX_SLOTS).fill(0).map((_, i) => new OakItemLoadout(`Loadout ${i + 1}`));
-    selectedLoadout: KnockoutObservable<number> = ko.observable(0).extend({ numeric: 0 });
+    selectedLoadout: Observable<number> = ko.observable(0).extend({ numeric: 0 });
 
     activateLoadout(index: number) {
         if (App.game.challenges.list.disableOakItems.active()) {
@@ -44,7 +44,7 @@ export default class OakItemLoadouts implements Saveable {
         }
     }
 
-    hasItem(item: OakItemType): KnockoutComputed<boolean> {
+    hasItem(item: OakItemType): Computed<boolean> {
         return ko.pureComputed(() => this.loadouts[this.selectedLoadout()].loadout().includes(item));
     }
 

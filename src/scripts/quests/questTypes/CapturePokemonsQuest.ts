@@ -1,5 +1,3 @@
-/// <reference path="../Quest.ts" />
-
 class CapturePokemonsQuest extends Quest implements QuestInterface {
 
     constructor(capturesNeeded: number, reward: number) {

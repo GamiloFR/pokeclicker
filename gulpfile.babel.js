@@ -65,7 +65,7 @@ const importHTML = (componentsUrl) => {
                     }
                 } catch (e) {
                     console.error(`HTML importer could not find config '$${configSetting}' for conditional import in file ${curPath}`);
-                    return '' // import failed, remove this line
+                    return ''; // import failed, remove this line
                 }
                 if (!configVal) {
                     // Conditional import not met, remove this line
@@ -186,6 +186,7 @@ gulp.task('browserSync', () => {
             baseDir: dests.base,
         },
         ghostMode: false,
+        port: 3002,
     });
     gulp.watch(srcs.html, gulp.series('compile-html'));
     gulp.watch(srcs.ejsTemplates, gulp.series('compile-html'));
