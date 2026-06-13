@@ -29,6 +29,15 @@ class GameController {
         Shift: ko.observable(false).extend({ boolean: null }),
     };
 
+    static init() {
+        // when stacking modals allow scrolling after top modal hidden
+        $(document).on('hidden.bs.modal', '.modal', () => {
+            if ($('.modal:visible').length) {
+                $(document.body).addClass('modal-open');
+            }
+        });
+    }
+
     static showMapTooltip(tooltipText: string) {
         if (tooltipText) {
             const tooltip = $('#mapTooltip');
@@ -547,12 +556,5 @@ class GameController {
         });
     }
 }
-
-// when stacking modals allow scrolling after top modal hidden
-$(document).on('hidden.bs.modal', '.modal', () => {
-    if ($('.modal:visible').length) {
-        $(document.body).addClass('modal-open');
-    }
-});
 
 export default GameController;

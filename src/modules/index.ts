@@ -24,6 +24,7 @@ import initTowns from './towns';
 
 // Load everything else
 import initDungeons from './dungeons';
+import GameController from './GameController';
 import './temporaryWindowInjection';
 
 initPokemons();
@@ -41,6 +42,8 @@ initSafari();
 
 initTemporaryBattle();
 initTowns(); // After initTemporaryBattle
+
+GameController.init();
 
 /**
  * Start the application when all html elements are loaded.
