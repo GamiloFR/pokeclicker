@@ -28,9 +28,9 @@ class AssistantNPC extends NPC {
                         !App.game.party.caughtPokemon.some(e => e.name === pokemonBabyPrevolutionMap[p.name]),
                     ).sort((a, b) => a.id - b.id);
                 case 'evolution':
-                    return App.game.party.caughtPokemon.filter(p => p.evolutions?.some(e =>
+                    return App.game.party.caughtPokemon.filter(caughtPokemon => caughtPokemon.evolutions?.some(e =>
                         e.trigger !== EvoTrigger.NONE &&
-                        !App.game.party.caughtPokemon.some(p => p.name === e.evolvedPokemon) &&
+                        !App.game.party.caughtPokemon.some(evolutionPokemon => evolutionPokemon.name === e.evolvedPokemon) &&
                         App.player.highestRegion() >= pokemonMap[e.evolvedPokemon].nativeRegion &&
                         Math.floor(pokemonMap[e.basePokemon].id) != Math.floor(pokemonMap[e.evolvedPokemon].id),
                     )).sort((a, b) => a.id - b.id);

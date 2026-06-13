@@ -452,7 +452,11 @@ class Game {
 
                 // Save resources by not displaying updates if game is not currently visible
                 const gameEl = document.getElementById('game');
-                document.hidden ? gameEl.classList.add('hidden') : gameEl.classList.remove('hidden');
+                if (document.hidden) {
+                    gameEl.classList.add('hidden');
+                } else {
+                    gameEl.classList.remove('hidden');
+                }
             });
             this.worker.postMessage({ 'pageHidden': pageHidden });
             if (this.worker) {

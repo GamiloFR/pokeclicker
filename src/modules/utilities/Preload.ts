@@ -50,7 +50,7 @@ class Preload {
     }
 
     public static load(skipWait = false): Promise<void> {
-        console.log(`[${formatDate(new Date())}] %cPreloading Images..`, 'color:#8e44ad;font-weight:900;');
+        console.info(`[${formatDate(new Date())}] %cPreloading Images..`, 'color:#8e44ad;font-weight:900;');
         if (skipWait) {
             return new Promise(resolve => {
                 //If you want to skip waiting, resolve immediately
@@ -65,7 +65,7 @@ class Preload {
             return new Promise(resolve => {
                 // Incase something is taking too long to load
                 const forceLoad = setTimeout(() => {
-                    console.log(`[${formatDate(new Date())}] %cPreloading images taking too long, Skipping..`, 'color:#c0392b;font-weight:900;');
+                    console.info(`[${formatDate(new Date())}] %cPreloading images taking too long, Skipping..`, 'color:#c0392b;font-weight:900;');
                     resolve();
                 }, MAX_LOAD_TIME);
 
@@ -77,13 +77,13 @@ class Preload {
                     Preload.minimumTime(),
                 ]).then(() => {
                     clearTimeout(forceLoad);
-                    console.log(`[${formatDate(new Date())}] %cPreloaded images`, 'color:#2ecc71;font-weight:900;');
+                    console.info(`[${formatDate(new Date())}] %cPreloaded images`, 'color:#2ecc71;font-weight:900;');
                     // Give the progress bar a little bit of time to finish the animation
                     setTimeout(() => {
                         resolve();
                     }, 600);
                 }).catch((reason => {
-                    console.log(`[${formatDate(new Date())}] %cPreload images failed..`, 'color:#c0392b;font-weight:900;');
+                    console.info(`[${formatDate(new Date())}] %cPreload images failed..`, 'color:#c0392b;font-weight:900;');
                     console.error('Preload images failed:', reason);
                     clearTimeout(forceLoad);
                     resolve();

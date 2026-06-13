@@ -45,6 +45,8 @@ enum PokemonLocationType {
     Evolution,
     Egg,
     Baby,
+    // Reason: not an issue, see https://github.com/typescript-eslint/typescript-eslint/issues/325
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     Shop,
     Fossil,
     Safari,

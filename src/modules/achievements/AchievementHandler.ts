@@ -314,7 +314,7 @@ class AchievementHandler {
         AchievementHandler.getAchievementCategories().forEach(category => {
             const total = AchievementHandler.achievementList.filter(a => {
                 return a.category == category && a.isCompleted();
-            }).reduce((sum, a) => sum + a.bonusWeight, 0) / category.totalWeight * category.achievementBonus / 100;
+            }).reduce((acc, a) => acc + a.bonusWeight, 0) / category.totalWeight * category.achievementBonus / 100;
             if (!isNaN(total)) {
                 sum += total;
             }

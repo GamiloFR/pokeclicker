@@ -32,7 +32,7 @@ module.exports = {
             },
         ],
         'no-return-assign': ['error', 'except-parens'],
-        'no-console': ['error', { allow: ['warn', 'error', 'trace'] }],
+        'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
         '@typescript-eslint/indent': ['error', 4, { SwitchCase: 1 }],
         '@typescript-eslint/comma-dangle': ['error', {
             arrays: 'always-multiline',
@@ -55,5 +55,7 @@ module.exports = {
         'no-alert': 'error',
         'no-sparse-arrays': 'error',
         'dot-notation': 'error',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error', { ignoreOnInitialization: true }],
     },
 };

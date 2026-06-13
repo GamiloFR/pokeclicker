@@ -6,7 +6,7 @@ import {
     KalosSubRegions,
     KantoSubRegions,
     PaldeaSubRegions, Region,
-    SinnohSubRegions, UnovaSubRegions
+    SinnohSubRegions, UnovaSubRegions,
 } from '../GameConstants';
 import GameHelper from '../GameHelper';
 import RegionRoute from '../routes/RegionRoute';

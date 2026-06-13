@@ -60,7 +60,9 @@ export class UndergroundHelper {
     private _workCycleTime: PureComputed<number> = ko.pureComputed(() => Math.max(WORKCYCLE_TIMEOUT_BASE - WORKCYCLE_TIMEOUT_DECREASE_PER_LEVEL * this._level(), WORKCYCLE_TIMEOUT_MINIMUM));
 
     private _allowedEnergyRestores: ObservableArray<EnergyRestoreSize> = ko.observableArray([]);
-    public selectedEnergyRestore: PureComputed<EnergyRestoreSize | -1> = ko.pureComputed(() => this._allowedEnergyRestores().find(potion => App.player.itemList[EnergyRestoreSize[potion]]() > 0) ?? -1);
+    public selectedEnergyRestore: PureComputed<EnergyRestoreSize | -1> = ko.pureComputed(() =>
+        this._allowedEnergyRestores().find(potion => App.player.itemList[EnergyRestoreSize[potion]]() > 0) ?? -1,
+    );
 
     private _trackedStolenItems: Record<600, Observable<number>> = {
         600: ko.observable(0),

@@ -197,9 +197,7 @@ class Save {
         setTimeout(() => {
             try {
                 const decoded = SaveSelector.atob(fr.result as string);
-                console.debug('decoded:', decoded);
                 const json = JSON.parse(decoded);
-                console.debug('json:', json);
                 if (decoded && json && json.player && json.save) {
                     localStorage.setItem(`player${Save.key}`, JSON.stringify(json.player));
                     localStorage.setItem(`save${Save.key}`, JSON.stringify(json.save));

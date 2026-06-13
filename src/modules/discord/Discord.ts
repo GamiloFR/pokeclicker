@@ -148,11 +148,11 @@ class Discord implements Saveable {
         return true;
     }
 
-    loadCodes(codes) {
-        codes.forEach(code => {
-            const c = this.codes.find(c => c.name == code.name);
-            if (c) {
-                c.claimed = code.claimed;
+    loadCodes(newCodes) {
+        newCodes.forEach(newCode => {
+            const code = this.codes.find(code => code.name == newCode.name);
+            if (code) {
+                code.claimed = newCode.claimed;
             }
         });
     }

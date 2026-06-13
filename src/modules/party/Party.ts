@@ -184,9 +184,9 @@ class Party implements Feature {
         let shadowExpGained = 0;
 
         for (const pokemon of this.caughtPokemon) {
-            const exp = pokemon.gainExp(expTotal);
+            const expGained = pokemon.gainExp(expTotal);
             if (pokemon.shadow >= ShadowStatus.Shadow) {
-                shadowExpGained += exp;
+                shadowExpGained += expGained;
             }
         }
         App.game.purifyChamber.gainFlow(shadowExpGained);
@@ -382,7 +382,7 @@ class Party implements Feature {
         };
     }
 
-    update(delta: number): void {
+    update(): void {
         // This method intentionally left blank
     }
 

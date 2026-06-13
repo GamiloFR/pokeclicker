@@ -550,7 +550,9 @@ class GameController {
 
 // when stacking modals allow scrolling after top modal hidden
 $(document).on('hidden.bs.modal', '.modal', () => {
-    $('.modal:visible').length && $(document.body).addClass('modal-open');
+    if ($('.modal:visible').length) {
+        $(document.body).addClass('modal-open');
+    }
 });
 
 export default GameController;

@@ -87,7 +87,7 @@ type MimicData = {
 
 // Gain a gym badge after first completion of a dungeon
 // Used for trials pre 10.16, could be useful for something else?
-const DungeonGainGymBadge = (gym: Gym) => {
+export const DungeonGainGymBadge = (gym: Gym) => {
     // Check that the player hasn't already obtained the badge
     if (!App.game.badgeCase.hasBadge(gym.badgeReward)) {
         // Set the set to our expected gym

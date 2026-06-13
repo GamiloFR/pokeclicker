@@ -15,7 +15,7 @@ import Rand from '../utilities/Rand';
 import SeededRand from '../utilities/SeededRand';
 import Amount from '../wallet/Amount';
 
-const FarmHandSkills = [
+export const FarmHandSkills = [
     'energy',
     'efficiency',
     'accuracy',

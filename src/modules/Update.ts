@@ -2412,7 +2412,11 @@ class Update implements Saveable {
             });
 
             // Fixing Silvally item amounts
-            Object.keys(playerData._itemList).filter(itemName => itemName.includes('Memory_Silvally')).forEach(itemName => playerData._itemList[itemName] = Math.min(1, playerData._itemList[itemName]));
+            Object.keys(playerData._itemList)
+                .filter(itemName => itemName.includes('Memory_Silvally'))
+                .forEach(itemName => {
+                    playerData._itemList[itemName] = Math.min(1, playerData._itemList[itemName]);
+                });
 
             //Replace Blaze Cassette with Magma Stone
             saveData.oakItems.Magma_Stone = saveData.oakItems.Blaze_Cassette;
@@ -3096,16 +3100,15 @@ class Update implements Saveable {
                 // that it isn't mutated, and we can log if something fails
                 const updateData = JSON.parse(JSON.stringify(beforeUpdate));
                 try {
-                    console.info(`Applying update v${version}`);
                     callback(updateData);
                     return updateData;
-                } catch (e) {
-                    console.error(`Caught error while applying update v${version}:\n`, e, { beforeUpdate, updateData });
+                } catch (updateError) {
+                    console.error(`Caught error while applying update v${version}:\n`, updateError, { beforeUpdate, updateData });
 
                     try {
                         localStorage.backupSave = backupSaveData;
-                    } catch (e) {
-                        console.error('Caught error while backing up save file to localStorage:\n', e);
+                    } catch (backupError) {
+                        console.error('Caught error while backing up save file to localStorage:\n', backupError);
                     }
 
                     if (backupButton == null) {
@@ -3116,7 +3119,7 @@ class Update implements Saveable {
                             type: NotificationConstants.NotificationOption.warning,
                             timeout: DAY,
                         });
-                        throw e;
+                        throw updateError;
                     }
 
                     const resetButton = document.createElement('a');
@@ -3153,7 +3156,7 @@ class Update implements Saveable {
                     }, 0);
 
                     // Rethrow the error to prevent the game from corrupting the save
-                    throw e;
+                    throw updateError;
                 }
             }, { playerData, saveData, settingsData });
 

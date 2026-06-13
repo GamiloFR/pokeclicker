@@ -151,7 +151,6 @@ class Quests implements Saveable {
                 });
             }
         } else {
-            console.trace('cannot claim quest..');
             Notifier.notify({
                 message: 'You cannot claim this quest.',
                 type: NotificationConstants.NotificationOption.danger,
