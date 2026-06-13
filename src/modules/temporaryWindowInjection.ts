@@ -74,6 +74,7 @@ import UndergroundItemValueType from './enums/UndergroundItemValueType';
 import Berry from './farming/Berry';
 import BerryDeal from './farming/BerryDeal';
 import FarmController from './farming/FarmController';
+import { FarmHandBerryTypes } from './farming/FarmHand';
 import FarmHands from './farming/FarmHands';
 import FarmHelper from './farming/FarmHelper';
 import Farming from './farming/Farming';
@@ -618,6 +619,7 @@ Object.assign(<any>window, {
     BerryDeal,
     Berry,
     FarmHands,
+    FarmHandBerryTypes,
     WandererPokemon,
     EnigmaMutation,
     DungeonList,
