@@ -47,7 +47,10 @@ export enum FarmHandBerryType {
     'Replant' = -2,
 }
 
-export type FarmHandBerryTypes = FarmHandBerryType | BerryType;
+export const FarmHandBerryTypes = {
+    ...FarmHandBerryType,
+    ...BerryType,
+};
 
 class FarmHand {
     public defaults = {
@@ -72,7 +75,7 @@ class FarmHand {
 
     public cost = new Amount(+0, Currency.farmPoint);
     public trainerSprite = 0;
-    public focus = ko.observable<FarmHandBerryTypes>(BerryType.None);
+    public focus = ko.observable<FarmHandBerryType | BerryType>(BerryType.None);
     public shouldHarvest = ko.observable(false).extend({ boolean: null });
     public energy = ko.observable(0).extend({ numeric: 0 });
     public hired = ko.observable(false).extend({ boolean: null });
